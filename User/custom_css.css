@@ -1,0 +1,53 @@
+body, html{
+	height: 100%;
+	font-family: 'Chakra Petch';
+}
+
+header{
+	background-color: lightgray;
+}
+
+header.mainPage{
+	background:
+		linear-gradient(to right, rgb(255 255 255 / .6), rgb(255 255 255 / .2)), url("./images/bgimage.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+header, section{
+	min-height: 100%;
+	min-width: 100%;
+}
+
+.rounded{
+	object-fit: cover;
+	clip-path: circle();
+	display: block;
+}
+
+div.desc{
+	text-indent: 40px;
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+.py-5{
+	padding-top: 5rem !important;
+}
+
+.custPad{
+	padding-top: 5rem !important;
+	padding-bottom: 3rem !important;
+	padding-left: 3rem !important;
+	padding-right: 3rem !important;
+}
+
+.divider:after,
+.divider:before {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: #eee;
+}
