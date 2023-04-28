@@ -80,6 +80,7 @@ if(!isset($_SESSION["student"]))
         $id = $_SESSION['student'];
 
 		$password = md5($_POST['password']);
+		$cpassword = md5($_POST['cpassword']);
 
 		$Fname = $_POST['Fname'];
 		$Mname = $_POST['Mname'];
@@ -147,6 +148,7 @@ $CareerGoals = $_POST['CareerGoals'];
             s.age = '$age',
             s.civilstatus = '$civilstatus',
             s.email = '$email',
+			s.address = '$address',
             c.CareerGoals = '$CareerGoals',
             ap.Math = '$math12',
             ap.Science = '$science2',
@@ -174,8 +176,14 @@ $CareerGoals = $_POST['CareerGoals'];
 			
 if (!empty($_POST['password'])) {
     $password = md5($_POST['password']);
-    $sql .= ", s.password = '$password'";
-}      
+    $sql .= ", s.password = '$cpassword'";
+}  
+
+if (!empty($_POST['password'])) {
+    $cpassword = md5($_POST['cpassword']);
+    $sql .= ", s.cpassword = '$cpassword'";
+}  
+       
 $sql .= " WHERE s.lrn = '$id'";
 
         // Execute update query
@@ -186,11 +194,18 @@ $sql .= " WHERE s.lrn = '$id'";
             // Display success message and redirect to profiles page
             echo "<script>alert('Record updated successfully!')</script>";
             echo "<script>window.location.href = 'profile.php';</script>";
+
+		} else {
+			// Check if password and confirm password match
+			if ($password !== $cpassword) {
+			  echo "<script>alert('Password and Confirm Password do not match!');</script>";
+			  echo "<script type='text/javascript'>history.go(-1);</script>";
         } else {
             // Display error message and MySQL error details
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         } 
     }
+}
 
 	if (isset($_SESSION['student'])) {
 
@@ -201,7 +216,7 @@ $sql .= " WHERE s.lrn = '$id'";
 		JOIN academic_performance ON career.lrn = academic_performance.lrn
 		JOIN skills ON academic_performance.lrn = skills.lrn
 		JOIN interests ON skills.lrn = interests.lrn
-		JOIN socioeconomic_background ON interests.lrn = socioeconomic_background.lrn;";
+		JOIN socioeconomic_background  ON interests.lrn = socioeconomic_background.lrn;";
 	
 		$result = $conn->query($sql); 
 	
@@ -210,7 +225,7 @@ $sql .= " WHERE s.lrn = '$id'";
 			while ($row = $result->fetch_assoc()) {
 	
 
-		
+				$lrn1 = $row['lrn'];
 				$Fname1 = $row['Fname'];
 				$Mname1 = $row['Mname'];
 				$Lname1 = $row['Lname'];
@@ -275,22 +290,22 @@ $sql .= " WHERE s.lrn = '$id'";
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> First Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Fname" value="<?php echo $Fname1; ?>" placeholder="">
+						name="Fname" value="<?php echo $Fname1; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> Middle Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Mname" value="<?php echo $Mname1; ?>" placeholder="">
+						name="Mname" value="<?php echo $Mname1; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> Last Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Lname" value="<?php echo $Lname1; ?>" placeholder="">
+						name="Lname" value="<?php echo $Lname1; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 mb-3">
 						<label for="Address" class="form-label">Address</label>
 						<input type="text" class="form-control" id="Address"
-						name="address" value="<?php echo $address1; ?>" placeholder="">
+						name="address" value="<?php echo $address1; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label class="form-label" for="Gender">Gender</label>
@@ -316,12 +331,17 @@ $sql .= " WHERE s.lrn = '$id'";
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Age" class="form-label">Age</label>
 						<input type="text" class="form-control" id="Age"
-						name="age" value="<?php echo $age1; ?>" placeholder="">
+						name="age" value="<?php echo $age1; ?>" placeholder="" required>
+					</div>
+					<div class="col-12 col-md-6 mb-3">
+						<label for="Email" class="form-label">LRN</label>
+						<input type="email" class="form-control" id="Email"
+						name="lrn" value="<?php echo $lrn1; ?>"  placeholder="" disabled>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="Email" class="form-label">Email</label>
 						<input type="email" class="form-control" id="Email"
-						name="email" value="<?php echo $email1; ?>"  placeholder="">
+						name="email" value="<?php echo $email1; ?>"  placeholder="" required>
 					</div>
 
 					<div class="col-12 col-md-6 mb-3">
@@ -331,7 +351,7 @@ $sql .= " WHERE s.lrn = '$id'";
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ConfirmPassword" class="form-label">Cofirm Password</label>
-						<input type="password" class="form-control" id="CofirmPassword" placeholder="">
+						<input type="password" class="form-control" id="CofirmPassword" name = "cpassword" placeholder="">
 					</div>
 
 					<div class="divider d-flex align-items-center my-4">
@@ -340,22 +360,22 @@ $sql .= " WHERE s.lrn = '$id'";
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Science" class="form-label">Science</label>
 						<input type="text" class="form-control" id="Science" 
-						name="Science" value="<?php echo $science21; ?> "placeholder="">
+						name="Science" value="<?php echo $science21; ?> "placeholder=""required>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Math" class="form-label">Math</label>
 						<input type="text" class="form-control" id="Math"
-						name="Math" value="<?php echo $math11; ?>" placeholder="">
+						name="Math" value="<?php echo $math11; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="English" class="form-label">English</label>
 						<input type="text" class="form-control" id="English"
-						name="English" value="<?php echo $English1; ?>" placeholder="">
+						name="English" value="<?php echo $English1; ?>" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Filipino" class="form-label">Filipino</label>
-						<input type="text" class="form-control" id="Filipino" placeholder=""
-						name="Filipino" value="<?php echo $Filipino1; ?>">
+						<input type="text" class="form-control" id="Filipino"
+						name="Filipino" value="<?php echo $Filipino1; ?>"  placeholder="" required>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ICTRelatedSubject" class="form-label">ICT Related Subject</label>
