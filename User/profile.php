@@ -1,16 +1,16 @@
 <?php
-session_start();
+	session_start();
 
-if(!isset($_SESSION["student"]))
-{
+	if(!isset($_SESSION["student"]))
+	{
 
-    ?>
-    <script type="text/javascript">
-        window.location="index.php";
-    </script>
-    <?php
+		?>
+		<script type="text/javascript">
+			window.location="index.php";
+		</script>
+		<?php
 
-}
+	}
 ?>
 
 <!doctype html>
