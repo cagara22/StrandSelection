@@ -71,7 +71,7 @@ if (isset($_POST['lrn']) && isset($_POST['password'])) {
     $data = mysqli_fetch_assoc($q);
     $upass = $data['password'];
 
-    if (md5($password) == "$upass") {
+    if (MD5($password) == "$upass") {
       $_SESSION['student'] = $username;
       header("Location: list.php");
     } else {
@@ -161,6 +161,7 @@ if (isset($_POST['add'])) {
   $age = mysqli_real_escape_string($conn, $_POST["age"]);
   $email = mysqli_real_escape_string($conn, $_POST["email"]);
   $password = mysqli_real_escape_string($conn, $_POST["password2"]);
+  $cpassword = mysqli_real_escape_string($conn, $_POST["cpassword"]);
 
   // Check if LRN already exists
   $sql = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
@@ -173,32 +174,37 @@ if (isset($_POST['add'])) {
     echo "<script>alert('LRN already exists!');</script>";
 	echo "<script type='text/javascript'>history.go(-1);</script>";
   } else {
-    // Insert new record
-	$sql = "INSERT INTO `student`(`lrn`, `password`, `Fname`, `address`, `sex`, `Mname`, `age`, `Lname`, `email`, `approve`) 
-        VALUES ('$lrn', MD5('$password'), '$fname', '$address', '$sex', '$mname', '$age', '$lname', '$email', 'PENDING')";
+    // Check if password and confirm password match
+    if ($password !== $cpassword) {
+      echo "<script>alert('Password and Confirm Password do not match!');</script>";
+      echo "<script type='text/javascript'>history.go(-1);</script>";
+    } else {
+      // Insert new record
+      $sql = "INSERT INTO `student`(`lrn`, `password`, `cpassword`, `Fname`, `address`, `sex`, `Mname`, `age`, `Lname`, `email`, `approve`) 
+        VALUES ('$lrn', MD5('$password'), MD5('$cpassword'),'$fname', '$address', '$sex', '$mname', '$age', '$lname', '$email', 'PENDING')";
 
-$result1 = $conn->query($sql);
+      $result1 = $conn->query($sql);
 
-if ($result1 === TRUE) {
-    $lrn_id = $lrn;
-    
-    $sql2 = "INSERT INTO `academic_performance`(`lrn`) VALUES ('$lrn_id')";
-    $result2 = $conn->query($sql2);
+      if ($result1 === TRUE) {
+        $lrn_id = $lrn;
+        
+        $sql2 = "INSERT INTO `academic_performance`(`lrn`) VALUES ('$lrn_id')";
+        $result2 = $conn->query($sql2);
 
-    $sql3 = "INSERT INTO `career`(`lrn`) VALUES ('$lrn_id')";
-    $result3 = $conn->query($sql3);
+        $sql3 = "INSERT INTO `career`(`lrn`) VALUES ('$lrn_id')";
+        $result3 = $conn->query($sql3);
 
-    $sql4 = "INSERT INTO `exam_score`(`lrn`) VALUES ('$lrn_id')";
-    $result4 = $conn->query($sql4);
+        $sql4 = "INSERT INTO `exam_score`(`lrn`) VALUES ('$lrn_id')";
+        $result4 = $conn->query($sql4);
 
-    $sql5 = "INSERT INTO `interests`(`lrn`) VALUES ('$lrn_id')";
-    $result5 = $conn->query($sql5);
+        $sql5 = "INSERT INTO `interests`(`lrn`) VALUES ('$lrn_id')";
+        $result5 = $conn->query($sql5);
 
-    $sql6 = "INSERT INTO `skills`(`lrn`) VALUES ('$lrn_id')";
-    $result6 = $conn->query($sql6);
+        $sql6 = "INSERT INTO `skills`(`lrn`) VALUES ('$lrn_id')";
+        $result6 = $conn->query($sql6);
 
-    $sql7 = "INSERT INTO `socioeconomic_background`(`lrn`) VALUES ('$lrn_id')";
-    $result7 = $conn->query($sql7);
+        $sql7 = "INSERT INTO `socioeconomic_background`(`lrn`) VALUES ('$lrn_id')";
+        $result7 = $conn->query($sql7);
 
     if ($result2 === TRUE && $result3 === TRUE && $result4 === TRUE && $result5 === TRUE && $result6 === TRUE && $result7 === TRUE) {
         echo "<script>swal({
@@ -217,7 +223,7 @@ if ($result1 === TRUE) {
 
 $conn->commit();
 	} 
-
+}
 
 	}
 
@@ -272,7 +278,7 @@ $conn->commit();
 							</div>
 							<div class="col-12 col-md-6 mb-3">
 								<label for="CofirmPassword" class="form-label">Cofirm Password</label>
-								<input type="password" class="form-control" id="CofirmPassword" placeholder="">
+								<input type="password" class="form-control" id="CofirmPassword" name = "cpassword" placeholder="">
 							</div>
 							<button type="submit" class="btn btn-primary" name="add" >SUBMIT</button>
 
