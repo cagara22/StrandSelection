@@ -41,7 +41,7 @@ session_start();
 
 		
 
-		<header class="d-flex flex-column justify-content-center align-items-center py-5" id="Header">
+		<header class="mainPage d-flex flex-column justify-content-center align-items-center py-5" id="Header">
 			<img src="./images/SystemLogo.png" alt="Logo" class="img-fluid">
 			<h3 class="fst-italic fw-bold">"Discover Your Path: Let Our Decision Support System Guide You to Your Ideal Senior High School Strand!"</h3>
 			<div class="py-5">
@@ -56,43 +56,44 @@ session_start();
 						<img src="./images/edupic.png" class="img-fluid" alt="Sample image">
 					</div>
 					<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-					<?php
-$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+						
+						<?php
+							$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 
-if (isset($_POST['lrn']) && isset($_POST['password'])) {
-  $username = mysqli_real_escape_string($conn, $_POST['lrn']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']);
+							if (isset($_POST['lrn']) && isset($_POST['password'])) {
+								$username = mysqli_real_escape_string($conn, $_POST['lrn']);
+								$password = mysqli_real_escape_string($conn, $_POST['password']);
 
-  $sql = "SELECT * FROM student WHERE lrn = '$username' AND approve = 'APPROVE'";
-  $q = mysqli_query($conn, $sql);
-  $num = mysqli_num_rows($q);
+								$sql = "SELECT * FROM student WHERE lrn = '$username' AND approve = 'APPROVE'";
+								$q = mysqli_query($conn, $sql);
+								$num = mysqli_num_rows($q);
 
-  if ($num == 1) {
-    $data = mysqli_fetch_assoc($q);
-    $upass = $data['password'];
+								if ($num == 1) {
+									$data = mysqli_fetch_assoc($q);
+									$upass = $data['password'];
 
-    if (MD5($password) == "$upass") {
-      $_SESSION['student'] = $username;
-      header("Location: list.php");
-    } else {
-      echo "<script>swal({
-              title: 'Wrong Password',
-              icon: 'error',
-              button: 'OK',
-            });</script>";
-      echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
-    }
-  } else {
-    echo "<script>swal({
-            title: 'Invalid Username or Account not yet approved.',
-            icon: 'error',
-            button: 'OK',
-          });</script>";
-    echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+									if (md5($password) == "$upass") {
+										$_SESSION['student'] = $username;
+										header("Location: list.php");
+									} else {
+										echo "<script>swal({
+												title: 'Wrong Password',
+												icon: 'error',
+												button: 'OK',
+												});</script>";
+										echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+									}
+								} else {
+									echo "<script>swal({
+											title: 'Invalid Username or Account not yet approved.',
+											icon: 'error',
+											button: 'OK',
+										});</script>";
+									echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
 
-  }
-}
-?>
+								}
+							}
+						?>
 
 						<form action="" method="post">
 							<div class="d-flex flex-row align-items-center justify-content-center">
