@@ -41,7 +41,7 @@ session_start();
 
 		
 
-		<header class="d-flex flex-column justify-content-center align-items-center py-5" id="Header">
+		<header class="mainPage d-flex flex-column justify-content-center align-items-center py-5" id="Header">
 			<img src="./images/SystemLogo.png" alt="Logo" class="img-fluid">
 			<h3 class="fst-italic fw-bold">"Discover Your Path: Let Our Decision Support System Guide You to Your Ideal Senior High School Strand!"</h3>
 			<div class="py-5">
@@ -56,43 +56,44 @@ session_start();
 						<img src="./images/edupic.png" class="img-fluid" alt="Sample image">
 					</div>
 					<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-					<?php
-$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+						
+						<?php
+							$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 
-if (isset($_POST['lrn']) && isset($_POST['password'])) {
-  $username = mysqli_real_escape_string($conn, $_POST['lrn']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']);
+							if (isset($_POST['lrn']) && isset($_POST['password'])) {
+								$username = mysqli_real_escape_string($conn, $_POST['lrn']);
+								$password = mysqli_real_escape_string($conn, $_POST['password']);
 
-  $sql = "SELECT * FROM student WHERE lrn = '$username' AND approve = 'APPROVE'";
-  $q = mysqli_query($conn, $sql);
-  $num = mysqli_num_rows($q);
+								$sql = "SELECT * FROM student WHERE lrn = '$username' AND approve = 'APPROVE'";
+								$q = mysqli_query($conn, $sql);
+								$num = mysqli_num_rows($q);
 
-  if ($num == 1) {
-    $data = mysqli_fetch_assoc($q);
-    $upass = $data['password'];
+								if ($num == 1) {
+									$data = mysqli_fetch_assoc($q);
+									$upass = $data['password'];
 
-    if (MD5($password) == "$upass") {
-      $_SESSION['student'] = $username;
-      header("Location: list.php");
-    } else {
-      echo "<script>swal({
-              title: 'Wrong Password',
-              icon: 'error',
-              button: 'OK',
-            });</script>";
-      echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
-    }
-  } else {
-    echo "<script>swal({
-            title: 'Invalid Username or Account not yet approved.',
-            icon: 'error',
-            button: 'OK',
-          });</script>";
-    echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+									if (md5($password) == "$upass") {
+										$_SESSION['student'] = $username;
+										header("Location: list.php");
+									} else {
+										echo "<script>swal({
+												title: 'Wrong Password',
+												icon: 'error',
+												button: 'OK',
+												});</script>";
+										echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+									}
+								} else {
+									echo "<script>swal({
+											title: 'Invalid Username or Account not yet approved.',
+											icon: 'error',
+											button: 'OK',
+										});</script>";
+									echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
 
-  }
-}
-?>
+								}
+							}
+						?>
 
 						<form action="" method="post">
 							<div class="d-flex flex-row align-items-center justify-content-center">
@@ -147,87 +148,87 @@ if (isset($_POST['lrn']) && isset($_POST['password'])) {
 					<div class="modal-body">
 
 					<?php
-// Connect to database
-$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+						// Connect to database
+						$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 
-if (isset($_POST['add'])) {
-  // Get form data
-  $lrn = mysqli_real_escape_string($conn, $_POST["lrn2"]);
-  $fname = mysqli_real_escape_string($conn, $_POST["Fname"]);
-  $mname = mysqli_real_escape_string($conn, $_POST["Mname"]);
-  $lname = mysqli_real_escape_string($conn, $_POST["Lname"]);
-  $address = mysqli_real_escape_string($conn, $_POST["address"]);
-  $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
-  $age = mysqli_real_escape_string($conn, $_POST["age"]);
-  $email = mysqli_real_escape_string($conn, $_POST["email"]);
-  $password = mysqli_real_escape_string($conn, $_POST["password2"]);
-  $cpassword = mysqli_real_escape_string($conn, $_POST["cpassword"]);
+						if (isset($_POST['add'])) {
+							// Get form data
+							$lrn = mysqli_real_escape_string($conn, $_POST["lrn2"]);
+							$fname = mysqli_real_escape_string($conn, $_POST["Fname"]);
+							$mname = mysqli_real_escape_string($conn, $_POST["Mname"]);
+							$lname = mysqli_real_escape_string($conn, $_POST["Lname"]);
+							$address = mysqli_real_escape_string($conn, $_POST["address"]);
+							$sex = mysqli_real_escape_string($conn, $_POST["sex"]);
+							$age = mysqli_real_escape_string($conn, $_POST["age"]);
+							$email = mysqli_real_escape_string($conn, $_POST["email"]);
+							$password = mysqli_real_escape_string($conn, $_POST["password2"]);
+							$cpassword = mysqli_real_escape_string($conn, $_POST["cpassword"]);
 
-  // Check if LRN already exists
-  $sql = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
-  $result = mysqli_query($conn, $sql);
-  if (!$result) {
-    die('Error: ' . mysqli_error($conn));
-  }
-  $num = mysqli_num_rows($result);
-  if ($num > 0) {
-    echo "<script>alert('LRN already exists!');</script>";
-	echo "<script type='text/javascript'>history.go(-1);</script>";
-  } else {
-    // Check if password and confirm password match
-    if ($password !== $cpassword) {
-      echo "<script>alert('Password and Confirm Password do not match!');</script>";
-      echo "<script type='text/javascript'>history.go(-1);</script>";
-    } else {
-      // Insert new record
-      $sql = "INSERT INTO `student`(`lrn`, `password`, `cpassword`, `Fname`, `address`, `sex`, `Mname`, `age`, `Lname`, `email`, `approve`) 
-        VALUES ('$lrn', MD5('$password'), MD5('$cpassword'),'$fname', '$address', '$sex', '$mname', '$age', '$lname', '$email', 'PENDING')";
+							// Check if LRN already exists
+							$sql = "SELECT * FROM `student` WHERE `lrn` = '$lrn'";
+							$result = mysqli_query($conn, $sql);
+							if (!$result) {
+								die('Error: ' . mysqli_error($conn));
+							}
+							$num = mysqli_num_rows($result);
+							if ($num > 0) {
+								echo "<script>alert('LRN already exists!');</script>";
+								echo "<script type='text/javascript'>history.go(-1);</script>";
+							} else {
+								// Check if password and confirm password match
+								if ($password !== $cpassword) {
+								echo "<script>alert('Password and Confirm Password do not match!');</script>";
+								echo "<script type='text/javascript'>history.go(-1);</script>";
+								} else {
+								// Insert new record
+								$sql = "INSERT INTO `student`(`lrn`, `password`, `cpassword`, `Fname`, `address`, `sex`, `Mname`, `age`, `Lname`, `email`, `approve`) 
+									VALUES ('$lrn', MD5('$password'), MD5('$cpassword'),'$fname', '$address', '$sex', '$mname', '$age', '$lname', '$email', 'PENDING')";
 
-      $result1 = $conn->query($sql);
+								$result1 = $conn->query($sql);
 
-      if ($result1 === TRUE) {
-        $lrn_id = $lrn;
-        
-        $sql2 = "INSERT INTO `academic_performance`(`lrn`) VALUES ('$lrn_id')";
-        $result2 = $conn->query($sql2);
+								if ($result1 === TRUE) {
+									$lrn_id = $lrn;
+									
+									$sql2 = "INSERT INTO `academic_performance`(`lrn`) VALUES ('$lrn_id')";
+									$result2 = $conn->query($sql2);
 
-        $sql3 = "INSERT INTO `career`(`lrn`) VALUES ('$lrn_id')";
-        $result3 = $conn->query($sql3);
+									$sql3 = "INSERT INTO `career`(`lrn`) VALUES ('$lrn_id')";
+									$result3 = $conn->query($sql3);
 
-        $sql4 = "INSERT INTO `exam_score`(`lrn`) VALUES ('$lrn_id')";
-        $result4 = $conn->query($sql4);
+									$sql4 = "INSERT INTO `exam_score`(`lrn`) VALUES ('$lrn_id')";
+									$result4 = $conn->query($sql4);
 
-        $sql5 = "INSERT INTO `interests`(`lrn`) VALUES ('$lrn_id')";
-        $result5 = $conn->query($sql5);
+									$sql5 = "INSERT INTO `interests`(`lrn`) VALUES ('$lrn_id')";
+									$result5 = $conn->query($sql5);
 
-        $sql6 = "INSERT INTO `skills`(`lrn`) VALUES ('$lrn_id')";
-        $result6 = $conn->query($sql6);
+									$sql6 = "INSERT INTO `skills`(`lrn`) VALUES ('$lrn_id')";
+									$result6 = $conn->query($sql6);
 
-        $sql7 = "INSERT INTO `socioeconomic_background`(`lrn`) VALUES ('$lrn_id')";
-        $result7 = $conn->query($sql7);
+									$sql7 = "INSERT INTO `socioeconomic_background`(`lrn`) VALUES ('$lrn_id')";
+									$result7 = $conn->query($sql7);
 
-    if ($result2 === TRUE && $result3 === TRUE && $result4 === TRUE && $result5 === TRUE && $result6 === TRUE && $result7 === TRUE) {
-        echo "<script>swal({
-                title: 'Record Added',
-                icon: 'success',
-                button: 'OK',
-              });</script>";
-        echo "<script type='text/javascript'> document.location = 'index.php#LoginSection'; </script>";
-    } else {
-        echo "Error: " . $sql2 . "<br>" . $conn->error;
-        $conn->rollback();
-    }
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
+								if ($result2 === TRUE && $result3 === TRUE && $result4 === TRUE && $result5 === TRUE && $result6 === TRUE && $result7 === TRUE) {
+									echo "<script>swal({
+											title: 'Record Added',
+											icon: 'success',
+											button: 'OK',
+										});</script>";
+									echo "<script type='text/javascript'> document.location = 'index.php#LoginSection'; </script>";
+								} else {
+									echo "Error: " . $sql2 . "<br>" . $conn->error;
+									$conn->rollback();
+								}
+								} else {
+									echo "Error: " . $sql . "<br>" . $conn->error;
+								}
 
-$conn->commit();
-	} 
-}
+								$conn->commit();
+								} 
+							}
 
-	}
+						}
 
-	?>
+					?>
 
 							<form class="row"  action="" method="post">
 							<div class="divider d-flex align-items-center my-4">
