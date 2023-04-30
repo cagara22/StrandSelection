@@ -216,7 +216,7 @@ $sql .= " WHERE s.lrn = '$id'";
 		JOIN academic_performance ON career.lrn = academic_performance.lrn
 		JOIN skills ON academic_performance.lrn = skills.lrn
 		JOIN interests ON skills.lrn = interests.lrn
-		JOIN socioeconomic_background  ON interests.lrn = socioeconomic_background.lrn;";
+		JOIN socioeconomic_background  ON interests.lrn = socioeconomic_background.lrn WHERE student.lrn = '$user_id';";
 	
 		$result = $conn->query($sql); 
 	
