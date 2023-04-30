@@ -85,7 +85,7 @@ if(!isset($_SESSION["admin"]))
 								JOIN academic_performance ON career.lrn = academic_performance.lrn
 								JOIN skills ON academic_performance.lrn = skills.lrn
 								JOIN interests ON skills.lrn = interests.lrn
-								JOIN socioeconomic_background ON interests.lrn = socioeconomic_background.lrn;";
+								JOIN socioeconomic_background ON interests.lrn = socioeconomic_background.lrn WHERE student.lrn = '$user_id';";
                             
                                 $result = $conn->query($sql); 
                             
@@ -93,7 +93,7 @@ if(!isset($_SESSION["admin"]))
                             
                                     while ($row = $result->fetch_assoc()) {
                             
-
+										$lrn1 = $row['lrn'];
 								$Fname = $row['Fname'];
 								$Mname = $row['Mname'];
 								$Lname = $row['Lname'];
@@ -161,6 +161,11 @@ if(!isset($_SESSION["admin"]))
 				<form class="row"  action="" method="post">
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Account Details</p>
+					</div>
+					<div class="col-12 mb-3">
+						<label for="Name" class="form-label"> LRN</label>
+						<input type="text" class="form-control" id="Name"
+						name="lrn" value="<?php echo $lrn1; ?>" placeholder="" disabled>
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> First Name</label>
