@@ -51,11 +51,11 @@ if(!isset($_SESSION["admin"]))
 						</li>
 
                         <li class="nav-item">
-							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
+							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item px-4 fw-bold">
-							<a class="nav-link active" aria-current="page" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
+							<a class="nav-link active" aria-current="page" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
 
 						<li class="nav-item">

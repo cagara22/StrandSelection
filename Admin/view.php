@@ -51,11 +51,11 @@ if(!isset($_SESSION["admin"]))
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
+							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item">
-							<a class="nav-link" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
+							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" ><?php 
@@ -73,88 +73,89 @@ if(!isset($_SESSION["admin"]))
 		<section class="d-flex flex-column justify-content-center align-items-center py-5">
 
 		<?php 
-							$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-							
+			$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+			
 
-                            if (isset($_GET['lrn'])) {
+			if (isset($_GET['lrn'])) {
 
-                                $user_id = $_GET['lrn']; 
-                            
-                                $sql = "SELECT * FROM student
-								JOIN career ON student.lrn = career.lrn
-								JOIN academic_performance ON career.lrn = academic_performance.lrn
-								JOIN skills ON academic_performance.lrn = skills.lrn
-								JOIN interests ON skills.lrn = interests.lrn
-								JOIN socioeconomic_background ON interests.lrn = socioeconomic_background.lrn WHERE student.lrn = '$user_id';";
-                            
-                                $result = $conn->query($sql); 
-                            
-                                if ($result->num_rows > 0) {        
-                            
-                                    while ($row = $result->fetch_assoc()) {
-                            
-										$lrn1 = $row['lrn'];
-								$Fname = $row['Fname'];
-								$Mname = $row['Mname'];
-								$Lname = $row['Lname'];
-								$address = $row['address'];
-								$sex = $row['sex'];
-								$age = $row['age'];
-								$civilstatus=$row['civilstatus'];
-								$status=$row['status'];
-								$strand=$row['strand'];
-								$email=$row['email'];
-								$approve=$row['approve'];
+				$user_id = $_GET['lrn']; 
+			
+				$sql = "SELECT * FROM student
+				JOIN career ON student.lrn = career.lrn
+				JOIN academic_performance ON career.lrn = academic_performance.lrn
+				JOIN skills ON academic_performance.lrn = skills.lrn
+				JOIN interests ON skills.lrn = interests.lrn
+				JOIN socioeconomic_background ON interests.lrn = socioeconomic_background.lrn WHERE student.lrn = '$user_id';";
+			
+				$result = $conn->query($sql); 
+			
+				if ($result->num_rows > 0) {        
+			
+					while ($row = $result->fetch_assoc()) {
+			
+						$lrn1 = $row['lrn'];
+						$Fname = $row['Fname'];
+						$Mname = $row['Mname'];
+						$Lname = $row['Lname'];
+						$address = $row['address'];
+						$sex = $row['sex'];
+						$age = $row['age'];
+						$civilstatus=$row['civilstatus'];
+						$status=$row['status'];
+						$strand=$row['strand'];
+						$email=$row['email'];
+						$approve=$row['approve'];
 
-								$Science =$row['Science'];
-								$Math =$row['Math'];
-								$English =$row['English'];
-								$Filipino =$row['Filipino'];
-								$ICTRelatedSubject=$row['ICTRelatedSubject'];
-								$HERelatedSubject=$row['HERelatedSubject'];
+						$Science =$row['Science'];
+						$Math =$row['Math'];
+						$English =$row['English'];
+						$Filipino =$row['Filipino'];
+						$ICTRelatedSubject=$row['ICTRelatedSubject'];
+						$HERelatedSubject=$row['HERelatedSubject'];
+
+						$TotalMonthlyIncome = $row['TotalMonthlyIncome'];
+
+						$MathSub =$row['MathSub'];
+						$ScienceSub =$row['ScienceSub'];
+						$ArtsandDesign =$row['ArtsandDesign'];
+						$Humanities =$row['Humanities'];
+						$Entrepreneurship =$row['Entrepreneurship'];
+						$Information =$row['Information'];
+						$Agriculture =$row['Agriculture'];
+						$HomeEconomics =$row['HomeEconomics'];
+						$IndustrialArts =$row['IndustrialArts'];
+
+						$CareerGoals =$row['CareerGoals'];
+
+						$Mathematicalskills1 = $row['Mathematicalskills'];
+						$Scientificskills1 = $row['Scientificskills'];
+						$Technicalskills1 = $row['Technicalskills'];
+						$Socialsciences1 = $row['Socialsciences'];
+						$Languageskills1 = $row['Languageskills'];
+						$Communicationskills1 = $row['Communicationskills'];
+						$Accountingandfinance1 = $row['Accountingandfinance'];
+						$Businessmanagement1 = $row['Businessmanagement'];
+						$Entrepreneurialskills1 = $row['Entrepreneurialskills'];
+						$Timemanagement1 = $row['Timemanagement'];
+						$LeadershipSkills1 = $row['LeadershipSkills'];
+						$Artisticskills1 = $row['Artisticskills'];
+						$Musicskills1 = $row['Musicskills'];
+						$Culinaryarts1 = $row['Culinaryarts'];
+						$Homemanagement1 = $row['Homemanagement'];
+						$Fashionandbeauty1 = $row['Fashionandbeauty'];
+						$ICTskills1 = $row['ICTskills'];
+						$Multimediaskills1 = $row['Multimediaskills'];
+						$Digitalcommunication1 = $row['Digitalcommunication'];
 
 
-								$MathSub =$row['MathSub'];
-								$ScienceSub =$row['ScienceSub'];
-								$ArtsandDesign =$row['ArtsandDesign'];
-								$Humanities =$row['Humanities'];
-								$Entrepreneurship =$row['Entrepreneurship'];
-								$Information =$row['Information'];
-								$Agriculture =$row['Agriculture'];
-								$HomeEconomics =$row['HomeEconomics'];
-								$IndustrialArts =$row['IndustrialArts'];
 
-								$CareerGoals =$row['CareerGoals'];
-
-								$Mathematicalskills1 = $row['Mathematicalskills'];
-								$Scientificskills1 = $row['Scientificskills'];
-								$Technicalskills1 = $row['Technicalskills'];
-								$Socialsciences1 = $row['Socialsciences'];
-								$Languageskills1 = $row['Languageskills'];
-								$Communicationskills1 = $row['Communicationskills'];
-								$Accountingandfinance1 = $row['Accountingandfinance'];
-								$Businessmanagement1 = $row['Businessmanagement'];
-								$Entrepreneurialskills1 = $row['Entrepreneurialskills'];
-								$Timemanagement1 = $row['Timemanagement'];
-								$LeadershipSkills1 = $row['LeadershipSkills'];
-								$Artisticskills1 = $row['Artisticskills'];
-								$Musicskills1 = $row['Musicskills'];
-								$Culinaryarts1 = $row['Culinaryarts'];
-								$Homemanagement1 = $row['Homemanagement'];
-								$Fashionandbeauty1 = $row['Fashionandbeauty'];
-								$ICTskills1 = $row['ICTskills'];
-								$Multimediaskills1 = $row['Multimediaskills'];
-								$Digitalcommunication1 = $row['Digitalcommunication'];
-
-
-
-                            
-                                    }
-						}
-                        $conn->close();
-                            }
-                				
-                        ?>
+			
+					}
+				}
+				$conn->close();
+			}
+				
+		?>
 
 
 		<div class="row" style="width:70%">
@@ -229,103 +230,90 @@ if(!isset($_SESSION["admin"]))
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Science" class="form-label">Science</label>
-						<input type="text" class="form-control" id="Science" 
-						name="Science" value="<?php echo $Science;?>" placeholder="">
+						<select class="form-select" id="Science" name="Science">
+							<option value="100 - 95" <?php if ($Science == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($Science == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($Science == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($Science == "100 - 95") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($Science == "79 - 75") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($Science == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Math" class="form-label">Math</label>
-						<input type="text" class="form-control" id="Math"
-						name="Math" value="<?php echo $Science;?>"  placeholder="">
+						<select class="form-select" id="Math" name="Math">
+							<option value="100 - 95" <?php if ($Math == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($Math == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($Math == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($Math == "79 - 75") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($Math == "74 - 70") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($Math == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="English" class="form-label">English</label>
-						<input type="text" class="form-control" id="English"
-						name="English" value="<?php echo $English;?>"  placeholder="">
+						<select class="form-select" id="English" name="English">
+							<option value="100 - 95" <?php if ($English == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($English == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($English == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($English == "79 - 75") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($English == "74 - 70") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($English == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 					</div>
 					<div class="col-12 col-md-6 col-lg-3 mb-3">
 						<label for="Filipino" class="form-label">Filipino</label>
-						<input type="text" class="form-control" id="Filipino" placeholder=""
-						name="Filipino" value="<?php echo $Filipino;?>" >
+						<select class="form-select" id="Filipino" name="Filipino">
+							<option value="100 - 95" <?php if ($Filipino == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($Filipino == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($Filipino == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($Filipino == "79 - 75") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($Filipino == "74 - 70") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($Filipino == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ICTRelatedSubject" class="form-label">ICT Related Subject</label>
-						<input type="text" class="form-control" id="ICTRelatedSubject" 
-						name="ICTRelatedSubject" value="<?php echo $ICTRelatedSubject; ?>" placeholder="">
+						<select class="form-select" id="ICTRelatedSubject" name="ICTRelatedSubject">
+							<option value="N/A" <?php if ($ICTRelatedSubject == "N/A") {echo " selected";}?>>N/A</option>
+							<option value="100 - 95" <?php if ($ICTRelatedSubject == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($ICTRelatedSubject == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($ICTRelatedSubject == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($ICTRelatedSubject == "79 - 75") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($ICTRelatedSubject == "74 - 70") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($ICTRelatedSubject == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 						<small id="" class="form-text text-muted">This is optional... Leave blank if not applicable</small>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="HERelatedSubject" class="form-label">HE Related Subject</label>
-						<input type="text" class="form-control" id="HERelatedSubject" 
-						name="HERelatedSubject" value="<?php echo $HERelatedSubject; ?>" placeholder="">
+						<select class="form-select" id="HERelatedSubject" name="HERelatedSubject">
+							<option value="N/A" <?php if ($HERelatedSubject == "N/A") {echo " selected";}?>>N/A</option>
+							<option value="100 - 95" <?php if ($HERelatedSubject == "100 - 95") {echo " selected";}?>>100 - 95</option>
+							<option value="94 - 90" <?php if ($HERelatedSubject == "94 - 90") {echo " selected";}?>>94 - 90</option>
+							<option value="89 - 80" <?php if ($HERelatedSubject == "89 - 80") {echo " selected";}?>>89 - 80</option>
+							<option value="79 - 75" <?php if ($HERelatedSubject == "79 - 75") {echo " selected";}?>>79 - 75</option>
+							<option value="74 - 70" <?php if ($HERelatedSubject == "74 - 70") {echo " selected";}?>>74 - 70</option>
+							<option value="69 - 0" <?php if ($HERelatedSubject == "69 - 0") {echo " selected";}?>>69 - 0</option>
+						</select>
 						<small id="" class="form-text text-muted">This is optional... Leave blank if not applicable</small>
 					</div>
 
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Socioeconomic Background</p>
 					</div>
-					<div class="col-12 col-md-4">
-						<div class="divider d-flex align-items-center my-4">
-							<p class="text-center mx-3 mb-0">Mother's Details</p>
-						</div>
+					<div class="col-12">
 						<div class="mb-3">
-							<label for="EducationalLevel" class="form-label">Highest Attained Educational Level</label>
-							<input type="text" class="form-control" id="EducationalLevel" 
-							name="EducationalLevel1" placeholder="">
-						</div>
-						<div class="mb-3">
-							<label for="Occupation" class="form-label">Occupation</label>
-							<input type="text" class="form-control" id="Occupation"
-							name="Occupation1"  placeholder="">
-						</div>
-						<div class="mb-3">
-							<label class="form-label" for="MonthlyIncome">Monthly Income</label>
-							<input type="text" class="form-control" id="MonthlyIncome"
-							name="MonthlyIncome1" placeholder="">
-							
-						</div>
-					</div>
-					<div class="col-12 col-md-4">
-						<div class="divider d-flex align-items-center my-4">
-							<p class="text-center mx-3 mb-0">Father's Details</p>
-						</div>
-						<div class="mb-3">
-							<label for="EducationalLevel" class="form-label">Highest Attained Educational Level</label>
-							<input type="text" class="form-control" id="EducationalLevel" 
-							name="EducationalLevel2"  placeholder="">
-						</div>
-						<div class="mb-3">
-							<label for="Occupation" class="form-label">Occupation</label>
-							<input type="text" class="form-control" id="Occupation"
-							name="Occupation2"  placeholder="">
-						</div>
-						
-						<div class="mb-3">
-							<label class="form-label" for="MonthlyIncome">Monthly Income</label>
-							<input type="text" class="form-control" id="MonthlyIncome"
-							name="MonthlyIncome2" placeholder="">
-							
-						</div>
-					</div>
-					<div class="col-12 col-md-4">
-						<div class="divider d-flex align-items-center my-4">
-							<p class="text-center mx-3 mb-0">Guardian's Details</p>
-						</div>
-						<div class="mb-3">
-							<label for="EducationalLevel" class="form-label">Highest Attained Educational Level</label>
-							<input type="text" class="form-control" id="EducationalLevel" 
-							name="EducationalLevel3"  placeholder="">
-
-						</div>
-						<div class="mb-3">
-							<label for="Occupation" class="form-label">Occupation</label>
-							<input type="text" class="form-control" id="Occupation" 
-							name="Occupation3"  placeholder="">
-						</div>
-						<div class="mb-3">
-							<label class="form-label" for="MonthlyIncome">Monthly Income</label>
-							<input type="text" class="form-control" id="MonthlyIncome"
-							name="MonthlyIncome3"  placeholder="">
-							
+							<label class="form-label" for="TotalMonthlyIncome">Total Household Monthly Income</label>
+							<select class="form-select" id="TotalMonthlyIncome" name="TotalMonthlyIncome">
+								<option selected value="less than P9,100" <?php if ($TotalMonthlyIncome == "less than P9,100") {echo " selected";}?>>less than P9,100</option>
+								<option value="P9,100-P18,200" <?php if ($TotalMonthlyIncome == "P9,100-P18,200") {echo " selected";}?>>P9,100-P18,200</option>
+								<option value="P18,200-P36,400" <?php if ($TotalMonthlyIncome == "P18,200-P36,400") {echo " selected";}?>>P18,200-P36,400</option>
+								<option value="P36,400-P63,700" <?php if ($TotalMonthlyIncome == "P36,400-P63,700") {echo " selected";}?>>P36,400-P63,700</option>
+								<option value="P63,700-P109,200" <?php if ($TotalMonthlyIncome == "P63,700-P109,200") {echo " selected";}?>>P63,700-P109,200</option>
+								<option value="P109,200-P182,000" <?php if ($TotalMonthlyIncome == "P109,200-P182,000") {echo " selected";}?>>P109,200-P182,000</option>
+								<option value="greater than P182,000" <?php if ($TotalMonthlyIncome == "greater than P182,000") {echo " selected";}?>>greater than P182,000</option>
+							</select>
 						</div>
 					</div>
 
@@ -479,27 +467,27 @@ if(!isset($_SESSION["admin"]))
 						</div>
 					</div>
 					<div>
-  <label class="form-label" for="CareerGoals">What career field are you planning to take in the future?</label>
-  <select class="form-select" id="CareerGoals" name="CareerGoals">
-    <option value="Undecided"<?php if ($CareerGoals == "Undecided") {echo " selected";}?>>Undecided</option>
-    <option value="Business and Management"<?php if ($CareerGoals == "Business and Management") {echo " selected";}?>>Business and Management</option>
-    <option value="Education and Training"<?php if ($CareerGoals == "Education and Training") {echo " selected";}?>>Education and Training</option>
-    <option value="Engineering and Technology"<?php if ($CareerGoals == "Engineering and Technology") {echo " selected";}?>>Engineering and Technology</option>
-    <option value="Healthcare and Medicine"<?php if ($CareerGoals == "Healthcare and Medicine") {echo " selected";}?>>Healthcare and Medicine</option>
-    <option value="Arts and Humanities"<?php if ($CareerGoals == "Arts and Humanities") {echo " selected";}?>>Arts and Humanities</option>
-    <option value="Law and Public Policy"<?php if ($CareerGoals == "Law and Public Policy") {echo " selected";}?>>Law and Public Policy</option>
-    <option value="Natural Sciences and Mathematics"<?php if ($CareerGoals == "Natural Sciences and Mathematics") {echo " selected";}?>>Natural Sciences and Mathematics</option>
-    <option value="Social Sciences and Communication"<?php if ($CareerGoals == "Social Sciences and Communication") {echo " selected";}?>>Social Sciences and Communication</option>
-    <option value="Information Technology and Computer Science"<?php if ($CareerGoals == "Information Technology and Computer Science") {echo " selected";}?>>Information Technology and Computer Science</option>
-    <option value="Agriculture and Environmental Science"<?php if ($CareerGoals == "Agriculture and Environmental Science") {echo " selected";}?>>Agriculture and Environmental Science</option>
-    <option value="Hospitality and Tourism"<?php if ($CareerGoals == "Hospitality and Tourism") {echo " selected";}?>>Hospitality and Tourism</option>
-    <option value="Media and Entertainment"<?php if ($CareerGoals == "Media and Entertainment") {echo " selected";}?>>Media and Entertainment</option>
-    <option value="Sports and Fitness"<?php if ($CareerGoals == "Sports and Fitness") {echo " selected";}?>>Sports and Fitness</option>
-    <option value="Trades and Vocational Skills"<?php if ($CareerGoals == "Trades and Vocational Skills") {echo " selected";}?>>Trades and Vocational Skills</option>
-    <option value="Government and Public Service"<?php if ($CareerGoals == "Government and Public Service") {echo " selected";}?>>Government and Public Service</option>
-    <option value="Non-Profit and Philanthropy"<?php if ($CareerGoals == "Non-Profit and Philanthropy") {echo " selected";}?>>Non-Profit and Philanthropy</option>
-  </select>
-</div>
+						<label class="form-label" for="CareerGoals">What career field are you planning to take in the future?</label>
+						<select class="form-select" id="CareerGoals" name="CareerGoals">
+							<option value="Undecided"<?php if ($CareerGoals == "Undecided") {echo " selected";}?>>Undecided</option>
+							<option value="Business and Management"<?php if ($CareerGoals == "Business and Management") {echo " selected";}?>>Business and Management</option>
+							<option value="Education and Training"<?php if ($CareerGoals == "Education and Training") {echo " selected";}?>>Education and Training</option>
+							<option value="Engineering and Technology"<?php if ($CareerGoals == "Engineering and Technology") {echo " selected";}?>>Engineering and Technology</option>
+							<option value="Healthcare and Medicine"<?php if ($CareerGoals == "Healthcare and Medicine") {echo " selected";}?>>Healthcare and Medicine</option>
+							<option value="Arts and Humanities"<?php if ($CareerGoals == "Arts and Humanities") {echo " selected";}?>>Arts and Humanities</option>
+							<option value="Law and Public Policy"<?php if ($CareerGoals == "Law and Public Policy") {echo " selected";}?>>Law and Public Policy</option>
+							<option value="Natural Sciences and Mathematics"<?php if ($CareerGoals == "Natural Sciences and Mathematics") {echo " selected";}?>>Natural Sciences and Mathematics</option>
+							<option value="Social Sciences and Communication"<?php if ($CareerGoals == "Social Sciences and Communication") {echo " selected";}?>>Social Sciences and Communication</option>
+							<option value="Information Technology and Computer Science"<?php if ($CareerGoals == "Information Technology and Computer Science") {echo " selected";}?>>Information Technology and Computer Science</option>
+							<option value="Agriculture and Environmental Science"<?php if ($CareerGoals == "Agriculture and Environmental Science") {echo " selected";}?>>Agriculture and Environmental Science</option>
+							<option value="Hospitality and Tourism"<?php if ($CareerGoals == "Hospitality and Tourism") {echo " selected";}?>>Hospitality and Tourism</option>
+							<option value="Media and Entertainment"<?php if ($CareerGoals == "Media and Entertainment") {echo " selected";}?>>Media and Entertainment</option>
+							<option value="Sports and Fitness"<?php if ($CareerGoals == "Sports and Fitness") {echo " selected";}?>>Sports and Fitness</option>
+							<option value="Trades and Vocational Skills"<?php if ($CareerGoals == "Trades and Vocational Skills") {echo " selected";}?>>Trades and Vocational Skills</option>
+							<option value="Government and Public Service"<?php if ($CareerGoals == "Government and Public Service") {echo " selected";}?>>Government and Public Service</option>
+							<option value="Non-Profit and Philanthropy"<?php if ($CareerGoals == "Non-Profit and Philanthropy") {echo " selected";}?>>Non-Profit and Philanthropy</option>
+						</select>
+					</div>
 
 					<div class="divider d-flex align-items-center my-4"></div>
 				</form>

@@ -51,16 +51,15 @@ if(!isset($_SESSION["admin"]))
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
+							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item">
-							<a class="nav-link" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
+							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" ><?php 
-														echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -157,6 +156,28 @@ if(!isset($_SESSION["admin"]))
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
 									?>
 									<a href="gasprofiles.php" class="btn btn-info">VIEW</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 d-flex justify-content-center align-items-center py-1">
+						<div class="card w-100 text-bg-success">
+							<div class="card-body">
+								<h4 class="card-title">No. TVL HE Qualified:</h4>
+								<div class="text-center">
+									<p class="card-text fs-1 fw-bold">0</p>
+									<a href="#" class="btn btn-info">VIEW</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 d-flex justify-content-center align-items-center py-1">
+						<div class="card w-100 text-bg-success">
+							<div class="card-body">
+								<h4 class="card-title">No. TVL ICT Qualified:</h4>
+								<div class="text-center">
+									<p class="card-text fs-1 fw-bold">0</p>
+									<a href="#" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
