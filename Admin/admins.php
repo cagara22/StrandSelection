@@ -1,16 +1,16 @@
 <?php
-	session_start();
+session_start();
 
-	if(!isset($_SESSION["admin"]))
-	{
+if(!isset($_SESSION["admin"]))
+{
 
-		?>
-		<script type="text/javascript">
-			window.location="index.php";
-		</script>
-		<?php
+    ?>
+    <script type="text/javascript">
+        window.location="index.php";
+    </script>
+    <?php
 
-	}
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -50,6 +50,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
+
 						<li class="nav-item">
 							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 						</li>
@@ -57,8 +58,10 @@
                         <li class="nav-item">
 							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
+
 						<li class="nav-item">
-							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php 
+														echo $_SESSION['admin']; ?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -86,7 +89,6 @@
 								<th scope="col">ID</th>
 								<th scope="col">Username</th>
 								<th scope="col">Full Name</th>
-								<th scope="col">Password</th>
 								<th scope="col">Address</th>
 								<th scope="col">Contact Number</th>
 								<th scope="col" colspan="2">Action</th>
@@ -105,7 +107,7 @@
 												$page_no = 1;
 											}
 
-											$total_records_per_page = 2;
+											$total_records_per_page = 30;
 											$offset= ($page_no -1)*$total_records_per_page;
 
 											$previous_page = $page_no - 1;
@@ -130,12 +132,11 @@
 								echo "<td class = 'text-center'>" . $row['id'] . "</td>";
 								echo "<td class = 'text-center'>" . $row['username'] . "</td>";
 								echo "<td class = 'text-center'>" . $row['fullname'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['password'] . "</td>";
 								echo "<td class = 'text-center'>" . $row['address'] . "</td>";
 								echo "<td class = 'text-center'>" . $row['contactnumber'] . "</td>";
 								echo "<td class = 'text-center'>
 								<a href='updateadmin.php?id=" . $row['id'] . "' class='btn btn-info btn-sm'>EDIT</a> 
-								<a href='delete.php?id=" . $row['id'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
+								<a href='deleteadmin.php?id=" . $row['id'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
 								</td>";
 								echo "</tr>";
 							  }
@@ -171,63 +172,49 @@
 					
 				</div>
 				<div class="col-4">
-							<?php 
+				<?php 
 
-			$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 
-			if (isset($_POST['add'])) {
+if (isset($_POST['add'])) {
 
-				$username = $_POST['username'];
+    $username = $_POST['username'];
+    $fullname = $_POST['fullname'];
+    $password = $_POST['password'];
+    $address = $_POST['address'];
+    $contact = $_POST['contactnumber'];
+    $cpassword = $_POST['cpassword'];
 
-				$fullname = $_POST['fullname'];
+    // Check if passwords match
+    if ($password != $cpassword) {
+        echo "<script>alert('Passwords do not match.');</script>";
+        echo "<script>document.location='admins.php';</script>";
+        exit();
+    }
 
-				$password = $_POST['password'];
+    $sql = "SELECT * FROM `admin` WHERE username = '$username' ";
+    $result =  mysqli_query($conn,$sql);
 
-				$address = $_POST['address'];
+    if ($result) {
+        $num= mysqli_num_rows($result);
+        if ($num>0){
+            echo"<script>alert('Admin record already exists.');</script>";
+            echo "<script>document.location='admins.php';</script>";
+        } else {
+            $sql = "INSERT INTO `admin`(`username`, `fullname`, `password`, `address`, `contactnumber`) VALUES 
+            ('$username','$fullname', MD5('$password'),'$address','$contact')";
+            $result = $conn->query($sql);
+            if ($result == TRUE) {
+                echo "<script>alert('New record added successfully!');</script>";
+                echo "<script>document.location='admins.php';</script>";
+            } else {
+                echo "Error:". $sql . "<br>". $conn->error;
+            } 
 
-				$contact = $_POST['contactnumber'];
-
-
-				$sql = "SELECT * FROM `admin` WHERE username = '$username' ";
-
-				$result =  mysqli_query($conn,$sql);
-
-				if ($result) {
-				$num= mysqli_num_rows($result);
-				if ($num>0){
-					echo"<script>swal({
-						title: 'Admin record has already existed.',
-						icon: 'error',
-						button: 'OK',
-					  });</script>";
-				echo "<script type = 'text/javascript'> document location =admins.php;</script>";
-			
-
-				}else{
-				$sql = "INSERT INTO `admin`(`username`, `fullname`, `password`, `address`, `contactnumber`) VALUES 
-				('$username','$fullname', MD5('$password'),'$address','$contact')";
-			$result = $conn->query($sql);
-			if ($result == TRUE) {
-
-				echo"<script>swal({
-					title: 'New record added successfully!',
-					icon: 'success',
-					button: 'OK',
-				  });</script>";
-				echo "<script>document location =admins.php;</script>";
-
-			}else{
-
-			echo "Error:". $sql . "<br>". $conn->error;
-
-			} 
-
-			$conn->close(); 
-			}
-			}
-			}
-
-			?>
+        }
+    }
+}
+?>
 
 					<form class="row g-3" action="" method="post">
 						<h2 class="form-signin-heading">Admin Information</h2>
@@ -245,7 +232,7 @@
 						</div>
 						<div class="col-12">
 							<label class="form-label" for="confirmPassword">Confirm Password</label>
-							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password"/>
+							<input type="password" id="confirmPassword" name="cpassword" class="form-control" placeholder="Confirm Password"/>
 						</div>
 						<div class="col-12">
 							<label class="form-label" for="address">Address</label>
