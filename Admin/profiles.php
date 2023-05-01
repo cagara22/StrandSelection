@@ -1,16 +1,16 @@
 <?php
-	session_start();
+session_start();
 
-	if(!isset($_SESSION["admin"]))
-	{
+if(!isset($_SESSION["admin"]))
+{
 
-		?>
-		<script type="text/javascript">
-			window.location="index.php";
-		</script>
-		<?php
+    ?>
+    <script type="text/javascript">
+        window.location="index.php";
+    </script>
+    <?php
 
-	}
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -51,14 +51,16 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
+							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item">
-							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
+							<a class="nav-link" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php 
+														
+														echo $_SESSION['admin']; ?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -70,111 +72,101 @@
 
 
 		<section class="d-flex flex-column justify-content-center align-items-center py-5">
-			<div class="row" style="width:100%">
-				<div class="col-12">
-					<form class="row g-3" action ="">
-						<div class="col-4">
-							<input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
-						</div>
-						<div class="col-md-4">
-							<button type="submit" class="btn btn-secondary" name="search">SEARCH</button>
-						</div>
-						</form>
+	<div class="row" style="width:100%">
+		<div class="col-12">
 
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr class="text-center">
-								<th scope="col">LRN</th>
-								<th scope="col">First Name</th>
-								<th scope="col">Middle Name</th>
-								<th scope="col">Last Name</th>
-								<th scope="col">Approval Status</th>
-								<th scope="col">Qualified Strand</th>
-								<th scope="col">Status</th>
-								<th scope="col" colspan="2">Action</th>
-							</tr>
-						</thead>
-						<tbody class="table-group-divider">
-						<tr>
-								<?php
-								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-								if(isset($_GET['page_no']))
-											{
-												$page_no = $_GET['page_no'];
-											
-												
-											}else{
-												$page_no = 1;
-											}
-
-											$total_records_per_page = 10;
-											$offset= ($page_no -1)*$total_records_per_page;
-
-											$previous_page = $page_no - 1;
-											$next_page = $page_no + 1;
-											
-											
-											$result_count = mysqli_query($conn, "SELECT COUNT(*)as total_records FROM student")
-											or die('Unable to connect to database'); 
-
-											$records = mysqli_fetch_array($result_count);
-											$total_records =$records['total_records'];
-
-											$total_no_of_page = ceil($total_records / $total_records_per_page);
-											
-											$sql = "select * from student limit $offset,$total_records_per_page";
-
-											
-    								
-								$result = $conn->query($sql);
-							if ($result->num_rows > 0) {
-							// output data of each row
-							while($row = $result->fetch_assoc()) {
-								echo "<tr>";
-								echo "<td class = 'text-center'>" . $row['lrn'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['Fname'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['Mname'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['Lname'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['approve'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['strand'] . "</td>";
-								echo "<td class = 'text-center'>" . $row['status'] . "</td>";
-								echo "<td class = 'text-center'>
-								<a href='update.php?lrn=" . $row['lrn'] . "' class='btn btn-success editbtn'>EDIT</a>
-								<a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
-								<a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
-								</td>";
-								echo "</tr>";
-							  }
-							echo "</table>";
-							} else { echo "0 results"; }
-							
-							?>
-							</tr>
-
-						</tbody>
-									</table>
-									<nav aria-label="Page navigation example">
-				<ul class="pagination">
-				<li class="page-item"><a class="page-link <?= ($page_no <=1)?'disabled':'';?>"
-					<?= ($page_no >1)?'href=?page_no='.$previous_page:'';?>>Previous</a></li>
-					<?php for ($counter=1; $counter <= $total_no_of_page; $counter++){
-						?>
-						<li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>">
-						<?=$counter; ?></a></li>
-						<?php
-					}
-					?>
-					<li class="page-item"><a class="page-link <?= ($page_no >=$total_no_of_page)?'disabled':'';?>"
-					<?= ($page_no <$total_no_of_page)?'href=?page_no='.$next_page:'';?>>Next</a></li>
-				</ul>
-				</nav>
-
-				<div class = "p-10">
-					<strong>Page <?=$page_no;?> of <?=$total_no_of_page;?>
-
-					</strong>
-
+			<form class="row g-3" method="GET" action ="">
+				<div class="col-4">
+					<input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
 				</div>
+				<div class="col-md-4">
+					<button type="submit" class="btn btn-secondary" name="search">SEARCH</button>
+				</div>
+			</form>
+
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr class="text-center">
+						<th scope="col">LRN</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Middle Name</th>
+						<th scope="col">Last Name</th>
+						<th scope="col">Approval Status</th>
+						<th scope="col">Qualified Strand</th>
+						<th scope="col">Status</th>
+						<th scope="col" colspan="2">Action</th>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+				<?php
+$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+
+if(isset($_GET['page_no'])) {
+    $page_no = $_GET['page_no'];
+} else {
+    $page_no = 1;
+}
+
+$total_records_per_page = 30;
+$offset = ($page_no - 1) * $total_records_per_page;
+
+if(isset($_GET['searchname'])) {
+    $search = $_GET['searchname'];
+    $sql = "SELECT * FROM student WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%' OR approve LIKE '%$search%'";
+} else {
+    $sql = "SELECT * FROM student LIMIT $offset, $total_records_per_page";
+}
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td class='text-center'>" . $row['lrn'] . "</td>";
+        echo "<td class='text-center'>" . $row['Fname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Mname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Lname'] . "</td>";
+        echo "<td class='text-center'>" . $row['approve'] . "</td>";
+        echo "<td class='text-center'>" . $row['strand'] . "</td>";
+        echo "<td class='text-center'>" . $row['status'] . "</td>";
+        echo "<td class='text-center'>
+              <a href='update.php?lrn=" . $row['lrn'] . "' class='btn btn-success editbtn'>EDIT</a>
+              <a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
+              <a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
+              </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+
+$sql = "SELECT COUNT(*) AS total_records FROM student";
+$result = $conn->query($sql);
+$total_records = $result->fetch_assoc()['total_records'];
+$total_no_of_pages = ceil($total_records / $total_records_per_page);
+
+?>
+
+</tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link <?= ($page_no <=1)?'disabled':'';?>"
+        <?= ($page_no >1)?'href=?page_no='.$previous_page:'';?>>Previous</a></li>
+        <?php for ($counter=1; $counter <= $total_no_of_pages; $counter++){ ?>
+            <li class="page-item"><a class="page-link" href="?page_no=<?=$counter; ?>">
+            <?=$counter; ?></a></li>
+        <?php } ?>
+        <li class="page-item"><a class="page-link <?= ($page_no >=$total_no_of_pages)?'disabled':'';?>"
+        <?= ($page_no <$total_no_of_pages)?'href=?page_no='.$next_page:'';?>>Next</a></li>
+    </ul>
+</nav>
+
+<div class="p-10">
+    <strong>Page <?=$page_no;?> of <?=$total_no_of_pages;?></strong>
+</div>
 		</div>
 					</form>
 				</div>
