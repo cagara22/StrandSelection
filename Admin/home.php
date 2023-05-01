@@ -47,17 +47,20 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link" href="admins.php">ADMINS</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
+							<a class="nav-link" href="about.php">ABOUT</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item">
-							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
+							<a class="nav-link" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
 						</li>
+
 						<li class="nav-item">
-							<a class="nav-link" href="about.php">ABOUT</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php 
+														echo $_SESSION['admin']; ?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -95,8 +98,14 @@ if(!isset($_SESSION["admin"]))
 							<div class="card-body">
 								<h4 class="card-title">No. STEM Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">1</p>
-									<a href="list.html" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand='STEM' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="stemprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
@@ -106,8 +115,14 @@ if(!isset($_SESSION["admin"]))
 							<div class="card-body">
 								<h4 class="card-title">No. HUMSS Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">1</p>
-									<a href="list.html" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand='HUMSS' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="humssprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
@@ -117,8 +132,14 @@ if(!isset($_SESSION["admin"]))
 							<div class="card-body">
 								<h4 class="card-title">No. ABM Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">1</p>
-									<a href="list.html" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand='ABM' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="abmprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
@@ -128,8 +149,14 @@ if(!isset($_SESSION["admin"]))
 							<div class="card-body">
 								<h4 class="card-title">No. GAS Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">0</p>
-									<a href="list.html" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand='GAS' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="gasprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>

@@ -114,7 +114,7 @@ if(isset($_GET['searchname'])) {
     $search = $_GET['searchname'];
     $sql = "SELECT * FROM student WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%' OR approve LIKE '%$search%'";
 } else {
-    $sql = "SELECT * FROM student LIMIT $offset, $total_records_per_page";
+    $sql = "SELECT * FROM student WHERE strand = 'GAS' LIMIT $offset, $total_records_per_page";
 }
 
 $result = $conn->query($sql);
@@ -141,7 +141,7 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-$sql = "SELECT COUNT(*) AS total_records FROM student";
+$sql = "SELECT COUNT(*) AS total_records FROM student WHERE strand = 'GAS'";
 $result = $conn->query($sql);
 $total_records = $result->fetch_assoc()['total_records'];
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
@@ -182,13 +182,13 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
     if (isset($_POST['add'])) {
         
         // Retrieve form data
-        $id = $_GET["id"];
+        $id = $_GET["lrn"];
         $approve = $_POST['approve'];
 		$strand = $_POST['strand'];
 		$status = $_POST['status'];
 
         // Prepare update query
-        $sql = "UPDATE `student` SET `approve`='$approve', `strand`='$strand' , `status`='$status' WHERE `id`='$id'"; 
+        $sql = "UPDATE `student` SET `approve`='$approve', `strand`='$strand' , `status`='$status' WHERE `lrn`='$id'"; 
 
         // Execute update query
         $result = $conn->query($sql);
@@ -204,11 +204,11 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
         } 
     }
 
-	if (isset($_GET['id'])) {
+	if (isset($_GET['lrn'])) {
 
-		$user_id = $_GET['id']; 
+		$user_id = $_GET['lrn']; 
 	
-		$sql = "SELECT * FROM `student` WHERE `id`='$user_id'";
+		$sql = "SELECT * FROM `student` WHERE `lrn`='$user_id'";
 	
 		$result = $conn->query($sql); 
 	
