@@ -1,10 +1,23 @@
 <?php
 session_start();
-$date=date("Y-m-d H:i:s");
-$_SESSION["end_time"]=date("Y-m-d H:i:s", strtotime($date."+$_SESSION[exam_time] minutes"));
+
+if(!isset($_SESSION["student"]))
+{
+
+    ?>
+    <script type="text/javascript">
+        window.location="index.php";
+    </script>
+    <?php
+
+}
+?>
+
+<?php
 include "connection.php";
 
 ?>
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -29,7 +42,7 @@ include "connection.php";
 				</button>
 
 				<div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-					<ul class="navbar-nav">
+				<ul class="navbar-nav">
 						<li class="nav-item px-4 fw-bold">
 							<a class="nav-link active" aria-current="page" href="../list.php">LIST</a>
 						</li>
@@ -45,85 +58,43 @@ include "connection.php";
 						<li class="nav-item">
 							<a class="nav-link" href="../logout.php">LOGOUT</a>
 						</li>
-					</ul>
 				</div>
 			</div>
 		</nav>
 
-        <section class="d-flex flex-column align-items-center py-5">
-<div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px;">
-
-<div class="col-lg-6 col-lg-push-3" style="min-height: 500px; background-color: white;">
-<?php 
-$correct=0;
-$wrong=0;
-if(isset($_SESSION["answer"]))
-{
-    for($i=1; $i<=sizeof($_SESSION["answer"]); $i++)
-    {
-$answer="";
-$res=mysqli_query($link, "select * from questions where category = '$_SESSION[exam_category]' && question_no=$i");
-while($row=mysqli_fetch_array($res))
-{
-    $answer=$row["answer"];
-}
-
-if(isset($_SESSION["answer"][$i]))
-{
-    if($answer==$_SESSION["answer"][$i])
-    {
-        $correct=$correct+1;
-    }
-    else{
-        $wrong=$wrong+1;
-    }
-}
-else{
-    $wrong=$wrong+1;
-}
-
-    }
-}
-
-$count=0;
-$res=mysqli_query($link, "SELECT * FROM questions WHERE category = '$_SESSION[exam_category]'");
-$count=mysqli_num_rows($res);
-$wrong=$count-$correct;
-$percent = ($correct/$count)*100;
-echo "<br><br>";
-echo "<center>";
-echo "Total Questions=".$count;
-echo "<br>";
-echo "Correct answer=".$correct;
-echo "<br>";
-echo "Wrong answer=".$wrong;
-echo "<br>";
-echo "Percentage Correct=".number_format($percent, 2)." %";
-echo "</center>";
-?>
-
-</div>
-
-</div>
+        <header class="d-flex justify-content-center align-items-center p-5" id="Home">
+			<div class="row">
+				<div class="col-12 order-2 order-lg-1 col-lg-8 text-wrap text-center align-self-center">
+					<h1 class="text-body-emphasis fw-bold">ICT-Programming</h1>
+                    <p style="font-size: 30px;">This assessment aims to evaluate your fundamental understanding of each strand. 
+                    To ensure accuracy, please answer the questions honestly and select the correct answer for each item. 
+                    Please note that this assessment can only be taken once. Good luck!</p>
 
 <?php
-if (isset($_SESSION["exam_start"])) {
-	$user_id = $_SESSION['student']; 
-    mysqli_query($link, "UPDATE `exam_score` SET `humms_score`='$percent' WHERE `lrn`='$user_id'")
-    or die(mysqli_error($link));
-}
+            $res=mysqli_query($link,"select * from exam_category");
+            while($row=mysqli_fetch_array($res))
+            {
+                ?>
+               
+            <?php
+            }
+            ?>
+					<button type="button" class="btn btn-outline-success btn-lg fw-bold fs-3 m-2"
+					onclick="set_exam_type_session('ICT-Programming');">Take Assessment</button>
+					
 
-if (isset($_SESSION["exam_start"])) {
-    unset($_SESSION["exam_start"]);
-    ?>
-    <script type="text/javascript">
-        window.location.href = window.location.href;
-    </script>
-    <?php
-}
-?>
-</section>
-	<footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5 bg-dark">
+					
+
+					</div>
+				<div class="col-12 order-1 order-lg-2 col-lg-4 d-flex flex-wrap justify-content-center align-items-center p-5">
+					<img src="../images/tvlict.png" class="img-fluid" alt="...">
+				</div>
+			</div>
+		</header>
+		<section class="d-flex flex-column align-items-center py-5">
+
+        </section>
+<footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5 bg-dark">
 			<!-- Copyright -->
 			<div class="text-white mb-3 mb-md-0">
 			  Copyright © 2022. All rights reserved.
@@ -133,5 +104,19 @@ if (isset($_SESSION["exam_start"])) {
 	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 		<script src="customjs.js"></script>
+
+        <script type="text/javascript">
+    function set_exam_type_session(exam_category)
+    {
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                window.location = "dashboard_ict.php";
+            }
+        };
+        xmlhttp.open("GET","forjax/set_exam_type_session.php?exam_category="+ exam_category,true);
+        xmlhttp.send(null);
+    }
+</script>
 	</body>
 </html>

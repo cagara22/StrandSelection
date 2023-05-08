@@ -24,11 +24,17 @@
         // Retrieve form data
         $id = $_GET["lrn"];
         $approve = $_POST['approve'];
-		$strand = $_POST['strand'];
 		$status = $_POST['status'];
 
         // Prepare update query
-        $sql = "UPDATE `student` SET `approve`='$approve', `strand`='$strand' , `status`='$status' WHERE `lrn`='$id'"; 
+        $sql = "UPDATE `student` SET `approve`='$approve' , `status`='$status'"; 
+
+		if (!empty($_POST['password'])) {
+			$password = md5($_POST['password']);
+			$sql .= ", password = '$password'";
+		}  
+			   
+		$sql .= " WHERE lrn = '$id'";
 
         // Execute update query
         $result = $conn->query($sql);
@@ -69,10 +75,6 @@
 					<form class="row g-3" action="" method="post">
 						<h2 class="form-signin-heading">Student Profile</h2>
 
-						<div class="col-12 mb-3">
-								<label for="strand" class="form-label">Qualified Strand</label>
-								<input type="text" id="strand" name="strand" 
-								value="<?php echo $strand1; ?>" class="form-control" placeholder="QUALIFIED STRAND" />
                            
 						<div class="col-12 mb-3">
 								<label class="form-label" for="approve">Approval Status</label>

@@ -68,18 +68,41 @@ include "connection.php";
 					<p class="lead fst-italic">
 						"In STEM, we don't call it mistakes, we call it <code>learning opportunities</code>..."
 					</p>
-					<a href="#Learn"><button type="button" class="btn btn-outline-primary btn-lg fw-bold fs-3 m-2">Learn More</button></a>
-					<?php
-            $res=mysqli_query($link,"select * from exam_category");
-            while($row=mysqli_fetch_array($res))
-            {
-                ?>
-               
-            <?php
-            }
-            ?>
-					<button type="button" class="btn btn-outline-success btn-lg fw-bold fs-3 m-2"
-					onclick="set_exam_type_session('STEM');">Take Assessment</button>
+					<a href="#Learn"><button type="button" class="btn btn-outline-primary btn-lg fw-bold fs-3 m-2">Learn More</button>
+					
+				</a>
+
+				<?php
+// Assuming you have established a database connection using your preferred method
+
+// Perform the SQL query to retrieve the value from the database
+$id = $_SESSION['student'];
+$sql = "SELECT STEM FROM exam_score WHERE lrn = '$id'";
+$result = mysqli_query($link, $sql);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch the row from the result
+    $row = mysqli_fetch_assoc($result);
+    
+    // Check if the exam_score value exists
+    if (!empty($row['STEM'])) {
+        // The assessment has been answered
+        echo '<button class="btn btn-outline-success btn-lg fw-bold fs-3 m-2" disabled>Assessment Answered</button>';
+    } else {
+        // The assessment has not been answered
+        echo '<button class="btn btn-outline-success btn-lg fw-bold fs-3 m-2" onclick="window.location.href = \'instructions_stem.php\';">Take assessment</button>';
+    }
+} else {
+    // An error occurred with the query
+    echo 'Error: ' . mysqli_error($link);
+}
+
+?>
+
+
+					
+
 					
 
 				</div>

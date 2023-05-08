@@ -44,9 +44,6 @@ if(!isset($_SESSION["admin"]))
 						<li class="nav-item">
 							<a class="nav-link" href="profiles.php">PROFILES</a>
 						</li>
-						<li class="nav-item px-4 fw-bold">
-							<a class="nav-link active" aria-current="page" href="admins.php">ADMINS</a>
-						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
@@ -62,6 +59,9 @@ if(!isset($_SESSION["admin"]))
 						<li class="nav-item">
 							<a class="nav-link" ><?php 
 														echo $_SESSION['admin']; ?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admininfo.php">ADMIN INFO</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -123,6 +123,8 @@ if(!isset($_SESSION["admin"]))
 											$total_no_of_page = ceil($total_records / $total_records_per_page);
 											
 											$sql = "select * from admin limit $offset,$total_records_per_page";
+
+											
     								
 								$result = $conn->query($sql);
 							if ($result->num_rows > 0) {

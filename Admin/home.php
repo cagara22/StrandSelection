@@ -44,9 +44,6 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link" href="profiles.php">PROFILES</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admins.php">ADMINS</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
 
@@ -59,7 +56,11 @@ if(!isset($_SESSION["admin"]))
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php 
+														echo $_SESSION['admin']; ?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admininfo.php">ADMIN INFO</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -99,7 +100,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand='STEM' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%STEM%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
@@ -116,7 +117,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand='HUMSS' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%HUMSS%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
@@ -133,7 +134,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand='ABM' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%ABM%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
@@ -150,7 +151,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand='GAS' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%GAS%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
@@ -160,13 +161,20 @@ if(!isset($_SESSION["admin"]))
 							</div>
 						</div>
 					</div>
+
 					<div class="col-4 d-flex justify-content-center align-items-center py-1">
 						<div class="card w-100 text-bg-success">
 							<div class="card-body">
 								<h4 class="card-title">No. TVL HE Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">0</p>
-									<a href="#" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%HE%' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="heprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
@@ -176,8 +184,14 @@ if(!isset($_SESSION["admin"]))
 							<div class="card-body">
 								<h4 class="card-title">No. TVL ICT Qualified:</h4>
 								<div class="text-center">
-									<p class="card-text fs-1 fw-bold">0</p>
-									<a href="#" class="btn btn-info">VIEW</a>
+								<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%ICT-Programming%' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="ictprofiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>

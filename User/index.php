@@ -107,7 +107,9 @@ session_start();
 							<!-- LRN input -->
 							<div class="form-outline mb-4">
 								<label class="form-label" for="username">LRN</label>
-								<input type="text" id="username" name ="lrn" class="form-control form-control-lg" placeholder="Enter a valid LRN" />
+								<input type="number" id="username" name ="lrn"
+								oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+								maxlength = "12" class="form-control form-control-lg" placeholder="Enter a valid LRN" />
 							</div>
 
 							<!-- Password input -->
@@ -236,23 +238,24 @@ session_start();
 							</div>
 							<div class="col-12 mb-3">
 								<label for="lrn" class="form-label">LRN</label>
-								<input type="number" class="form-control" id="lrn" name="lrn2" placeholder="">
+								<input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+								maxlength = "12" class="form-control" id="lrn" name="lrn2" placeholder="">
 							</div>
 							<div class="col-12 col-md-4 mb-3">
 								<label for="FName" class="form-label">First Name</label>
-								<input type="text" class="form-control" id="FName" name="Fname" placeholder="">
+								<input type="text" class="form-control" id="FName" name="Fname" placeholder="" oninput="validateFirstName(this)">
 							</div>
 							<div class="col-12 col-md-4 mb-3">
 								<label for="MName" class="form-label">Middle Name</label>
-								<input type="text" class="form-control" id="MName" name="Mname" placeholder="">
+								<input type="text" class="form-control" id="MName" name="Mname" placeholder="" oninput="validateMiddleName(this)">
 							</div>
 							<div class="col-12 col-md-4 mb-3">
 								<label for="LName" class="form-label">Last Name</label>
-								<input type="text" class="form-control" id="LName" name="Lname" placeholder="">
+								<input type="text" class="form-control" id="LName" name="Lname" placeholder="" oninput="validateLastName(this)">
 							</div>
 							<div class="col-12 mb-3">
 								<label for="Address" class="form-label">Address</label>
-								<input type="text" class="form-control" id="Address" name="address" placeholder="">
+								<input type="text" class="form-control" id="Address" name="address" placeholder="" oninput="validateAddress(this)">
 							</div>
 							<div class="col-12 col-md-6 mb-3">
 								<label class="form-label" for="Gender">Sex</label>
@@ -263,7 +266,9 @@ session_start();
 							</div>
 							<div class="col-12 col-md-6 mb-3">
 								<label for="Age" class="form-label">Age</label>
-								<input type="text" class="form-control" id="Age"  name= "age" placeholder="">
+								<input type="text" class="form-control" id="Age"  name= "age" placeholder="" 
+								oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+								maxlength = "3">
 							</div>
 							<div class="col-12 mb-3">
 								<label for="Email" class="form-label">Email</label>
@@ -322,6 +327,38 @@ session_start();
 					}
 				});
 			});
+
+			function validateAddress(input) {
+				var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s.,]/g, ''); // Remove any special characters except periods and commas
+				}
+			}
+
+			function validateFirstName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
+
+			function validateMiddleName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
+
+			function validateLastName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
 		</script>
 	</body>
 </html>

@@ -44,9 +44,6 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link active" aria-current="page" href="profiles.php">PROFILES</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admins.php">ADMINS</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
 
@@ -58,7 +55,12 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" ><?php echo $_SESSION['admin']; ?></a>
+							<a class="nav-link" ><?php 
+														
+														echo $_SESSION['admin']; ?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admininfo.php">ADMIN INFO</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
@@ -182,11 +184,10 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
         // Retrieve form data
         $id = $_GET["id"];
         $approve = $_POST['approve'];
-		$strand = $_POST['strand'];
 		$status = $_POST['status'];
 
         // Prepare update query
-        $sql = "UPDATE `student` SET `approve`='$approve', `strand`='$strand' , `status`='$status' WHERE `id`='$id'"; 
+        $sql = "UPDATE `student` SET `approve`='$approve', `status`='$status' WHERE `id`='$id'"; 
 
         // Execute update query
         $result = $conn->query($sql);
@@ -214,7 +215,6 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
 	
 			while ($row = $result->fetch_assoc()) {
 	
-				$strand1 = $row['strand'];
 				$approve1 = $row['approve'];
 				$status1 = $row['status'];
 
@@ -240,9 +240,7 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
 							<div class="divider d-flex align-items-center my-4">
 								<p class="text-center fw-bold mx-3 mb-0">Account Details</p>
 							</div>
-							<div class="col-12 mb-3">
-								<label for="strand" class="form-label">Qualified Strand</label>
-								<input type="text" id="strand" name="strand" value="<?php echo $strand1; ?>" class="form-control" placeholder="QUALIFIED STRAND" />
+			
                            
 						<div class="col-12 mb-3">
 								<label class="form-label" for="approve">Approval Status</label>

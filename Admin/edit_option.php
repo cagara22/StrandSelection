@@ -45,23 +45,23 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link" href="profiles.php">PROFILES</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admins.php">ADMINS</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" href="exam_category.php">ADD & EDIT EXAM CATEGORIES</a>
+							<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 						</li>
 
                         <li class="nav-item px-4 fw-bold">
-							<a class="nav-link active" aria-current="page" href="add_edit_exam_questions.php">ADD & EDIT EXAM QUESTIONS</a>
+							<a class="nav-link active" aria-current="page" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 						</li>
 
 						<li class="nav-item">
 							<a class="nav-link" ><?php 
 														echo $_SESSION['admin']; ?></a>
+						</li>
+                        <li class="nav-item">
+							<a class="nav-link" href="admininfo.php">ADMIN INFO</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>

@@ -29,7 +29,7 @@ include "connection.php";
 				</button>
 
 				<div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-                <ul class="navbar-nav">
+					<ul class="navbar-nav">
 						<li class="nav-item px-4 fw-bold">
 							<a class="nav-link active" aria-current="page" href="../list.php">LIST</a>
 						</li>
@@ -45,16 +45,17 @@ include "connection.php";
 						<li class="nav-item">
 							<a class="nav-link" href="../logout.php">LOGOUT</a>
 						</li>
+					</ul>
 				</div>
 			</div>
 		</nav>
 
         <section class="d-flex flex-column align-items-center py-5">
-<div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px;">
+		<div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px; height: 550px;">
 
 <div class="col-lg-6 col-lg-push-3" style="min-height: 500px; background-color: white;">
 <?php 
-$correct=0;
+$correct= 0;
 $wrong=0;
 if(isset($_SESSION["answer"]))
 {
@@ -98,9 +99,10 @@ echo "<br>";
 echo "Wrong answer=".$wrong;
 echo "<br>";
 echo "Percentage Correct=".number_format($percent, 2)." %";
-echo "</center>";
+echo "</center>"; 
 ?>
-
+ <br>
+ <button onclick="window.location.href = '../list.php';">Take assessment for another strand</button>
 </div>
 
 </div>
@@ -108,7 +110,7 @@ echo "</center>";
 <?php
 if (isset($_SESSION["exam_start"])) {
 	$user_id = $_SESSION['student']; 
-    mysqli_query($link, "UPDATE `exam_score` SET `abm_score`='$percent' WHERE `lrn`='$user_id'")
+    mysqli_query($link, "UPDATE `exam_score` SET `ABM`='$percent' WHERE `lrn`='$user_id'")
     or die(mysqli_error($link));
 }
 

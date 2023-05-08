@@ -51,7 +51,7 @@ include "connection.php";
 		</nav>
 
         <section class="d-flex flex-column align-items-center py-5">
-<div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px;">
+		<div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px; height: 550px;">
 
 <div class="col-lg-6 col-lg-push-3" style="min-height: 500px; background-color: white;">
 <?php 
@@ -99,9 +99,10 @@ echo "<br>";
 echo "Wrong answer=".$wrong;
 echo "<br>";
 echo "Percentage Correct=".number_format($percent, 2)." %";
-echo "</center>";
+echo "</center>"; 
 ?>
-
+ <br>
+ <button onclick="window.location.href = '../list.php';">Take assessment for another strand</button>
 </div>
 
 </div>
@@ -109,7 +110,7 @@ echo "</center>";
 <?php
 if (isset($_SESSION["exam_start"])) {
 	$user_id = $_SESSION['student']; 
-    mysqli_query($link, "UPDATE `exam_score` SET `ict_score`='$percent' WHERE `lrn`='$user_id'")
+    mysqli_query($link, "UPDATE `exam_score` SET `ICT`='$percent' WHERE `lrn`='$user_id'")
     or die(mysqli_error($link));
 }
 

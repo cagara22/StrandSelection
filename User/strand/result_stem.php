@@ -99,8 +99,9 @@ echo "<br>";
 echo "Wrong answer=".$wrong;
 echo "<br>";
 echo "Percentage Correct=".number_format($percent, 2)." %";
-echo "</center>";
+echo "</center>"; 
 ?>
+ <button onclick="window.location.href = '../list.php';">Take assessment for another strand</button>
 
 </div>
 
@@ -109,7 +110,7 @@ echo "</center>";
 <?php
 if (isset($_SESSION["exam_start"])) {
 	$user_id = $_SESSION['student']; 
-    mysqli_query($link, "UPDATE `exam_score` SET `he_score`='$percent' WHERE `lrn`='$user_id'")
+    mysqli_query($link, "UPDATE `exam_score` SET `STEM`='$percent' WHERE `lrn`='$user_id'")
     or die(mysqli_error($link));
 }
 

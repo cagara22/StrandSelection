@@ -301,22 +301,22 @@
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> First Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Fname" value="<?php echo $Fname1; ?>" placeholder="" required>
+						name="Fname" value="<?php echo $Fname1; ?>" oninput="validateFirstName(this)" placeholder="" required >
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> Middle Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Mname" value="<?php echo $Mname1; ?>" placeholder="">
+						name="Mname" value="<?php echo $Mname1; ?>" oninput="validateMiddleName(this)" placeholder="" required >
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Name" class="form-label"> Last Name</label>
 						<input type="text" class="form-control" id="Name"
-						name="Lname" value="<?php echo $Lname1; ?>" placeholder="" required>
+						name="Lname" value="<?php echo $Lname1; ?>" oninput="validateLastName(this)" placeholder="" required>
 					</div>
 					<div class="col-12 mb-3">
 						<label for="Address" class="form-label">Address</label>
 						<input type="text" class="form-control" id="Address"
-						name="address" value="<?php echo $address1; ?>" placeholder="" required>
+						name="address" value="<?php echo $address1; ?>" oninput="validateAddress(this)" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-4 mb-3">
 						<label class="form-label" for="Gender">Gender</label>
@@ -342,7 +342,8 @@
 					<div class="col-12 col-md-4 mb-3">
 						<label for="Age" class="form-label">Age</label>
 						<input type="text" class="form-control" id="Age"
-						name="age" value="<?php echo $age1; ?>" placeholder="" required>
+						name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+								maxlength = "3" placeholder="" required>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="lrn" class="form-label">LRN</label>
@@ -357,8 +358,10 @@
 
 					<div class="col-12 col-md-6 mb-3">
 						<label for="Password" class="form-label">Password</label>
-						<input type="password" class="form-control" id="Password"
-						name="password" placeholder="">
+						<input type="password" class="form-control" id="Password" name="password" placeholder="">
+						<div class="col-sm-6" id="example-getting-started-text" style="font-weight:bold;padding:6px 12px;">
+
+						</div>
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ConfirmPassword" class="form-label">Cofirm Password</label>
@@ -629,7 +632,15 @@
 							<option value="Non-Profit and Philanthropy"<?php if ($CareerGoals1 == "Non-Profit and Philanthropy") {echo " selected";}?>>Non-Profit and Philanthropy</option>
 						</select>
 					</div>
-					<div class="divider d-flex align-items-center my-4"></div>
+					<div class="divider d-flex align-items-center my-4">
+						<p class="text-center fw-bold mx-3 mb-0">Assessment Score</p>
+					</div>
+					<div class="col-12 mb-3">
+						<label for="assessment" class="form-label">Highest Assessment Score</label>
+						<input type="text" class="form-control" id="assessment"
+						name="assessment" value="" placeholder="Your highest score...">
+					</div>
+
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Predicted Strand</p>
 					</div>
@@ -638,6 +649,7 @@
 						<input type="text" class="form-control" id="predictedStrand"
 						name="predictedStrand" value="" placeholder="Your predicted strand...">
 					</div>
+					<div class="divider d-flex align-items-center my-4"></div>
 					<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
 						<button class="btn btn-primary" type="submit" name="submit">UPDATE</button>
 						<button class="btn btn-success" type="button" onclick="predictStrand()">PREDICT</button>
@@ -656,7 +668,59 @@
 		</footer>
 	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-		<script>
+		<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="./js/password-score.js"></script>
+		<script type="text/javascript" src="./js/password-score-options.js"></script>
+		<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
+		<script src="customjs.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#Password').strengthMeter('text', {
+					container: $('#example-getting-started-text'),
+					hierarchy: {
+						'0': ['text-danger', ' '],
+						'1': ['text-danger', 'Very Weak'],
+						'25': ['text-danger', 'Weak'],
+						'50': ['text-warning', 'Moderate'],
+						'75': ['text-warning', 'Good'],
+						'100': ['text-success', 'Strong'],
+						'125': ['text-success', 'Very Strong']
+					}
+				});
+			});
+
+			function validateAddress(input) {
+				var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s.,]/g, ''); // Remove any special characters except periods and commas
+				}
+			}
+
+			function validateFirstName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
+
+			function validateMiddleName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
+
+			function validateLastName(input) {
+				var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+				if (!regex.test(input.value)) {
+					input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				}
+			}
+
 			function predictStrand(){
 				var Science8 = document.getElementById("Science").value;
 				var Math9 = document.getElementById("Math").value;

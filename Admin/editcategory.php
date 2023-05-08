@@ -45,9 +45,6 @@ if(!isset($_SESSION["admin"]))
 							<a class="nav-link" href="profiles.php">PROFILES</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admins.php">ADMINS</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
 
@@ -66,6 +63,9 @@ if(!isset($_SESSION["admin"]))
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="logout.php">LOGOUT</a>
+						</li>
+                        <li class="nav-item">
+							<a class="nav-link" href="admininfo.php">ADMIN INFO</a>
 						</li>
 					</ul>
 				</div>
