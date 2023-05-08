@@ -630,9 +630,17 @@
 						</select>
 					</div>
 					<div class="divider d-flex align-items-center my-4"></div>
-
+					<div class="divider d-flex align-items-center my-4">
+						<p class="text-center fw-bold mx-3 mb-0">Predicted Strand</p>
+					</div>
+					<div class="col-12 mb-3">
+						<label for="predictedStrand" class="form-label">STRAND</label>
+						<input type="text" class="form-control" id="predictedStrand"
+						name="predictedStrand" value="" placeholder="Your predicted strand...">
+					</div>
 					<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
 						<button class="btn btn-primary" type="submit" name="submit">UPDATE</button>
+						<button class="btn btn-success" type="button" onclick="predictStrand()">PREDICT</button>
 						<button class="btn btn-secondary" type="button">CLEAR</button>
 					</div>
 				</form>
@@ -648,6 +656,115 @@
 		</footer>
 	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-		<script src="customjs.js"></script>
+		<script>
+			function predictStrand(){
+				var Science8 = document.getElementById("Science").value;
+				var Math9 = document.getElementById("Math").value;
+				var English = document.getElementById("English").value;
+				var Filipino = document.getElementById("Filipino").value;
+				var ICT10 = document.getElementById("ICTRelatedSubject").value;
+				var HE = document.getElementById("HERelatedSubject").value;
+				var TotalIncome = document.getElementById("TotalMonthlyIncome").value;
+				var MathSkills = document.getElementById("Mathematicalskills").checked ? 1 : 0;
+				var ScienceSkills = document.getElementById("Scientificskills").checked ? 1 : 0;
+				var TechSkills = document.getElementById("Technicalskills").checked ? 1 : 0;
+				var LanguageSkills = document.getElementById("Languageskills").checked ? 1 : 0;
+				var SocialSkills = document.getElementById("Socialsciences").checked ? 1 : 0;
+				var CommSkills = document.getElementById("Communicationskills").checked ? 1 : 0;
+				var FinanceSkills = document.getElementById("Accountingandfinance").checked ? 1 : 0;
+				var ManagementSkills = document.getElementById("Businessmanagement").checked ? 1 : 0;
+				var EntrepreneurSkills = document.getElementById("Entrepreneurialskills").checked ? 1 : 0;
+				var TimeMgmt = document.getElementById("Timemanagement").checked ? 1 : 0;
+				var Leadership = document.getElementById("LeadershipSkills").checked ? 1 : 0;
+				var ArtSkills = document.getElementById("Artisticskills").checked ? 1 : 0;
+				var MusicSkills = document.getElementById("Musicskills").checked ? 1 : 0;
+				var CulinarySkills = document.getElementById("Culinaryarts").checked ? 1 : 0;
+				var HomeMgmt = document.getElementById("Homemanagement").checked ? 1 : 0;
+				var FashionSkills = document.getElementById("Fashionandbeauty").checked ? 1 : 0;
+				var ICTSkills = document.getElementById("ICTskills").checked ? 1 : 0;
+				var MediaSkills = document.getElementById("Multimediaskills").checked ? 1 : 0;
+				var DigitalSkills = document.getElementById("Digitalcommunication").checked ? 1 : 0;
+				var Science34 = document.getElementById("ScienceSub").value;
+				var Math35 = document.getElementById("MathSub").value;
+				var ArtsDesign = document.getElementById("ArtsandDesign").value;
+				var HumSocial = document.getElementById("Humanities").value;
+				var BusEntrep = document.getElementById("Entrepreneurship").value;
+				var ICT36 = document.getElementById("Information").value;
+				var AgriFish = document.getElementById("Agriculture").value;
+				var HomeEcon = document.getElementById("HomeEconomics").value;
+				var IndusTech = document.getElementById("IndustrialArts").value;
+				var CareerGoals = document.getElementById("CareerGoals").value;
+
+				var url = "http://127.0.0.1:8000/predict";
+				var params = "?Science8=" + Science8 +
+								"&Math9=" + Math9 +
+								"&English=" + English +
+								"&Filipino=" + Filipino +
+								"&ICT10=" + ICT10 +
+								"&HE=" + HE +
+								"&TotalIncome=" + TotalIncome +
+								"&MathSkills=" + MathSkills +
+								"&ScienceSkills=" + ScienceSkills +
+								"&TechSkills=" + TechSkills +
+								"&LanguageSkills=" + LanguageSkills +
+								"&SocialSkills=" + SocialSkills +
+								"&CommSkills=" + CommSkills +
+								"&FinanceSkills=" + FinanceSkills +
+								"&ManagementSkills=" + ManagementSkills +
+								"&EntrepreneurSkills=" + EntrepreneurSkills +
+								"&TimeMgmt=" + TimeMgmt +
+								"&Leadership=" + Leadership +
+								"&ArtSkills=" + ArtSkills +
+								"&MusicSkills=" + MusicSkills +
+								"&CulinarySkills=" + CulinarySkills +
+								"&HomeMgmt=" + HomeMgmt +
+								"&FashionSkills=" + FashionSkills +
+								"&ICTSkills=" + ICTSkills +
+								"&MediaSkills=" + MediaSkills +
+								"&DigitalSkills=" + DigitalSkills +
+								"&Science34=" + Science34 +
+								"&Math35=" + Math35 +
+								"&ArtsDesign=" + ArtsDesign +
+								"&HumSocial=" + HumSocial +
+								"&BusEntrep=" + BusEntrep +
+								"&ICT36=" + ICT36 +
+								"&AgriFish=" + AgriFish +
+								"&HomeEcon=" + HomeEcon +
+								"&IndusTech=" + IndusTech +
+								"&CareerGoals=" + CareerGoals;
+				console.log(url + params)
+				fetch(url + params)
+					.then(response => response.json())
+					.then(data => {
+						var strandData = data[0];
+						console.log(strandData);
+						switch(strandData) {
+							case "1":
+								document.getElementById("predictedStrand").value = "STEM";
+								break;
+							case "2":
+								document.getElementById("predictedStrand").value = "HUMSS";
+								break;
+							case "3":
+								document.getElementById("predictedStrand").value = "ABM";
+								break;
+							case "4":
+								document.getElementById("predictedStrand").value = "GAS";
+								break;
+							case "5":
+								document.getElementById("predictedStrand").value = "TVL - HE";
+								break;
+							case "6":
+								document.getElementById("predictedStrand").value = "TVL - ICT";
+								break;
+							default:
+								document.getElementById("predictedStrand").value = "Unknown";
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			}
+		</script>
 	</body>
 </html>
