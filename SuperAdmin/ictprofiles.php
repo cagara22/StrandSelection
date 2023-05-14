@@ -43,10 +43,6 @@ if(!isset($_SESSION["admin"]))
 						<li class="nav-item px-4 fw-bold">
 							<a class="nav-link active" aria-current="page" href="profiles.php">PROFILES</a>
 						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" href="admins.php">ADMINS</a>
-						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
@@ -118,7 +114,7 @@ if(isset($_GET['searchname'])) {
     $search = $_GET['searchname'];
     $sql = "SELECT * FROM student WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%' OR approve LIKE '%$search%'";
 } else {
-    $sql = "SELECT * FROM student WHERE strand LIKE '%HE%' LIMIT $offset, $total_records_per_page";
+    $sql = "SELECT * FROM student WHERE strand LIKE '%TVL - ICT%' LIMIT $offset, $total_records_per_page";
 }
 
 $result = $conn->query($sql);
@@ -145,7 +141,7 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-$sql = "SELECT COUNT(*) AS total_records FROM student WHERE strand LIKE '%HE%'";
+$sql = "SELECT COUNT(*) AS total_records FROM student WHERE strand LIKE '%TVL - ICT%'";
 $result = $conn->query($sql);
 $total_records = $result->fetch_assoc()['total_records'];
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
