@@ -76,6 +76,8 @@ if(!isset($_SESSION["admin"]))
 			</div>
 			<div class="container-fluid">
 				<div class="row">
+
+				
 					<div class="col-4 d-flex justify-content-center align-items-center py-1">
 						<div class="card w-100 text-bg-primary">
 							<div class="card-body">
@@ -89,6 +91,41 @@ if(!isset($_SESSION["admin"]))
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
 									?>
 									<a href="profiles.php" class="btn btn-info">VIEW</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-4 d-flex justify-content-center align-items-center py-1">
+						<div class="card w-100 text-bg-primary">
+							<div class="card-body">
+								<h4 class="card-title">No. of Approved Profiles:</h4>
+								<div class="text-center">
+									<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE approve LIKE '%APPROVE%' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="approved_profiles.php" class="btn btn-info">VIEW</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4 d-flex justify-content-center align-items-center py-1">
+						<div class="card w-100 text-bg-primary">
+							<div class="card-body">
+								<h4 class="card-title">No. of Pending Profiles:</h4>
+								<div class="text-center">
+									<?php
+									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+									$query = "SELECT lrn FROM student WHERE approve LIKE '%PENDING%' ORDER BY Lname";
+									$query_run = mysqli_query($conn, $query);
+									$row = mysqli_num_rows($query_run);
+									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+									?>
+									<a href="pending_profiles.php" class="btn btn-info">VIEW</a>
 								</div>
 							</div>
 						</div>
@@ -169,7 +206,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand LIKE '%HE%' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%TVL - HE%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
@@ -186,7 +223,7 @@ if(!isset($_SESSION["admin"]))
 								<div class="text-center">
 								<?php
 									$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
-									$query = "SELECT lrn FROM student WHERE strand LIKE '%ICT-Programming%' ORDER BY Lname";
+									$query = "SELECT lrn FROM student WHERE strand LIKE '%TVL - ICT%' ORDER BY Lname";
 									$query_run = mysqli_query($conn, $query);
 									$row = mysqli_num_rows($query_run);
 									echo "<p class='card-text fs-1 fw-bold'>$row</p>";
