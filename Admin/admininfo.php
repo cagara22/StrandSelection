@@ -56,16 +56,14 @@ if (!isset($_SESSION["admin"])) {
 					<li class="nav-item">
 						<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 					</li>
-
-					<li class="nav-item">
-						<a class="nav-link"><?php
-											echo $_SESSION['admin']; ?></a>
-					</li>
-					<li class="nav-item px-4 fw-bold">
-						<a class="nav-link active" aria-current="page" href="adminifo.php">ADMIN INFO</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="logout.php">LOGOUT</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<?php echo $_SESSION['admin']; ?>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="admininfo.php">ADMIN INFO</a></li>
+							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
+						</ul>
 					</li>
 				</ul>
 			</div>
