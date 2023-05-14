@@ -92,49 +92,43 @@ if(!isset($_SESSION["admin"]))
         // Retrieve form data
         $id = $_SESSION['admin'];
 
-		$password = $_POST['password'];
-		$cpassword =$_POST['cpassword'];
-
 		$fullname = $_POST['fullname'];
 		$username = $_POST['username'];
 		$address = $_POST['address'];
 		$contactnumber = $_POST['contactnumber'];
 
         // Prepare update query
-		$sql = " UPDATE `admin` SET `username`='$username',`fullname`='$fullname',`address`='$address',`contactnumber`='$contactnumber'";
-			
+		$sql = "UPDATE `admin` SET `username`='$username', `fullname`='$fullname', `address`='$address', `contactnumber`='$contactnumber'";
+
 if (!empty($_POST['password'])) {
     $password = md5($_POST['password']);
-    $sql .= ", password = '$cpassword'";
-}  
-
-if (!empty($_POST['password'])) {
     $cpassword = md5($_POST['cpassword']);
-    $sql .= ", cpassword = '$cpassword'";
-}  
-       
+    
+    // Check if password and confirm password match
+    if ($password !== $cpassword) {
+        echo "<script>alert('Password and Confirm Password do not match!');</script>";
+        echo "<script type='text/javascript'>history.go(-1);</script>";
+    }
+    
+    $sql .= ", password = '$password', cpassword = '$cpassword'";
+}
+
 $sql .= " WHERE username = '$id'";
 
-        // Execute update query
-        $result = $conn->query($sql);
+// Execute update query
+$result = $conn->query($sql);
 
-        // Check if query was successful
-        if ($result) {
-            // Display success message and redirect to profiles page
-            echo "<script>alert('Record updated successfully!')</script>";
-            echo "<script>window.location.href = 'admininfo.php';</script>";
-
-		} else {
-			// Check if password and confirm password match
-			if ($password !== $cpassword) {
-			  echo "<script>alert('Password and Confirm Password do not match!');</script>";
-			  echo "<script type='text/javascript'>history.go(-1);</script>";
-        } else {
-            // Display error message and MySQL error details
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        } 
-    }
+// Check if query was successful
+if ($result) {
+    // Display success message and redirect to profiles page
+    echo "<script>alert('Record updated successfully!');</script>";
+    echo "<script>window.location.href = 'admininfo.php';</script>";
+} else {
+    // Display error message and MySQL error details
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
+	}
+
 
 	if (isset($_SESSION['admin'])) {
 
@@ -187,12 +181,12 @@ $sql .= " WHERE username = '$id'";
 					</div>
                     <div class="col-12 col-md-6 mb-3">
 						<label for="Password" class="form-label">Password</label>
-						<input type="text" class="form-control" id="Password"
+						<input type="password" class="form-control" id="Password"
 						name="password"   placeholder="" >
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ConfirmPassword" class="form-label">Confirm Password</label>
-						<input type="text" class="form-control" id="ConfirmPassword"
+						<input type="password" class="form-control" id="ConfirmPassword"
 						name="cpassword" placeholder="">
 					</div>
 
@@ -202,6 +196,45 @@ $sql .= " WHERE username = '$id'";
 						<button class="btn btn-primary" type="submit" name="submit">SUBMIT</button>
 						<button class="btn btn-secondary" type="button">CLEAR</button>
 					</div>
+
+					<script>
+		const fieldMap = {
+			'Name': 'Address',
+			'Address': 'ContactNumber',
+			'ContactNumber': 'UserName',
+			'UserName': 'Password',
+			'Password': 'ConfirmPassword',
+			'ConfirmPassword': 'Name',
+		};
+
+		const inputFields = document.querySelectorAll('input');
+
+		// Add event listeners for arrow key navigation
+		inputFields.forEach((input) => {
+			input.addEventListener('keydown', (e) => {
+				if (e.keyCode === 38) { // Left arrow key38
+					const prevField = fieldMap[input.id];
+					if (prevField) {
+						document.getElementById(prevField).focus();
+					}
+				} else if (e.keyCode === 37) { // Up arrow key37
+					if (input.previousElementSibling) {
+						input.previousElementSibling.focus();
+					}
+				} else if (e.keyCode === 40) { // Right arrow key
+					const nextField = fieldMap[input.id];40
+					if (nextField) {
+						document.getElementById(nextField).focus();
+					}
+				} else if (e.keyCode === 39) { // Down arrow key39
+					if (input.nextElementSibling) {
+						input.nextElementSibling.focus();
+					}
+				}
+			});
+		});
+	</script>
+
 				</form>
 			</div>
 		</section>
@@ -216,5 +249,21 @@ $sql .= " WHERE username = '$id'";
 	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 		<script src="customjs.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#Password').strengthMeter('text', {
+					container: $('#example-getting-started-text'),
+					hierarchy: {
+						'0': ['text-danger', ' '],
+						'1': ['text-danger', 'Very Weak'],
+						'25': ['text-danger', 'Weak'],
+						'50': ['text-warning', 'Moderate'],
+						'75': ['text-warning', 'Good'],
+						'100': ['text-success', 'Strong'],
+						'125': ['text-success', 'Very Strong']
+					}
+				});
+			});
+			</script>
 	</body>
 </html>
