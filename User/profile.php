@@ -79,8 +79,6 @@
 						// Retrieve form data
 						$id = $_SESSION['student'];
 
-						$password = md5($_POST['password']);
-						$cpassword = md5($_POST['cpassword']);
 
 						$Fname = $_POST['Fname'];
 						$Mname = $_POST['Mname'];
@@ -90,6 +88,7 @@
 						$civilstatus = $_POST['civilstatus'];
 						$sex = $_POST['sex'];
 						$email=$_POST['email'];
+						$strand=$_POST['predictedStrand'];
 
 						$science = $_POST['ScienceSub'];
 						$math = $_POST['MathSub'];
@@ -150,6 +149,7 @@
 							s.civilstatus = '$civilstatus',
 							s.email = '$email',
 							s.address = '$address',
+							s.strand = '$strand',
 							c.CareerGoals = '$CareerGoals',
 							ap.Math = '$math12',
 							ap.Science = '$science2',
@@ -186,38 +186,24 @@
 							i.HomeEconomics = '$homeEconomics',
 							i.IndustrialArts = '$industrialArts',
 							sb.TotalMonthlyIncome = '$TotalMonthlyIncome'";
-							
-							if (!empty($_POST['password'])) {
-								$password = md5($_POST['password']);
-								$sql .= ", s.password = '$cpassword'";
-							}  
-
-							if (!empty($_POST['password'])) {
-								$cpassword = md5($_POST['cpassword']);
-								$sql .= ", s.cpassword = '$cpassword'";
-							}  
-					
-							$sql .= " WHERE s.lrn = '$id'";
-
-							// Execute update query
-							$result = $conn->query($sql);
-
-							// Check if query was successful
-							if ($result) {
-								// Display success message and redirect to profiles page
-								echo "<script>alert('Record updated successfully!')</script>";
-								echo "<script>window.location.href = 'profile.php';</script>";
-
-							} else {
-								// Check if password and confirm password match
-								if ($password !== $cpassword) {
-								echo "<script>alert('Password and Confirm Password do not match!');</script>";
-								echo "<script type='text/javascript'>history.go(-1);</script>";
-							} else {
-								// Display error message and MySQL error details
-								echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-							} 
-						}
+				
+				// Check if password and confirm password match
+				if (!empty($_POST['password']) && !empty($_POST['cpassword'])) {
+					$password = md5($_POST['password']);
+					$cpassword = md5($_POST['cpassword']);
+				
+					if ($password !== $cpassword) {
+						echo "<script>alert('Password and Confirm Password do not match!');</script>";
+						echo "<script>window.location.href='profile.php';</script>";
+					}
+				}
+				// Execute the update query
+if ($conn->query($sql) === TRUE) {
+    echo "<script>alert('Record updated successfully!');</script>";
+    echo "<script>window.location.href='profile.php';</script>";
+} else {
+    echo "Error updating record: " . $conn->error;
+}
 					}
 
 					if (isset($_SESSION['student'])) {
@@ -244,6 +230,7 @@
 								$Lname1 = $row['Lname'];
 								$address1 = $row['address'];
 								$age1 = $row['age'];
+								$strand1 = $row['strand'];
 								$civilstatus1 = $row['civilstatus'];		
 								$sex1 = $row['sex'];
 								$email1=$row['email'];
@@ -293,6 +280,7 @@
 						}
 					}	
 				?>
+
 				<form class="row"  action="" method="post">
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Account Details</p>
@@ -647,12 +635,12 @@
 					<div class="col-12 mb-3">
 						<label for="predictedStrand" class="form-label">STRAND</label>
 						<input type="text" class="form-control" id="predictedStrand"
-						name="predictedStrand" value="" placeholder="Your predicted strand...">
+						name="predictedStrand" value= "<?php echo $strand1?>" placeholder="Your predicted strand...">
 					</div>
 					<div class="divider d-flex align-items-center my-4"></div>
 					<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
 						<button class="btn btn-primary" type="submit" name="submit">UPDATE</button>
-						<button class="btn btn-success" type="button" onclick="predictStrand()">PREDICT</button>
+						<button class="btn btn-success" type="button" name="predict" onclick="predictStrand()">PREDICT</button>
 						<button class="btn btn-secondary" type="button">CLEAR</button>
 					</div>
 				</form>
