@@ -47,7 +47,7 @@ while($row=mysqli_fetch_array($res)){
 ?>
 <br>
 
-<table width="600">
+<table width="1000">
     <tr>
         <td style = "font-weight: bold; font-size: 30px; padding-left: 5px" colspan="2"></td>
 
