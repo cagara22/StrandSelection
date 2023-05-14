@@ -52,51 +52,49 @@ session_start();
 					</div>
 					<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 						<?php
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-  
-    
-  
+							if (isset($_POST['username']) && isset($_POST['password'])) {
+								$username = $_POST['username'];
+								$password = $_POST['password'];
+							
+								
+							
 
-    $conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 
-     $sql = "SELECT * FROM super_admin WHERE username = '$username'";
-    $q = mysqli_query($conn, $sql);
-    $num = mysqli_num_rows($q);
+								$sql = "SELECT * FROM super_admin WHERE username = '$username'";
+								$q = mysqli_query($conn, $sql);
+								$num = mysqli_num_rows($q);
 
-    if ($num == 1) {
+								if ($num == 1) {
 
-        $data = mysqli_fetch_assoc($q);
+									$data = mysqli_fetch_assoc($q);
 
-        $upass = $data['password'];
+									$upass = $data['password'];
 
-        if (md5($password) == "$upass") {
-            $_SESSION['admin'] = $username;
-            header("Location: home.php");
-        } else {
-            echo"<script>swal({
-                title: 'Login Failed!',
-                text: 'Invalid Username or Password.',
-                icon: 'error',
-                button: 'OK',
-              });</script>";
-        echo "<script>document location ='index.php';</script>";
-    
-        }
-    } else {
-        echo"<script>swal({
-            title: 'Login Failed!',
-            text: 'Invalid Username or Password.',
-            icon: 'error',
-            button: 'OK',
-          });</script>";
-    echo "<script>document location ='index.php';</script>";
-    }
-}
-
-
-?>
+									if (md5($password) == "$upass") {
+										$_SESSION['admin'] = $username;
+										header("Location: home.php");
+									} else {
+										echo"<script>swal({
+											title: 'Login Failed!',
+											text: 'Invalid Username or Password.',
+											icon: 'error',
+											button: 'OK',
+										});</script>";
+									echo "<script>document location ='index.php';</script>";
+								
+									}
+								} else {
+									echo"<script>swal({
+										title: 'Login Failed!',
+										text: 'Invalid Username or Password.',
+										icon: 'error',
+										button: 'OK',
+									});</script>";
+								echo "<script>document location ='index.php';</script>";
+								}
+							}
+						?>
 
 						<form action="" method="post">
 							<div class="d-flex flex-row align-items-center justify-content-center">
