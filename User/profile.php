@@ -623,11 +623,70 @@ if ($conn->query($sql) === TRUE) {
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Assessment Score</p>
 					</div>
-					<div class="col-12 mb-3">
-						<label for="assessment" class="form-label">Highest Assessment Score</label>
-						<input type="text" class="form-control" id="assessment"
-						name="assessment" value="" placeholder="Your highest score...">
-					</div>
+
+					<?php
+// Assuming you have established a database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dss_db";
+
+// Create a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to check if any column has an empty value
+$id = $_SESSION['student'];
+$sql = "SELECT COUNT(*) AS empty_count FROM exam_score WHERE lrn = '$id' AND (ICT = '' OR HE = '' OR GAS = '' OR ABM = '' OR STEM = '' OR HUMSS = '')";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $empty_count = $row["empty_count"];
+    if ($empty_count == 0) {
+        // Query to get the highest score from the exam_score table
+        $sql = "SELECT GREATEST(ICT, HE, GAS, ABM, STEM, HUMSS) AS highest_score,
+                CASE GREATEST(ICT, HE, GAS, ABM, STEM, HUMSS)
+                    WHEN ICT THEN 'TVL - ICT'
+                    WHEN HE THEN 'TVL - HE'
+                    WHEN GAS THEN 'GAS'
+                    WHEN ABM THEN 'ABM'
+                    WHEN STEM THEN 'STEM'
+                    WHEN HUMSS THEN 'HUMSS'
+                END AS subject_name
+                FROM exam_score
+                WHERE lrn = '$id'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $highest_score = $row["highest_score"];
+            $subject_name = $row["subject_name"];
+        } else {
+            $highest_score = "No scores found";
+            $subject_name = "";
+        }
+    } else {
+        $highest_score = "No scores found";
+        $subject_name = "";
+    }
+} else {
+    $highest_score = "No scores found";
+    $subject_name = "";
+}
+
+$conn->close();
+?>
+
+<!-- Display the highest assessment score and subject name in the HTML input field -->
+<div class="col-12 mb-3">
+    <label for="assessment" class="form-label">Highest Assessment Score</label>
+    <input type="text" class="form-control" id="assessment" name="assessment" value="<?php echo ($highest_score != 'No scores found') ? ($subject_name . ': ' . $highest_score) : ''; ?>" placeholder="Your highest score...">
+</div>
 
 					<div class="divider d-flex align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0">Predicted Strand</p>
