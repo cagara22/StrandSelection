@@ -43,6 +43,10 @@ if(!isset($_SESSION["admin"]))
 						<li class="nav-item px-4 fw-bold">
 							<a class="nav-link active" aria-current="page" href="profiles.php">PROFILES</a>
 						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="admins.php">ADMINS</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="about.php">ABOUT</a>
 						</li>
