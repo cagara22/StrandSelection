@@ -104,40 +104,36 @@ if(!isset($_SESSION["admin"]))
 		$contactnumber = $_POST['contactnumber'];
 
         // Prepare update query
-		$sql = " UPDATE `super_admin` SET `username`='$username',`fullname`='$fullname',`address`='$address',`contactnumber`='$contactnumber'";
+		$sql = "UPDATE `super_admin` SET `username`='$username', `fullname`='$fullname', `address`='$address', `contactnumber`='$contactnumber'";
+
+		if (!empty($_POST['password'])) {
+			$password = md5($_POST['password']);
+			$cpassword = md5($_POST['cpassword']);
 			
-if (!empty($_POST['password'])) {
-    $password = md5($_POST['password']);
-    $sql .= ", password = '$cpassword'";
-}  
-
-if (!empty($_POST['password'])) {
-    $cpassword = md5($_POST['cpassword']);
-    $sql .= ", cpassword = '$cpassword'";
-}  
-       
-$sql .= " WHERE username = '$id'";
-
-        // Execute update query
-        $result = $conn->query($sql);
-
-        // Check if query was successful
-        if ($result) {
-            // Display success message and redirect to profiles page
-            echo "<script>alert('Record updated successfully!')</script>";
-            echo "<script>window.location.href = 'admininfo.php';</script>";
-
-		} else {
 			// Check if password and confirm password match
 			if ($password !== $cpassword) {
-			  echo "<script>alert('Password and Confirm Password do not match!');</script>";
-			  echo "<script type='text/javascript'>history.go(-1);</script>";
-        } else {
-            // Display error message and MySQL error details
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        } 
-    }
-}
+				echo "<script>alert('Password and Confirm Password do not match!');</script>";
+				echo "<script type='text/javascript'>history.go(-1);</script>";
+			}
+			
+			$sql .= ", password = '$password', cpassword = '$cpassword'";
+		}
+		
+		$sql .= " WHERE username = '$id'";
+		
+		// Execute update query
+		$result = $conn->query($sql);
+		
+		// Check if query was successful
+		if ($result) {
+			// Display success message and redirect to profiles page
+			echo "<script>alert('Record updated successfully!');</script>";
+			echo "<script>window.location.href = 'admininfo.php';</script>";
+		} else {
+			// Display error message and MySQL error details
+			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+			}
 
 	if (isset($_SESSION['admin'])) {
 
@@ -190,12 +186,12 @@ $sql .= " WHERE username = '$id'";
 					</div>
                     <div class="col-12 col-md-6 mb-3">
 						<label for="Password" class="form-label">Password</label>
-						<input type="text" class="form-control" id="Password"
+						<input type="password" class="form-control" id="Password"
 						name="password"   placeholder="" >
 					</div>
 					<div class="col-12 col-md-6 mb-3">
 						<label for="ConfirmPassword" class="form-label">Confirm Password</label>
-						<input type="text" class="form-control" id="ConfirmPassword"
+						<input type="password" class="form-control" id="ConfirmPassword"
 						name="cpassword" placeholder="">
 					</div>
 
@@ -219,5 +215,21 @@ $sql .= " WHERE username = '$id'";
 	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 		<script src="customjs.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#Password').strengthMeter('text', {
+					container: $('#example-getting-started-text'),
+					hierarchy: {
+						'0': ['text-danger', ' '],
+						'1': ['text-danger', 'Very Weak'],
+						'25': ['text-danger', 'Weak'],
+						'50': ['text-warning', 'Moderate'],
+						'75': ['text-warning', 'Good'],
+						'100': ['text-success', 'Strong'],
+						'125': ['text-success', 'Very Strong']
+					}
+				});
+			});
+			</script>
 	</body>
 </html>
