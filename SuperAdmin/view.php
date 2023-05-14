@@ -450,6 +450,24 @@ if(!isset($_SESSION["admin"]))
   </select>
 </div>
 
+<div class="divider d-flex align-items-center my-4">
+						<p class="text-center fw-bold mx-3 mb-0">Assessment Score</p>
+					</div>
+					<div class="col-12 mb-3">
+						<label for="assessment" class="form-label">Highest Assessment Score</label>
+						<input type="text" class="form-control" id="assessment"
+						name="assessment" value="" placeholder="Your highest score...">
+					</div>
+
+					<div class="divider d-flex align-items-center my-4">
+						<p class="text-center fw-bold mx-3 mb-0">Predicted Strand</p>
+					</div>
+					<div class="col-12 mb-3">
+						<label for="predictedStrand" class="form-label">STRAND</label>
+						<input type="text" class="form-control" id="predictedStrand"
+						name="predictedStrand" value= "<?php echo $strand?>" placeholder="Your predicted strand...">
+					</div>
+
 					<div class="divider d-flex align-items-center my-4"></div>
 				</form>
 			</div>
