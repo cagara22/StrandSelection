@@ -12,9 +12,7 @@ if (!isset($_SESSION["student"])) {
 }
 ?>
 <?php
-session_start();
-$date = date("Y-m-d H:i:s");
-$_SESSION["end_time"] = date("Y-m-d H:i:s", strtotime($date . "+$_SESSION[exam_time] minutes"));
+
 include "connection.php";
 
 ?>

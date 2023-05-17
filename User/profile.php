@@ -379,7 +379,7 @@ if (!isset($_SESSION["student"])) {
 						<option value="89 - 80" <?php if ($science21 == "89 - 80") {
 													echo " selected";
 												} ?>>89 - 80</option>
-						<option value="79 - 75" <?php if ($science21 == "100 - 95") {
+						<option value="79 - 75" <?php if ($science21 == "79 - 75") {
 													echo " selected";
 												} ?>>79 - 75</option>
 						<option value="74 - 70" <?php if ($science21 == "79 - 75") {

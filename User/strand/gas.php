@@ -93,7 +93,7 @@ include "connection.php";
 						echo '<button class="btn btn-outline-success btn-lg fw-bold fs-3 m-2" disabled>Assessment Answered</button>';
 					} else {
 						// The assessment has not been answered
-						echo '<button class="btn btn-outline-success btn-lg fw-bold fs-3 m-2" onclick="window.location.href = \'instructions_he.php\';">Take assessment</button>';
+						echo '<button class="btn btn-outline-success btn-lg fw-bold fs-3 m-2" onclick="window.location.href = \'instructions_ga.php\';">Take assessment</button>';
 					}
 				} else {
 					// An error occurred with the query
