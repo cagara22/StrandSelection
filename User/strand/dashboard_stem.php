@@ -59,7 +59,20 @@ if (!isset($_SESSION["student"])) {
         </div>
     </nav>
     <section class="d-flex flex-column align-items-center py-5">
-        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12 text-right">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3" style="background-color: white;">
+                <!-- Start edit -->
+                <br>
+                <div class="row">
+                    <div class="col-lg-2 offset-lg-10">
+                        <div id="current_que" style="float: left; text-align: left;">0</div>
+                        <div style="float: left;">/</div>
+                        <div id="total_que" style="float: left;">0</div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12 text-right">
             <ul class="breadcome-menu">
                 <li>
                     <div id="countdowntimer" style="display: block;"></div>
@@ -67,48 +80,50 @@ if (!isset($_SESSION["student"])) {
 
             </ul>
         </div>
-
-        <div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px;">
-            <div class="col-lg-6 col-lg-push-3" style="min-height: 500px; background-color: white;">
-                <!--start edit-->
-                <br>
-                <div class="row">
-                    <br>
-
-                    <div class="col-lg-2 col-lg-push-10">
-                        <div id="current_que" style="float:left">0</div>
-                        <div style="float:left">/<div>
-                                <div id="total_que" style="float:left">0</div>
-                            </div>
-
-                            <div class="row" style="margin-top: 30px">
-                                <div class="row">
-                                    <div class="col-lg-10 col-lg-push-1" style="min-height: 300px; background-color: white" id="load_questions"> </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 10px">
-                                <div class="col-lg-6 col-lg-push-3" style="min-height: 50px">
-
-                                    <div class="col-lg-12 text-center">
-
-                                        <input type="button" class="btn btn-warning" value="Previous" onclick="load_previous() ;">
-                                        &nbsp;
-
-                                        <input type="button" class="btn btn-success" value="Next" onclick="load_next() ;">
-                                        &nbsp;
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <!--end edit-->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-12 text-center">
+                        <div id="load_questions" style="min-height: 500px;"></div>
                     </div>
-
                 </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-lg-12 text-center">
+                        <input type="button" class="btn btn-warning" value="Previous" onclick="load_previous();">
+                        <input type="button" class="btn btn-success" value="Next" onclick="load_next();">
+                    </div>
+                </div>
+                <!-- End edit -->
+            </div>
+        </div>
+    </div>
 
                 <script type="text/javascript">
+
+setInterval(function(){
+        timer();
+    },1000);
+    function timer()
+    {
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                if(xmlhttp.responseText=="00:00:01")
+                {
+                    window.location="result_stem.php";
+                }
+
+            document.getElementById("countdowntimer").innerHTML = xmlhttp.responseText;
+
+            // Save remaining time to local storage
+            localStorage.setItem("countdownTimer", xmlhttp.responseText);
+
+
+            }
+        };
+        xmlhttp.open("GET","forjax/load_timer.php",true);
+        xmlhttp.send(null);
+    }
+
                     function load_total_que() {
                         var xmlhttp = new XMLHttpRequest();
                         xmlhttp.onreadystatechange = function() {

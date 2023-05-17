@@ -73,6 +73,15 @@ if (!isset($_SESSION["student"])) {
                         <div id="total_que" style="float: left;">0</div>
                     </div>
                 </div>
+
+                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12 text-right">
+            <ul class="breadcome-menu">
+                <li>
+                    <div id="countdowntimer" style="display: block;"></div>
+                </li>
+
+            </ul>
+        </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-12 text-center">
                         <div id="load_questions" style="min-height: 500px;"></div>
@@ -88,8 +97,34 @@ if (!isset($_SESSION["student"])) {
             </div>
         </div>
     </div>
-
                 <script type="text/javascript">
+
+setInterval(function(){
+        timer();
+    },1000);
+    function timer()
+    {
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                if(xmlhttp.responseText=="00:00:01")
+                {
+                    window.location="result_ga.php";
+                }
+
+            document.getElementById("countdowntimer").innerHTML = xmlhttp.responseText;
+
+            // Save remaining time to local storage
+            localStorage.setItem("countdownTimer", xmlhttp.responseText);
+
+
+            }
+        };
+        xmlhttp.open("GET","forjax/load_timer.php",true);
+        xmlhttp.send(null);
+    }
+
                     function load_total_que() {
                         var xmlhttp = new XMLHttpRequest();
                         xmlhttp.onreadystatechange = function() {

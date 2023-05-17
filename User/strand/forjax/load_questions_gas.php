@@ -43,17 +43,15 @@ if ($count == 0) {
 ?>
     <br>
 
-    <table width="1000">
-        <tr>
-            <td style="font-weight: bold; font-size: 30px; padding-left: 5px" colspan="2"></td>
-
+    <table>
+    <tr>
+        <td style="font-weight: bold; font-size: 30px; padding-left: 5px; text-align: left;" colspan="2">
             <?php
-            echo "$question_no. " . $question;
-
+            echo $question_no . ". " . $question;
             ?>
-        </tr>
-
-    </table>
+        </td>
+    </tr>
+</table>
 
     <table style="margin-left: 0px" height="350">
         <tr>
