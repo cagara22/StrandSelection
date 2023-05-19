@@ -73,7 +73,7 @@ session_start();
 							$upass = $data['password'];
 
 							if (md5($password) == "$upass") {
-								$_SESSION['admin'] = $username;
+								$_SESSION['super_admin'] = $username;
 								header("Location: home.php");
 							} else {
 								echo "<script>swal({

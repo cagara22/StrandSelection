@@ -271,7 +271,7 @@ if (!isset($_SESSION["admin"])) {
                                                         <label for="company" class=" form-control-label">
                                                             Add answer </label><input type="file" name="fanswer" placeholder="Add answer" class="form-control">
                                                     </div>
-
+                                            <br>
 
                                                     <div class="form-group">
 

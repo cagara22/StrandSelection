@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["admin"])) {
+if (!isset($_SESSION["super_admin"])) {
 
 ?>
     <script type="text/javascript">
@@ -61,7 +61,7 @@ if (!isset($_SESSION["admin"])) {
 
                     <li class="nav-item">
                         <a class="nav-link"><?php
-                                            echo $_SESSION['admin']; ?></a>
+                                            echo $_SESSION['super_admin']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="admininfo.php">ADMIN INFO</a>
@@ -277,7 +277,7 @@ if (!isset($_SESSION["admin"])) {
                                                             Add answer </label><input type="file" name="fanswer" placeholder="Add answer" class="form-control">
                                                     </div>
 
-
+                                    <br>
                                                     <div class="form-group">
 
                                                         <input type="submit" name="submit2" value="Update Question" placeholder="" class="btn btn-success">

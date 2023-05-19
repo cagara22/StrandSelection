@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["admin"])) {
+if (!isset($_SESSION["super_admin"])) {
 
 ?>
 	<script type="text/javascript">
@@ -62,7 +62,7 @@ if (!isset($_SESSION["admin"])) {
 
 					<li class="nav-item">
 						<a class="nav-link"><?php
-											echo $_SESSION['admin']; ?></a>
+											echo $_SESSION['super_admin']; ?></a>
 					</li>
 					<li class="nav-item px-4 fw-bold">
 						<a class="nav-link active" aria-current="page" href="adminifo.php">ADMIN INFO</a>
@@ -93,7 +93,7 @@ if (!isset($_SESSION["admin"])) {
 			if (isset($_POST['submit'])) {
 
 				// Retrieve form data
-				$id = $_SESSION['admin'];
+				$id = $_SESSION['super_admin'];
 
 				$password = $_POST['password'];
 				$cpassword = $_POST['cpassword'];
@@ -135,9 +135,9 @@ if (!isset($_SESSION["admin"])) {
 				}
 			}
 
-			if (isset($_SESSION['admin'])) {
+			if (isset($_SESSION['super_admin'])) {
 
-				$user_id = $_SESSION['admin'];
+				$user_id = $_SESSION['super_admin'];
 
 				$sql = "SELECT * FROM `super_admin` WHERE username = '$user_id';";
 

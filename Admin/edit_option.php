@@ -192,7 +192,7 @@ if (!isset($_SESSION["admin"])) {
                                                     <div class="form-group"><label for="company" class=" form-control-label">
                                                             Add answer </label><input type="text" name="answer" placeholder="Add answer" class="form-control" value="<?php echo $answer1; ?>"></div>
 
-
+                                                    <br>
                                                     <div class="form-group">
 
                                                         <input type="submit" name="submit1" value="Update Question" placeholder="" class="btn btn-success">

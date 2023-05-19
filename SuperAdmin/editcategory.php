@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["admin"])) {
+if (!isset($_SESSION["super_admin"])) {
 
 ?>
     <script type="text/javascript">
@@ -62,7 +62,7 @@ if (!isset($_SESSION["admin"])) {
                     <li class="nav-item">
                         <a class="nav-link"><?php
 
-                                            echo $_SESSION['admin']; ?></a>
+                                            echo $_SESSION['super_admin']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">LOGOUT</a>
