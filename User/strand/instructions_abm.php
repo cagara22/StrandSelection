@@ -65,7 +65,7 @@ include "connection.php";
 	</nav>
 
 	<header class="d-flex justify-content-center align-items-center p-5" id="Home">
-		<div class="row">
+		<div class="row"  style="min-height: 500px;">
 			<div class="col-12 order-2 order-lg-1 col-lg-8 text-wrap text-center align-self-center">
 				<h1 class="text-body-emphasis fw-bold">ABM</h1>
 				<p style="font-size: 30px;">This assessment aims to evaluate your fundamental understanding of each strand.

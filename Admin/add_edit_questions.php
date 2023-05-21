@@ -44,6 +44,9 @@ if (!isset($_SESSION["admin"])) {
                         <a class="nav-link" href="profiles.php">PROFILES</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="admins.php">ADMINS</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="about.php">ABOUT</a>
                     </li>
 
@@ -54,15 +57,17 @@ if (!isset($_SESSION["admin"])) {
                     <li class="nav-item px-4 fw-bold">
                         <a class="nav-link active" aria-current="page" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
                     </li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php echo $_SESSION['admin']; ?>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="admininfo.php">ADMIN INFO</a></li>
-							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
-						</ul>
-					</li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"><?php
+                                            echo $_SESSION['admin']; ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admininfo.php">ADMIN INFO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">LOGOUT</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -188,7 +193,6 @@ if (!isset($_SESSION["admin"])) {
                                                 </div>
                                             </div>
                                         </div>
-
                                 </form>
 
                             </div>
@@ -222,215 +226,159 @@ if (!isset($_SESSION["admin"])) {
                                 </tr>
 
                                 <?php
-                                $res = mysqli_query($link, "select * from questions where category = '$exam_category' order by question_no asc ");
+$res = mysqli_query($link, "SELECT * FROM questions WHERE category = '$exam_category' ORDER BY question_no ASC");
 
-                                while ($row = mysqli_fetch_array($res)) {
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["question_no"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["question"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    if (strpos($row["opt1"], 'opt_images/') !== false) {
-                                ?>
-                                        <img src="<?php echo $row["opt1"]; ?>" height="50" width="50">
-                                    <?php
-                                    } else {
-                                        echo $row["opt1"];
-                                    }
-                                    echo "</td>";
-                                    echo "<td>";
-                                    if (strpos($row["opt2"], 'opt_images/') !== false) {
-                                    ?>
-                                        <img src="<?php echo $row["opt2"]; ?>" height="50" width="50">
-                                    <?php
-                                    } else {
-                                        echo $row["opt2"];
-                                    }
-                                    echo "</td>";
-                                    echo "<td>";
-                                    if (strpos($row["opt3"], 'opt_images/') !== false) {
-                                    ?>
-                                        <img src="<?php echo $row["opt3"]; ?>" height="50" width="50">
-                                    <?php
-                                    } else {
-                                        echo $row["opt3"];
-                                    }
-                                    echo "</td>";
-                                    echo "<td>";
-                                    if (strpos($row["opt4"], 'opt_images/') !== false) {
-                                    ?>
-                                        <img src="<?php echo $row["opt4"]; ?>" height="50" width="50">
-                                    <?php
-                                    } else {
-                                        echo $row["opt4"];
-                                    }
-                                    echo "</td>";
+$questionNumber = 1; // Initialize question number counter
 
-                                    echo "<td>";
-                                    if (strpos($row["opt4"], 'opt_images/') !== false) {
-                                    ?>
-                                        <a class="btn btn-info" href="edit_option_images.php? id=<?php echo $row['id']; ?>
-                            &id1=<?php echo $id; ?>">Edit</a>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <a class="btn btn-info" href="edit_option.php? id=<?php echo $row["id"]; ?> &id1=<?php echo $id; ?> ">Edit</a>
+while ($row = mysqli_fetch_array($res)) {
+    echo "<tr>";
+    echo "<td>";
+    echo $questionNumber; // Display the question number
+    echo "</td>";
+    echo "<td>";
+    echo $row["question"];
+    echo "</td>";
+    // Display the options and other details for the question
+    echo "<td>";
+    echo $row["opt1"];
+    echo "</td>";
+    echo "<td>";
+    echo $row["opt2"];
+    echo "</td>";
+    echo "<td>";
+    echo $row["opt3"];
+    echo "</td>";
+    echo "<td>";
+    echo $row["opt4"];
+    echo "</td>";
 
-                                    <?php
-                                    }
-                                    echo "</td>";
-
-
-                                    echo "<td>";
-                                    ?>
-                                    <a class="btn btn-danger" href="delete_option.php? id=<?php echo $row["id"]; ?> &id1=<?php echo $id; ?>">Delete</a>
-                                <?php
-                                    echo "</td>";
-
-
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        </div>
-
-
-        </div><!-- .animated -->
-        </div><!-- .content -->
-
-        <?php
-
-        if (isset($_POST["submit1"])) {
-
-
-            $question = $_POST['question'];
-
-            $opt1 = $_POST['opt1'];
-
-            $opt2 = $_POST['opt2'];
-
-            $opt3 = $_POST['opt3'];
-
-            $opt4 = $_POST['opt4'];
-            $answer = $_POST['answer'];
-
-            $loop = 0;
-
-            $count = 0;
-            $res = mysqli_query($link, "select * from questions where category ='$exam_category'") or die(mysqli_error($link));
-
-            $count = mysqli_num_rows($res);
-
-            if ($count == 0) {
-            } else {
-                while ($row = mysqli_fetch_array($res)) {
-                    $loop = $loop + 1;
-                    mysqli_query($link, "update questions set question_no='$loop' where id =$row[id]");
-                }
-            }
-            $loop = $loop + 1;
-
-            mysqli_query($link, "INSERT INTO `questions`(`question_no`, `question`, `opt1`, `opt2`, `opt3`, `opt4`, `answer`, `category`) VALUES 
-    ('$loop','$question', '$opt1','$opt2', '$opt3','$opt4', '$answer', '$exam_category')") or die(mysqli_error($link));
-
+    echo "<td>";
+    if (strpos($row["opt4"], 'opt_images/') !== false) {
         ?>
-
-            <script type="text/javascript">
-                alert("question added successfully");
-                window.location.href = window.location.href;
-            </script>
+        <a class="btn btn-info" href="edit_option_images.php?id=<?php echo $row['id']; ?>&id1=<?php echo $id; ?>">Edit</a>
         <?php
-        }
-
+    } else {
         ?>
-
-
+        <a class="btn btn-info" href="edit_option.php?id=<?php echo $row["id"]; ?>&id1=<?php echo $id; ?>">Edit</a>
         <?php
+    }
+    echo "</td>";
 
-        if (isset($_POST["submit2"])) {
+    echo "<td>";
+    ?>
+    <a class="btn btn-danger" href="delete_option.php?id=<?php echo $row["id"]; ?>&id1=<?php echo $id; ?>">Delete</a>
+    <?php
+    echo "</td>";
 
+    echo "</tr>";
 
-            $fquestion = $_POST['question'];
+    $questionNumber++; // Increment the question number counter
+}
 
-            $opt1 = $_POST['opt1'];
+echo "</table>";
+echo "</div>";
+echo "</div>";
+echo "</div>";
+echo "</div>";
+echo "</div>";
+echo "</div>";
+echo "</div><!-- .animated -->";
+echo "</div><!-- .content -->";
 
+if (isset($_POST["submit1"])) {
+    $question = $_POST['question'];
+    $opt1 = $_POST['opt1'];
+    $opt2 = $_POST['opt2'];
+    $opt3 = $_POST['opt3'];
+    $opt4 = $_POST['opt4'];
+    $answer = $_POST['answer'];
 
-            $opt2 = $_POST['opt2'];
+    $loop = $questionNumber; // Get the current question number
+    $sql = "INSERT INTO `questions`(`question_no`, `question`, `opt1`, `opt2`, `opt3`, `opt4`, `answer`, `category`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $statement = $link->prepare($sql);
+    $statement->bind_param('ssssssss', $loop, $question, $opt1, $opt2, $opt3, $opt4, $answer, $exam_category); // Adjust the parameter types according to your column types
+    
+    // Execute the prepared statement
+    $statement->execute();
+    
+    // Close the statement
+    $statement->close();
+    // Reorder question numbers
+    $res = mysqli_query($link, "SELECT * FROM questions WHERE category ='$exam_category' ORDER BY question_no ASC") or die(mysqli_error($link));
+    $questionNumber = 1; // Initialize question number counter
+    while ($row = mysqli_fetch_array($res)) {
+        mysqli_query($link, "UPDATE questions SET question_no='$questionNumber' WHERE id =$row[id]");
+        $questionNumber++; // Increment the question number counter
+    }
 
-            $opt3 = $_POST['opt3'];
+    ?>
+    <script type="text/javascript">
+        alert("Question added successfully");
+        window.location.href = window.location.href;
+    </script>
+    <?php
+}
 
-            $opt4 = $_POST['opt4'];
-            $answer = $_POST['answer'];
+if (isset($_POST["submit2"])) {
+    $fquestion = $_POST['question'];
+    $opt1 = $_POST['opt1'];
+    $opt2 = $_POST['opt2'];
+    $opt3 = $_POST['opt3'];
+    $opt4 = $_POST['opt4'];
+    $answer = $_POST['answer'];
 
-            $loop = 0;
+    // Insert new question with images logic
+    $loop = $questionNumber; // Get the current question number
 
-            $count = 0;
-            $res = mysqli_query($link, "select * from questions where category ='$exam_category'") or die(mysqli_error($link));
+    $tm = md5(time());
 
-            $count = mysqli_num_rows($res);
+    $fnm1 = $_FILES["fopt1"]["name"];
+    $dst1 = "./opt_images/" . $tm . $fnm1;
+    $dst_db1 = "opt_images/" . $tm . $fnm1;
+    move_uploaded_file($_FILES["fopt1"]["tmp_name"], $dst1);
 
-            if ($count == 0) {
-            } else {
-                while ($row = mysqli_fetch_array($res)) {
-                    $loop = $loop + 1;
-                    mysqli_query($link, "update questions set question_no='$loop' where id =$row[id]");
-                }
-            }
-            $loop = $loop + 1;
+    $fnm2 = $_FILES["fopt2"]["name"];
+    $dst2 = "./opt_images/" . $tm . $fnm2;
+    $dst_db2 = "opt_images/" . $tm . $fnm2;
+    move_uploaded_file($_FILES["fopt2"]["tmp_name"], $dst2);
 
-            $tm = md5(time());
+    $fnm3 = $_FILES["fopt3"]["name"];
+    $dst3 = "./opt_images/" . $tm . $fnm3;
+    $dst_db3 = "opt_images/" . $tm . $fnm3;
+    move_uploaded_file($_FILES["fopt3"]["tmp_name"], $dst3);
 
-            $fnm1 = $_FILES["fopt1"]["name"];
-            $dst1 = "./opt_images/" . $tm . $fnm1;
-            $dst_db1 = "opt_images/" . $tm . $fnm1;
-            move_uploaded_file($_FILES["fopt1"]["tmp_name"], $dst1);
+    $fnm4 = $_FILES["fopt4"]["name"];
+    $dst4 = "./opt_images/" . $tm . $fnm4;
+    $dst_db4 = "opt_images/" . $tm . $fnm4;
+    move_uploaded_file($_FILES["fopt4"]["tmp_name"], $dst4);
 
+    $fnm5 = $_FILES["fanswer"]["name"];
+    $dst5 = "./opt_images/" . $tm . $fnm5;
+    $dst_db5 = "opt_images/" . $tm . $fnm5;
+    move_uploaded_file($_FILES["fanswer"]["tmp_name"], $dst5);
 
-            $fnm2 = $_FILES["fopt2"]["name"];
-            $dst2 = "./opt_images/" . $tm . $fnm2;
-            $dst_db2 = "opt_images/" . $tm . $fnm2;
-            move_uploaded_file($_FILES["fopt2"]["tmp_name"], $dst2);
+    mysqli_query($link, "INSERT INTO `questions`(`question_no`, `question`, `opt1`, `opt2`, `opt3`, `opt4`, `answer`, `category`) VALUES 
+        ('$loop','$fquestion', '$dst_db1','$dst_db2', '$dst_db3','$dst_db4', '$dst_db5', '$exam_category')") or die(mysqli_error($link));
 
-            $fnm3 = $_FILES["fopt3"]["name"];
-            $dst3 = "./opt_images/" . $tm . $fnm3;
-            $dst_db3 = "opt_images/" . $tm . $fnm3;
-            move_uploaded_file($_FILES["fopt3"]["tmp_name"], $dst3);
+    // Reorder question numbers
+    $res = mysqli_query($link, "SELECT * FROM questions WHERE category ='$exam_category' ORDER BY question_no ASC") or die(mysqli_error($link));
+    $questionNumber = 1; // Initialize question number counter
+    while ($row = mysqli_fetch_array($res)) {
+        mysqli_query($link, "UPDATE questions SET question_no='$questionNumber' WHERE id =$row[id]");
+        $questionNumber++; // Increment the question number counter
+    }
 
-            $fnm4 = $_FILES["fopt4"]["name"];
-            $dst4 = "./opt_images/" . $tm . $fnm4;
-            $dst_db4 = "opt_images/" . $tm . $fnm4;
-            move_uploaded_file($_FILES["fopt4"]["tmp_name"], $dst4);
+    ?>
+    <script type="text/javascript">
+        alert("Question added successfully");
+        window.location.href = window.location.href;
+    </script>
+    <?php
+}
+?>
 
-            $fnm5 = $_FILES["fanswer"]["name"];
-            $dst5 = "./opt_images/" . $tm . $fnm5;
-            $dst_db5 = "opt_images/" . $tm . $fnm5;
-            move_uploaded_file($_FILES["fanswer"]["tmp_name"], $dst5);
-
-            mysqli_query($link, "INSERT INTO `questions`(`question_no`, `question`, `opt1`, `opt2`, `opt3`, `opt4`, `answer`, `category`) VALUES 
-    ('$loop','$fquestion', '$dst_db1','$dst_db2', '$dst_db3','$dst_db4', '$dst_db5', '$exam_category')") or die(mysqli_error($link));
-
-        ?>
-
-            <script type="text/javascript">
-                alert("question added successfully");
-                window.location.href = window.location.href;
-            </script>
-        <?php
-        }
-
-        ?>
 
     </section>
 
@@ -444,6 +392,7 @@ if (!isset($_SESSION["admin"])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script src="customjs.js"></script>
+    
 </body>
 
 </html>
