@@ -825,11 +825,12 @@ if (!isset($_SESSION["student"])) {
 				?>
 
 				<!-- Display the highest assessment score and subject name in the HTML input field -->
+				<!--
 				<div class="col-12 mb-3">
 					<label for="assessment" class="form-label">Highest Assessment Score</label>
 					<input type="text" class="form-control" id="assessment" name="assessment" value="<?php echo ($highest_score != 'No scores found') ? ($subject_name . ': ' . $highest_score) : ''; ?>" placeholder="Your highest score...">
 				</div>
-
+-->
 				<div class="divider d-flex align-items-center my-4">
 					<p class="text-center fw-bold mx-3 mb-0">Predicted Strand</p>
 				</div>
