@@ -55,7 +55,7 @@ include "connection.php";
 							<?php echo $_SESSION["student"]; ?>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
+							<li><a class="dropdown-item" href="../logout.php">LOGOUT</a></li>
 						</ul>
 					</li>
 				</ul>
