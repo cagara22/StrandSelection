@@ -47,12 +47,15 @@ if (!isset($_SESSION["admin"])) {
 						<a class="nav-link" href="about.php">ABOUT</a>
 					</li>
 
-					<li class="nav-item">
-						<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
-					</li>
+					<!-- 
+<li class="nav-item">
+    <a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
+</li>
 
-					<li class="nav-item">
-						<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
+<li class="nav-item">
+    <a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
+</li>
+-->ass="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

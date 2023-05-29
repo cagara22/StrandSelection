@@ -78,7 +78,7 @@ include "connection.php";
 				// Assuming you have established a database connection using your preferred method
 
 				// Perform the SQL query to retrieve the value from the database
-				$id = $_SESSION['student'];
+				/*$id = $_SESSION['student'];
 				$sql = "SELECT GAS FROM exam_score WHERE lrn = '$id'";
 				$result = mysqli_query($link, $sql);
 
@@ -98,7 +98,7 @@ include "connection.php";
 				} else {
 					// An error occurred with the query
 					echo 'Error: ' . mysqli_error($link);
-				}
+				}*/
 
 				?>
 			</div>

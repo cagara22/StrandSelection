@@ -51,6 +51,7 @@ if (!isset($_SESSION["super_admin"])) {
 						<a class="nav-link" href="about.php">ABOUT</a>
 					</li>
 
+									<!-- 
 					<li class="nav-item">
 						<a class="nav-link" href="exam_category.php">EXAM CATEGORIES</a>
 					</li>
@@ -58,6 +59,7 @@ if (!isset($_SESSION["super_admin"])) {
 					<li class="nav-item">
 						<a class="nav-link" href="add_edit_exam_questions.php">EXAM QUESTIONS</a>
 					</li>
+					-->
 					<li class="nav-item">
 						<a class="nav-link"><?php
 

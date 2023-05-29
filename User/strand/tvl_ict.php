@@ -83,7 +83,7 @@ include "connection.php";
 				$result = mysqli_query($link, $sql);
 
 				// Check if the query was successful
-				if ($result) {
+				/*if ($result) {
 					// Fetch the row from the result
 					$row = mysqli_fetch_assoc($result);
 
@@ -98,7 +98,7 @@ include "connection.php";
 				} else {
 					// An error occurred with the query
 					echo 'Error: ' . mysqli_error($link);
-				}
+				}*/
 
 				?>
 
