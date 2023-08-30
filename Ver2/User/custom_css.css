@@ -1,0 +1,17 @@
+body, html{
+	height: 100%;
+	font-family: 'Chakra Petch';
+}
+
+header{
+	background: url("./images/LNHSbg2.png");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+header{
+	min-height: 100%;
+	min-width: 100%;
+}
