@@ -1,17 +1,108 @@
+/*General CSS Styles*/
 body, html{
 	height: 100%;
 	font-family: 'Chakra Petch';
 }
 
-header{
-	background: url("./images/LNHSbg2.png");
+nav.navbar{
+	background-color: maroon;
+}
+
+footer{
+	background-color: maroon;
+}
+
+a.nav-link{
+	color:#ADADAD;
+}
+
+a.nav-link.active{
+	color: #FFE761 !important;
+}
+
+h1.title{
+	font-size: 6rem !important;
+	color: white;
+	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
+}
+
+.btn-outline-warning{
+	backdrop-filter: blur(25px);
+	color: #FFE761;
+	border-color: #000000;
+	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-outline-warning:hover{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.btn-warning{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.sub-title{
+	color: maroon;
+}
+
+section.section-100{
+	min-height: 100%;
+	min-width: 100%;
+}
+
+section.section-50{
+	min-height: 50%;
+	min-width: 100%;
+}
+
+.bglightgrey{
+	background-color: #F5F5F5;
+}
+
+.cust-img-75{
+	max-width: 75%;
+}
+
+.cust-img-50{
+	max-width: 50%;
+	height: auto;
+}
+
+/*======================================*/
+
+/*Specific CSS Styles*/
+div.hero#homeHeader{
+	background:
+		linear-gradient(to right, rgb(255 255 255 / .6), rgb(255 255 255 / .2)), url("./images/HomeBG.jpg");
 	position:relative;
 	background-position: center;
 	background-size: cover;
 	min-height: 100%;
 }
 
-header{
-	min-height: 100%;
-	min-width: 100%;
+section#homeEnd{
+	background: url("./images/LNHSbg2.png");
+	position:relative;
+	background-position: center;
+	background-size: cover;
 }
+
+#homeEnd h1{
+	font-size: 2.8rem !important;
+	color: #C30000;
+	text-shadow: 3px 3px 3px #FFF;
+}
+
+header.index{
+	background: url("./images/LNHSbg2.png");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+/*======================================*/
+
+/*text-shadow: 0px 0px 8px white;*/
+/*backdrop-filter: blur(16px);*/
