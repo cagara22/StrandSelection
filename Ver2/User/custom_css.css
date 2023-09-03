@@ -20,9 +20,29 @@ a.nav-link.active{
 	color: #FFE761 !important;
 }
 
+div.bgblur{
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	width: 100% !important;
+	height: 100vh !important;
+	padding: 5rem;
+}
+
 h1.title{
 	font-size: 6rem !important;
 	color: white;
+	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
+}
+
+h1.title2{
+	font-size: 3rem !important;
+	color: white;
+	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
+}
+
+h1.title3{
+	font-size: 6rem !important;
+	color: maroon;
 	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
 }
 
@@ -70,16 +90,40 @@ section.section-50{
 	height: auto;
 }
 
+.p-6{
+	padding: 4rem;
+}
+
+.p-7{
+	padding: 5rem;
+}
+
 /*======================================*/
 
 /*Specific CSS Styles*/
 div.hero#homeHeader{
-	background:
-		linear-gradient(to right, rgb(255 255 255 / .6), rgb(255 255 255 / .2)), url("./images/HomeBG.jpg");
+	background: url("./images/HomeBG.jpg");
 	position:relative;
 	background-position: center;
 	background-size: cover;
 	min-height: 100%;
+}
+
+div.hero#aboutHeader{
+	background: url("./images/AboutBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div#testHeader{
+	background: url("./images/TestBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+	padding: 0px !important;
 }
 
 section#homeEnd{
