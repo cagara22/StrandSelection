@@ -5,11 +5,11 @@ body, html{
 }
 
 nav.navbar{
-	background-color: maroon;
+	background-color: #C30000;
 }
 
 footer{
-	background-color: maroon;
+	background-color: #C30000;
 }
 
 a.nav-link{
@@ -42,14 +42,15 @@ h1.title2{
 
 h1.title3{
 	font-size: 6rem !important;
-	color: maroon;
+	color: #C30000;
 	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
 }
 
 .btn-outline-warning{
 	backdrop-filter: blur(25px);
-	color: #FFE761;
-	border-color: #000000;
+	background-color: #ffe761a8;
+	color: #000000;
+	border-color: #ffe761a8;
 	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -64,7 +65,7 @@ h1.title3{
 }
 
 .sub-title{
-	color: maroon;
+	color: #C30000;
 }
 
 section.section-100{
@@ -111,6 +112,54 @@ div.hero#homeHeader{
 
 div.hero#aboutHeader{
 	background: url("./images/AboutBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#stemHeader{
+	background: url("./images/StemBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#humssHeader{
+	background: url("./images/HumssBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#abmHeader{
+	background: url("./images/AbmBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#gasHeader{
+	background: url("./images/GasBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#tvlictHeader{
+	background: url("./images/TvlictBG.jpg");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+div.hero#tvlheHeader{
+	background: url("./images/TvlheBG.jpg");
 	position:relative;
 	background-position: center;
 	background-size: cover;
