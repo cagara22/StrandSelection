@@ -25,11 +25,10 @@ div.bgblur{
 	backdrop-filter: blur(8px);
 	width: 100% !important;
 	height: 100vh !important;
-	padding: 5rem;
+	padding: 3rem;
 }
 
 h1.title{
-	font-size: 6rem !important;
 	color: white;
 	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
 }
@@ -41,7 +40,6 @@ h1.title2{
 }
 
 h1.title3{
-	font-size: 6rem !important;
 	color: #C30000;
 	text-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25); 
 }
@@ -62,6 +60,16 @@ h1.title3{
 .btn-warning{
 	background-color: #FFE761;
 	border-color: #FFE761;
+}
+
+.card-header{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.custcard{
+	background-color: #F5F5F5;
+	box-shadow: 10px 10px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .sub-title{
@@ -97,6 +105,22 @@ section.section-50{
 
 .p-7{
 	padding: 5rem;
+}
+
+.rounded{
+	object-fit: cover;
+	clip-path: circle();
+
+}
+
+.card-text-header{
+	color: white;
+	letter-spacing: 5px;
+}
+
+.form-button-text{
+	color: white;
+	letter-spacing: 5px;
 }
 
 /*======================================*/
@@ -195,7 +219,93 @@ header.index{
 	background-size: cover;
 	min-height: 100%;
 }
+
+.about-pic1{
+	width: 15rem;
+}
+
+.about-pic2{
+	width: 25rem;
+}
 /*======================================*/
 
+/*Media Queries*/
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+	h1.title{
+		font-size: 2rem !important;
+	}
+
+	h1.title2{
+		font-size: 1.5rem !important;
+	}
+
+	h1.title3{
+		font-size: 3rem !important; 
+	}
+
+	#homeEnd h1{
+		font-size: 2rem !important;
+	}
+
+	.about-pic1{
+		width: 10rem;
+	}
+
+	.about-pic2{
+		width: 20rem;
+	}
+
+	.reswid{
+		width: 100%
+	}
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+	h1.title{
+		font-size: 4rem !important;
+	}
+
+	h1.title3{
+		font-size: 4rem !important; 
+	}
+
+	.reswid{
+		width: 100%
+	}
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+	h1.title{
+		font-size: 5rem !important;
+	}
+
+	h1.title3{
+		font-size: 5rem !important; 
+	}
+
+	.reswid{
+		width: 80%
+	}
+ }
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+	h1.title{
+		font-size: 6rem !important;
+	}
+
+	h1.title3{
+		font-size: 6rem !important; 
+	}
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {
+
+ } 
+/*======================================*/
 /*text-shadow: 0px 0px 8px white;*/
 /*backdrop-filter: blur(16px);*/

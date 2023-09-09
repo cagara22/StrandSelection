@@ -2,7 +2,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Strand Selection Ver2</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -50,8 +50,135 @@
 		</div>
 	</nav>
 
-    <section class="section-100 d-flex flex-column justify-content-center align-items-center py-5">
+    <section class="section-100 d-flex flex-column justify-content-center px-3 py-5">
+		<h2 class="fw-bold sub-title mt-3">Hello [USERNAME]!</h2>
+		<div class="row w-100">
+			<div class="col-12 col-lg-9 d-flex justify-content-center">
+				<div class="row w-100">
+					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
+						<div class="card custcard border-light text-center" style="width: 100%;">
+							<div class="card-header">
+								<h4 class="fw-bold card-text-header">Account Details</h4>
+							</div>
+							<div class="card-body">
+								<form class="row" action="" method="post">
+									<div class="col-12 mb-1">
+										<div class="form-floating mb-3">
+											<input type="number" class="form-control" id="lrn" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" required>
+											<label for="lrn">Learner's Reference Number</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="fname" oninput="validateName(this)" placeholder="First Name" required>
+											<label for="fname">First Name</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="mname" oninput="validateName(this)" placeholder="Middle Name">
+											<label for="mname">Middle Name</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="lname" oninput="validateName(this)" placeholder="Last Name" required>
+											<label for="lname">Last Name</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="suffix" oninput="validateName(this)" placeholder="Suffix">
+											<label for="suffix">Suffix</label>
+										</div>
+									</div>
+									<div class="col-12 mb-3">
+										<div class="form-floating mb-1">
+											<input type="text" class="form-control" id="address" oninput="validateAddress(this)" placeholder="Address" required>
+											<label for="address">Address</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-6 mb-1">
+										<div class="form-floating mb-3">
+											<select class="form-select" id="sex" name="sex" value="">
+												<option value="M">Male</option>
+												<option value="F">Female</option>
+											</select>
+											<label for="sex">Sex</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-6 mb-1">
+										<div class="form-floating mb-3">
+											<input type="number" class="form-control" id="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+											<label for="age">Age</label>
+										</div>
+									</div>
+									<div class="col-12 mb-3">
+										<div class="form-floating mb-1">
+											<input type="email" class="form-control" id="email" placeholder="Email" required>
+											<label for="email">Email</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-6 mb-1">
+										<div class="form-floating">
+											<input type="password" class="form-control" id="pass1" placeholder="Password">
+											<label for="pass1">PASSWORD</label>
+										</div>
+										<div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
 
+										</div>
+									</div>
+									<div class="col-12 col-md-6 mb-1">
+										<div class="form-floating">
+											<input type="password" class="form-control" id="pass2" placeholder="Confirm Password">
+											<label for="pass2">CONFIRM PASSWORD</label>
+										</div>
+									</div>
+									<div class="d-grid gap-2 d-md-flex justify-content-end">
+										<button type="button" class="btn btn-primary form-button-text"><span class="fw-bold">SUBMIT</span></button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
+						<div class="card custcard border-light text-center" style="width: 100%;">
+							<div class="card-header">
+								<h4 class="fw-bold card-text-header">Student Profile</h4>
+							</div>
+							<div class="card-body">
+								<form class="row" action="" method="post">
+									
+									<div class="d-grid gap-2 d-md-flex justify-content-end">
+										<button type="button" class="btn btn-primary form-button-text"><span class="fw-bold">SUBMIT</span></button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3 d-flex justify-content-center">
+				<div class="card custcard border-light text-center" style="width: 320px; height: 300px;">
+					<div class="card-header">
+						<h4 class="fw-bold card-text-header">Results</h4>
+					</div>
+					<div class="card-body">
+						<h4>Profile: <span style="color: red">NOT DONE</span></h4>
+						<p class="text-muted">If Profile is already done, click Generate...</p>
+						<form action="" method="post">
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="result" placeholder="Result">
+								<label for="result">RESULT</label>
+							</div>
+							<div class="d-grid gap-2 d-md-flex justify-content-end">
+								<button type="button" class="btn btn-primary form-button-text"><span class="fw-bold">SUBMIT</span></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
 
     <footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5">
@@ -61,7 +188,43 @@
 		</div>
 		<!-- Copyright -->
 	</footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="./js/password-score.js"></script>
+	<script type="text/javascript" src="./js/password-score-options.js"></script>
+	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#pass1').strengthMeter('text', {
+				container: $('#passstrength'),
+				hierarchy: {
+					'0': ['text-danger', ' '],
+					'1': ['text-danger', 'Very Weak'],
+					'25': ['text-danger', 'Weak'],
+					'50': ['text-warning', 'Moderate'],
+					'75': ['text-warning', 'Good'],
+					'100': ['text-success', 'Strong'],
+					'125': ['text-success', 'Very Strong']
+				}
+			});
+		});
+
+		function validateAddress(input) {
+			var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
+
+			if (!regex.test(input.value)) {
+				input.value = input.value.replace(/[^a-zA-Z0-9\s.,]/g, ''); // Remove any special characters except periods and commas
+			}
+		}
+
+		function validateName(input) {
+			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+			if (!regex.test(input.value)) {
+				input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+			}
+		}
+	</script>
 </body>
 </html>
