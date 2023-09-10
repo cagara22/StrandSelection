@@ -1,0 +1,87 @@
+/*General CSS Styles*/
+body, html{
+	height: 100%;
+	font-family: 'Chakra Petch';
+}
+
+.section-100{
+	min-height: calc(100% - 50px);
+	width: 100%;
+}
+
+header.navbar{
+	background-color: #C30000;
+	height: 50px;
+}
+
+a.active{
+    background-color: #FFE761 !important;
+    color: black !important;
+    font-weight: bolder !important;
+}
+
+.btn-warning{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.sub-title{
+	color: #C30000;
+}
+
+.card-header{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.custcard{
+	background-color: #F5F5F5;
+	box-shadow: 10px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.rounded{
+	object-fit: cover;
+	clip-path: circle();
+
+}
+
+.card-text-header{
+	color: white;
+	letter-spacing: 5px;
+}
+
+.form-button-text{
+	color: white;
+	letter-spacing: 5px;
+}
+
+.text-bg-yellow{
+	color: black;
+	background-color: #FFE761;
+}
+
+.text-bg-blue{
+	color: black;
+	background-color: #6171FF;
+}
+
+.text-bg-red{
+	color: black;
+	background-color: #C30000;
+}
+/*======================================*/
+
+/*Specific CSS Styles*/
+header.index{
+	background: url("./images/LNHSbg2.png");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+#sidebarMenu{
+    background-color: #F5F5F5;
+	box-shadow: 10px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/*======================================*/
