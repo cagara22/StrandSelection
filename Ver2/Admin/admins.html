@@ -86,6 +86,53 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">ADMINS</h1>
                 </div>
+                <form class="row g-3" method="GET" action="">
+					<div class="col-10">
+						<input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
+					</div>
+				</form>
+                <table class="table table-striped table-hover">
+                    <thead>
+						<tr class="text-center">
+							<th scope="col">Username</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Middle Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Suffix</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Sex</th>
+							<th scope="col">Role</th>
+							<th scope="col" colspan="2">Action</th>
+						</tr>
+					</thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td class="text-center">Admin01</td>
+                            <td class="text-center">Vincent Felix</td>
+                            <td class="text-center">Sabalza</td>
+                            <td class="text-center">Cagara</td>
+                            <td class="text-center"> </td>
+                            <td class="text-center">21</td>
+                            <td class="text-center">Male</td>
+                            <td class="text-center">SUPER ADMIN</td>
+                            <td class="text-center">
+                                <a href="" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
+                                    <img src="./images/view.png" alt="" width="20" height="20" class="">
+                                </a>
+                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
+                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
+                                </a>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a class="btn btn-add fw-bold" href="" role="button">ADD NEW ADMIN</a>
+                </div>
             </section>
         </div>
     </main>

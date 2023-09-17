@@ -32,7 +32,7 @@
 						<a class="nav-link active" aria-current="page" href="profile.html">PROFILE</a>
 					</li>
                     <li class="nav-item">
-						<a class="nav-link" href="test.html">TEST</a>
+						<a class="nav-link" href="result.html">RESULT</a>
 					</li>
                     <li class="nav-item">
 						<a class="nav-link" href="about.html">ABOUT</a>
@@ -148,6 +148,743 @@
 							</div>
 							<div class="card-body">
 								<form class="row" action="" method="post">
+									<div class="divider d-flex align-items-center my-4">
+										<p class="text-center fw-bold mx-3 mb-0">Skills, Interest, and Socio-economic Background</p>
+									</div>
+									<div class="col-12">
+										<p id="" class="d-block form-label">Based on yuor self-assesment, select the skills that are applicable to you...</p>
+										<div class="row">
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">Universal Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="CommunicationSkills" name="CommunicationSkills" value="1">
+														<label class="form-check-label" for="CommunicationSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to convey thoughts, ideas, or information effectively to others through various means, such as speaking, writing, or listening.">Communication Skills</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="CriticalThinking" name="CriticalThinking" value="1">
+														<label class="form-check-label" for="CriticalThinking" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to analyze, evaluate, and reason about information and situations in a logical and thoughtful manner to make informed decisions.">Critical Thinking</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ReadingComprehension" name="ReadingComprehension" value="1">
+														<label class="form-check-label" for="ReadingComprehension" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of understanding and interpreting written text, including identifying key ideas and details.">Reading Comprehension</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ProblemSolving" name="ProblemSolving" value="1">
+														<label class="form-check-label" for="ProblemSolving" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capability to identify challenges, analyze them, and develop effective solutions or strategies to overcome them.">Problem Solving</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ResearchSkills" name="ResearchSkills" value="1">
+														<label class="form-check-label" for="ResearchSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The aptitude to gather, assess, and synthesize information from various sources to acquire knowledge and address questions or issues.">Research Skills</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="DigitalLiteracy" name="DigitalLiteracy" value="1">
+														<label class="form-check-label" for="DigitalLiteracy" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in using digital devices and technology to access, understand, and communicate information effectively in the digital age.">Digital Literacy</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Innovative" name="Innovative" value="1">
+														<label class="form-check-label" for="Innovative" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">Innovative</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="TimeManagement" name="TimeManagement" value="1">
+														<label class="form-check-label" for="TimeManagement" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of efficiently organizing and prioritizing tasks and activities to make the most of available time.">Time Management</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Adaptability" name="Adaptability" value="1">
+														<label class="form-check-label" for="Adaptability" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to adjust and thrive in changing circumstances, embracing new situations and challenges with flexibility.">Adaptability</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">STEM Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ScientificInquiry" name="ScientificInquiry" value="1">
+														<label class="form-check-label" for="ScientificInquiry" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of asking questions, conducting investigations, and drawing conclusions based on evidence to understand the natural world.">Scientific Inquiry</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="MathematicalSkills" name="MathematicalSkills" value="1">
+														<label class="form-check-label" for="MathematicalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to use mathematical concepts, operations, and methods to solve problems and make sense of numerical information.">Mathematical Skills</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="LogicalReasoning" name="LogicalReasoning" value="1">
+														<label class="form-check-label" for="LogicalReasoning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to think rationally and systematically, making well-structured, coherent arguments and decisions.">Logical Reasoning</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="LabExperimentalSkills" name="LabExperimentalSkills" value="1">
+														<label class="form-check-label" for="LabExperimentalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in conducting experiments, including using equipment, collecting data, and following scientific procedures accurately.">Lab and Experimental Skills</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="AnalyticalSkills" name="AnalyticalSkills" value="1">
+														<label class="form-check-label" for="AnalyticalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and interpreting complex data or information to identify patterns, trends, or insights.">Analytical Skills</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">HUMSS Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ResearchWriting" name="ResearchWriting" value="1">
+														<label class="form-check-label" for="ResearchWriting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to gather information systematically and communicate ideas effectively through written means.">Research and Writing</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="SociologicalAnalysis" name="SociologicalAnalysis" value="1">
+														<label class="form-check-label" for="SociologicalAnalysis" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and understanding social phenomena, behavior, and institutions, often through a critical and systematic approach.">Sociological Analysis</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="CulturalCompetence" name="CulturalCompetence" value="1">
+														<label class="form-check-label" for="CulturalCompetence" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to interact and work effectively with people from diverse cultural backgrounds while respecting and valuing their beliefs and practices.">Cultural Competence</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="EthicalReasoning" name="EthicalReasoning" value="1">
+														<label class="form-check-label" for="EthicalReasoning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of evaluating moral dilemmas and making decisions that align with ethical principles and values.">Ethical Reasoning</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="HistoryPoliticalScience" name="HistoryPoliticalScience" value="1">
+														<label class="form-check-label" for="HistoryPoliticalScience" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in studying and interpreting historical events and political systems to gain insights into the past and present.">History and Political Science</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">ABM Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="FinancialLiteracy" name="FinancialLiteracy" value="1">
+														<label class="form-check-label" for="FinancialLiteracy" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The understanding of financial concepts and practices, enabling informed financial decision-making.">Financial Literacy</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="BusinessPlanning" name="BusinessPlanning" value="1">
+														<label class="form-check-label" for="BusinessPlanning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of developing a detailed strategy for achieving business goals, including financial, operational, and marketing plans.">Business Planning</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Marketing" name="Marketing" value="1">
+														<label class="form-check-label" for="Marketing" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of promoting and selling products or services by understanding customer needs and creating strategies to meet them.">Marketing</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Accounting" name="Accounting" value="1">
+														<label class="form-check-label" for="Accounting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The systematic recording, reporting, and analysis of financial transactions to track a business's financial health.">Accounting</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Entrepreneurship" name="Entrepreneurship" value="1">
+														<label class="form-check-label" for="Entrepreneurship" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify business opportunities, take calculated risks, and create and manage successful ventures.">Entrepreneurship</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Economics" name="Economics" value="1">
+														<label class="form-check-label" for="Economics" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of how societies allocate resources and make decisions about production, distribution, and consumption.">Economics</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">TVL-ICT Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ComputerHardwareSoftware" name="ComputerHardwareSoftware" value="1">
+														<label class="form-check-label" for="ComputerHardwareSoftware" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge of computer components and software programs, including installation and maintenance.">Computer Hardware and Software</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ComputerNetworking" name="ComputerNetworking" value="1">
+														<label class="form-check-label" for="ComputerNetworking" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to set up, configure, and manage computer networks for data communication.">Computer Networking</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="WebDevelopment" name="WebDevelopment" value="1">
+														<label class="form-check-label" for="WebDevelopment" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of creating websites and web applications, involving coding, design, and functionality.">Web Development</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Programming" name="Programming" value="1">
+														<label class="form-check-label" for="Programming" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Writing, testing, and maintaining the source code of computer programs to achieve specific tasks or functions.">Programming</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="Troubleshooting" name="Troubleshooting" value="1">
+														<label class="form-check-label" for="Troubleshooting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify and resolve technical issues or problems in hardware, software, or systems.">Troubleshooting</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="GraphicsDesign" name="GraphicsDesign" value="1">
+														<label class="form-check-label" for="GraphicsDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating visual content and layouts for digital or print media, including images, illustrations, and multimedia elements.">Graphics Design</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<p id="" class="fst-italic d-block form-label">TVL-HE Skills</p>
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="CulinarySkills" name="CulinarySkills" value="1">
+														<label class="form-check-label" for="CulinarySkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in food preparation, cooking techniques, and culinary arts.">Culinary Skills</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="SewingFashionDesign" name="SewingFashionDesign" value="1">
+														<label class="form-check-label" for="SewingFashionDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to create and tailor clothing, including sewing, pattern-making, and fashion design.">Sewing and Fashion Design</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="InteriorDesign" name="InteriorDesign" value="1">
+														<label class="form-check-label" for="InteriorDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Planning and decorating interior spaces to create functional and aesthetically pleasing environments.">Interior Design</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="ChildcareFamilyServices" name="ChildcareFamilyServices" value="1">
+														<label class="form-check-label" for="ChildcareFamilyServices" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Providing care, support, and services for children and families, often including early childhood education and child development.">Childcare and Family Services</label>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="NutritionFoodSafety" name="NutritionFoodSafety" value="1">
+														<label class="form-check-label" for="NutritionFoodSafety" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge and practices related to proper nutrition, dietary planning, and ensuring the safety of food consumption.">Nutrition and Food Safety</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<br>
+										<br>
+										<p id="" class="d-block form-label">Rate your level of interest in learning the following subject from 1 to 5 where:</p>
+										<p id="" class="d-block form-label">1 - Not at all interested, 2 - Slightly interested, 3 - Moderately interested, 4 - Very interested, 5 - Extremely interested</p>
+										<div class="row text-start">
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Calculus" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of continuous change and mathematical analysis.">Calculus</label>
+													<input type="range" class="form-range" min="1" max="5" id="Calculus" name="Calculus" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Biology" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The exploration of living organisms and their processes.">Biology</label>
+													<input type="range" class="form-range" min="1" max="5" id="Biology" name="Biology" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Physics" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The investigation of matter, energy, and the fundamental forces of the universe.">Physics</label>
+													<input type="range" class="form-range" min="1" max="5" id="Physics" name="Physics" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Chemistry" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of substances, their properties, and chemical reactions.">Chemistry</label>
+													<input type="range" class="form-range" min="1" max="5" id="Chemistry" name="Chemistry" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="CreativeWriting" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of expressing thoughts and ideas through imaginative written works.">Creative Writing</label>
+													<input type="range" class="form-range" min="1" max="5" id="CreativeWriting" name="CreativeWriting" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="CreativeNonfiction" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Crafting factual narratives in engaging and artistic ways.">Creative Nonfiction</label>
+													<input type="range" class="form-range" min="1" max="5" id="CreativeNonfiction" name="CreativeNonfiction" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="IntroWorldReligionsBeliefSystems" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring diverse religious beliefs and their impact on societies.">Introduction to World Religions and Belief Systems</label>
+													<input type="range" class="form-range" min="1" max="5" id="IntroWorldReligionsBeliefSystems" name="IntroWorldReligionsBeliefSystems" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="PhilippinePoliticsGovernance" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Examining political systems and governance in the Philippines.">Philippine Politics and Governance</label>
+													<input type="range" class="form-range" min="1" max="5" id="PhilippinePoliticsGovernance" name="PhilippinePoliticsGovernance" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="DisciplinesIdeasSocial Sciences" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="An overview of various social science fields.">Disciplines and Ideas in the Social Sciences</label>
+													<input type="range" class="form-range" min="1" max="5" id="DisciplinesIdeasSocial" name="DisciplinesIdeasSocial" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="AppliedEconomics" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Applying economic principles to real-world situations.">Applied Economics</label>
+													<input type="range" class="form-range" min="1" max="5" id="AppliedEconomics" name="AppliedEconomics" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="BusinessEthicsSocialResponsibility" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring ethical issues in business and corporate social responsibility.">Business Ethics and Social Responsibility</label>
+													<input type="range" class="form-range" min="1" max="5" id="BusinessEthicsSocialResponsibility" name="BusinessEthicsSocialResponsibility" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="FundamentalsABM" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Introduction to Accounting, Business, and Management principles.">Fundamentals of ABM</label>
+													<input type="range" class="form-range" min="1" max="5" id="FundamentalsABM" name="FundamentalsABM" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="BusinessMath" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Mathematical concepts used in business and finance.">Business Math</label>
+													<input type="range" class="form-range" min="1" max="5" id="BusinessMath" name="BusinessMath" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="BusinessFinance" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding financial management and investment.">Business Finance</label>
+													<input type="range" class="form-range" min="1" max="5" id="BusinessFinance" name="BusinessFinance" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="OrganizationManagement" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Principles of organizational structure and management.">Organization and Management</label>
+													<input type="range" class="form-range" min="1" max="5" id="OrganizationManagement" name="OrganizationManagement" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="PrinciplesMarketing" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Basics of marketing strategies and consumer behavior.">Principles in Marketing</label>
+													<input type="range" class="form-range" min="1" max="5" id="PrinciplesMarketing" name="PrinciplesMarketing" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="ComputerProgramming" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Learning to write and develop computer programs.">Computer Programming</label>
+													<input type="range" class="form-range" min="1" max="5" id="ComputerProgramming" name="ComputerProgramming" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="ComputerSystemServicing" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Maintaining and repairing computer systems.">Computer System Servicing</label>
+													<input type="range" class="form-range" min="1" max="5" id="ComputerSystemServicing" name="ComputerSystemServicing" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="ContactCenterServices" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Skills for customer service and communication.">Contact Center Services</label>
+													<input type="range" class="form-range" min="1" max="5" id="ContactCenterServices" name="ContactCenterServices" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="CISCOComputerNetworking" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding network systems and Cisco technology.">CISCOComputerNetworking</label>
+													<input type="range" class="form-range" min="1" max="5" id="CISCOComputerNetworking" name="CISCOComputerNetworking" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="AnimationIllustration" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating animations and illustrations using digital tools.">Animation / Illustration</label>
+													<input type="range" class="form-range" min="1" max="5" id="AnimationIllustration" name="AnimationIllustration" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Cookery" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Culinary skills and cooking techniques.">Cookery</label>
+													<input type="range" class="form-range" min="1" max="5" id="Cookery" name="Cookery" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="BreadPastryProduction" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Baking bread and pastries.">Bread and Pastry Production</label>
+													<input type="range" class="form-range" min="1" max="5" id="BreadPastryProduction" name="BreadPastryProduction" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="FashionDesign" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Designing clothing and fashion items.">Fashion Design</label>
+													<input type="range" class="form-range" min="1" max="5" id="FashionDesign" name="FashionDesign" value="1">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="FoodBeverages" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Managing food and beverage services.">Food and Beverages</label>
+													<input type="range" class="form-range" min="1" max="5" id="FoodBeverages" name="FoodBeverages" value="4">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div>
+													<label for="Tailoring " class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Sewing and creating tailored clothing.">Tailoring </label>
+													<input type="range" class="form-range" min="1" max="5" id="Tailoring " name="Tailoring " value="5">
+													<div class=" text-center">
+														<span class="rangeValue">1</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<br>
+										<br>
+										<p id="" class="d-block form-label">Select the total monthly income of your household.</p>
+										<div class="form-floating mb-3">
+											<select class="form-select" id="TotalHouseholdMonthlyIncome" name="TotalHouseholdMonthlyIncome" value="">
+												<option selected value="less than P9,100">less than P9,100</option>
+												<option value="P9,100-P18,200">P9,100-P18,200</option>
+												<option value="P18,200-P36,400">P18,200-P36,400</option>
+												<option value="P36,400-P63,700">P36,400-P63,700</option>
+												<option value="P63,700-P109,200">P63,700-P109,200</option>
+												<option value="P109,200-P182,000">P109,200-P182,000</option>
+												<option value="greater than P182,000">greater than P182,000</option>
+											</select>
+											<label for="TotalHouseholdMonthlyIncome">Total Household Monthly Income</label>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="divider d-flex align-items-center my-4">
+											<p class="text-center fw-bold mx-3 mb-0">Academic Performance</p>
+										</div>
+										<div class="row">
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadScience" name="acadScience">
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadScience" class="form-label">Science</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadMath" name="acadMath">
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadMath" class="form-label">Math</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadEnglish" name="acadEnglish">
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadEnglish" class="form-label">English</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadFilipino" name="acadFilipino">
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadFilipino" class="form-label">Filipino</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadICTRelatedSub" name="acadICTRelatedSub">
+														<option value="N/A">N/A</option>
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadICTRelatedSub" class="form-label">ICT Related Subject</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="acadHERelatedSub" name="acadHERelatedSub">
+														<option value="N/A">N/A</option>
+														<option value="100 - 95">100 - 95</option>
+														<option value="94 - 90">94 - 90</option>
+														<option value="89 - 80">89 - 80</option>
+														<option value="79 - 75">79 - 75</option>
+														<option value="74 - 70">74 - 70</option>
+														<option value="69 - 0">69 - 0</option>
+													</select>
+													<label for="acadHERelatedSub" class="form-label">HE Related Subject</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="divider d-flex align-items-center my-4">
+											<p class="text-center fw-bold mx-3 mb-0">Career Path</p>
+										</div>
+										<div class="row">
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="CareerPath1" name="CareerPath1">
+														<option value="Undecided">Undecided</option>
+														<option value="Chemical Engineer">Chemical Engineer</option>
+														<option value="Industrial Engineer">Industrial Engineer</option>
+														<option value="Biologist">Biologist</option>
+														<option value="Mathematician">Mathematician</option>
+														<option value="Statistician">Statistician</option>
+														<option value="Physicist">Physicist</option>
+														<option value="Architect">Architect</option>
+														<option value="Doctor">Doctor</option>
+														<option value="Registered Nurse">Registered Nurse</option>
+														<option value="Physical Therapist">Physical Therapist</option>
+														<option value="Pharmacist">Pharmacist</option>
+														<option value="Civil Engineer">Civil Engineer</option>
+														<option value="Mechanical Engineer">Mechanical Engineer</option>
+														<option value="Food Technologist">Food Technologist</option>
+														<option value="Environmental Scientist">Environmental Scientist</option>
+														<option value="Social Scientist">Social Scientist</option>
+														<option value="Psychologist">Psychologist</option>
+														<option value="Philosopher">Philosopher</option>
+														<option value="Social Worker">Social Worker</option>
+														<option value="Political Scientist">Political Scientist</option>
+														<option value="Foreign Service Officer">Foreign Service Officer</option>
+														<option value="Police">Police</option>
+														<option value="Police">Fireman</option>
+														<option value="Soldier">Soldier</option>
+														<option value="Communication Specialist">Communication Specialist</option>
+														<option value="Educator">Educator</option>
+														<option value="Journalist">Journalist</option>
+														<option value="Broadcast Journalist">Broadcast Journalist</option>
+														<option value="Entrepreneur">Entrepreneur</option>
+														<option value="Tourism Manager">Tourism Manager</option>
+														<option value="Business Administrator">Business Administrator</option>
+														<option value="Accountant">Accountant</option>
+														<option value="Business Economist">Business Economist</option>
+														<option value="Banking and Finance Specialist">Banking and Finance Specialist</option>
+														<option value="Management Consultant">Management Consultant</option>
+														<option value="IT Specialist">IT Specialist</option>
+														<option value="Software Developer">Software Developer</option>
+														<option value="Computer Engineer">Computer Engineer</option>
+														<option value="Software Engineer">Software Engineer</option>
+														<option value="Network Administrator">Network Administrator</option>
+														<option value="Digital Media Designer">Digital Media Designer</option>
+														<option value="Web Developer">Web Developer</option>
+														<option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+														<option value="Data Scientist">Data Scientist</option>
+														<option value="Information Systems Manager">Information Systems Manager</option>
+														<option value="Chef">Chef</option>
+														<option value="Pastry Chef">Pastry Chef</option>
+														<option value="Fashion Designer">Fashion Designer</option>
+														<option value="Textile Designer">Textile Designer</option>
+														<option value="Family and Consumer Sciences Educator">Family and Consumer Sciences Educator</option>
+														<option value="Interior Designer">Interior Designer</option>
+														<option value="Home Economics Educator">Home Economics Educator</option>
+														<option value="Event Planner">Event Planner</option>
+														<option value="Nutritionist">Nutritionist</option>
+														<option value="Dietitian">Dietitian</option>
+														<option value="Hotel Manager">Hotel Manager</option>
+														<option value="Restaurant Manager">Restaurant Manager</option>
+														<option value="Child Life Specialist">Child Life Specialist</option>
+														<option value="Family Counselor">Family Counselor</option>
+														<option value="Food Service Manager">Food Service Manager</option>
+													</select>
+													<label for="CareerPath1" class="form-label">Career - 1st Choice</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="CareerPath2" name="CareerPath2">
+														<option value="N/A">N/A</option>
+														<option value="Chemical Engineer">Chemical Engineer</option>
+														<option value="Industrial Engineer">Industrial Engineer</option>
+														<option value="Biologist">Biologist</option>
+														<option value="Mathematician">Mathematician</option>
+														<option value="Statistician">Statistician</option>
+														<option value="Physicist">Physicist</option>
+														<option value="Architect">Architect</option>
+														<option value="Doctor">Doctor</option>
+														<option value="Registered Nurse">Registered Nurse</option>
+														<option value="Physical Therapist">Physical Therapist</option>
+														<option value="Pharmacist">Pharmacist</option>
+														<option value="Civil Engineer">Civil Engineer</option>
+														<option value="Mechanical Engineer">Mechanical Engineer</option>
+														<option value="Food Technologist">Food Technologist</option>
+														<option value="Environmental Scientist">Environmental Scientist</option>
+														<option value="Social Scientist">Social Scientist</option>
+														<option value="Psychologist">Psychologist</option>
+														<option value="Philosopher">Philosopher</option>
+														<option value="Social Worker">Social Worker</option>
+														<option value="Political Scientist">Political Scientist</option>
+														<option value="Foreign Service Officer">Foreign Service Officer</option>
+														<option value="Police">Police</option>
+														<option value="Police">Fireman</option>
+														<option value="Soldier">Soldier</option>
+														<option value="Communication Specialist">Communication Specialist</option>
+														<option value="Educator">Educator</option>
+														<option value="Journalist">Journalist</option>
+														<option value="Broadcast Journalist">Broadcast Journalist</option>
+														<option value="Entrepreneur">Entrepreneur</option>
+														<option value="Tourism Manager">Tourism Manager</option>
+														<option value="Business Administrator">Business Administrator</option>
+														<option value="Accountant">Accountant</option>
+														<option value="Business Economist">Business Economist</option>
+														<option value="Banking and Finance Specialist">Banking and Finance Specialist</option>
+														<option value="Management Consultant">Management Consultant</option>
+														<option value="IT Specialist">IT Specialist</option>
+														<option value="Software Developer">Software Developer</option>
+														<option value="Computer Engineer">Computer Engineer</option>
+														<option value="Software Engineer">Software Engineer</option>
+														<option value="Network Administrator">Network Administrator</option>
+														<option value="Digital Media Designer">Digital Media Designer</option>
+														<option value="Web Developer">Web Developer</option>
+														<option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+														<option value="Data Scientist">Data Scientist</option>
+														<option value="Information Systems Manager">Information Systems Manager</option>
+														<option value="Chef">Chef</option>
+														<option value="Pastry Chef">Pastry Chef</option>
+														<option value="Fashion Designer">Fashion Designer</option>
+														<option value="Textile Designer">Textile Designer</option>
+														<option value="Family and Consumer Sciences Educator">Family and Consumer Sciences Educator</option>
+														<option value="Interior Designer">Interior Designer</option>
+														<option value="Home Economics Educator">Home Economics Educator</option>
+														<option value="Event Planner">Event Planner</option>
+														<option value="Nutritionist">Nutritionist</option>
+														<option value="Dietitian">Dietitian</option>
+														<option value="Hotel Manager">Hotel Manager</option>
+														<option value="Restaurant Manager">Restaurant Manager</option>
+														<option value="Child Life Specialist">Child Life Specialist</option>
+														<option value="Family Counselor">Family Counselor</option>
+														<option value="Food Service Manager">Food Service Manager</option>
+													</select>
+													<label for="CareerPath2" class="form-label">Career - 2nd Choice</label>
+												</div>
+											</div>
+											<div class="col-12 col-md-6 col-lg-4">
+												<div class="form-floating mb-3">
+													<select class="form-select" id="CareerPath3" name="CareerPath3">
+														<option value="N/A">N/A</option>
+														<option value="Chemical Engineer">Chemical Engineer</option>
+														<option value="Industrial Engineer">Industrial Engineer</option>
+														<option value="Biologist">Biologist</option>
+														<option value="Mathematician">Mathematician</option>
+														<option value="Statistician">Statistician</option>
+														<option value="Physicist">Physicist</option>
+														<option value="Architect">Architect</option>
+														<option value="Doctor">Doctor</option>
+														<option value="Registered Nurse">Registered Nurse</option>
+														<option value="Physical Therapist">Physical Therapist</option>
+														<option value="Pharmacist">Pharmacist</option>
+														<option value="Civil Engineer">Civil Engineer</option>
+														<option value="Mechanical Engineer">Mechanical Engineer</option>
+														<option value="Food Technologist">Food Technologist</option>
+														<option value="Environmental Scientist">Environmental Scientist</option>
+														<option value="Social Scientist">Social Scientist</option>
+														<option value="Psychologist">Psychologist</option>
+														<option value="Philosopher">Philosopher</option>
+														<option value="Social Worker">Social Worker</option>
+														<option value="Political Scientist">Political Scientist</option>
+														<option value="Foreign Service Officer">Foreign Service Officer</option>
+														<option value="Police">Police</option>
+														<option value="Police">Fireman</option>
+														<option value="Soldier">Soldier</option>
+														<option value="Communication Specialist">Communication Specialist</option>
+														<option value="Educator">Educator</option>
+														<option value="Journalist">Journalist</option>
+														<option value="Broadcast Journalist">Broadcast Journalist</option>
+														<option value="Entrepreneur">Entrepreneur</option>
+														<option value="Tourism Manager">Tourism Manager</option>
+														<option value="Business Administrator">Business Administrator</option>
+														<option value="Accountant">Accountant</option>
+														<option value="Business Economist">Business Economist</option>
+														<option value="Banking and Finance Specialist">Banking and Finance Specialist</option>
+														<option value="Management Consultant">Management Consultant</option>
+														<option value="IT Specialist">IT Specialist</option>
+														<option value="Software Developer">Software Developer</option>
+														<option value="Computer Engineer">Computer Engineer</option>
+														<option value="Software Engineer">Software Engineer</option>
+														<option value="Network Administrator">Network Administrator</option>
+														<option value="Digital Media Designer">Digital Media Designer</option>
+														<option value="Web Developer">Web Developer</option>
+														<option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+														<option value="Data Scientist">Data Scientist</option>
+														<option value="Information Systems Manager">Information Systems Manager</option>
+														<option value="Chef">Chef</option>
+														<option value="Pastry Chef">Pastry Chef</option>
+														<option value="Fashion Designer">Fashion Designer</option>
+														<option value="Textile Designer">Textile Designer</option>
+														<option value="Family and Consumer Sciences Educator">Family and Consumer Sciences Educator</option>
+														<option value="Interior Designer">Interior Designer</option>
+														<option value="Home Economics Educator">Home Economics Educator</option>
+														<option value="Event Planner">Event Planner</option>
+														<option value="Nutritionist">Nutritionist</option>
+														<option value="Dietitian">Dietitian</option>
+														<option value="Hotel Manager">Hotel Manager</option>
+														<option value="Restaurant Manager">Restaurant Manager</option>
+														<option value="Child Life Specialist">Child Life Specialist</option>
+														<option value="Family Counselor">Family Counselor</option>
+														<option value="Food Service Manager">Food Service Manager</option>
+													</select>
+													<label for="CareerPath3" class="form-label">Career - 3rd Choice</label>
+												</div>
+											</div>
+										</div>
+									</div>
 									
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
 										<button type="button" class="btn btn-primary form-button-text"><span class="fw-bold">SUBMIT</span></button>
@@ -225,6 +962,48 @@
 				input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
 			}
 		}
+
+		const rangeInputs = document.querySelectorAll('.form-range');
+        const rangeValueSpans = document.querySelectorAll('.rangeValue');
+
+        rangeInputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                rangeValueSpans[index].textContent = input.value;
+            });
+
+			rangeValueSpans[index].textContent = input.value;
+        });
+
+		window.addEventListener('DOMContentLoaded', function() {
+        const careerPath1 = document.getElementById('CareerPath1');
+        const careerPath2 = document.getElementById('CareerPath2');
+        const careerPath3 = document.getElementById('CareerPath3');
+
+        if (careerPath1.value === 'Undecided') {
+            careerPath2.value = 'N/A';
+            careerPath3.value = 'N/A';
+            careerPath2.disabled = true;
+            careerPath3.disabled = true;
+        } else {
+            careerPath2.disabled = false;
+            careerPath3.disabled = false;
+        }
+
+        careerPath1.addEventListener('change', function() {
+            if (careerPath1.value === 'Undecided') {
+                careerPath2.value = 'N/A';
+                careerPath3.value = 'N/A';
+                careerPath2.disabled = true;
+                careerPath3.disabled = true;
+            } else {
+                careerPath2.disabled = false;
+                careerPath3.disabled = false;
+            }
+        });
+    });
+
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>
 </body>
 </html>

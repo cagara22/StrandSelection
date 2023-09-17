@@ -69,6 +69,56 @@ a.active{
 	color: black;
 	background-color: #C30000;
 }
+
+.btn-add{
+	color: black;
+	background-color: #6171FF;
+	border-color: #6171FF;
+}
+
+.btn-add:hover{
+	background-color: #8591FF;
+}
+
+.btn-view{
+	color: black;
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.btn-view:hover{
+	background-color: #FFED85;
+}
+
+.btn-delete{
+	color: black;
+	background-color: #C30000;
+	border-color: #C30000;
+}
+
+.btn-delete:hover{
+	background-color: #E00000;
+}
+
+.btn-update{
+	color: black;
+	background-color: #9CF6F6;
+	border-color: #9CF6F6;
+}
+
+.btn-update:hover{
+	background-color: #B4F8F8;
+}
+
+.btn-search{
+	color: black;
+	background-color: #0B7A75;
+	border-color: #0B7A75;
+}
+
+.btn-search:hover{
+	background-color: #0E958F;
+}
 /*======================================*/
 
 /*Specific CSS Styles*/
