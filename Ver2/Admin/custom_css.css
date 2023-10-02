@@ -1,0 +1,167 @@
+/*General CSS Styles*/
+body, html{
+	height: 100%;
+	font-family: 'Chakra Petch';
+}
+
+.section-100{
+	min-height: calc(100% - 50px);
+	width: 100%;
+}
+
+header.navbar{
+	background-color: #C30000;
+	height: 50px;
+}
+
+a.active{
+    background-color: #FFE761 !important;
+    color: black !important;
+    font-weight: bolder !important;
+}
+
+.btn-warning{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.sub-title{
+	color: #C30000;
+}
+
+.card-header{
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.custcard{
+	background-color: #F5F5F5;
+	box-shadow: 10px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.rounded{
+	object-fit: cover;
+	clip-path: circle();
+
+}
+
+.card-text-header{
+	color: white;
+	letter-spacing: 5px;
+}
+
+.form-button-text{
+	color: white;
+	letter-spacing: 5px;
+}
+
+.text-bg-yellow{
+	color: black;
+	background-color: #FFE761;
+}
+
+.text-bg-blue{
+	color: black;
+	background-color: #6171FF;
+}
+
+.text-bg-red{
+	color: black;
+	background-color: #C30000;
+}
+
+.btn-add{
+	color: black;
+	background-color: #6171FF;
+	border-color: #6171FF;
+}
+
+.btn-add:hover{
+	background-color: #8591FF;
+}
+
+.btn-view{
+	color: black;
+	background-color: #FFE761;
+	border-color: #FFE761;
+}
+
+.btn-view:hover{
+	background-color: #FFED85;
+}
+
+.btn-delete{
+	color: black;
+	background-color: #C30000;
+	border-color: #C30000;
+}
+
+.btn-delete:hover{
+	background-color: #E00000;
+}
+
+.btn-update{
+	color: black;
+	background-color: #9CF6F6;
+	border-color: #9CF6F6;
+}
+
+.btn-update:hover{
+	background-color: #B4F8F8;
+}
+
+.btn-search{
+	color: black;
+	background-color: #0B7A75;
+	border-color: #0B7A75;
+}
+
+.btn-search:hover{
+	background-color: #0E958F;
+}
+
+.text-STEM-bg{
+	color: black;
+	background-color: rgba(112,214,255,1.0);
+}
+
+.text-HUMSS-bg{
+	color: black;
+	background-color: rgba(255,112,166,1.0);
+}
+
+.text-ABM-bg{
+	color: black;
+	background-color: rgba(255,151,112,1.0);
+}
+
+.text-GAS-bg{
+	color: black;
+	background-color: rgba(255,214,112,1.0);
+}
+
+.text-TVLICT-bg{
+	color: black;
+	background-color: rgba(233,255,112,1.0);
+}
+
+.text-TVLHE-bg{
+	color: black;
+	background-color: rgba(104,122,0,1.0);
+}
+/*======================================*/
+
+/*Specific CSS Styles*/
+header.index{
+	background: url("./images/LNHSbg2.png");
+	position:relative;
+	background-position: center;
+	background-size: cover;
+	min-height: 100%;
+}
+
+#sidebarMenu{
+    background-color: #F5F5F5;
+	box-shadow: 10px 10px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/*======================================*/

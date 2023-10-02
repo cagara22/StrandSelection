@@ -187,7 +187,7 @@ if (!isset($_SESSION["student"])) {
 							i.Agriculture ='$agriculture',
 							i.HomeEconomics = '$homeEconomics',
 							i.IndustrialArts = '$industrialArts',
-							sb.TotalMonthlyIncome = '$TotalMonthlyIncome'";
+							sb.TotalMonthlyIncome = '$TotalMonthlyIncome' WHERE s.lrn = '$id'";
 
 				// Check if password and confirm password match
 				if (!empty($_POST['password']) && !empty($_POST['cpassword'])) {
@@ -762,10 +762,11 @@ if (!isset($_SESSION["student"])) {
 																	} ?>>Non-Profit and Philanthropy</option>
 					</select>
 				</div>
+				<!--
 				<div class="divider d-flex align-items-center my-4">
 					<p class="text-center fw-bold mx-3 mb-0">Assessment Score</p>
 				</div>
-
+-->
 				<?php
 				// Assuming you have established a database connection
 				$servername = "localhost";
