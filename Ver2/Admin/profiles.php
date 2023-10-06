@@ -29,37 +29,37 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="./dashboard.html" class="nav-link link-body-emphasis">
+                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
                         </a>
                     </li>
                     <li>
-                        <a href="./profiles.html" class="nav-link active" aria-current="page">
+                        <a href="./profiles.php" class="nav-link active" aria-current="page">
                             <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             PROFILES
                         </a>
                     </li>
                     <li>
-                        <a href="./admins.html" class="nav-link link-body-emphasis">
+                        <a href="./admins.php" class="nav-link link-body-emphasis">
                             <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             ADMINS
                         </a>
                     </li>
                     <li>
-                        <a href="./backup.html" class="nav-link link-body-emphasis">
+                        <a href="./backup.php" class="nav-link link-body-emphasis">
                             <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             BACKUP
                         </a>
                     </li>
                     <li>
-                        <a href="./reports.html" class="nav-link link-body-emphasis">
+                        <a href="./reports.php" class="nav-link link-body-emphasis">
                             <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             REPORTS
                         </a>
                     </li>
                     <li>
-                        <a href="./logs.html" class="nav-link link-body-emphasis">
+                        <a href="./logs.php" class="nav-link link-body-emphasis">
                             <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             LOGS
                         </a>
@@ -96,78 +96,95 @@
 					</div>
 				</form>
                 <table class="table table-striped table-hover">
-                    <thead>
+                <thead>
 						<tr class="text-center">
 							<th scope="col">LRN</th>
 							<th scope="col">First Name</th>
 							<th scope="col">Middle Name</th>
 							<th scope="col">Last Name</th>
 							<th scope="col">Suffix</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Sex</th>
+							<th scope="col">Age</th>
+							<th scope="col">Sex</th>
 							<th scope="col">Qualified Strand</th>
 							<th scope="col" colspan="2">Action</th>
 						</tr>
 					</thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <td class="text-center">111111222233</td>
-                            <td class="text-center">Vincent Felix</td>
-                            <td class="text-center">Sabalza</td>
-                            <td class="text-center">Cagara</td>
-                            <td class="text-center"> </td>
-                            <td class="text-center">21</td>
-                            <td class="text-center">Male</td>
-                            <td class="text-center">STEM</td>
-                            <td class="text-center">
-                                <a href="viewprofile.html" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
-                                    <img src="./images/view.png" alt="" width="20" height="20" class="">
-                                </a>
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">111111222233</td>
-                            <td class="text-center">Vincent Felix</td>
-                            <td class="text-center">Sabalza</td>
-                            <td class="text-center">Cagara</td>
-                            <td class="text-center"> </td>
-                            <td class="text-center">21</td>
-                            <td class="text-center">Male</td>
-                            <td class="text-center">STEM</td>
-                            <td class="text-center">
-                                <a href="viewprofile.html" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
-                                    <img src="./images/view.png" alt="" width="20" height="20" class="">
-                                </a>
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">111111222233</td>
-                            <td class="text-center">Vincent Felix</td>
-                            <td class="text-center">Sabalza</td>
-                            <td class="text-center">Cagara</td>
-                            <td class="text-center"> </td>
-                            <td class="text-center">21</td>
-                            <td class="text-center">Male</td>
-                            <td class="text-center">STEM</td>
-                            <td class="text-center">
-                                <a href="viewprofile.html" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
-                                    <img src="./images/view.png" alt="" width="20" height="20" class="">
-                                </a>
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+					<tbody class="table-group-divider">
+						<?php
+						$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+
+						if (isset($_GET['page_no'])) {
+							$page_no = $_GET['page_no'];
+						} else {
+							$page_no = 1;
+						}
+
+						$total_records_per_page = 30;
+						$offset = ($page_no - 1) * $total_records_per_page;
+
+						if (isset($_GET['searchname'])) {
+							$search = $_GET['searchname'];
+							$sql = "SELECT * FROM studentprofile WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%'";
+						} else {
+							$sql = "SELECT * FROM studentprofile LIMIT $offset, $total_records_per_page";
+						}
+
+						$result = $conn->query($sql);
+						if ($result->num_rows > 0) {
+							// output data of each row
+							while ($row = $result->fetch_assoc()) {
+								echo "<tr>";
+								echo "<td class='text-center'>" . $row['lrn'] . "</td>";
+								echo "<td class='text-center'>" . $row['Fname'] . "</td>";
+								echo "<td class='text-center'>" . $row['Mname'] . "</td>";
+								echo "<td class='text-center'>" . $row['Lname'] . "</td>";
+								echo "<td class='text-center'>" . $row['suffix'] . "</td>";
+								echo "<td class='text-center'>" . $row['age'] . "</td>";
+								echo "<td class='text-center'>" . $row['sex'] . "</td>";
+								echo "<td class='text-center'>" . $row['strand'] . "</td>";
+								
+								echo "<td class='text-center'>
+              
+              <a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
+              <a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
+              </td>";
+								echo "</tr>";
+							}
+							echo "</table>";
+						} else {
+							echo "0 results";
+						}
+
+						$sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+						$result = $conn->query($sql);
+						$total_records = $result->fetch_assoc()['total_records'];
+						$total_no_of_pages = ceil($total_records / $total_records_per_page);
+
+						?>
+
+					</tbody>
+				</table>
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=?page_no=' . $previous_page : ''; ?>>Previous</a></li>
+						<?php for ($counter = 1; $counter <= $total_no_of_pages; $counter++) { ?>
+							<li class="page-item"><a class="page-link" href="?page_no=<?= $counter; ?>">
+									<?= $counter; ?></a></li>
+						<?php } ?>
+						<li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+					</ul>
+				</nav>
+
+				<div class="p-10">
+					<strong>Page <?= $page_no; ?> of <?= $total_no_of_pages; ?></strong>
+				</div>
+			</div>
+		</div>
+		</div>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-add fw-bold" href="addprofile.html" role="button">ADD NEW PROFILE</a>
+                    <a class="btn btn-add fw-bold" href="addprofile.php" role="button">ADD NEW PROFILE</a>
                 </div>
             </section>
         </div>

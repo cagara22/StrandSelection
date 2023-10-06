@@ -30,37 +30,37 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="./dashboard.html" class="nav-link link-body-emphasis">
+                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
                         </a>
                     </li>
                     <li>
-                        <a href="./profiles.html" class="nav-link active" aria-current="page">
+                        <a href="./profiles.php" class="nav-link active" aria-current="page">
                             <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             PROFILES
                         </a>
                     </li>
                     <li>
-                        <a href="./admins.html" class="nav-link link-body-emphasis">
+                        <a href="./admins.php" class="nav-link link-body-emphasis">
                             <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             ADMINS
                         </a>
                     </li>
                     <li>
-                        <a href="./backup.html" class="nav-link link-body-emphasis">
+                        <a href="./backup.php" class="nav-link link-body-emphasis">
                             <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             BACKUP
                         </a>
                     </li>
                     <li>
-                        <a href="./reports.html" class="nav-link link-body-emphasis">
+                        <a href="./reports.php" class="nav-link link-body-emphasis">
                             <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             REPORTS
                         </a>
                     </li>
                     <li>
-                        <a href="./logs.html" class="nav-link link-body-emphasis">
+                        <a href="./logs.php" class="nav-link link-body-emphasis">
                             <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             LOGS
                         </a>

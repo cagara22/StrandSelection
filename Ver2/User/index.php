@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["student"])) {
+
+?>
+	<script type="text/javascript">
+		window.location = "index.php";
+	</script>
+<?php
+
+}
+?>
+<?php
+session_start();
+?>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +49,43 @@
 						<img src="./images/man.png" class="card-img-top rounded" alt="..." style="width: 50px; height: 50px;">
 					</div>
 					<div class="card-body">
-						<form>
+					<?php
+					$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+
+					if (isset($_POST['lrn']) && isset($_POST['password'])) {
+						$username = mysqli_real_escape_string($conn, $_POST['lrn']);
+						$password = mysqli_real_escape_string($conn, $_POST['password']);
+
+						$sql = "SELECT * FROM studentprofile WHERE lrn = '$username'";
+						$q = mysqli_query($conn, $sql);
+						$num = mysqli_num_rows($q);
+
+						if ($num == 1) {
+							$data = mysqli_fetch_assoc($q);
+							$upass = $data['password'];
+
+							if (md5($password) == "$upass") {
+								$_SESSION['student'] = $username;
+								header("Location: home.php");
+							} else {
+								echo "<script>swal({
+												title: 'Wrong Password',
+												icon: 'error',
+												button: 'OK',
+												});</script>";
+								echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+							}
+						} else {
+							echo "<script>swal({
+											title: 'Invalid Username or Account not yet approved.',
+											icon: 'error',
+											button: 'OK',
+										});</script>";
+							echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
+						}
+					}
+					?>
+						<form action="" method="post">
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control" id="lrn" placeholder="111111111111">
 								<label for="lrn">LRN</label>

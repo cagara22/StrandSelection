@@ -29,37 +29,37 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="./dashboard.html" class="nav-link link-body-emphasis">
+                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
                         </a>
                     </li>
                     <li>
-                        <a href="./profiles.html" class="nav-link active" aria-current="page">
+                        <a href="./profiles.php" class="nav-link active" aria-current="page">
                             <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             PROFILES
                         </a>
                     </li>
                     <li>
-                        <a href="./admins.html" class="nav-link link-body-emphasis">
+                        <a href="./admins.php" class="nav-link link-body-emphasis">
                             <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             ADMINS
                         </a>
                     </li>
                     <li>
-                        <a href="./backup.html" class="nav-link link-body-emphasis">
+                        <a href="./backup.php" class="nav-link link-body-emphasis">
                             <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             BACKUP
                         </a>
                     </li>
                     <li>
-                        <a href="./reports.html" class="nav-link link-body-emphasis">
+                        <a href="./reports.php" class="nav-link link-body-emphasis">
                             <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             REPORTS
                         </a>
                     </li>
                     <li>
-                        <a href="./logs.html" class="nav-link link-body-emphasis">
+                        <a href="./logs.php" class="nav-link link-body-emphasis">
                             <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             LOGS
                         </a>
@@ -95,6 +95,71 @@
                                 <h4 class="fw-bold card-text-header">Profile Details</h4>
                             </div>
                             <div class="card-body">
+                            <?php
+                            // Check if the form was submitted
+                                if (isset($_POST['submit'])) {
+                                    // Assuming $Fname, $Mname, $Lname, $suffix, and other variables are defined
+                                    $Fname = $_POST['Fname'];
+                                    $Mname = $_POST['Mname'];
+                                    $Lname = $_POST['Lname'];
+                                    $suffix = $_POST['suffix'];
+
+                                    // Establish a database connection
+                                    $conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+
+                                    // Get LRN from POST data
+                                    $lrn = $_POST['lrn'];
+
+                                    // Check if the LRN (foreign key) already exists in the referenced tables
+                                    $query = "SELECT lrn FROM result WHERE lrn = '$lrn' UNION
+                                            SELECT lrn FROM studentacad WHERE lrn = '$lrn' UNION
+                                            SELECT lrn FROM studentinterest WHERE lrn = '$lrn' UNION
+                                            SELECT lrn FROM studentskill WHERE lrn = '$lrn' UNION
+                                            SELECT lrn FROM studentsocioeco WHERE lrn = '$lrn'";
+
+                                    $result = mysqli_query($conn, $query);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        echo "LRN already exists in the referenced tables. Please use an existing LRN.";
+                                    } else {
+                                        // LRN does not exist in the referenced tables, insert into studentprofile
+                                        $sql_studentprofile = "INSERT INTO studentprofile (`lrn`, `Fname`, `Mname`, `Lname`, `suffix`, `password`)
+                                                                VALUES ('$lrn', '$Fname', '$Mname', '$Lname', '$suffix', MD5('$lrn'))";
+
+                                        // Insert LRN into other tables
+                                        $sql_result = "INSERT INTO result (lrn) VALUES ('$lrn')";
+                                        $sql_studentacad = "INSERT INTO studentacad (lrn) VALUES ('$lrn')";
+                                        $sql_studentinterest = "INSERT INTO studentinterest (lrn) VALUES ('$lrn')";
+                                        $sql_studentskill = "INSERT INTO studentskill (lrn) VALUES ('$lrn')";
+                                        $sql_studentsocioeco = "INSERT INTO studentsocioeco (lrn) VALUES ('$lrn')";
+                                        $sql_studentcareer = "INSERT INTO studentcareer (lrn) VALUES ('$lrn')";
+
+                                        // Use a transaction to ensure all inserts succeed or fail together
+                                        mysqli_autocommit($conn, false);
+
+                                        if (mysqli_query($conn, $sql_studentprofile) &&
+                                            mysqli_query($conn, $sql_result) &&
+                                            mysqli_query($conn, $sql_studentacad) &&
+                                            mysqli_query($conn, $sql_studentinterest) &&
+                                            mysqli_query($conn, $sql_studentskill) &&
+                                            mysqli_query($conn, $sql_studentcareer) &&
+                                            mysqli_query($conn, $sql_studentsocioeco)) {
+                                            mysqli_commit($conn);
+                                            echo "<script>alert('Record inserted successfully!');</script>";
+                                            echo "<script>window.location.href='profiles.php';</script>";
+                                        } else {
+                                            mysqli_rollback($conn);
+                                            echo "Error inserting record: " . mysqli_error($conn);
+                                        }
+
+                                        // Restore autocommit mode
+                                        mysqli_autocommit($conn, true);
+                                    }
+
+                                    // Close the database connection
+                                    mysqli_close($conn);
+                                }
+                            ?>
                                 <form class="row" action="" method="post">
                                     <div class="col-12 mb-1">
 										<div class="form-floating mb-3">
@@ -102,30 +167,21 @@
 											<label for="lrn">Learner's Reference Number</label>
 										</div>
 									</div>
-                                    <div class="col-12 mb-1">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control" id="pass1" placeholder="Password">
-                                            <label for="pass1">PASSWORD</label>
-                                        </div>
-                                        <div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
-        
-                                        </div>
-                                    </div>
                                     <div class="col-12 col-md-6 mb-1">
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="fname" name="fname" oninput="validateName(this)" placeholder="First Name" required>
+											<input type="text" class="form-control" id="fname" name="Fname" oninput="validateName(this)" placeholder="First Name" required>
 											<label for="fname">First Name</label>
 										</div>
 									</div>
 									<div class="col-12 col-md-6 mb-1">
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="mname" name="mname" oninput="validateName(this)" placeholder="Middle Name">
+											<input type="text" class="form-control" id="mname" name="Mname" oninput="validateName(this)" placeholder="Middle Name">
 											<label for="mname">Middle Name</label>
 										</div>
 									</div>
 									<div class="col-12 col-md-6 mb-1">
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="lname" name="lname" oninput="validateName(this)" placeholder="Last Name" required>
+											<input type="text" class="form-control" id="lname" name="Lname" oninput="validateName(this)" placeholder="Last Name" required>
 											<label for="lname">Last Name</label>
 										</div>
 									</div>

@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["student"])) {
+
+?>
+	<script type="text/javascript">
+		window.location = "index.php";
+	</script>
+<?php
+
+}
+?>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,23 +38,23 @@
 			<div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="home.html">HOME</a>
+						<a class="nav-link" href="home.php">HOME</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="strand.html">STRAND</a>
+						<a class="nav-link" href="strand.php">STRAND</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="profile.html">PROFILE</a>
+						<a class="nav-link" href="profile.php">PROFILE</a>
 					</li>
                     <li class="nav-item px-4 fw-bold">
-						<a class="nav-link active" aria-current="page" href="result.html">RESULT</a>
+						<a class="nav-link active" aria-current="page" href="result.php">RESULT</a>
 					</li>
                     <li class="nav-item">
-						<a class="nav-link" href="about.html">ABOUT</a>
+						<a class="nav-link" href="about.php">ABOUT</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							USERNAME
+						<?php echo $_SESSION["student"]; ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>

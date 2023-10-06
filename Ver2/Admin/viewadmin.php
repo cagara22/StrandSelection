@@ -29,37 +29,37 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="./dashboard.html" class="nav-link link-body-emphasis">
+                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
                         </a>
                     </li>
                     <li>
-                        <a href="./profiles.html" class="nav-link link-body-emphasis">
+                        <a href="./profiles.php" class="nav-link link-body-emphasis">
                             <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             PROFILES
                         </a>
                     </li>
                     <li>
-                        <a href="./admins.html" class="nav-link active" aria-current="page">
+                        <a href="./admins.php" class="nav-link active" aria-current="page">
                             <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             ADMINS
                         </a>
                     </li>
                     <li>
-                        <a href="./backup.html" class="nav-link link-body-emphasis">
+                        <a href="./backup.php" class="nav-link link-body-emphasis">
                             <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             BACKUP
                         </a>
                     </li>
                     <li>
-                        <a href="./reports.html" class="nav-link link-body-emphasis">
+                        <a href="./reports.php" class="nav-link link-body-emphasis">
                             <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             REPORTS
                         </a>
                     </li>
                     <li>
-                        <a href="./logs.html" class="nav-link link-body-emphasis">
+                        <a href="./logs.php" class="nav-link link-body-emphasis">
                             <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             LOGS
                         </a>
@@ -85,7 +85,7 @@
         <div class="col-10">
             <section class="section-100 d-flex flex-column py-2">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="fw-bold sub-title">ADD NEW ADMIN</h1>
+                    <h1 class="fw-bold sub-title">[ADMIN USERNAME]</h1>
                 </div>
                 <div class="card custcard border-light text-center" style="width: 100%;">
                     <div class="card-header">
@@ -175,7 +175,7 @@
                                 </div>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
-                                <button type="button" class="btn btn-add form-button-text"><span class="fw-bold">ADD</span></button>
+                                <button type="button" class="btn btn-update form-button-text"><span class="fw-bold">UPDATE</span></button>
                             </div>
                         </form>
                     </div>

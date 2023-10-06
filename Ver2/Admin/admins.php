@@ -29,37 +29,37 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="./dashboard.html" class="nav-link link-body-emphasis">
+                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
                         </a>
                     </li>
                     <li>
-                        <a href="./profiles.html" class="nav-link link-body-emphasis">
+                        <a href="./profiles.php" class="nav-link link-body-emphasis">
                             <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             PROFILES
                         </a>
                     </li>
                     <li>
-                        <a href="./admins.html" class="nav-link active" aria-current="page">
+                        <a href="./admins.php" class="nav-link active" aria-current="page">
                             <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             ADMINS
                         </a>
                     </li>
                     <li>
-                        <a href="./backup.html" class="nav-link link-body-emphasis">
+                        <a href="./backup.php" class="nav-link link-body-emphasis">
                             <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             BACKUP
                         </a>
                     </li>
                     <li>
-                        <a href="./reports.html" class="nav-link link-body-emphasis">
+                        <a href="./reports.php" class="nav-link link-body-emphasis">
                             <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             REPORTS
                         </a>
                     </li>
                     <li>
-                        <a href="./logs.html" class="nav-link link-body-emphasis">
+                        <a href="./logs.php" class="nav-link link-body-emphasis">
                             <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             LOGS
                         </a>
@@ -120,7 +120,7 @@
                             <td class="text-center">Male</td>
                             <td class="text-center">SUPER ADMIN</td>
                             <td class="text-center">
-                                <a href="viewadmin.html" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
+                                <a href="viewadmin.php" class="btn btn-view" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="VIEW">
                                     <img src="./images/view.png" alt="" width="20" height="20" class="">
                                 </a>
                                 <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
@@ -132,7 +132,7 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-add fw-bold" href="addadmin.html" role="button">ADD NEW ADMIN</a>
+                    <a class="btn btn-add fw-bold" href="addadmin.php" role="button">ADD NEW ADMIN</a>
                 </div>
             </section>
         </div>
