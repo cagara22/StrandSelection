@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["admin"])) {
+
+?>
+	<script type="text/javascript">
+		window.location = "index.php";
+	</script>
+<?php
+
+}
+?>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
