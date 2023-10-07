@@ -1,3 +1,6 @@
+<!doctype html>
+<html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -6,89 +9,88 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="custom_css.css">
 </head>
 
 <body>
-    <header class="navbar sticky-top flex-md-nowrap p-0 shadow">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
-            </a>
-        </div>
-    </header>
+	<header class="navbar sticky-top flex-md-nowrap p-0 shadow">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+			</a>
+		</div>
+	</header>
 
-    <main class="row section-100">
-        <div class="col-2">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4">ADMIN</span>
-                </a>
-                <hr>
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="./dashboard.php" class="nav-link link-body-emphasis">
-                            <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            DASHBOARD
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./profiles.php" class="nav-link active" aria-current="page">
-                            <img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            PROFILES
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./admins.php" class="nav-link link-body-emphasis">
-                            <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            ADMINS
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./backup.php" class="nav-link link-body-emphasis">
-                            <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            BACKUP
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./reports.php" class="nav-link link-body-emphasis">
-                            <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            REPORTS
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./logs.php" class="nav-link link-body-emphasis">
-                            <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            LOGS
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-                <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong>mdo</strong>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-10">
-            <section class="section-100 d-flex flex-column py-2">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="fw-bold sub-title">[LRN]</h1>
-                </div>
-                <div class="row w-100">
+	<main class="row section-100">
+		<div class="col-2">
+			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
+				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+					<span class="fs-4">ADMIN</span>
+				</a>
+				<hr>
+				<ul class="nav nav-pills flex-column mb-auto">
+					<li class="nav-item">
+						<a href="./dashboard.php" class="nav-link link-body-emphasis">
+							<img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							DASHBOARD
+						</a>
+					</li>
+					<li>
+						<a href="./profiles.php" class="nav-link active" aria-current="page">
+							<img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							PROFILES
+						</a>
+					</li>
+					<li>
+						<a href="./admins.php" class="nav-link link-body-emphasis">
+							<img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							ADMINS
+						</a>
+					</li>
+					<li>
+						<a href="./backup.php" class="nav-link link-body-emphasis">
+							<img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							BACKUP
+						</a>
+					</li>
+					<li>
+						<a href="./reports.php" class="nav-link link-body-emphasis">
+							<img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							REPORTS
+						</a>
+					</li>
+					<li>
+						<a href="./logs.php" class="nav-link link-body-emphasis">
+							<img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
+							LOGS
+						</a>
+					</li>
+				</ul>
+				<hr>
+				<div class="dropdown">
+					<a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
+						<strong>mdo</strong>
+					</a>
+					<ul class="dropdown-menu text-small shadow">
+						<li><a class="dropdown-item" href="#">Profile</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li><a class="dropdown-item" href="#">Sign out</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-10">
+			<section class="section-100 d-flex flex-column py-2">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+					<h1 class="fw-bold sub-title">[LRN]</h1>
+				</div>
+				<div class="row w-100">
 					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
 						<div class="card custcard border-light text-center" style="width: 100%;">
 							<div class="card-header">
@@ -937,7 +939,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
 										<button type="button" class="btn btn-update form-button-text" id="updateButton"><span class="fw-bold">UPDATE</span></button>
 									</div>
@@ -965,52 +967,52 @@
 							</div>
 						</div>
 					</div>
-                    <div class="col-12 d-flex justify-content-center align-items-center mb-3">
-                        <div class="card custcard border-light text-center" style="width: 100%;">
-                            <div class="card-header">
-                                <h4 class="fw-bold card-text-header">STATISTIC</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row w-100">
-                                    <div class="col-12">
-                                        <canvas id="overallpieChart"></canvas>
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <canvas id="skintpieChart"></canvas>
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <canvas id="acadpieChart"></canvas>
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <canvas id="careerpieChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center align-items-center mb-3">
-                        <div class="card custcard border-light text-center" style="width: 100%;">
-                            <div class="card-header">
-                                <h4 class="fw-bold card-text-header">RECOMENDATION</h4>
-                            </div>
-                            <div class="card-body">
-                                
-                            </div>
-                        </div>
-                    </div>
-				</div>
-            </section>
-        </div>
-    </main>
+					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
+						<div class="card custcard border-light text-center" style="width: 100%;">
+							<div class="card-header">
+								<h4 class="fw-bold card-text-header">STATISTIC</h4>
+							</div>
+							<div class="card-body">
+								<div class="row w-100">
+									<div class="col-12">
+										<canvas id="overallpieChart"></canvas>
+									</div>
+									<div class="col-6 col-md-4">
+										<canvas id="skintpieChart"></canvas>
+									</div>
+									<div class="col-6 col-md-4">
+										<canvas id="acadpieChart"></canvas>
+									</div>
+									<div class="col-6 col-md-4">
+										<canvas id="careerpieChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
+						<div class="card custcard border-light text-center" style="width: 100%;">
+							<div class="card-header">
+								<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
+							</div>
+							<div class="card-body">
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/password-score.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="./js/password-score.js"></script>
 	<script type="text/javascript" src="./js/password-score-options.js"></script>
 	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
-    <script>
-        $(document).ready(function() {
+	<script>
+		$(document).ready(function() {
 			$('#pass1').strengthMeter('text', {
 				container: $('#passstrength'),
 				hierarchy: {
@@ -1042,49 +1044,49 @@
 		}
 
 		const rangeInputs = document.querySelectorAll('.form-range');
-        const rangeValueSpans = document.querySelectorAll('.rangeValue');
+		const rangeValueSpans = document.querySelectorAll('.rangeValue');
 
-        rangeInputs.forEach((input, index) => {
-            input.addEventListener('input', () => {
-                rangeValueSpans[index].textContent = input.value;
-            });
+		rangeInputs.forEach((input, index) => {
+			input.addEventListener('input', () => {
+				rangeValueSpans[index].textContent = input.value;
+			});
 
 			rangeValueSpans[index].textContent = input.value;
-        });
+		});
 
 		window.addEventListener('DOMContentLoaded', function() {
-        const careerPath1 = document.getElementById('CareerPath1');
-        const careerPath2 = document.getElementById('CareerPath2');
-        const careerPath3 = document.getElementById('CareerPath3');
+			const careerPath1 = document.getElementById('CareerPath1');
+			const careerPath2 = document.getElementById('CareerPath2');
+			const careerPath3 = document.getElementById('CareerPath3');
 
-        if (careerPath1.value === 'Undecided') {
-            careerPath2.value = 'N/A';
-            careerPath3.value = 'N/A';
-            careerPath2.disabled = true;
-            careerPath3.disabled = true;
-        } else {
-            careerPath2.disabled = false;
-            careerPath3.disabled = false;
-        }
+			if (careerPath1.value === 'Undecided') {
+				careerPath2.value = 'N/A';
+				careerPath3.value = 'N/A';
+				careerPath2.disabled = true;
+				careerPath3.disabled = true;
+			} else {
+				careerPath2.disabled = false;
+				careerPath3.disabled = false;
+			}
 
-        careerPath1.addEventListener('change', function() {
-            if (careerPath1.value === 'Undecided') {
-                careerPath2.value = 'N/A';
-                careerPath3.value = 'N/A';
-                careerPath2.disabled = true;
-                careerPath3.disabled = true;
-            } else {
-                careerPath2.disabled = false;
-                careerPath3.disabled = false;
-            }
-        });
-    });
+			careerPath1.addEventListener('change', function() {
+				if (careerPath1.value === 'Undecided') {
+					careerPath2.value = 'N/A';
+					careerPath3.value = 'N/A';
+					careerPath2.disabled = true;
+					careerPath3.disabled = true;
+				} else {
+					careerPath2.disabled = false;
+					careerPath3.disabled = false;
+				}
+			});
+		});
 
-        var labels =["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
-		var skintvalues =[60, 30, 10, 0, 0, 0];
-		var acadvalues =[70, 20, 10, 0, 0, 0];
-		var careervalues =[90, 5, 5, 0, 0, 0];
-		var overallvalues =[95, 3, 2, 0, 0, 0];
+		var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
+		var skintvalues = [60, 30, 10, 0, 0, 0];
+		var acadvalues = [70, 20, 10, 0, 0, 0];
+		var careervalues = [90, 5, 5, 0, 0, 0];
+		var overallvalues = [95, 3, 2, 0, 0, 0];
 		var barColors = [
 			"rgba(112,214,255,1.0)",
 			"rgba(255,112,166,1.0)",
@@ -1181,55 +1183,55 @@
 		const updateButton = document.getElementById('updateButton');
 
 		updateButton.addEventListener('click', function() {
-            let canSubmit = true;
+			let canSubmit = true;
 
-            rangeInputs.forEach(rangeInputs => {
-                if (rangeInputs.value === '0') {
-                    canSubmit = false;
-                    return;
-                }
-            });
+			rangeInputs.forEach(rangeInputs => {
+				if (rangeInputs.value === '0') {
+					canSubmit = false;
+					return;
+				}
+			});
 
 			if (totalHouseholdIncomeSelect.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadScience.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadMath.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadEnglish.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadFilipino.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadICTRelatedSub.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
 			if (acadHERelatedSub.value === 'SELECT') {
-                canSubmit = false;
-            }
+				canSubmit = false;
+			}
 
-            if (!canSubmit) {
-                swal({
+			if (!canSubmit) {
+				swal({
 					title: 'Please answer all fields!',
 					icon: 'error',
 					button: 'OK',
 				});
-            }
-        });
+			}
+		});
 
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
+	</script>
 </body>
 
 </html>

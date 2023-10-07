@@ -1,14 +1,17 @@
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Strand Selection Admin Ver2</title>
-    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!doctype html>
+<html lang="en">
 
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="custom_css.css">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Strand Selection Admin Ver2</title>
+    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="custom_css.css">
 </head>
 
 <body>
@@ -67,8 +70,7 @@
                 </ul>
                 <hr>
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>mdo</strong>
                     </a>
@@ -95,8 +97,8 @@
                                 <h4 class="fw-bold card-text-header">Profile Details</h4>
                             </div>
                             <div class="card-body">
-                            <?php
-                            // Check if the form was submitted
+                                <?php
+                                // Check if the form was submitted
                                 if (isset($_POST['submit'])) {
                                     // Assuming $Fname, $Mname, $Lname, $suffix, and other variables are defined
                                     $Fname = $_POST['Fname'];
@@ -137,13 +139,15 @@
                                         // Use a transaction to ensure all inserts succeed or fail together
                                         mysqli_autocommit($conn, false);
 
-                                        if (mysqli_query($conn, $sql_studentprofile) &&
+                                        if (
+                                            mysqli_query($conn, $sql_studentprofile) &&
                                             mysqli_query($conn, $sql_result) &&
                                             mysqli_query($conn, $sql_studentacad) &&
                                             mysqli_query($conn, $sql_studentinterest) &&
                                             mysqli_query($conn, $sql_studentskill) &&
                                             mysqli_query($conn, $sql_studentcareer) &&
-                                            mysqli_query($conn, $sql_studentsocioeco)) {
+                                            mysqli_query($conn, $sql_studentsocioeco)
+                                        ) {
                                             mysqli_commit($conn);
                                             echo "<script>alert('Record inserted successfully!');</script>";
                                             echo "<script>window.location.href='profiles.php';</script>";
@@ -159,38 +163,38 @@
                                     // Close the database connection
                                     mysqli_close($conn);
                                 }
-                            ?>
+                                ?>
                                 <form class="row" action="" method="post">
                                     <div class="col-12 mb-1">
-										<div class="form-floating mb-3">
-											<input type="number" class="form-control" id="lrn" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" required>
-											<label for="lrn">Learner's Reference Number</label>
-										</div>
-									</div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="lrn" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" required>
+                                            <label for="lrn">Learner's Reference Number</label>
+                                        </div>
+                                    </div>
                                     <div class="col-12 col-md-6 mb-1">
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="fname" name="Fname" oninput="validateName(this)" placeholder="First Name" required>
-											<label for="fname">First Name</label>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="mname" name="Mname" oninput="validateName(this)" placeholder="Middle Name">
-											<label for="mname">Middle Name</label>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="lname" name="Lname" oninput="validateName(this)" placeholder="Last Name" required>
-											<label for="lname">Last Name</label>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="suffix" name="suffix" oninput="validateName(this)" placeholder="Suffix">
-											<label for="suffix">Suffix</label>
-										</div>
-									</div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="fname" name="Fname" oninput="validateName(this)" placeholder="First Name" required>
+                                            <label for="fname">First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-1">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="mname" name="Mname" oninput="validateName(this)" placeholder="Middle Name">
+                                            <label for="mname">Middle Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-1">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="lname" name="Lname" oninput="validateName(this)" placeholder="Last Name" required>
+                                            <label for="lname">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-1">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="suffix" name="suffix" oninput="validateName(this)" placeholder="Suffix">
+                                            <label for="suffix">Suffix</label>
+                                        </div>
+                                    </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-end">
                                         <button type="button" class="btn btn-add form-button-text"><span class="fw-bold">ADD</span></button>
                                     </div>
@@ -212,37 +216,37 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./js/password-score.js"></script>
-	<script type="text/javascript" src="./js/password-score-options.js"></script>
-	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
+    <script type="text/javascript" src="./js/password-score-options.js"></script>
+    <script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
     <script>
         $(document).ready(function() {
-			$('#pass1').strengthMeter('text', {
-				container: $('#passstrength'),
-				hierarchy: {
-					'0': ['text-danger', ' '],
-					'1': ['text-danger', 'Very Weak'],
-					'25': ['text-danger', 'Weak'],
-					'50': ['text-warning', 'Moderate'],
-					'75': ['text-warning', 'Good'],
-					'100': ['text-success', 'Strong'],
-					'125': ['text-success', 'Very Strong']
-				}
-			});
-		});
+            $('#pass1').strengthMeter('text', {
+                container: $('#passstrength'),
+                hierarchy: {
+                    '0': ['text-danger', ' '],
+                    '1': ['text-danger', 'Very Weak'],
+                    '25': ['text-danger', 'Weak'],
+                    '50': ['text-warning', 'Moderate'],
+                    '75': ['text-warning', 'Good'],
+                    '100': ['text-success', 'Strong'],
+                    '125': ['text-success', 'Very Strong']
+                }
+            });
+        });
 
-		function validateName(input) {
-			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+        function validateName(input) {
+            var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
-			if (!regex.test(input.value)) {
-				input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
-			}
-		}
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+            }
+        }
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
 </body>
 

@@ -11,6 +11,10 @@ if (!isset($_SESSION["student"])) {
 
 }
 ?>
+
+<!doctype html>
+<html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +30,7 @@ if (!isset($_SESSION["student"])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md fixed-top">
+	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
 				<img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
@@ -46,15 +50,15 @@ if (!isset($_SESSION["student"])) {
 					<li class="nav-item">
 						<a class="nav-link" href="profile.php">PROFILE</a>
 					</li>
-                    <li class="nav-item px-4 fw-bold">
+					<li class="nav-item px-4 fw-bold">
 						<a class="nav-link active" aria-current="page" href="result.php">RESULT</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="about.php">ABOUT</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<?php echo $_SESSION["student"]; ?>
+							<?php echo $_SESSION["student"]; ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -97,30 +101,30 @@ if (!isset($_SESSION["student"])) {
 						<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
 					</div>
 					<div class="card-body">
-						
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-    <footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5">
+	<footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5">
 		<!-- Copyright -->
 		<div class="text-white mb-3 mb-md-0">
 			Copyright © 2023. All rights reserved.
 		</div>
 		<!-- Copyright -->
 	</footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-	
+
 	<script>
-        var labels =["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
-		var skintvalues =[60, 30, 10, 0, 0, 0];
-		var acadvalues =[70, 20, 10, 0, 0, 0];
-		var careervalues =[90, 5, 5, 0, 0, 0];
-		var overallvalues =[95, 3, 2, 0, 0, 0];
+		var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
+		var skintvalues = [60, 30, 10, 0, 0, 0];
+		var acadvalues = [70, 20, 10, 0, 0, 0];
+		var careervalues = [90, 5, 5, 0, 0, 0];
+		var overallvalues = [95, 3, 2, 0, 0, 0];
 		var barColors = [
 			"rgba(112,214,255,1.0)",
 			"rgba(255,112,166,1.0)",
@@ -206,5 +210,6 @@ if (!isset($_SESSION["student"])) {
 				}
 			}
 		});
-    </script>
+	</script>
+
 </html>

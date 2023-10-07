@@ -1,14 +1,17 @@
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Strand Selection Admin Ver2</title>
-    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!doctype html>
+<html lang="en">
 
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="custom_css.css">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Strand Selection Admin Ver2</title>
+    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="custom_css.css">
 </head>
 
 <body>
@@ -67,8 +70,7 @@
                 </ul>
                 <hr>
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>mdo</strong>
                     </a>
@@ -88,27 +90,27 @@
                     <h1 class="fw-bold sub-title">ADMINS</h1>
                 </div>
                 <form class="row g-3" method="GET" action="">
-					<div class="col-10">
-						<input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
-					</div>
-					<div class="col-2">
-						<button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
-					</div>
-				</form>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
+                    </div>
+                </form>
                 <table class="table table-striped table-hover">
                     <thead>
-						<tr class="text-center">
-							<th scope="col">Username</th>
-							<th scope="col">First Name</th>
-							<th scope="col">Middle Name</th>
-							<th scope="col">Last Name</th>
-							<th scope="col">Suffix</th>
+                        <tr class="text-center">
+                            <th scope="col">Username</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Middle Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Suffix</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
-							<th scope="col">Role</th>
-							<th scope="col" colspan="2">Action</th>
-						</tr>
-					</thead>
+                            <th scope="col">Role</th>
+                            <th scope="col" colspan="2">Action</th>
+                        </tr>
+                    </thead>
                     <tbody class="table-group-divider">
                         <tr>
                             <td class="text-center">Admin01</td>
@@ -128,7 +130,7 @@
                                 </a>
                             </td>
                         </tr>
-                        
+
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -139,10 +141,10 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
 </body>
 

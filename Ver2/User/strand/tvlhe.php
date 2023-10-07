@@ -11,6 +11,10 @@ if (!isset($_SESSION["student"])) {
 
 }
 ?>
+
+<!doctype html>
+<html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +29,7 @@ if (!isset($_SESSION["student"])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md fixed-top">
+	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
 				<img src="../images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
@@ -45,15 +49,15 @@ if (!isset($_SESSION["student"])) {
 					<li class="nav-item">
 						<a class="nav-link" href="../profile.php">PROFILE</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="../result.php">RESULT</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="../about.php">ABOUT</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<?php echo $_SESSION["student"]; ?>
+							<?php echo $_SESSION["student"]; ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -64,37 +68,37 @@ if (!isset($_SESSION["student"])) {
 		</div>
 	</nav>
 
-    <div class="hero d-flex flex-column justify-content-center align-items-center" id="tvlheHeader">
+	<div class="hero d-flex flex-column justify-content-center align-items-center" id="tvlheHeader">
 		<div class="bgblur d-flex flex-column justify-content-center">
 			<h1 class="title3 fw-bold">TVL - Home Economics</h1>
 			<div class="py-5">
 				<a href="#first"><button type="button" class="btn btn-outline-warning btn-lg fw-bold fs-3">LEARN MORE</button></a>
 			</div>
 		</div>
-    </div>
+	</div>
 
-    <section class="section-100 d-flex flex-column justify-content-center align-items-center py-5" id="first">
-        <div class="reswid px-3">
-            <div class="card border-light mb-3" style="max-width: 100%;">
-                <div class="row g-0">
-                    <div class="col-md-5 d-flex flex-column justify-content-center align-items-center text-center">
-                        <img src="../images/tvlhe1.png" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-7">
-                        <div class="card-body">
-                            <h1 class="card-title fw-bold sub-title">Overview of TVL - HE</h1>
-                            <p class="card-text">The Senior High School (SHS) strand in Technical-Vocational-Livelihood with a focus on Home Economics (TVL-HE) is designed to equip students with practical skills and knowledge in various aspects of home economics and related fields. TVL-HE emphasizes hands-on learning and practical application of essential life skills, including cooking, sewing, interior design, and family and consumer sciences.</p>
+	<section class="section-100 d-flex flex-column justify-content-center align-items-center py-5" id="first">
+		<div class="reswid px-3">
+			<div class="card border-light mb-3" style="max-width: 100%;">
+				<div class="row g-0">
+					<div class="col-md-5 d-flex flex-column justify-content-center align-items-center text-center">
+						<img src="../images/tvlhe1.png" class="img-fluid rounded-start" alt="...">
+					</div>
+					<div class="col-md-7">
+						<div class="card-body">
+							<h1 class="card-title fw-bold sub-title">Overview of TVL - HE</h1>
+							<p class="card-text">The Senior High School (SHS) strand in Technical-Vocational-Livelihood with a focus on Home Economics (TVL-HE) is designed to equip students with practical skills and knowledge in various aspects of home economics and related fields. TVL-HE emphasizes hands-on learning and practical application of essential life skills, including cooking, sewing, interior design, and family and consumer sciences.</p>
 							<p class="card-text">In the TVL-HE strand, students will delve into subjects such as culinary arts, clothing and textile technology, family and child care, and household management. They will develop proficiency in cooking techniques, sewing and fabric manipulation, home decoration, and budgeting. These skills are not only valuable for personal development but also prepare students for potential careers in the areas of culinary arts, fashion and design, and family services.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<section class="bglightgrey section-100 d-flex flex-column justify-content-center align-items-center py-5">
-        <div class="reswid px-3">
-            <h1 class="card-title fw-bold sub-title">Possible College Courses Under the TVL - HE</h1>
+		<div class="reswid px-3">
+			<h1 class="card-title fw-bold sub-title">Possible College Courses Under the TVL - HE</h1>
 			<p class="card-text">Many of our TVL-HE (Technical-Vocational-Livelihood with a focus on Home Economics) students go on to apply for undergraduate programs and embark on journeys into their chosen specialized fields within the domain of home economics and related vocations. Through the courses under the TVL-HE strand, these students continue to develop into skilled professionals, artisans, and experts in areas such as culinary arts, fashion and design, family services, and home management. The TVL-HE strand curriculum opens doors to a variety of vocational and technical degree programs, which can include but are not limited to:</p>
 			<ul>
 				<li>Bachelor of Science in Culinary Arts</li>
@@ -107,21 +111,21 @@ if (!isset($_SESSION["student"])) {
 				<li>Bachelor of Science in Hospitality Management</li>
 				<li>Bachelor of Science in Child and Family Studies</li>
 				<li>Bachelor of Science in Food Service Management</li>
-			</ul>			
-        </div>
-    </section>
+			</ul>
+		</div>
+	</section>
 
 	<section class="section-100 d-flex flex-column justify-content-center align-items-center py-5">
-        <div class="reswid px-3">
-            <div class="card border-light mb-3" style="max-width: 100%;">
-                <div class="row g-0">
-                    <div class="order-1 order-md-2 col-md-5 d-flex flex-column justify-content-center align-items-center text-center">
-                        <img src="../images/tvlhe2.png" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="order-2 order-md-1 col-md-7">
-                        <div class="card-body">
-                            <h1 class="card-title fw-bold sub-title">Possible Jobs in the TVL - HE</h1>
-                            <p class="card-text">Our senior high school TVL-HE students go on to discover meaningful career opportunities that align with the practical skills and knowledge they've acquired through our specialized curriculum. They will encounter abundant prospects, both in the workforce and in pursuing advanced studies in higher education. Senior high school graduates from the TVL-HE strand have found rewarding and successful careers in a variety of roles that directly relate to their field of expertise:</p>
+		<div class="reswid px-3">
+			<div class="card border-light mb-3" style="max-width: 100%;">
+				<div class="row g-0">
+					<div class="order-1 order-md-2 col-md-5 d-flex flex-column justify-content-center align-items-center text-center">
+						<img src="../images/tvlhe2.png" class="img-fluid rounded-start" alt="...">
+					</div>
+					<div class="order-2 order-md-1 col-md-7">
+						<div class="card-body">
+							<h1 class="card-title fw-bold sub-title">Possible Jobs in the TVL - HE</h1>
+							<p class="card-text">Our senior high school TVL-HE students go on to discover meaningful career opportunities that align with the practical skills and knowledge they've acquired through our specialized curriculum. They will encounter abundant prospects, both in the workforce and in pursuing advanced studies in higher education. Senior high school graduates from the TVL-HE strand have found rewarding and successful careers in a variety of roles that directly relate to their field of expertise:</p>
 							<div class="row">
 								<div class="col-12 col-md-6">
 									<ul>
@@ -147,12 +151,12 @@ if (!isset($_SESSION["student"])) {
 									</ul>
 								</div>
 							</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<section class="section-50 bglightgrey d-flex flex-column justify-content-center align-items-center px-4">
 		<div class="card border-light mb-3 bglightgrey" style="max-width: 100%;">
@@ -173,14 +177,15 @@ if (!isset($_SESSION["student"])) {
 		</div>
 	</section>
 
-    <footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5">
+	<footer class="d-flex flex-column flex-md-row text-center justify-content-center py-4 px-4 px-xl-5">
 		<!-- Copyright -->
 		<div class="text-white mb-3 mb-md-0">
 			Copyright © 2023. All rights reserved.
 		</div>
 		<!-- Copyright -->
 	</footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 </body>
+
 </html>
