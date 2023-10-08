@@ -112,57 +112,59 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <?php
-                        $conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+                    <?php
+$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to the database');
 
-                        if (isset($_GET['page_no'])) {
-                            $page_no = $_GET['page_no'];
-                        } else {
-                            $page_no = 1;
-                        }
+if (isset($_GET['page_no'])) {
+    $page_no = $_GET['page_no'];
+} else {
+    $page_no = 1;
+}
 
-                        $total_records_per_page = 30;
-                        $offset = ($page_no - 1) * $total_records_per_page;
+$total_records_per_page = 30;
+$offset = ($page_no - 1) * $total_records_per_page;
 
-                        if (isset($_GET['searchname'])) {
-                            $search = $_GET['searchname'];
-                            $sql = "SELECT * FROM studentprofile WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%'";
-                        } else {
-                            $sql = "SELECT * FROM studentprofile LIMIT $offset, $total_records_per_page";
-                        }
+if (isset($_GET['searchname'])) {
+    $search = $_GET['searchname'];
+    $sql = "SELECT * FROM studentprofile WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%'";
+} else {
+    $sql = "SELECT * FROM studentprofile LIMIT $offset, $total_records_per_page";
+}
 
-                        $result = $conn->query($sql);
-                        if ($result->num_rows > 0) {
-                            // output data of each row
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td class='text-center'>" . $row['lrn'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Fname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Mname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Lname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['suffix'] . "</td>";
-                                echo "<td class='text-center'>" . $row['age'] . "</td>";
-                                echo "<td class='text-center'>" . $row['sex'] . "</td>";
-                                echo "<td class='text-center'>" . $row['strand'] . "</td>";
+// Calculate the next and previous page numbers before executing the query
+$next_page = $page_no + 1;
+$previous_page = $page_no - 1;
 
-                                echo "<td class='text-center'>
-              
-              <a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
-              <a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
-              </td>";
-                                echo "</tr>";
-                            }
-                            echo "</table>";
-                        } else {
-                            echo "0 results";
-                        }
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td class='text-center'>" . $row['lrn'] . "</td>";
+        echo "<td class='text-center'>" . $row['Fname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Mname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Lname'] . "</td>";
+        echo "<td class='text-center'>" . $row['suffix'] . "</td>";
+        echo "<td class='text-center'>" . $row['age'] . "</td>";
+        echo "<td class='text-center'>" . $row['sex'] . "</td>";
+        echo "<td class='text-center'>" . $row['strand'] . "</td>";
 
-                        $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
-                        $result = $conn->query($sql);
-                        $total_records = $result->fetch_assoc()['total_records'];
-                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
+        echo "<td class='text-center'>
+            <a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
+            <a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
+            </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
 
-                        ?>
+$sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+$result = $conn->query($sql);
+$total_records = $result->fetch_assoc()['total_records'];
+$total_no_of_pages = ceil($total_records / $total_records_per_page);
+?>
 
                     </tbody>
                 </table>

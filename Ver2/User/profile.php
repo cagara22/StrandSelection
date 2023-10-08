@@ -471,7 +471,8 @@ if (!isset($_SESSION["student"])) {
 					studentskill.skiInteriorDesign = '$skiInteriorDesign',
 					studentskill.skiChildcareFamilyServices = '$skiChildcareFamilyServices',
 					studentskill.skiNutritionFoodSafety = '$skiNutritionFoodSafety',
-					-- continue with other skills fields here
+					studentskill.skiEconomics = '$skiEconomics',
+					-- interests
 					studentinterest.intCalculus = '$intCalculus',
 					studentinterest.intBiology = '$intBiology',
 					studentinterest.intCreativeWriting = '$intCreativeWriting',
@@ -1044,12 +1045,13 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadScience" name="acadScience">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+														<option value="100 - 95" <?php if ($acadScience1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadScience1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadScience1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadScience1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadScience1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadScience1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+
 													</select>
 													<label for="acadScience" class="form-label">Science</label>
 												</div>
@@ -1057,13 +1059,13 @@ if (!isset($_SESSION["student"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadMath" name="acadMath">
-														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+													<option selected value="SELECT">SELECT</option>
+														<option value="100 - 95" <?php if ($acadMath1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadMath1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadMath1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadMath1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadMath1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadMath1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadMath" class="form-label">Math</label>
 												</div>
@@ -1072,12 +1074,13 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadEnglish" name="acadEnglish">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+														<option selected value="SELECT">SELECT</option>
+														<option value="100 - 95" <?php if ($acadEnglish1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadEnglish1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadEnglish1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadEnglish1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadEnglish1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadEnglish1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadEnglish" class="form-label">English</label>
 												</div>
@@ -1086,12 +1089,13 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadFilipino" name="acadFilipino">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+														<option selected value="SELECT">SELECT</option>
+														<option value="100 - 95" <?php if ($acadFilipino1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadFilipino1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadFilipino1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadFilipino1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadFilipino1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadFilipino1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadFilipino" class="form-label">Filipino</label>
 												</div>
@@ -1101,12 +1105,13 @@ if (!isset($_SESSION["student"])) {
 													<select class="form-select" id="acadICTRelatedSub" name="acadICTRelatedSub">
 														<option selected value="SELECT">SELECT</option>
 														<option value="N/A">N/A</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+														<option selected value="SELECT">SELECT</option>
+														<option value="100 - 95" <?php if ($acadICTRelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadICTRelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadICTRelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadICTRelatedSub1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadICTRelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadICTRelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadICTRelatedSub" class="form-label">ICT Related Subject</label>
 												</div>
@@ -1116,12 +1121,12 @@ if (!isset($_SESSION["student"])) {
 													<select class="form-select" id="acadHERelatedSub" name="acadHERelatedSub">
 														<option selected value="SELECT">SELECT</option>
 														<option value="N/A">N/A</option>
-														<option value="100 - 95">100 - 95</option>
-														<option value="94 - 90">94 - 90</option>
-														<option value="89 - 80">89 - 80</option>
-														<option value="79 - 75">79 - 75</option>
-														<option value="74 - 70">74 - 70</option>
-														<option value="69 - 0">69 - 0</option>
+														<option value="100 - 95" <?php if ($acadHERelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadHERelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadHERelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadHERelatedSub1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadHEICTRelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadHEICTRelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadHERelatedSub" class="form-label">HE Related Subject</label>
 												</div>
@@ -1138,7 +1143,7 @@ if (!isset($_SESSION["student"])) {
 													<select class="form-select" id="CareerPath1" name="CareerPath1">
 														<option value="Undecided" <?php if ($CareerPath11 == "Undecided") {
 																						echo " selected";
-																					} ?>>>Undecided</option>
+																					} ?>>Undecided</option>
 														<option value="Chemical Engineer" <?php if ($CareerPath11 == "Chemical Engineer") {
 																								echo " selected";
 																							} ?>>>Chemical Engineer</option>
@@ -1326,67 +1331,67 @@ if (!isset($_SESSION["student"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="CareerPath2" name="CareerPath2">
-														<option value="N/A">N/A</option>
-														<option value="Chemical Engineer">Chemical Engineer</option>
-														<option value="Industrial Engineer">Industrial Engineer</option>
-														<option value="Biologist">Biologist</option>
-														<option value="Mathematician">Mathematician</option>
-														<option value="Statistician">Statistician</option>
-														<option value="Physicist">Physicist</option>
-														<option value="Architect">Architect</option>
-														<option value="Doctor">Doctor</option>
-														<option value="Registered Nurse">Registered Nurse</option>
-														<option value="Physical Therapist">Physical Therapist</option>
-														<option value="Pharmacist">Pharmacist</option>
-														<option value="Civil Engineer">Civil Engineer</option>
-														<option value="Mechanical Engineer">Mechanical Engineer</option>
-														<option value="Food Technologist">Food Technologist</option>
-														<option value="Environmental Scientist">Environmental Scientist</option>
-														<option value="Social Scientist">Social Scientist</option>
-														<option value="Psychologist">Psychologist</option>
-														<option value="Philosopher">Philosopher</option>
-														<option value="Social Worker">Social Worker</option>
-														<option value="Political Scientist">Political Scientist</option>
-														<option value="Foreign Service Officer">Foreign Service Officer</option>
-														<option value="Police">Police</option>
-														<option value="Police">Fireman</option>
-														<option value="Soldier">Soldier</option>
-														<option value="Communication Specialist">Communication Specialist</option>
-														<option value="Educator">Educator</option>
-														<option value="Journalist">Journalist</option>
-														<option value="Broadcast Journalist">Broadcast Journalist</option>
-														<option value="Entrepreneur">Entrepreneur</option>
-														<option value="Tourism Manager">Tourism Manager</option>
-														<option value="Business Administrator">Business Administrator</option>
-														<option value="Accountant">Accountant</option>
-														<option value="Business Economist">Business Economist</option>
-														<option value="Banking and Finance Specialist">Banking and Finance Specialist</option>
-														<option value="Management Consultant">Management Consultant</option>
-														<option value="IT Specialist">IT Specialist</option>
-														<option value="Software Developer">Software Developer</option>
-														<option value="Computer Engineer">Computer Engineer</option>
-														<option value="Software Engineer">Software Engineer</option>
-														<option value="Network Administrator">Network Administrator</option>
-														<option value="Digital Media Designer">Digital Media Designer</option>
-														<option value="Web Developer">Web Developer</option>
-														<option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
-														<option value="Data Scientist">Data Scientist</option>
-														<option value="Information Systems Manager">Information Systems Manager</option>
-														<option value="Chef">Chef</option>
-														<option value="Pastry Chef">Pastry Chef</option>
-														<option value="Fashion Designer">Fashion Designer</option>
-														<option value="Textile Designer">Textile Designer</option>
-														<option value="Family and Consumer Sciences Educator">Family and Consumer Sciences Educator</option>
-														<option value="Interior Designer">Interior Designer</option>
-														<option value="Home Economics Educator">Home Economics Educator</option>
-														<option value="Event Planner">Event Planner</option>
-														<option value="Nutritionist">Nutritionist</option>
-														<option value="Dietitian">Dietitian</option>
-														<option value="Hotel Manager">Hotel Manager</option>
-														<option value="Restaurant Manager">Restaurant Manager</option>
-														<option value="Child Life Specialist">Child Life Specialist</option>
-														<option value="Family Counselor">Family Counselor</option>
-														<option value="Food Service Manager">Food Service Manager</option>
+													<option value="N/A" <?php if ($CareerPath21 == "N/A") { echo "selected"; } ?>>N/A</option>
+											<option value="Chemical Engineer" <?php if ($CareerPath21 == "Chemical Engineer") { echo "selected"; } ?>>Chemical Engineer</option>
+											<option value="Industrial Engineer" <?php if ($CareerPath21 == "Industrial Engineer") { echo "selected"; } ?>>Industrial Engineer</option>
+											<option value="Biologist" <?php if ($CareerPath21 == "Biologist") { echo "selected"; } ?>>Biologist</option>
+											<option value="Mathematician" <?php if ($CareerPath21 == "Mathematician") { echo "selected"; } ?>>Mathematician</option>
+											<option value="Statistician" <?php if ($CareerPath21 == "Statistician") { echo "selected"; } ?>>Statistician</option>
+											<option value="Physicist" <?php if ($CareerPath21 == "Physicist") { echo "selected"; } ?>>Physicist</option>
+											<option value="Architect" <?php if ($CareerPath21 == "Architect") { echo "selected"; } ?>>Architect</option>
+											<option value="Doctor" <?php if ($CareerPath21 == "Doctor") { echo "selected"; } ?>>Doctor</option>
+											<option value="Registered Nurse" <?php if ($CareerPath21 == "Registered Nurse") { echo "selected"; } ?>>Registered Nurse</option>
+											<option value="Physical Therapist" <?php if ($CareerPath21 == "Physical Therapist") { echo "selected"; } ?>>Physical Therapist</option>
+											<option value="Pharmacist" <?php if ($CareerPath21 == "Pharmacist") { echo "selected"; } ?>>Pharmacist</option>
+											<option value="Civil Engineer" <?php if ($CareerPath21 == "Civil Engineer") { echo "selected"; } ?>>Civil Engineer</option>
+											<option value="Mechanical Engineer" <?php if ($CareerPath21 == "Mechanical Engineer") { echo "selected"; } ?>>Mechanical Engineer</option>
+											<option value="Food Technologist" <?php if ($CareerPath21 == "Food Technologist") { echo "selected"; } ?>>Food Technologist</option>
+											<option value="Environmental Scientist" <?php if ($CareerPath21 == "Environmental Scientist") { echo "selected"; } ?>>Environmental Scientist</option>
+											<option value="Social Scientist" <?php if ($CareerPath21 == "Social Scientist") { echo "selected"; } ?>>Social Scientist</option>
+											<option value="Psychologist" <?php if ($CareerPath21 == "Psychologist") { echo "selected"; } ?>>Psychologist</option>
+											<option value="Philosopher" <?php if ($CareerPath21 == "Philosopher") { echo "selected"; } ?>>Philosopher</option>
+											<option value="Social Worker" <?php if ($CareerPath21 == "Social Worker") { echo "selected"; } ?>>Social Worker</option>
+											<option value="Political Scientist" <?php if ($CareerPath21 == "Political Scientist") { echo "selected"; } ?>>Political Scientist</option>
+											<option value="Foreign Service Officer" <?php if ($CareerPath21 == "Foreign Service Officer") { echo "selected"; } ?>>Foreign Service Officer</option>
+											<option value="Police" <?php if ($CareerPath21 == "Police") { echo "selected"; } ?>>Police</option>
+											<option value="Fireman" <?php if ($CareerPath21 == "Fireman") { echo "selected"; } ?>>Fireman</option>
+											<option value="Soldier" <?php if ($CareerPath21 == "Soldier") { echo "selected"; } ?>>Soldier</option>
+											<option value="Communication Specialist" <?php if ($CareerPath21 == "Communication Specialist") { echo "selected"; } ?>>Communication Specialist</option>
+											<option value="Educator" <?php if ($CareerPath21 == "Educator") { echo "selected"; } ?>>Educator</option>
+											<option value="Journalist" <?php if ($CareerPath21 == "Journalist") { echo "selected"; } ?>>Journalist</option>
+											<option value="Broadcast Journalist" <?php if ($CareerPath21 == "Broadcast Journalist") { echo "selected"; } ?>>Broadcast Journalist</option>
+											<option value="Entrepreneur" <?php if ($CareerPath21 == "Entrepreneur") { echo "selected"; } ?>>Entrepreneur</option>
+											<option value="Tourism Manager" <?php if ($CareerPath21 == "Tourism Manager") { echo "selected"; } ?>>Tourism Manager</option>
+											<option value="Business Administrator" <?php if ($CareerPath21 == "Business Administrator") { echo "selected"; } ?>>Business Administrator</option>
+											<option value="Accountant" <?php if ($CareerPath21 == "Accountant") { echo "selected"; } ?>>Accountant</option>
+											<option value="Business Economist" <?php if ($CareerPath21 == "Business Economist") { echo "selected"; } ?>>Business Economist</option>
+											<option value="Banking and Finance Specialist" <?php if ($CareerPath21 == "Banking and Finance Specialist") { echo "selected"; } ?>>Banking and Finance Specialist</option>
+											<option value="Management Consultant" <?php if ($CareerPath21 == "Management Consultant") { echo "selected"; } ?>>Management Consultant</option>
+											<option value="IT Specialist" <?php if ($CareerPath21 == "IT Specialist") { echo "selected"; } ?>>IT Specialist</option>
+											<option value="Software Developer" <?php if ($CareerPath21 == "Software Developer") { echo "selected"; } ?>>Software Developer</option>
+											<option value="Computer Engineer" <?php if ($CareerPath21 == "Computer Engineer") { echo "selected"; } ?>>Computer Engineer</option>
+											<option value="Software Engineer" <?php if ($CareerPath21 == "Software Engineer") { echo "selected"; } ?>>Software Engineer</option>
+											<option value="Network Administrator" <?php if ($CareerPath21 == "Network Administrator") { echo "selected"; } ?>>Network Administrator</option>
+											<option value="Digital Media Designer" <?php if ($CareerPath21 == "Digital Media Designer") { echo "selected"; } ?>>Digital Media Designer</option>
+											<option value="Web Developer" <?php if ($CareerPath21 == "Web Developer") { echo "selected"; } ?>>Web Developer</option>
+											<option value="Cybersecurity Analyst" <?php if ($CareerPath21 == "Cybersecurity Analyst") { echo "selected"; } ?>>Cybersecurity Analyst</option>
+											<option value="Data Scientist" <?php if ($CareerPath21 == "Data Scientist") { echo "selected"; } ?>>Data Scientist</option>
+											<option value="Information Systems Manager" <?php if ($CareerPath21 == "Information Systems Manager") { echo "selected"; } ?>>Information Systems Manager</option>
+											<option value="Chef" <?php if ($CareerPath21 == "Chef") { echo "selected"; } ?>>Chef</option>
+											<option value="Pastry Chef" <?php if ($CareerPath21 == "Pastry Chef") { echo "selected"; } ?>>Pastry Chef</option>
+											<option value="Fashion Designer" <?php if ($CareerPath21 == "Fashion Designer") { echo "selected"; } ?>>Fashion Designer</option>
+											<option value="Textile Designer" <?php if ($CareerPath21 == "Textile Designer") { echo "selected"; } ?>>Textile Designer</option>
+											<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath21 == "Family and Consumer Sciences Educator") { echo "selected"; } ?>>Family and Consumer Sciences Educator</option>
+											<option value="Interior Designer" <?php if ($CareerPath21 == "Interior Designer") { echo "selected"; } ?>>Interior Designer</option>
+											<option value="Home Economics Educator" <?php if ($CareerPath21 == "Home Economics Educator") { echo "selected"; } ?>>Home Economics Educator</option>
+											<option value="Event Planner" <?php if ($CareerPath21 == "Event Planner") { echo "selected"; } ?>>Event Planner</option>
+											<option value="Nutritionist" <?php if ($CareerPath21 == "Nutritionist") { echo "selected"; } ?>>Nutritionist</option>
+											<option value="Dietitian" <?php if ($CareerPath21 == "Dietitian") { echo "selected"; } ?>>Dietitian</option>
+											<option value="Hotel Manager" <?php if ($CareerPath21 == "Hotel Manager") { echo "selected"; } ?>>Hotel Manager</option>
+											<option value="Restaurant Manager" <?php if ($CareerPath21 == "Restaurant Manager") { echo "selected"; } ?>>Restaurant Manager</option>
+											<option value="Child Life Specialist" <?php if ($CareerPath21 == "Child Life Specialist") { echo "selected"; } ?>>Child Life Specialist</option>
+											<option value="Family Counselor" <?php if ($CareerPath21 == "Family Counselor") { echo "selected"; } ?>>Family Counselor</option>
+											<option value="Food Service Manager" <?php if ($CareerPath21 == "Food Service Manager") { echo "selected"; } ?>>Food Service Manager</option>
 													</select>
 													<label for="CareerPath2" class="form-label">Career - 2nd Choice</label>
 												</div>
@@ -1394,67 +1399,68 @@ if (!isset($_SESSION["student"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="CareerPath3" name="CareerPath3">
-														<option value="N/A">N/A</option>
-														<option value="Chemical Engineer">Chemical Engineer</option>
-														<option value="Industrial Engineer">Industrial Engineer</option>
-														<option value="Biologist">Biologist</option>
-														<option value="Mathematician">Mathematician</option>
-														<option value="Statistician">Statistician</option>
-														<option value="Physicist">Physicist</option>
-														<option value="Architect">Architect</option>
-														<option value="Doctor">Doctor</option>
-														<option value="Registered Nurse">Registered Nurse</option>
-														<option value="Physical Therapist">Physical Therapist</option>
-														<option value="Pharmacist">Pharmacist</option>
-														<option value="Civil Engineer">Civil Engineer</option>
-														<option value="Mechanical Engineer">Mechanical Engineer</option>
-														<option value="Food Technologist">Food Technologist</option>
-														<option value="Environmental Scientist">Environmental Scientist</option>
-														<option value="Social Scientist">Social Scientist</option>
-														<option value="Psychologist">Psychologist</option>
-														<option value="Philosopher">Philosopher</option>
-														<option value="Social Worker">Social Worker</option>
-														<option value="Political Scientist">Political Scientist</option>
-														<option value="Foreign Service Officer">Foreign Service Officer</option>
-														<option value="Police">Police</option>
-														<option value="Police">Fireman</option>
-														<option value="Soldier">Soldier</option>
-														<option value="Communication Specialist">Communication Specialist</option>
-														<option value="Educator">Educator</option>
-														<option value="Journalist">Journalist</option>
-														<option value="Broadcast Journalist">Broadcast Journalist</option>
-														<option value="Entrepreneur">Entrepreneur</option>
-														<option value="Tourism Manager">Tourism Manager</option>
-														<option value="Business Administrator">Business Administrator</option>
-														<option value="Accountant">Accountant</option>
-														<option value="Business Economist">Business Economist</option>
-														<option value="Banking and Finance Specialist">Banking and Finance Specialist</option>
-														<option value="Management Consultant">Management Consultant</option>
-														<option value="IT Specialist">IT Specialist</option>
-														<option value="Software Developer">Software Developer</option>
-														<option value="Computer Engineer">Computer Engineer</option>
-														<option value="Software Engineer">Software Engineer</option>
-														<option value="Network Administrator">Network Administrator</option>
-														<option value="Digital Media Designer">Digital Media Designer</option>
-														<option value="Web Developer">Web Developer</option>
-														<option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
-														<option value="Data Scientist">Data Scientist</option>
-														<option value="Information Systems Manager">Information Systems Manager</option>
-														<option value="Chef">Chef</option>
-														<option value="Pastry Chef">Pastry Chef</option>
-														<option value="Fashion Designer">Fashion Designer</option>
-														<option value="Textile Designer">Textile Designer</option>
-														<option value="Family and Consumer Sciences Educator">Family and Consumer Sciences Educator</option>
-														<option value="Interior Designer">Interior Designer</option>
-														<option value="Home Economics Educator">Home Economics Educator</option>
-														<option value="Event Planner">Event Planner</option>
-														<option value="Nutritionist">Nutritionist</option>
-														<option value="Dietitian">Dietitian</option>
-														<option value="Hotel Manager">Hotel Manager</option>
-														<option value="Restaurant Manager">Restaurant Manager</option>
-														<option value="Child Life Specialist">Child Life Specialist</option>
-														<option value="Family Counselor">Family Counselor</option>
-														<option value="Food Service Manager">Food Service Manager</option>
+													<option value="N/A" <?php if ($CareerPath31 == "N/A") { echo "selected"; } ?>>N/A</option>
+													<option value="Chemical Engineer" <?php if ($CareerPath31 == "Chemical Engineer") { echo "selected"; } ?>>Chemical Engineer</option>
+													<option value="Industrial Engineer" <?php if ($CareerPath31 == "Industrial Engineer") { echo "selected"; } ?>>Industrial Engineer</option>
+													<option value="Biologist" <?php if ($CareerPath31 == "Biologist") { echo "selected"; } ?>>Biologist</option>
+													<option value="Mathematician" <?php if ($CareerPath31 == "Mathematician") { echo "selected"; } ?>>Mathematician</option>
+													<option value="Statistician" <?php if ($CareerPath31 == "Statistician") { echo "selected"; } ?>>Statistician</option>
+													<option value="Physicist" <?php if ($CareerPath31 == "Physicist") { echo "selected"; } ?>>Physicist</option>
+													<option value="Architect" <?php if ($CareerPath31 == "Architect") { echo "selected"; } ?>>Architect</option>
+													<option value="Doctor" <?php if ($CareerPath31 == "Doctor") { echo "selected"; } ?>>Doctor</option>
+													<option value="Registered Nurse" <?php if ($CareerPath31 == "Registered Nurse") { echo "selected"; } ?>>Registered Nurse</option>
+													<option value="Physical Therapist" <?php if ($CareerPath31 == "Physical Therapist") { echo "selected"; } ?>>Physical Therapist</option>
+													<option value="Pharmacist" <?php if ($CareerPath31 == "Pharmacist") { echo "selected"; } ?>>Pharmacist</option>
+													<option value="Civil Engineer" <?php if ($CareerPath31 == "Civil Engineer") { echo "selected"; } ?>>Civil Engineer</option>
+													<option value="Mechanical Engineer" <?php if ($CareerPath31 == "Mechanical Engineer") { echo "selected"; } ?>>Mechanical Engineer</option>
+													<option value="Food Technologist" <?php if ($CareerPath31 == "Food Technologist") { echo "selected"; } ?>>Food Technologist</option>
+													<option value="Environmental Scientist" <?php if ($CareerPath31 == "Environmental Scientist") { echo "selected"; } ?>>Environmental Scientist</option>
+													<option value="Social Scientist" <?php if ($CareerPath31 == "Social Scientist") { echo "selected"; } ?>>Social Scientist</option>
+													<option value="Psychologist" <?php if ($CareerPath31 == "Psychologist") { echo "selected"; } ?>>Psychologist</option>
+													<option value="Philosopher" <?php if ($CareerPath31 == "Philosopher") { echo "selected"; } ?>>Philosopher</option>
+													<option value="Social Worker" <?php if ($CareerPath31 == "Social Worker") { echo "selected"; } ?>>Social Worker</option>
+													<option value="Political Scientist" <?php if ($CareerPath31 == "Political Scientist") { echo "selected"; } ?>>Political Scientist</option>
+													<option value="Foreign Service Officer" <?php if ($CareerPath31 == "Foreign Service Officer") { echo "selected"; } ?>>Foreign Service Officer</option>
+													<option value="Police" <?php if ($CareerPath31 == "Police") { echo "selected"; } ?>>Police</option>
+													<option value="Fireman" <?php if ($CareerPath31 == "Fireman") { echo "selected"; } ?>>Fireman</option>
+													<option value="Soldier" <?php if ($CareerPath31 == "Soldier") { echo "selected"; } ?>>Soldier</option>
+													<option value="Communication Specialist" <?php if ($CareerPath31 == "Communication Specialist") { echo "selected"; } ?>>Communication Specialist</option>
+													<option value="Educator" <?php if ($CareerPath31 == "Educator") { echo "selected"; } ?>>Educator</option>
+													<option value="Journalist" <?php if ($CareerPath31 == "Journalist") { echo "selected"; } ?>>Journalist</option>
+													<option value="Broadcast Journalist" <?php if ($CareerPath31 == "Broadcast Journalist") { echo "selected"; } ?>>Broadcast Journalist</option>
+													<option value="Entrepreneur" <?php if ($CareerPath31 == "Entrepreneur") { echo "selected"; } ?>>Entrepreneur</option>
+													<option value="Tourism Manager" <?php if ($CareerPath31 == "Tourism Manager") { echo "selected"; } ?>>Tourism Manager</option>
+													<option value="Business Administrator" <?php if ($CareerPath31 == "Business Administrator") { echo "selected"; } ?>>Business Administrator</option>
+													<option value="Accountant" <?php if ($CareerPath31 == "Accountant") { echo "selected"; } ?>>Accountant</option>
+													<option value="Business Economist" <?php if ($CareerPath31 == "Business Economist") { echo "selected"; } ?>>Business Economist</option>
+													<option value="Banking and Finance Specialist" <?php if ($CareerPath31 == "Banking and Finance Specialist") { echo "selected"; } ?>>Banking and Finance Specialist</option>
+													<option value="Management Consultant" <?php if ($CareerPath31 == "Management Consultant") { echo "selected"; } ?>>Management Consultant</option>
+													<option value="IT Specialist" <?php if ($CareerPath31 == "IT Specialist") { echo "selected"; } ?>>IT Specialist</option>
+													<option value="Software Developer" <?php if ($CareerPath31 == "Software Developer") { echo "selected"; } ?>>Software Developer</option>
+													<option value="Computer Engineer" <?php if ($CareerPath31 == "Computer Engineer") { echo "selected"; } ?>>Computer Engineer</option>
+													<option value="Software Engineer" <?php if ($CareerPath31 == "Software Engineer") { echo "selected"; } ?>>Software Engineer</option>
+													<option value="Network Administrator" <?php if ($CareerPath31 == "Network Administrator") { echo "selected"; } ?>>Network Administrator</option>
+													<option value="Digital Media Designer" <?php if ($CareerPath31 == "Digital Media Designer") { echo "selected"; } ?>>Digital Media Designer</option>
+													<option value="Web Developer" <?php if ($CareerPath31 == "Web Developer") { echo "selected"; } ?>>Web Developer</option>
+													<option value="Cybersecurity Analyst" <?php if ($CareerPath31 == "Cybersecurity Analyst") { echo "selected"; } ?>>Cybersecurity Analyst</option>
+													<option value="Data Scientist" <?php if ($CareerPath31 == "Data Scientist") { echo "selected"; } ?>>Data Scientist</option>
+													<option value="Information Systems Manager" <?php if ($CareerPath31 == "Information Systems Manager") { echo "selected"; } ?>>Information Systems Manager</option>
+													<option value="Chef" <?php if ($CareerPath31 == "Chef") { echo "selected"; } ?>>Chef</option>
+													<option value="Pastry Chef" <?php if ($CareerPath31 == "Pastry Chef") { echo "selected"; } ?>>Pastry Chef</option>
+													<option value="Fashion Designer" <?php if ($CareerPath31 == "Fashion Designer") { echo "selected"; } ?>>Fashion Designer</option>
+													<option value="Textile Designer" <?php if ($CareerPath31 == "Textile Designer") { echo "selected"; } ?>>Textile Designer</option>
+													<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath31 == "Family and Consumer Sciences Educator") { echo "selected"; } ?>>Family and Consumer Sciences Educator</option>
+													<option value="Interior Designer" <?php if ($CareerPath31 == "Interior Designer") { echo "selected"; } ?>>Interior Designer</option>
+													<option value="Home Economics Educator" <?php if ($CareerPath31 == "Home Economics Educator") { echo "selected"; } ?>>Home Economics Educator</option>
+													<option value="Event Planner" <?php if ($CareerPath31 == "Event Planner") { echo "selected"; } ?>>Event Planner</option>
+													<option value="Nutritionist" <?php if ($CareerPath31 == "Nutritionist") { echo "selected"; } ?>>Nutritionist</option>
+													<option value="Dietitian" <?php if ($CareerPath31 == "Dietitian") { echo "selected"; } ?>>Dietitian</option>
+													<option value="Hotel Manager" <?php if ($CareerPath31 == "Hotel Manager") { echo "selected"; } ?>>Hotel Manager</option>
+													<option value="Restaurant Manager" <?php if ($CareerPath31 == "Restaurant Manager") { echo "selected"; } ?>>Restaurant Manager</option>
+													<option value="Child Life Specialist" <?php if ($CareerPath31 == "Child Life Specialist") { echo "selected"; } ?>>Child Life Specialist</option>
+													<option value="Family Counselor" <?php if ($CareerPath31 == "Family Counselor") { echo "selected"; } ?>>Family Counselor</option>
+													<option value="Food Service Manager" <?php if ($CareerPath31 == "Food Service Manager") { echo "selected"; } ?>>Food Service Manager</option>
+
 													</select>
 													<label for="CareerPath3" class="form-label">Career - 3rd Choice</label>
 												</div>

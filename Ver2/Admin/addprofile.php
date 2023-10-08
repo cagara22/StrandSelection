@@ -238,12 +238,12 @@
         });
 
         function validateName(input) {
-            var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+    var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
 
-            if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
-            }
-        }
+    if (!regex.test(input.value)) {
+        input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any characters that do not match the allowed set
+    }
+}
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
