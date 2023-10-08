@@ -207,7 +207,7 @@ if (!isset($_SESSION["student"])) {
 											$intDisciplinesIdeasSocialSciences1 = $row['intDisciplinesIdeasSocialSciences'];
 											$intAppliedEconomics1 = $row['intAppliedEconomics'];
 											$intBusinessEthicsSocialResponsibility1 = $row['intBusinessEthicsSocialResponsibility'];
-											$intFundamentalsABM = $row['intFundamentalsABM'];
+											$intFundamentalsABM1 = $row['intFundamentalsABM'];
 											$intBusinessMath1 = $row['intBusinessMath'];
 											$intBusinessFinance1 = $row['intBusinessFinance'];
 											$intOrganizationManagement1 = $row['intOrganizationManagement'];
@@ -226,14 +226,14 @@ if (!isset($_SESSION["student"])) {
 											$acadMath1 = $row['acadMath'];
 											$acadEnglish1 = $row['acadEnglish'];
 											$acadFilipino1 = $row['acadFilipino'];
-											$acadICTRelatedSubject1 = $row['acadICTRelatedSubject'];
-											$acadHERelatedSubject1 = $row['acadHERelatedSubject'];
+											$acadICTRelatedSub1 = $row['acadICTRelatedSubject'];
+											$acadHERelatedSub1 = $row['acadHERelatedSubject'];
 											//careerpath
 											$CareerPath11 = $row['CareerPath1'];
 											$CareerPath21 = $row['CareerPath2'];
 											$CareerPath31 = $row['CareerPath3'];
 											//socioeco
-											$TotalMonthlyIncome1 = $row['TotalMonthlyIncome'];
+											$TotalHouseholdMonthlyIncome1 = $row['TotalHouseholdMonthlyIncome'];
 										}
 									}
 								}
@@ -414,7 +414,8 @@ if (!isset($_SESSION["student"])) {
 									$intBreadPastryProduction = $_POST['intBreadPastryProduction'];
 									$intFashionDesign = $_POST['intFashionDesign'];
 									$intFoodBeverages = $_POST['intFoodBeverages'];
-									$intTailoring = isset($_POST['intTailoring']) ? $_POST['intTailoring'] : '';
+									$intTailoring =  $_POST['intTailoring'];
+									$intChemistry =  $_POST['intChemistry'];
 									$acadScience = $_POST['acadScience'];
 									$acadMath = $_POST['acadMath'];
 									$acadEnglish = $_POST['acadEnglish'];
@@ -426,7 +427,7 @@ if (!isset($_SESSION["student"])) {
 									$CareerPath2 = $_POST['CareerPath2'];
 									$CareerPath3 = $_POST['CareerPath3'];
 									//socioeco
-									$TotalMonthlyIncome = isset($_POST['TotalMonthlyIncome']) ? $_POST['TotalMonthlyIncome'] : '';
+									$TotalHouseholdMonthlyIncome = isset($_POST['TotalHouseholdMonthlyIncome']) ? $_POST['TotalHouseholdMonthlyIncome'] : '';
 
 									// Prepare update query
 									$sql2 = "UPDATE studentprofile
@@ -475,6 +476,7 @@ if (!isset($_SESSION["student"])) {
 					-- interests
 					studentinterest.intCalculus = '$intCalculus',
 					studentinterest.intBiology = '$intBiology',
+					studentinterest.intPhysics = '$intPhysics',
 					studentinterest.intCreativeWriting = '$intCreativeWriting',
 					studentinterest.intCreativeNonfiction = '$intCreativeNonfiction',
 					studentinterest.intIntroWorldReligionsBeliefSystems = '$intIntroWorldReligionsBeliefSystems',
@@ -497,6 +499,7 @@ if (!isset($_SESSION["student"])) {
 					studentinterest.intFashionDesign = '$intFashionDesign',
 					studentinterest.intFoodBeverages = '$intFoodBeverages',
 					studentinterest.intTailoring = '$intTailoring',
+					studentinterest.intChemistry = '$intChemistry',
 			
 					studentacad.acadScience = '$acadScience',
 					studentacad.acadMath = '$acadMath',
@@ -508,7 +511,7 @@ if (!isset($_SESSION["student"])) {
 					studentcareer.CareerPath1 = '$CareerPath1',
 					studentcareer.CareerPath2 = '$CareerPath2',
 					studentcareer.CareerPath3 = '$CareerPath3',
-					studentsocioeco.TotalMonthlyIncome = '$TotalMonthlyIncome'
+					studentsocioeco.TotalHouseholdMonthlyIncome = '$TotalHouseholdMonthlyIncome'
 				WHERE
 					studentprofile.lrn = '$id'";
 
@@ -1011,7 +1014,7 @@ if (!isset($_SESSION["student"])) {
 											<div class="col-12 col-md-6">
 												<div>
 													<label for="intTailoring " class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Sewing and creating tailored clothing.">Tailoring </label>
-													<input type="range" class="form-range" min="0" max="5" id="intTailoring " name="intTailoring " value="<?php echo $intTailoring1 ?>">
+													<input type="range" class="form-range" min="0" max="5" id="intTailoring" name="intTailoring" value="<?php echo $intTailoring1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
 													</div>
@@ -1025,13 +1028,15 @@ if (!isset($_SESSION["student"])) {
 										<div class="form-floating mb-3">
 											<select class="form-select" id="TotalHouseholdMonthlyIncome" name="TotalHouseholdMonthlyIncome" value="">
 												<option selected value="SELECT">SELECT</option>
-												<option value="less than P9,100">less than P9,100</option>
-												<option value="P9,100-P18,200">P9,100-P18,200</option>
-												<option value="P18,200-P36,400">P18,200-P36,400</option>
-												<option value="P36,400-P63,700">P36,400-P63,700</option>
-												<option value="P63,700-P109,200">P63,700-P109,200</option>
-												<option value="P109,200-P182,000">P109,200-P182,000</option>
-												<option value="greater than P182,000">greater than P182,000</option>
+												
+											<option value="less than P9,100" <?php if ($TotalHouseholdMonthlyIncome1 == "less than P9,100") { echo "selected"; } ?>>less than P9,100</option>
+											<option value="P9,100-P18,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P9,100-P18,200") { echo "selected"; } ?>>P9,100-P18,200</option>
+											<option value="P18,200-P36,400" <?php if ($TotalHouseholdMonthlyIncome1 == "P18,200-P36,400") { echo "selected"; } ?>>P18,200-P36,400</option>
+											<option value="P36,400-P63,700" <?php if ($TotalHouseholdMonthlyIncome1 == "P36,400-P63,700") { echo "selected"; } ?>>P36,400-P63,700</option>
+											<option value="P63,700-P109,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P63,700-P109,200") { echo "selected"; } ?>>P63,700-P109,200</option>
+											<option value="P109,200-P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "P109,200-P182,000") { echo "selected"; } ?>>P109,200-P182,000</option>
+											<option value="greater than P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "greater than P182,000") { echo "selected"; } ?>>greater than P182,000</option>
+
 											</select>
 											<label for="TotalHouseholdMonthlyIncome">Total Household Monthly Income</label>
 										</div>
@@ -1074,7 +1079,6 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadEnglish" name="acadEnglish">
 														<option selected value="SELECT">SELECT</option>
-														<option selected value="SELECT">SELECT</option>
 														<option value="100 - 95" <?php if ($acadEnglish1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
 														<option value="94 - 90" <?php if ($acadEnglish1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
 														<option value="89 - 80" <?php if ($acadEnglish1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
@@ -1088,7 +1092,6 @@ if (!isset($_SESSION["student"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadFilipino" name="acadFilipino">
-														<option selected value="SELECT">SELECT</option>
 														<option selected value="SELECT">SELECT</option>
 														<option value="100 - 95" <?php if ($acadFilipino1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
 														<option value="94 - 90" <?php if ($acadFilipino1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
@@ -1104,8 +1107,7 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadICTRelatedSub" name="acadICTRelatedSub">
 														<option selected value="SELECT">SELECT</option>
-														<option value="N/A">N/A</option>
-														<option selected value="SELECT">SELECT</option>
+														<option value="N/A" <?php if ($acadICTRelatedSub1 == "N/A") { echo "selected"; } ?>>N/A</option>
 														<option value="100 - 95" <?php if ($acadICTRelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
 														<option value="94 - 90" <?php if ($acadICTRelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
 														<option value="89 - 80" <?php if ($acadICTRelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
@@ -1120,13 +1122,13 @@ if (!isset($_SESSION["student"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadHERelatedSub" name="acadHERelatedSub">
 														<option selected value="SELECT">SELECT</option>
-														<option value="N/A">N/A</option>
+														<option value="N/A" <?php if ($acadHERelatedSub1 == "N/A") { echo "selected"; } ?>>N/A</option>
 														<option value="100 - 95" <?php if ($acadHERelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
 														<option value="94 - 90" <?php if ($acadHERelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
 														<option value="89 - 80" <?php if ($acadHERelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
 														<option value="79 - 75" <?php if ($acadHERelatedSub1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadHEICTRelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadHEICTRelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="74 - 70" <?php if ($acadHERelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadHERelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
 													</select>
 													<label for="acadHERelatedSub" class="form-label">HE Related Subject</label>
 												</div>
@@ -1162,7 +1164,7 @@ if (!isset($_SESSION["student"])) {
 														<option value="Physicist" <?php if ($CareerPath11 == "Physicist") {
 																						echo "selected";
 																					} ?>>Physicist</option>
-														<option value="Architect" <?php if ($Career11 == "Architect") {
+														<option value="Architect" <?php if ($CareerPath11 == "Architect") {
 																						echo "selected";
 																					} ?>>Architect</option>
 														<option value="Doctor" <?php if ($CareerPath11 == "Doctor") {

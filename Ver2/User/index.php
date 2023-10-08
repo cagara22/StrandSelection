@@ -1,20 +1,6 @@
 <?php
 session_start();
-
-if (!isset($_SESSION["student"])) {
-
 ?>
-	<script type="text/javascript">
-		window.location = "index.php";
-	</script>
-<?php
-
-}
-?>
-<?php
-session_start();
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -91,15 +77,15 @@ session_start();
 						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="lrn" placeholder="111111111111">
+								<input type="text" class="form-control" id="lrn" name ="lrn" placeholder="111111111111">
 								<label for="lrn">LRN</label>
 							</div>
 							<div class="form-floating">
-								<input type="password" class="form-control" id="password" placeholder="password">
+								<input type="password" class="form-control" id="password" name ="password" placeholder="password">
 								<label for="password">PASSWORD</label>
 							</div>
 							<div class="d-grid gap-2 my-2">
-								<button type="button" class="btn btn-warning form-button-text"><span class="fw-bold">LOGIN</span></button>
+								<button type="submit" class="btn btn-warning form-button-text"><span class="fw-bold">LOGIN</span></button>
 							</div>
 						</form>
 					</div>
