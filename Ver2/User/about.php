@@ -57,7 +57,7 @@ if (!isset($_SESSION["student"])) {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php echo $_SESSION["student"]; ?>
+                            <?php echo $_SESSION['fname']; ?>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -90,7 +90,7 @@ if (!isset($_SESSION["student"])) {
                     <div class="col-md-9">
                         <div class="card-body">
                             <h3 class="card-title fw-bold sub-title">ABOUT</h3>
-                            <p class="card-text fw-bold">Welcome to our Decision Support System (DSS) for Senior High School Students! Our DSS is designed to help incoming senior high school students at Leyte National High School in selecting the most suitable strand based on their academic performance, interests, skills, and future job ambitions. Our system uses a structured and objective approach to decision-making, ensuring that students make informed choices and align their academic and career aspirations with the most suitable strand. Our web-based application provides an easy-to-use interface for students, making the process of selecting a strand efficient and stress-free. Join us and discover your path today!</p>
+                            <p class="card-text fw-bold">Welcome to our Decision Support System (DSS) for Senior High School Students! Our DSS is designed to help incoming senior high school students at Leyte National High School in selecting the most suitable strand based on their academic performance, interests, skills, socio-economic background, and future job ambitions. Our system uses a structured and objective approach to decision-making, ensuring that students make informed choices and align their academic and career aspirations with the most suitable strand. Our web-based application provides an easy-to-use interface for students, making the process of selecting a strand efficient and stress-free. Join us and discover your path today!</p>
                         </div>
                     </div>
                 </div>

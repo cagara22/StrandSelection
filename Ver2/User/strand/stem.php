@@ -57,7 +57,7 @@ if (!isset($_SESSION["student"])) {
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php echo $_SESSION["student"]; ?>
+							<?php echo $_SESSION['fname']; ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>

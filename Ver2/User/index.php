@@ -53,9 +53,11 @@ session_start();
 							if ($num == 1) {
 								$data = mysqli_fetch_assoc($q);
 								$upass = $data['password'];
+								$ufname = $data['Fname'];
 
 								if (md5($password) == "$upass") {
 									$_SESSION['student'] = $username;
+									$_SESSION['fname'] = $ufname;
 									header("Location: home.php");
 								} else {
 									echo "<script>swal({
@@ -67,7 +69,7 @@ session_start();
 								}
 							} else {
 								echo "<script>swal({
-											title: 'Invalid Username or Account not yet approved.',
+											title: 'Invalid Username or Account not yet created!.',
 											icon: 'error',
 											button: 'OK',
 										});</script>";
@@ -77,7 +79,7 @@ session_start();
 						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="lrn" name ="lrn" placeholder="111111111111">
+								<input type="text" class="form-control" id="lrn" name ="lrn" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="12" placeholder="111111111111">
 								<label for="lrn">LRN</label>
 							</div>
 							<div class="form-floating">

@@ -57,7 +57,7 @@ if (!isset($_SESSION["student"])) {
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php echo $_SESSION["student"]; ?>
+							<?php echo $_SESSION['fname']; ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -77,20 +77,20 @@ if (!isset($_SESSION["student"])) {
 		</div>
 	</div>
 
-	<section class="section-100 d-flex flex-column justify-content-center align-items-center text-center p-3" id="first">
+	<section class="section-100 d-flex flex-column justify-content-center align-items-center text-center px-3" id="first" style="padding-top: 4.3rem;">
 		<h1 class="sub-title fw-bold">WHAT TO EXPECT?</h1>
 		<div class="row my-3" style="width:100%">
 			<div class="col-12 col-lg-4">
-				<div class="card border-light text-center align-items-center mx-auto" style="width: 18rem;">
+				<div class="card border-light text-center align-items-center mx-auto p-3" style="width: 18rem;">
 					<img src="./images/personalization.png" class="cust-img-75" alt="...">
 					<div class="card-body">
 						<h5 class="card-title fw-bold">Personalized Strand Recommendations</h5>
-						<p class="card-text lh-1">Our system utilizes a sophisticated algorithm to analyze academic performance, skills, interests, and career aspirations, providing personalized recommendations for senior high school strands that align with each student's unique profile.</p>
+						<p class="card-text lh-1">Our system utilizes a sophisticated algorithm to analyze academic performance, skills, interests, career aspirations and socio-economic background, providing personalized recommendations for senior high school strands that align with each student's unique profile.</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-12 col-lg-4">
-				<div class="card border-light text-center align-items-center mx-auto" style="width: 18rem;">
+				<div class="card border-light text-center align-items-center mx-auto p-3" style="width: 18rem;">
 					<img src="./images/comprehensive.png" class="cust-img-75" alt="...">
 					<div class="card-body">
 						<h5 class="card-title fw-bold">Comprehensive Information Hub</h5>
@@ -99,7 +99,7 @@ if (!isset($_SESSION["student"])) {
 				</div>
 			</div>
 			<div class="col-12 col-lg-4">
-				<div class="card border-light text-center align-items-center mx-auto" style="width: 18rem;">
+				<div class="card border-light text-center align-items-center mx-auto p-3" style="width: 18rem;">
 					<img src="./images/efficacy.png" class="cust-img-75" alt="...">
 					<div class="card-body">
 						<h5 class="card-title fw-bold">Efficient Decision-Making</h5>
@@ -165,7 +165,7 @@ if (!isset($_SESSION["student"])) {
 			</div>
 			<div class="col-12 col-md-3 text-center">
 				<div class="py-5">
-					<a href=""><button type="button" class="btn btn-outline-warning btn-lg fw-bold fs-3">GET STARTED</button></a>
+					<a href="./strand.php"><button type="button" class="btn btn-outline-warning btn-lg fw-bold fs-3">GET STARTED</button></a>
 				</div>
 			</div>
 		</div>
