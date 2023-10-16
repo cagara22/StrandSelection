@@ -4,14 +4,13 @@ session_start();
 if (!isset($_SESSION["admin"])) {
 
 ?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
+	<script type="text/javascript">
+		window.location = "index.php";
+	</script>
 <?php
 
 }
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -108,40 +107,91 @@ if (!isset($_SESSION["admin"])) {
                         <h4 class="fw-bold card-text-header">Admin Details</h4>
                     </div>
                     <div class="card-body">
+                    <?php
+
+$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to the database');
+
+if (isset($_POST['add'])) {
+
+    $username = $_POST['username'];
+    $fname = $_POST['fname'];
+    $mname = $_POST['mname'];
+    $lname = $_POST['lname'];
+    $age = $_POST['age'];
+    $sex = $_POST['sex'];
+    $role = $_POST['role'];
+    $email = $_POST['email'];
+    $suffix = $_POST['suffix'];
+    $password = $_POST['password'];
+    $address = $_POST['address'];
+    $cpassword = $_POST['cpassword'];
+
+    // Check if passwords match
+    if ($password !== $cpassword) {
+        echo "<script>alert('Passwords do not match.');</script>";
+        echo "<script>document.location='admins.php';</script>";
+        exit();
+    }
+
+    $username = mysqli_real_escape_string($conn, $username); // Escape user inputs to prevent SQL injection
+    $sql = "SELECT * FROM `adminprofile` WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        $num = mysqli_num_rows($result);
+        if ($num > 0) {
+            echo "<script>alert('Admin record already exists.');</script>";
+            echo "<script>document.location='admins.php';</script>";
+        } else {
+            $hashed_password = md5($password); // Deprecated, consider using more secure methods like bcrypt or Argon2
+            $sql = "INSERT INTO `adminprofile`(`username`, `fname`, `mname`, `lname`, `suffix`, `address`, `sex`, `age`, `role`, `email`, `password`) 
+            VALUES ('$username', '$fname', '$mname', '$lname', '$suffix', '$address', '$sex', '$age', '$role', '$email', '$hashed_password')";
+            if (mysqli_query($conn, $sql)) {
+                echo "<script>alert('New record added successfully!');</script>";
+                echo "<script>document.location='admins.php';</script>";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+        }
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+?>
                         <form class="row" action="" method="post">
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" oninput="validateName(this)" placeholder="Username" required>
+                                    <input type="text" class="form-control" id="username" name ="username" oninput="validateName(this)" placeholder="Username" required>
                                     <label for="username">Username</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="fname" oninput="validateName(this)" placeholder="First Name" required>
+                                    <input type="text" class="form-control" id="fname" name = "fname" oninput="validateName(this)" placeholder="First Name" required>
                                     <label for="fname">First Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="mname" oninput="validateName(this)" placeholder="Middle Name">
+                                    <input type="text" class="form-control" id="mname" name ="mname" oninput="validateName(this)" placeholder="Middle Name">
                                     <label for="mname">Middle Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lname" oninput="validateName(this)" placeholder="Last Name" required>
+                                    <input type="text" class="form-control" id="lname" name="lname" oninput="validateName(this)" placeholder="Last Name" required>
                                     <label for="lname">Last Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="suffix" oninput="validateName(this)" placeholder="Suffix">
+                                    <input type="text" class="form-control" id="suffix" name="suffix" oninput="validateName(this)" placeholder="Suffix">
                                     <label for="suffix">Suffix</label>
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-floating mb-1">
-                                    <input type="text" class="form-control" id="address" oninput="validateAddress(this)" placeholder="Address" required>
+                                    <input type="text" class="form-control" id="address" name ="address" oninput="validateAddress(this)" placeholder="Address" required>
                                     <label for="address">Address</label>
                                 </div>
                             </div>
@@ -156,7 +206,7 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+                                    <input type="number" class="form-control" id="age" name="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
                                     <label for="age">Age</label>
                                 </div>
                             </div>
@@ -171,13 +221,13 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-floating mb-1">
-                                    <input type="email" class="form-control" id="email" placeholder="Email" required>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                                     <label for="email">Email</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass1" placeholder="Password">
+                                    <input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
                                     <label for="pass1">PASSWORD</label>
                                 </div>
                                 <div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
@@ -186,12 +236,12 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass2" placeholder="Confirm Password">
+                                    <input type="password" class="form-control" id="pass2" name ="cpassword" placeholder="Confirm Password">
                                     <label for="pass2">CONFIRM PASSWORD</label>
                                 </div>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
-                                <button type="button" class="btn btn-add form-button-text"><span class="fw-bold">ADD</span></button>
+                                <button type="submit" class="btn btn-add form-button-text" name="add"><span class="fw-bold">ADD</span></button>
                             </div>
                         </form>
                     </div>
