@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["admin"])) {
+
+?>
+	<script type="text/javascript">
+		window.location = "index.php";
+	</script>
+<?php
+
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -148,17 +161,20 @@ if ($result->num_rows > 0) {
         echo "<td class='text-center'>" . $row['age'] . "</td>";
         echo "<td class='text-center'>" . $row['sex'] . "</td>";
         echo "<td class='text-center'>" . $row['strand'] . "</td>";
-
+        
         echo "<td class='text-center'>
-            <a href='delete.php?lrn=" . $row['lrn'] . "' class='btn btn-danger btn-sm'>DELETE</a> 
-            <a href='view.php?lrn=" . $row['lrn'] . "' class='btn btn-secondary btn-sm'>VIEW</a>
-            </td>";
+            <a <a href='deleteprofile.php?lrn=" . $row['lrn'] . "' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+            <img src='./images/delete.png' alt='' width='20' height='20' class=''></a> 
+            <a href='viewprofile.php?lrn=" . $row['lrn'] . "' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
+                <img src='./images/view.png' alt='' width='20' height='20' class=''>
+            </a>
+        </td>";
         echo "</tr>";
-    }
-    echo "</table>";
-} else {
-    echo "0 results";
-}
+        }
+        echo "</table>";
+        } else {
+            echo "0 results";
+        }
 
 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
 $result = $conn->query($sql);
@@ -183,15 +199,11 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
                 <div class="p-10">
                     <strong>Page <?= $page_no; ?> of <?= $total_no_of_pages; ?></strong>
                 </div>
-        </div>
-        </div>
-        </div>
         </table>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a class="btn btn-add fw-bold" href="addprofile.php" role="button">ADD NEW PROFILE</a>
         </div>
         </section>
-        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
