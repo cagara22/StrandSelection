@@ -7,36 +7,36 @@ if (isset($_GET['lrn'])) {
     if(isset($_POST['confirm'])) {
         // Delete child records first
         $sql = "DELETE FROM studentsocioeco WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM studentinterest WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM studentskill WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM studentacad WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM studentcareer WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM result WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         $sql = "DELETE FROM exam_score WHERE lrn = '$user_id'";
-        $link->query($sql);
+        $conn->query($sql);
 
         // Finally, delete the record from the student table
         $sql = "DELETE FROM studentprofile WHERE lrn = '$user_id'";
-        $result = $link->query($sql);
+        $result = $conn->query($sql);
 
         if ($result == TRUE) {
             echo "<script type ='text/javascript'>
             window.location='profiles.php'
             </script>";
         } else {
-            echo "Error:" . $sql . "<br>" . $link->error;
+            echo "Error:" . $sql . "<br>" . $conn->error;
         }
     } else {
         // Display a confirmation prompt

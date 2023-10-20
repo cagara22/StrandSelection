@@ -41,67 +41,88 @@ if (!isset($_SESSION["admin"])) {
 		<div class="col-2">
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-					<span class="fs-4">ADMIN</span>
+					<span class="fs-4"><?php echo $_SESSION['role']; ?></span>
 				</a>
 				<hr>
 				<ul class="nav nav-pills flex-column mb-auto">
-					<li class="nav-item">
+					<li>
 						<a href="./dashboard.php" class="nav-link link-body-emphasis">
 							<img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
 							DASHBOARD
 						</a>
 					</li>
-					<li>
+					<li class="nav-item">
 						<a href="./profiles.php" class="nav-link active" aria-current="page">
 							<img src="./images/profiles.png" alt="" width="16" height="16" class="bi pe-none me-2">
 							PROFILES
 						</a>
 					</li>
-					<li>
-						<a href="./admins.php" class="nav-link link-body-emphasis">
-							<img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
-							ADMINS
-						</a>
-					</li>
-					<li>
-						<a href="./backup.php" class="nav-link link-body-emphasis">
-							<img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
-							BACKUP
-						</a>
-					</li>
-					<li>
-						<a href="./reports.php" class="nav-link link-body-emphasis">
-							<img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
-							REPORTS
-						</a>
-					</li>
-					<li>
-						<a href="./logs.php" class="nav-link link-body-emphasis">
-							<img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
-							LOGS
-						</a>
-					</li>
+					<?php
+                    
+                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                        echo '
+                        <li>
+							<a href="./admins.php" class="nav-link link-body-emphasis">
+								<img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
+								ADMINS
+							</a>
+						</li>
+						<li>
+                            <a href="./sections.php" class="nav-link link-body-emphasis">
+                                <img src="./images/section.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                SECTIONS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
+                                <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                SCHLYRS
+                            </a>
+                        </li>
+						<li>
+							<a href="./backup.php" class="nav-link link-body-emphasis">
+								<img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
+								BACKUP
+							</a>
+						</li>
+						<li>
+							<a href="./reports.php" class="nav-link link-body-emphasis">
+								<img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
+								REPORTS
+							</a>
+						</li>
+						<li>
+							<a href="./logs.php" class="nav-link link-body-emphasis">
+								<img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
+								LOGS
+							</a>
+						</li>
+                        ';
+                    }
+                    
+                    ?>
 				</ul>
 				<hr>
 				<div class="dropdown">
 					<a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 						<img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-						<strong>mdo</strong>
+						<strong><?php echo $_SESSION['admin']; ?></strong>
 					</a>
 					<ul class="dropdown-menu text-small shadow">
 						<li><a class="dropdown-item" href="#">Profile</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li><a class="dropdown-item" href="#">Sign out</a></li>
+						<li><a class="dropdown-item" href="logout.php">Sign out</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<div class="col-10">
 			<section class="section-100 d-flex flex-column py-2">
+				<?php include "connection.php"; ?>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="fw-bold sub-title">[LRN]</h1>
+					<h1 class="fw-bold sub-title"><?php echo $_GET['lrn']; ?></h1>
 				</div>
 				<div class="row w-100">
 					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
@@ -110,65 +131,81 @@ if (!isset($_SESSION["admin"])) {
 								<h4 class="fw-bold card-text-header">Account Details</h4>
 							</div>
 							<div class="card-body">
-							<?php
-		// Establish database connection
-		$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								<?php
 
-		// Check if form was submitted
-		if (isset($_POST['update1'])) {
-
-			// Retrieve form data
-			$id = $_GET["lrn"];
-			$lrn = mysqli_real_escape_string($conn, $_POST['lrn']);
+								// Check if form was submitted
+								if (isset($_POST['update1'])) {
+									// Retrieve form data
+									$id = $_GET['lrn'];
+									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
+									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
+									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
+									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
+									$age = mysqli_real_escape_string($conn, $_POST['age']);
+									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
+									$suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
+									$email = mysqli_real_escape_string($conn, $_POST['email']);
+									$section = mysqli_real_escape_string($conn, $_POST['section']);
+									$schoolyr = mysqli_real_escape_string($conn, $_POST['schoolyr']);
+									$password = md5($_POST['password']);
+									$cpassword = md5($_POST['cpassword']);
 
 									// Check if password and confirm password match
-									if (!empty($_POST['password']) && !empty($_POST['cpassword'])) {
-										$password = md5($_POST['password']);
-										$cpassword = md5($_POST['cpassword']);
-
-										if ($password !== $cpassword) {
-											echo "<script>alert('Password and Confirm Password do not match!');</script>";
+									if (!empty($_POST['password'])) {
+										if (!empty($_POST['cpassword'])) {
+											if ($password !== $cpassword) {
+												echo "<script>alert('Password and Confirm Password do not match!');</script>";
+												echo "<script>window.location.href='profile.php';</script>";
+												exit; // Exit the script if passwords do not match
+											}
+											// Define the SQL statement for updating user data
+											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$id'";
+										} else {
+											echo "<script>alert('Please confirm your password!');</script>";
 											echo "<script>window.location.href='profile.php';</script>";
-											exit; // Exit the script if passwords do not match
 										}
+									} else {
+										// Define the SQL statement for updating user data
+										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
 									}
 
-									// Define the SQL statement for updating user data
-									$sql = "UPDATE studentprofile SET `lrn` ='$lrn', `password`='$password' WHERE lrn='$id'";
+									// Execute the update query
+									if (mysqli_query($conn, $sql)) {
+										$affected_rows = mysqli_affected_rows($conn);
 
+										if ($affected_rows > 0) {
+											echo "<script>alert('Record updated successfully!');</script>";
+											echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
+											$_SESSION['fname'] = $Fname;
+										} else {
+											echo "<script>alert('No changes were made to the record.');</script>";
+										}
+									} else {
+										echo "Error updating record: " . mysqli_error($conn);
+									}
+								}
 
-			// Execute update query
-			$result = $conn->query($sql);
+								if (isset($_GET['lrn'])) {
 
-			// Check if query was successful
-			if ($result) {
-				// Display success message and redirect to profiles page
-				echo "<script>alert('Record updated successfully!')</script>";
-				echo "<script>window.location.href = 'profiles.php';</script>";
-			} else {
-				// Display error message and MySQL error details
-				echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-			}
-		}
+									$user_id = $_GET['lrn'];
 
-		if (isset($_GET['lrn'])) {
+									$sql = "SELECT * FROM studentprofile
+					JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
+					JOIN studentacad ON studentcareer.lrn = studentacad.lrn
+					JOIN studentskill ON studentacad.lrn = studentskill.lrn
+					JOIN studentinterest ON studentskill.lrn = studentinterest.lrn
+					JOIN studentsocioeco  ON studentinterest.lrn = studentsocioeco.lrn
+					JOIN result ON studentsocioeco.lrn = result.lrn WHERE studentprofile.lrn = '$user_id';";
 
-			$user_id = $_GET['lrn'];
+									$result = $conn->query($sql);
 
-			$sql = "SELECT * FROM studentprofile
-			JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
-			JOIN studentacad ON studentcareer.lrn = studentacad.lrn
-			JOIN studentskill ON studentacad.lrn = studentskill.lrn
-			JOIN studentinterest ON studentskill.lrn = studentinterest.lrn
-			JOIN studentsocioeco  ON studentinterest.lrn = studentsocioeco.lrn WHERE studentprofile.lrn = '$user_id';";
+									if ($result->num_rows > 0) {
 
-							$result = $conn->query($sql);
+										while ($row = $result->fetch_assoc()) {
 
-							if ($result->num_rows > 0) {
-
-								while ($row = $result->fetch_assoc()) {
-
-					$lrn1 = $row['lrn'];
+											$lrn1 = $row['lrn'];
 											$Fname1 = $row['Fname'];
 											$Mname1 = $row['Mname'];
 											$Lname1 = $row['Lname'];
@@ -177,6 +214,8 @@ if (!isset($_SESSION["admin"])) {
 											$suffix1 = $row['suffix'];
 											$sex1 = $row['sex'];
 											$email1 = $row['email'];
+											$sectionID1 = $row['sectionID'];
+											$schoolyrID1 = $row['schoolyrID'];
 											//skills
 											$skiCommunicationSkills1 = $row['skiCommunicationSkills'];
 											$skiCriticalThinking1 = $row['skiCriticalThinking'];
@@ -242,6 +281,7 @@ if (!isset($_SESSION["admin"])) {
 											$intFashionDesign1 = $row['intFashionDesign'];
 											$intFoodBeverages1 = $row['intFoodBeverages'];
 											$intTailoring1 = $row['intTailoring'];
+											//acadperf
 											$acadScience1 = $row['acadScience'];
 											$acadMath1 = $row['acadMath'];
 											$acadEnglish1 = $row['acadEnglish'];
@@ -254,12 +294,14 @@ if (!isset($_SESSION["admin"])) {
 											$CareerPath31 = $row['CareerPath3'];
 											//socioeco
 											$TotalHouseholdMonthlyIncome1 = $row['TotalHouseholdMonthlyIncome'];
-				}
-			}
-		}
-		?>
+											//result
+											$strandResult = $row['MostSuitableStrand'];
+										}
+									}
+								}
+								?>
 								<form class="row" action="" method="post">
-								<div class="col-12 mb-1">
+									<div class="col-12 mb-1">
 										<div class="form-floating mb-3">
 											<input type="number" class="form-control" id="lrn" name="lrn" value="<?php echo $lrn1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" required>
 											<label for="lrn">Learner's Reference Number</label>
@@ -295,7 +337,7 @@ if (!isset($_SESSION["admin"])) {
 											<label for="address">Address</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 mb-1">
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
 												<option value="M" <?php if ($sex1 == "Male") {
@@ -308,21 +350,52 @@ if (!isset($_SESSION["admin"])) {
 											<label for="sex">Sex</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 mb-1">
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
 											<label for="age">Age</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 mb-1">
+									<?php
+									$sql = "SELECT * FROM section";
+
+									$result = $conn->query($sql);
+									?>
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="section" name="section" value="">
-												<option value="1">Chumunooy</option>
-												<option value="2">Churba</option>
-												<option value="3">Bella</option>
-												<option value="4">Burnok</option>
+												<?php
+												while ($row = $result->fetch_assoc()) {
+													if ($sectionID1 == $row['sectionID']) {
+														echo '<option value="' . $row['sectionID'] . '" selected>' . $row['sectionName'] . '</option>';
+													} else {
+														echo '<option value="' . $row['sectionID'] . '">' . $row['sectionName'] . '</option>';
+													}
+												}
+												?>
 											</select>
 											<label for="section">Section</label>
+										</div>
+									</div>
+									<?php
+									$sql = "SELECT * FROM schoolyr";
+
+									$result = $conn->query($sql);
+									?>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<select class="form-select" id="schoolyr" name="schoolyr" value="">
+												<?php
+												while ($row = $result->fetch_assoc()) {
+													if ($schoolyrID1 == $row['schoolyrID']) {
+														echo '<option value="' . $row['schoolyrID'] . '" selected>' . $row['schoolyrName'] . '</option>';
+													} else {
+														echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+													}
+												}
+												?>
+											</select>
+											<label for="schoolyr">School Year</label>
 										</div>
 									</div>
 									<div class="col-12 mb-3">
@@ -347,7 +420,7 @@ if (!isset($_SESSION["admin"])) {
 										</div>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
-										<button type="submit" class="btn btn-update form-button-text" name ="update1"><span class="fw-bold">UPDATE</span></button>
+										<button type="submit" class="btn btn-update form-button-text" name="update1"><span class="fw-bold">UPDATE</span></button>
 									</div>
 								</form>
 							</div>
@@ -359,9 +432,246 @@ if (!isset($_SESSION["admin"])) {
 								<h4 class="fw-bold card-text-header">Student Profile</h4>
 							</div>
 							<div class="card-body">
+
+								<?php
+								// Check if form was submitted
+								if (isset($_POST['update2'])) {
+
+									// Retrieve form data
+									$id = $_GET['lrn'];
+									//skills
+									$skiCommunicationSkills = isset($_POST['skiCommunicationSkills']) ? 1 : 0;
+									$skiCriticalThinking = isset($_POST['skiCriticalThinking']) ? 1 : 0;
+									$skiReadingComprehension = isset($_POST['skiReadingComprehension']) ? 1 : 0;
+									$skiProblemSolving = isset($_POST['skiProblemSolving']) ? 1 : 0;
+									$skiResearchSkills = isset($_POST['skiResearchSkills']) ? 1 : 0;
+									$skiDigitalLiteracy = isset($_POST['skiDigitalLiteracy']) ? 1 : 0;
+									$skiInnovative = isset($_POST['skiInnovative']) ? 1 : 0;
+									$skiTimeManagement = isset($_POST['skiTimeManagement']) ? 1 : 0;
+									$skiAdaptability = isset($_POST['skiAdaptability']) ? 1 : 0;
+									$skiScientificInquiry = isset($_POST['skiScientificInquiry']) ? 1 : 0;
+									$skiMathematicalSkills = isset($_POST['skiMathematicalSkills']) ? 1 : 0;
+									$skiLogicalReasoning = isset($_POST['skiLogicalReasoning']) ? 1 : 0;
+									$skiLabExperimentalSkills = isset($_POST['skiLabExperimentalSkills']) ? 1 : 0;
+									$skiAnalyticalSkills = isset($_POST['skiAnalyticalSkills']) ? 1 : 0;
+									$skiResearchWriting = isset($_POST['skiResearchWriting']) ? 1 : 0;
+									$skiSociologicalAnalysis = isset($_POST['skiSociologicalAnalysis']) ? 1 : 0;
+									$skiCulturalCompetence = isset($_POST['skiCulturalCompetence']) ? 1 : 0;
+									$skiEthicalReasoning = isset($_POST['skiEthicalReasoning']) ? 1 : 0;
+									$skiHistoryPoliticalScience = isset($_POST['skiHistoryPoliticalScience']) ? 1 : 0;
+									$skiFinancialLiteracy = isset($_POST['skiFinancialLiteracy']) ? 1 : 0;
+									$skiBusinessPlanning = isset($_POST['skiBusinessPlanning']) ? 1 : 0;
+									$skiMarketing = isset($_POST['skiMarketing']) ? 1 : 0;
+									$skiAccounting = isset($_POST['skiAccounting']) ? 1 : 0;
+									$skiEntrepreneurship = isset($_POST['skiEntrepreneurship']) ? 1 : 0;
+									$skiComputerHardwareSoftware = isset($_POST['skiComputerHardwareSoftware']) ? 1 : 0;
+									$skiComputerNetworking = isset($_POST['skiComputerNetworking']) ? 1 : 0;
+									$skiWebDevelopment = isset($_POST['skiWebDevelopment']) ? 1 : 0;
+									$skiProgramming = isset($_POST['skiProgramming']) ? 1 : 0;
+									$skiTroubleshooting = isset($_POST['skiTroubleshooting']) ? 1 : 0;
+									$skiGraphicsDesign = isset($_POST['skiGraphicsDesign']) ? 1 : 0;
+									$skiCulinarySkills = isset($_POST['skiCulinarySkills']) ? 1 : 0;
+									$skiSewingFashionDesign = isset($_POST['skiSewingFashionDesign']) ? 1 : 0;
+									$skiInteriorDesign = isset($_POST['skiInteriorDesign']) ? 1 : 0;
+									$skiChildcareFamilyServices = isset($_POST['skiChildcareFamilyServices']) ? 1 : 0;
+									$skiNutritionFoodSafety = isset($_POST['skiNutritionFoodSafety']) ? 1 : 0;
+									$skiEconomics = isset($_POST['skiEconomics']) ? 1 : 0;
+									//interests
+									$intCalculus = $_POST['intCalculus'];
+									$intBiology = $_POST['intBiology'];
+									$intPhysics = $_POST['intPhysics'];
+									$intChemistry = $_POST['intChemistry'];
+									$intCreativeWriting = $_POST['intCreativeWriting'];
+									$intCreativeNonfiction = $_POST['intCreativeNonfiction'];
+									$intIntroWorldReligionsBeliefSystems = $_POST['intIntroWorldReligionsBeliefSystems'];
+									$intPhilippinePoliticsGovernance = $_POST['intPhilippinePoliticsGovernance'];
+									$intDisciplinesIdeasSocialSciences = $_POST['intDisciplinesIdeasSocialSciences'];
+									$intAppliedEconomics = $_POST['intAppliedEconomics'];
+									$intBusinessEthicsSocialResponsibility = $_POST['intBusinessEthicsSocialResponsibility'];
+									$intFundamentalsABM = $_POST['intFundamentalsABM'];
+									$intBusinessMath = $_POST['intBusinessMath'];
+									$intBusinessFinance = $_POST['intBusinessFinance'];
+									$intOrganizationManagement = $_POST['intOrganizationManagement'];
+									$intPrinciplesMarketing = $_POST['intPrinciplesMarketing'];
+									$intComputerProgramming = $_POST['intComputerProgramming'];
+									$intComputerSystemServicing = $_POST['intComputerSystemServicing'];
+									$intContactCenterServices = $_POST['intContactCenterServices'];
+									$intCISCOComputerNetworking = $_POST['intCISCOComputerNetworking'];
+									$intAnimationIllustration = $_POST['intAnimationIllustration'];
+									$intCookery = $_POST['intCookery'];
+									$intBreadPastryProduction = $_POST['intBreadPastryProduction'];
+									$intFashionDesign = $_POST['intFashionDesign'];
+									$intFoodBeverages = $_POST['intFoodBeverages'];
+									$intTailoring =  $_POST['intTailoring'];
+									//academic performance
+									$acadScience = $_POST['acadScience'];
+									$acadMath = $_POST['acadMath'];
+									$acadEnglish = $_POST['acadEnglish'];
+									$acadFilipino = $_POST['acadFilipino'];
+									$acadICTRelatedSubject = $_POST['acadICTRelatedSub'];
+									$acadHERelatedSubject = $_POST['acadHERelatedSub'];
+									//careerpath
+									$CareerPath1 = $_POST['CareerPath1'];
+									$CareerPath2 = $_POST['CareerPath2hid'];
+									$CareerPath3 = $_POST['CareerPath3hid'];
+									//socioeco
+									$TotalHouseholdMonthlyIncome = $_POST['TotalHouseholdMonthlyIncome'];
+
+									$variables = array(
+										'intCalculus',
+										'intBiology',
+										'intPhysics',
+										'intChemistry',
+										'intCreativeWriting',
+										'intCreativeNonfiction',
+										'intIntroWorldReligionsBeliefSystems',
+										'intPhilippinePoliticsGovernance',
+										'intDisciplinesIdeasSocialSciences',
+										'intAppliedEconomics',
+										'intBusinessEthicsSocialResponsibility',
+										'intFundamentalsABM',
+										'intBusinessMath',
+										'intBusinessFinance',
+										'intOrganizationManagement',
+										'intPrinciplesMarketing',
+										'intComputerProgramming',
+										'intComputerSystemServicing',
+										'intContactCenterServices',
+										'intCISCOComputerNetworking',
+										'intAnimationIllustration',
+										'intCookery',
+										'intBreadPastryProduction',
+										'intFashionDesign',
+										'intFoodBeverages',
+										'intTailoring'
+									);
+
+									// Check if any variable has a value of zero
+									$hasZeroValue = false;
+									foreach ($variables as $variable) {
+										if ($_POST[$variable] == 0) {
+											$hasZeroValue = true;
+											break;
+										}
+									}
+
+									if ($hasZeroValue) {
+										echo "<script>swal({
+												title: 'Please select a valid answer in the Interest Section!',
+												icon: 'error',
+												button: 'OK',
+											});</script>";
+									} else {
+										if ($_POST['TotalHouseholdMonthlyIncome'] == "SELECT") {
+											echo "<script>swal({
+													title: 'Please select a valid answer in the Socioeconomic Section!',
+													icon: 'error',
+													button: 'OK',
+												});</script>";
+										} else {
+											// Prepare update query
+											$sql2 = "UPDATE studentprofile
+									JOIN studentinterest ON studentprofile.lrn = studentinterest.lrn
+									JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
+									JOIN studentsocioeco ON studentprofile.lrn = studentsocioeco.lrn
+									JOIN studentskill ON studentprofile.lrn = studentskill.lrn
+									JOIN studentacad ON studentprofile.lrn = studentacad.lrn
+									SET
+										studentskill.skiCommunicationSkills = '$skiCommunicationSkills',
+										studentskill.skiCriticalThinking = '$skiCriticalThinking',
+										studentskill.skiReadingComprehension = '$skiReadingComprehension',
+										studentskill.skiProblemSolving = '$skiProblemSolving',
+										studentskill.skiResearchSkills = '$skiResearchSkills ',
+										studentskill.skiDigitalLiteracy = '$skiDigitalLiteracy',
+										studentskill.skiInnovative = '$skiInnovative',
+										studentskill.skiTimeManagement = '$skiTimeManagement',
+										studentskill.skiAdaptability = '$skiAdaptability',
+										studentskill.skiScientificInquiry = '$skiScientificInquiry',
+										studentskill.skiMathematicalSkills = '$skiMathematicalSkills',
+										studentskill.skiLogicalReasoning = '$skiLogicalReasoning',
+										studentskill.skiLabExperimentalSkills = '$skiLabExperimentalSkills',
+										studentskill.skiAnalyticalSkills = '$skiAnalyticalSkills',
+										studentskill.skiResearchWriting = '$skiResearchWriting',
+										studentskill.skiSociologicalAnalysis = '$skiSociologicalAnalysis',
+										studentskill.skiCulturalCompetence = '$skiCulturalCompetence',
+										studentskill.skiEthicalReasoning = '$skiEthicalReasoning',
+										studentskill.skiHistoryPoliticalScience = '$skiHistoryPoliticalScience',
+										studentskill.skiFinancialLiteracy = '$skiFinancialLiteracy',
+										studentskill.skiBusinessPlanning = '$skiBusinessPlanning',
+										studentskill.skiMarketing = '$skiMarketing',
+										studentskill.skiAccounting = '$skiAccounting',
+										studentskill.skiEntrepreneurship = '$skiEntrepreneurship',
+										studentskill.skiComputerHardwareSoftware = '$skiComputerHardwareSoftware',
+										studentskill.skiComputerNetworking = '$skiComputerNetworking ',
+										studentskill.skiWebDevelopment = '$skiWebDevelopment',
+										studentskill.skiProgramming = '$skiProgramming',
+										studentskill.skiTroubleshooting = '$skiTroubleshooting ',
+										studentskill.skiGraphicsDesign = '$skiGraphicsDesign',
+										studentskill.skiCulinarySkills = '$skiCulinarySkills',
+										studentskill.skiSewingFashionDesign = '$skiSewingFashionDesign',
+										studentskill.skiInteriorDesign = '$skiInteriorDesign',
+										studentskill.skiChildcareFamilyServices = '$skiChildcareFamilyServices',
+										studentskill.skiNutritionFoodSafety = '$skiNutritionFoodSafety',
+										studentskill.skiEconomics = '$skiEconomics',
+										-- interests
+										studentinterest.intCalculus = '$intCalculus',
+										studentinterest.intBiology = '$intBiology',
+										studentinterest.intPhysics = '$intPhysics',
+										studentinterest.intCreativeWriting = '$intCreativeWriting',
+										studentinterest.intCreativeNonfiction = '$intCreativeNonfiction',
+										studentinterest.intIntroWorldReligionsBeliefSystems = '$intIntroWorldReligionsBeliefSystems',
+										studentinterest.intPhilippinePoliticsGovernance = '$intPhilippinePoliticsGovernance',
+										studentinterest.intDisciplinesIdeasSocialSciences = '$intDisciplinesIdeasSocialSciences',
+										studentinterest.intAppliedEconomics = '$intAppliedEconomics',
+										studentinterest.intBusinessEthicsSocialResponsibility = '$intBusinessEthicsSocialResponsibility',
+										studentinterest.intFundamentalsABM = '$intFundamentalsABM',
+										studentinterest.intBusinessMath = '$intBusinessMath',
+										studentinterest.intBusinessFinance = '$intBusinessFinance',
+										studentinterest.intOrganizationManagement = '$intOrganizationManagement',
+										studentinterest.intPrinciplesMarketing = '$intPrinciplesMarketing',
+										studentinterest.intComputerProgramming = '$intComputerProgramming',
+										studentinterest.intComputerSystemServicing = '$intComputerSystemServicing',
+										studentinterest.intContactCenterServices = '$intContactCenterServices',
+										studentinterest.intCISCOComputerNetworking = '$intCISCOComputerNetworking',
+										studentinterest.intAnimationIllustration = '$intAnimationIllustration',
+										studentinterest.intCookery = '$intCookery',
+										studentinterest.intBreadPastryProduction = '$intBreadPastryProduction',
+										studentinterest.intFashionDesign = '$intFashionDesign',
+										studentinterest.intFoodBeverages = '$intFoodBeverages',
+										studentinterest.intTailoring = '$intTailoring',
+										studentinterest.intChemistry = '$intChemistry',
+									
+										studentacad.acadScience = '$acadScience',
+										studentacad.acadMath = '$acadMath',
+										studentacad.acadEnglish = '$acadEnglish',
+										studentacad.acadFilipino = '$acadFilipino',
+										studentacad.acadICTRelatedSubject = '$acadICTRelatedSubject',
+										studentacad.acadHERelatedSubject = '$acadHERelatedSubject',
+
+										studentcareer.CareerPath1 = '$CareerPath1',
+										studentcareer.CareerPath2 = '$CareerPath2',
+										studentcareer.CareerPath3 = '$CareerPath3',
+
+										studentsocioeco.TotalHouseholdMonthlyIncome = '$TotalHouseholdMonthlyIncome'
+									WHERE
+										studentprofile.lrn = '$id'";
+
+
+											// Execute the update query
+											if ($conn->query($sql2) === TRUE) {
+												echo "<script>alert('Record updated successfully!');</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
+											} else {
+												echo "Error updating record: " . $conn->error;
+											}
+										}
+									}
+								}
+
+								?>
 								<form class="row" action="" method="post">
 									<div class="divider d-flex align-items-center my-4">
-										<p class="text-center fw-bold mx-3 mb-0">Skills, Interest, and Socio-economic Background</p>
+										<p class="text-center fs-5 fw-bold mx-3 mb-0">Skills, Interest, and Socio-economic Background</p>
 									</div>
 									<div class="col-12">
 										<p id="" class="d-block form-label">Based on yuor self-assesment, select the skills that are applicable to you...</p>
@@ -861,14 +1171,28 @@ if (!isset($_SESSION["admin"])) {
 										<div class="form-floating mb-3">
 											<select class="form-select" id="TotalHouseholdMonthlyIncome" name="TotalHouseholdMonthlyIncome" value="">
 												<option selected value="SELECT">SELECT</option>
-												
-											<option value="less than P9,100" <?php if ($TotalHouseholdMonthlyIncome1 == "less than P9,100") { echo "selected"; } ?>>less than P9,100</option>
-											<option value="P9,100-P18,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P9,100-P18,200") { echo "selected"; } ?>>P9,100-P18,200</option>
-											<option value="P18,200-P36,400" <?php if ($TotalHouseholdMonthlyIncome1 == "P18,200-P36,400") { echo "selected"; } ?>>P18,200-P36,400</option>
-											<option value="P36,400-P63,700" <?php if ($TotalHouseholdMonthlyIncome1 == "P36,400-P63,700") { echo "selected"; } ?>>P36,400-P63,700</option>
-											<option value="P63,700-P109,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P63,700-P109,200") { echo "selected"; } ?>>P63,700-P109,200</option>
-											<option value="P109,200-P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "P109,200-P182,000") { echo "selected"; } ?>>P109,200-P182,000</option>
-											<option value="greater than P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "greater than P182,000") { echo "selected"; } ?>>greater than P182,000</option>
+
+												<option value="less than P9,100" <?php if ($TotalHouseholdMonthlyIncome1 == "less than P9,100") {
+																						echo "selected";
+																					} ?>>less than P9,100</option>
+												<option value="P9,100-P18,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P9,100-P18,200") {
+																					echo "selected";
+																				} ?>>P9,100-P18,200</option>
+												<option value="P18,200-P36,400" <?php if ($TotalHouseholdMonthlyIncome1 == "P18,200-P36,400") {
+																					echo "selected";
+																				} ?>>P18,200-P36,400</option>
+												<option value="P36,400-P63,700" <?php if ($TotalHouseholdMonthlyIncome1 == "P36,400-P63,700") {
+																					echo "selected";
+																				} ?>>P36,400-P63,700</option>
+												<option value="P63,700-P109,200" <?php if ($TotalHouseholdMonthlyIncome1 == "P63,700-P109,200") {
+																						echo "selected";
+																					} ?>>P63,700-P109,200</option>
+												<option value="P109,200-P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "P109,200-P182,000") {
+																						echo "selected";
+																					} ?>>P109,200-P182,000</option>
+												<option value="greater than P182,000" <?php if ($TotalHouseholdMonthlyIncome1 == "greater than P182,000") {
+																							echo "selected";
+																						} ?>>greater than P182,000</option>
 
 											</select>
 											<label for="TotalHouseholdMonthlyIncome">Total Household Monthly Income</label>
@@ -876,19 +1200,31 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 									<div class="col-12">
 										<div class="divider d-flex align-items-center my-4">
-											<p class="text-center fw-bold mx-3 mb-0">Academic Performance</p>
+											<p class="text-center fs-5 fw-bold mx-3 mb-0">Academic Performance</p>
 										</div>
 										<div class="row">
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadScience" name="acadScience">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95" <?php if ($acadScience1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadScience1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadScience1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadScience1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadScience1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadScience1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="100 - 95" <?php if ($acadScience1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadScience1 == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadScience1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadScience1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadScience1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadScience1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 
 													</select>
 													<label for="acadScience" class="form-label">Science</label>
@@ -897,13 +1233,25 @@ if (!isset($_SESSION["admin"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadMath" name="acadMath">
-													<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95" <?php if ($acadMath1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadMath1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadMath1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadMath1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadMath1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadMath1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option selected value="SELECT">SELECT</option>
+														<option value="100 - 95" <?php if ($acadMath1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadMath1 == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadMath1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadMath1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadMath1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadMath1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 													</select>
 													<label for="acadMath" class="form-label">Math</label>
 												</div>
@@ -912,12 +1260,24 @@ if (!isset($_SESSION["admin"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadEnglish" name="acadEnglish">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95" <?php if ($acadEnglish1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadEnglish1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadEnglish1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadEnglish1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadEnglish1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadEnglish1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="100 - 95" <?php if ($acadEnglish1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadEnglish1 == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadEnglish1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadEnglish1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadEnglish1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadEnglish1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 													</select>
 													<label for="acadEnglish" class="form-label">English</label>
 												</div>
@@ -926,12 +1286,24 @@ if (!isset($_SESSION["admin"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadFilipino" name="acadFilipino">
 														<option selected value="SELECT">SELECT</option>
-														<option value="100 - 95" <?php if ($acadFilipino1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadFilipino1 == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadFilipino1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadFilipino1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadFilipino1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadFilipino1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="100 - 95" <?php if ($acadFilipino1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadFilipino1 == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadFilipino1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadFilipino1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadFilipino1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadFilipino1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 													</select>
 													<label for="acadFilipino" class="form-label">Filipino</label>
 												</div>
@@ -940,13 +1312,27 @@ if (!isset($_SESSION["admin"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadICTRelatedSub" name="acadICTRelatedSub">
 														<option selected value="SELECT">SELECT</option>
-														<option value="N/A" <?php if ($acadICTRelatedSub1 == "N/A") { echo "selected"; } ?>>N/A</option>
-														<option value="100 - 95" <?php if ($acadICTRelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadICTRelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadICTRelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadICTRelatedSub1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadICTRelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadICTRelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="NA" <?php if ($acadICTRelatedSub1 == "NA") {
+																				echo "selected";
+																			} ?>>N/A</option>
+														<option value="100 - 95" <?php if ($acadICTRelatedSub1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadICTRelatedSub1  == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadICTRelatedSub1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadICTRelatedSub1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadICTRelatedSub1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadICTRelatedSub1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 													</select>
 													<label for="acadICTRelatedSub" class="form-label">ICT Related Subject</label>
 												</div>
@@ -955,13 +1341,27 @@ if (!isset($_SESSION["admin"])) {
 												<div class="form-floating mb-3">
 													<select class="form-select" id="acadHERelatedSub" name="acadHERelatedSub">
 														<option selected value="SELECT">SELECT</option>
-														<option value="N/A" <?php if ($acadHERelatedSub1 == "N/A") { echo "selected"; } ?>>N/A</option>
-														<option value="100 - 95" <?php if ($acadHERelatedSub1 == "100 - 95") { echo "selected"; } ?>>100 - 95</option>
-														<option value="94 - 90" <?php if ($acadHERelatedSub1  == "94 - 90") { echo "selected"; } ?>>94 - 90</option>
-														<option value="89 - 80" <?php if ($acadHERelatedSub1 == "89 - 80") { echo "selected"; } ?>>89 - 80</option>
-														<option value="79 - 75" <?php if ($acadHERelatedSub1 == "79 - 75") { echo "selected"; } ?>>79 - 75</option>
-														<option value="74 - 70" <?php if ($acadHERelatedSub1 == "74 - 70") { echo "selected"; } ?>>74 - 70</option>
-														<option value="69 - 0" <?php if ($acadHERelatedSub1 == "69 - 0") { echo "selected"; } ?>>69 - 0</option>
+														<option value="NA" <?php if ($acadHERelatedSub1 == "NA") {
+																				echo "selected";
+																			} ?>>N/A</option>
+														<option value="100 - 95" <?php if ($acadHERelatedSub1 == "100 - 95") {
+																						echo "selected";
+																					} ?>>100 - 95</option>
+														<option value="94 - 90" <?php if ($acadHERelatedSub1  == "94 - 90") {
+																					echo "selected";
+																				} ?>>94 - 90</option>
+														<option value="89 - 80" <?php if ($acadHERelatedSub1 == "89 - 80") {
+																					echo "selected";
+																				} ?>>89 - 80</option>
+														<option value="79 - 75" <?php if ($acadHERelatedSub1 == "79 - 75") {
+																					echo "selected";
+																				} ?>>79 - 75</option>
+														<option value="74 - 70" <?php if ($acadHERelatedSub1 == "74 - 70") {
+																					echo "selected";
+																				} ?>>74 - 70</option>
+														<option value="69 - 0" <?php if ($acadHERelatedSub1 == "69 - 0") {
+																					echo "selected";
+																				} ?>>69 - 0</option>
 													</select>
 													<label for="acadHERelatedSub" class="form-label">HE Related Subject</label>
 												</div>
@@ -970,18 +1370,18 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 									<div class="col-12">
 										<div class="divider d-flex align-items-center my-4">
-											<p class="text-center fw-bold mx-3 mb-0">Career Path</p>
+											<p class="text-center fs-5 fw-bold mx-3 mb-0">Career Path</p>
 										</div>
 										<div class="row">
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="CareerPath1" name="CareerPath1">
 														<option value="Undecided" <?php if ($CareerPath11 == "Undecided") {
-																						echo " selected";
+																						echo "selected";
 																					} ?>>Undecided</option>
 														<option value="Chemical Engineer" <?php if ($CareerPath11 == "Chemical Engineer") {
 																								echo " selected";
-																							} ?>>>Chemical Engineer</option>
+																							} ?>>Chemical Engineer</option>
 														<option value="Industrial Engineer" <?php if ($CareerPath11 == "Industrial Engineer") {
 																								echo "selected";
 																							} ?>>Industrial Engineer</option>
@@ -1111,7 +1511,7 @@ if (!isset($_SESSION["admin"])) {
 														<option value="Data Scientist" <?php if ($CareerPath11 == "Data Scientist") {
 																							echo "selected";
 																						} ?>>Data Scientist</option>
-														<option value="Information Systems Manager" <?php if ($Career11 == "Information Systems Manager") {
+														<option value="Information Systems Manager" <?php if ($CareerPath11 == "Information Systems Manager") {
 																										echo "selected";
 																									} ?>>Information Systems Manager</option>
 														<option value="Chef" <?php if ($CareerPath11 == "Chef") {
@@ -1166,145 +1566,397 @@ if (!isset($_SESSION["admin"])) {
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="CareerPath2" name="CareerPath2">
-													<option value="N/A" <?php if ($CareerPath21 == "N/A") { echo "selected"; } ?>>N/A</option>
-											<option value="Chemical Engineer" <?php if ($CareerPath21 == "Chemical Engineer") { echo "selected"; } ?>>Chemical Engineer</option>
-											<option value="Industrial Engineer" <?php if ($CareerPath21 == "Industrial Engineer") { echo "selected"; } ?>>Industrial Engineer</option>
-											<option value="Biologist" <?php if ($CareerPath21 == "Biologist") { echo "selected"; } ?>>Biologist</option>
-											<option value="Mathematician" <?php if ($CareerPath21 == "Mathematician") { echo "selected"; } ?>>Mathematician</option>
-											<option value="Statistician" <?php if ($CareerPath21 == "Statistician") { echo "selected"; } ?>>Statistician</option>
-											<option value="Physicist" <?php if ($CareerPath21 == "Physicist") { echo "selected"; } ?>>Physicist</option>
-											<option value="Architect" <?php if ($CareerPath21 == "Architect") { echo "selected"; } ?>>Architect</option>
-											<option value="Doctor" <?php if ($CareerPath21 == "Doctor") { echo "selected"; } ?>>Doctor</option>
-											<option value="Registered Nurse" <?php if ($CareerPath21 == "Registered Nurse") { echo "selected"; } ?>>Registered Nurse</option>
-											<option value="Physical Therapist" <?php if ($CareerPath21 == "Physical Therapist") { echo "selected"; } ?>>Physical Therapist</option>
-											<option value="Pharmacist" <?php if ($CareerPath21 == "Pharmacist") { echo "selected"; } ?>>Pharmacist</option>
-											<option value="Civil Engineer" <?php if ($CareerPath21 == "Civil Engineer") { echo "selected"; } ?>>Civil Engineer</option>
-											<option value="Mechanical Engineer" <?php if ($CareerPath21 == "Mechanical Engineer") { echo "selected"; } ?>>Mechanical Engineer</option>
-											<option value="Food Technologist" <?php if ($CareerPath21 == "Food Technologist") { echo "selected"; } ?>>Food Technologist</option>
-											<option value="Environmental Scientist" <?php if ($CareerPath21 == "Environmental Scientist") { echo "selected"; } ?>>Environmental Scientist</option>
-											<option value="Social Scientist" <?php if ($CareerPath21 == "Social Scientist") { echo "selected"; } ?>>Social Scientist</option>
-											<option value="Psychologist" <?php if ($CareerPath21 == "Psychologist") { echo "selected"; } ?>>Psychologist</option>
-											<option value="Philosopher" <?php if ($CareerPath21 == "Philosopher") { echo "selected"; } ?>>Philosopher</option>
-											<option value="Social Worker" <?php if ($CareerPath21 == "Social Worker") { echo "selected"; } ?>>Social Worker</option>
-											<option value="Political Scientist" <?php if ($CareerPath21 == "Political Scientist") { echo "selected"; } ?>>Political Scientist</option>
-											<option value="Foreign Service Officer" <?php if ($CareerPath21 == "Foreign Service Officer") { echo "selected"; } ?>>Foreign Service Officer</option>
-											<option value="Police" <?php if ($CareerPath21 == "Police") { echo "selected"; } ?>>Police</option>
-											<option value="Fireman" <?php if ($CareerPath21 == "Fireman") { echo "selected"; } ?>>Fireman</option>
-											<option value="Soldier" <?php if ($CareerPath21 == "Soldier") { echo "selected"; } ?>>Soldier</option>
-											<option value="Communication Specialist" <?php if ($CareerPath21 == "Communication Specialist") { echo "selected"; } ?>>Communication Specialist</option>
-											<option value="Educator" <?php if ($CareerPath21 == "Educator") { echo "selected"; } ?>>Educator</option>
-											<option value="Journalist" <?php if ($CareerPath21 == "Journalist") { echo "selected"; } ?>>Journalist</option>
-											<option value="Broadcast Journalist" <?php if ($CareerPath21 == "Broadcast Journalist") { echo "selected"; } ?>>Broadcast Journalist</option>
-											<option value="Entrepreneur" <?php if ($CareerPath21 == "Entrepreneur") { echo "selected"; } ?>>Entrepreneur</option>
-											<option value="Tourism Manager" <?php if ($CareerPath21 == "Tourism Manager") { echo "selected"; } ?>>Tourism Manager</option>
-											<option value="Business Administrator" <?php if ($CareerPath21 == "Business Administrator") { echo "selected"; } ?>>Business Administrator</option>
-											<option value="Accountant" <?php if ($CareerPath21 == "Accountant") { echo "selected"; } ?>>Accountant</option>
-											<option value="Business Economist" <?php if ($CareerPath21 == "Business Economist") { echo "selected"; } ?>>Business Economist</option>
-											<option value="Banking and Finance Specialist" <?php if ($CareerPath21 == "Banking and Finance Specialist") { echo "selected"; } ?>>Banking and Finance Specialist</option>
-											<option value="Management Consultant" <?php if ($CareerPath21 == "Management Consultant") { echo "selected"; } ?>>Management Consultant</option>
-											<option value="IT Specialist" <?php if ($CareerPath21 == "IT Specialist") { echo "selected"; } ?>>IT Specialist</option>
-											<option value="Software Developer" <?php if ($CareerPath21 == "Software Developer") { echo "selected"; } ?>>Software Developer</option>
-											<option value="Computer Engineer" <?php if ($CareerPath21 == "Computer Engineer") { echo "selected"; } ?>>Computer Engineer</option>
-											<option value="Software Engineer" <?php if ($CareerPath21 == "Software Engineer") { echo "selected"; } ?>>Software Engineer</option>
-											<option value="Network Administrator" <?php if ($CareerPath21 == "Network Administrator") { echo "selected"; } ?>>Network Administrator</option>
-											<option value="Digital Media Designer" <?php if ($CareerPath21 == "Digital Media Designer") { echo "selected"; } ?>>Digital Media Designer</option>
-											<option value="Web Developer" <?php if ($CareerPath21 == "Web Developer") { echo "selected"; } ?>>Web Developer</option>
-											<option value="Cybersecurity Analyst" <?php if ($CareerPath21 == "Cybersecurity Analyst") { echo "selected"; } ?>>Cybersecurity Analyst</option>
-											<option value="Data Scientist" <?php if ($CareerPath21 == "Data Scientist") { echo "selected"; } ?>>Data Scientist</option>
-											<option value="Information Systems Manager" <?php if ($CareerPath21 == "Information Systems Manager") { echo "selected"; } ?>>Information Systems Manager</option>
-											<option value="Chef" <?php if ($CareerPath21 == "Chef") { echo "selected"; } ?>>Chef</option>
-											<option value="Pastry Chef" <?php if ($CareerPath21 == "Pastry Chef") { echo "selected"; } ?>>Pastry Chef</option>
-											<option value="Fashion Designer" <?php if ($CareerPath21 == "Fashion Designer") { echo "selected"; } ?>>Fashion Designer</option>
-											<option value="Textile Designer" <?php if ($CareerPath21 == "Textile Designer") { echo "selected"; } ?>>Textile Designer</option>
-											<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath21 == "Family and Consumer Sciences Educator") { echo "selected"; } ?>>Family and Consumer Sciences Educator</option>
-											<option value="Interior Designer" <?php if ($CareerPath21 == "Interior Designer") { echo "selected"; } ?>>Interior Designer</option>
-											<option value="Home Economics Educator" <?php if ($CareerPath21 == "Home Economics Educator") { echo "selected"; } ?>>Home Economics Educator</option>
-											<option value="Event Planner" <?php if ($CareerPath21 == "Event Planner") { echo "selected"; } ?>>Event Planner</option>
-											<option value="Nutritionist" <?php if ($CareerPath21 == "Nutritionist") { echo "selected"; } ?>>Nutritionist</option>
-											<option value="Dietitian" <?php if ($CareerPath21 == "Dietitian") { echo "selected"; } ?>>Dietitian</option>
-											<option value="Hotel Manager" <?php if ($CareerPath21 == "Hotel Manager") { echo "selected"; } ?>>Hotel Manager</option>
-											<option value="Restaurant Manager" <?php if ($CareerPath21 == "Restaurant Manager") { echo "selected"; } ?>>Restaurant Manager</option>
-											<option value="Child Life Specialist" <?php if ($CareerPath21 == "Child Life Specialist") { echo "selected"; } ?>>Child Life Specialist</option>
-											<option value="Family Counselor" <?php if ($CareerPath21 == "Family Counselor") { echo "selected"; } ?>>Family Counselor</option>
-											<option value="Food Service Manager" <?php if ($CareerPath21 == "Food Service Manager") { echo "selected"; } ?>>Food Service Manager</option>
+														<option value="Undecided" <?php if ($CareerPath21 == "Undecided") {
+																						echo "selected";
+																					} ?>>Undecided</option>
+														<option value="NA" <?php if ($CareerPath21 == "NA") {
+																				echo "selected";
+																			} ?>>N/A</option>
+														<option value="Chemical Engineer" <?php if ($CareerPath21 == "Chemical Engineer") {
+																								echo "selected";
+																							} ?>>Chemical Engineer</option>
+														<option value="Industrial Engineer" <?php if ($CareerPath21 == "Industrial Engineer") {
+																								echo "selected";
+																							} ?>>Industrial Engineer</option>
+														<option value="Biologist" <?php if ($CareerPath21 == "Biologist") {
+																						echo "selected";
+																					} ?>>Biologist</option>
+														<option value="Mathematician" <?php if ($CareerPath21 == "Mathematician") {
+																							echo "selected";
+																						} ?>>Mathematician</option>
+														<option value="Statistician" <?php if ($CareerPath21 == "Statistician") {
+																							echo "selected";
+																						} ?>>Statistician</option>
+														<option value="Physicist" <?php if ($CareerPath21 == "Physicist") {
+																						echo "selected";
+																					} ?>>Physicist</option>
+														<option value="Architect" <?php if ($CareerPath21 == "Architect") {
+																						echo "selected";
+																					} ?>>Architect</option>
+														<option value="Doctor" <?php if ($CareerPath21 == "Doctor") {
+																					echo "selected";
+																				} ?>>Doctor</option>
+														<option value="Registered Nurse" <?php if ($CareerPath21 == "Registered Nurse") {
+																								echo "selected";
+																							} ?>>Registered Nurse</option>
+														<option value="Physical Therapist" <?php if ($CareerPath21 == "Physical Therapist") {
+																								echo "selected";
+																							} ?>>Physical Therapist</option>
+														<option value="Pharmacist" <?php if ($CareerPath21 == "Pharmacist") {
+																						echo "selected";
+																					} ?>>Pharmacist</option>
+														<option value="Civil Engineer" <?php if ($CareerPath21 == "Civil Engineer") {
+																							echo "selected";
+																						} ?>>Civil Engineer</option>
+														<option value="Mechanical Engineer" <?php if ($CareerPath21 == "Mechanical Engineer") {
+																								echo "selected";
+																							} ?>>Mechanical Engineer</option>
+														<option value="Food Technologist" <?php if ($CareerPath21 == "Food Technologist") {
+																								echo "selected";
+																							} ?>>Food Technologist</option>
+														<option value="Environmental Scientist" <?php if ($CareerPath21 == "Environmental Scientist") {
+																									echo "selected";
+																								} ?>>Environmental Scientist</option>
+														<option value="Social Scientist" <?php if ($CareerPath21 == "Social Scientist") {
+																								echo "selected";
+																							} ?>>Social Scientist</option>
+														<option value="Psychologist" <?php if ($CareerPath21 == "Psychologist") {
+																							echo "selected";
+																						} ?>>Psychologist</option>
+														<option value="Philosopher" <?php if ($CareerPath21 == "Philosopher") {
+																						echo "selected";
+																					} ?>>Philosopher</option>
+														<option value="Social Worker" <?php if ($CareerPath21 == "Social Worker") {
+																							echo "selected";
+																						} ?>>Social Worker</option>
+														<option value="Political Scientist" <?php if ($CareerPath21 == "Political Scientist") {
+																								echo "selected";
+																							} ?>>Political Scientist</option>
+														<option value="Foreign Service Officer" <?php if ($CareerPath21 == "Foreign Service Officer") {
+																									echo "selected";
+																								} ?>>Foreign Service Officer</option>
+														<option value="Police" <?php if ($CareerPath21 == "Police") {
+																					echo "selected";
+																				} ?>>Police</option>
+														<option value="Fireman" <?php if ($CareerPath21 == "Fireman") {
+																					echo "selected";
+																				} ?>>Fireman</option>
+														<option value="Soldier" <?php if ($CareerPath21 == "Soldier") {
+																					echo "selected";
+																				} ?>>Soldier</option>
+														<option value="Communication Specialist" <?php if ($CareerPath21 == "Communication Specialist") {
+																										echo "selected";
+																									} ?>>Communication Specialist</option>
+														<option value="Educator" <?php if ($CareerPath21 == "Educator") {
+																						echo "selected";
+																					} ?>>Educator</option>
+														<option value="Journalist" <?php if ($CareerPath21 == "Journalist") {
+																						echo "selected";
+																					} ?>>Journalist</option>
+														<option value="Broadcast Journalist" <?php if ($CareerPath21 == "Broadcast Journalist") {
+																									echo "selected";
+																								} ?>>Broadcast Journalist</option>
+														<option value="Entrepreneur" <?php if ($CareerPath21 == "Entrepreneur") {
+																							echo "selected";
+																						} ?>>Entrepreneur</option>
+														<option value="Tourism Manager" <?php if ($CareerPath21 == "Tourism Manager") {
+																							echo "selected";
+																						} ?>>Tourism Manager</option>
+														<option value="Business Administrator" <?php if ($CareerPath21 == "Business Administrator") {
+																									echo "selected";
+																								} ?>>Business Administrator</option>
+														<option value="Accountant" <?php if ($CareerPath21 == "Accountant") {
+																						echo "selected";
+																					} ?>>Accountant</option>
+														<option value="Business Economist" <?php if ($CareerPath21 == "Business Economist") {
+																								echo "selected";
+																							} ?>>Business Economist</option>
+														<option value="Banking and Finance Specialist" <?php if ($CareerPath21 == "Banking and Finance Specialist") {
+																											echo "selected";
+																										} ?>>Banking and Finance Specialist</option>
+														<option value="Management Consultant" <?php if ($CareerPath21 == "Management Consultant") {
+																									echo "selected";
+																								} ?>>Management Consultant</option>
+														<option value="IT Specialist" <?php if ($CareerPath21 == "IT Specialist") {
+																							echo "selected";
+																						} ?>>IT Specialist</option>
+														<option value="Software Developer" <?php if ($CareerPath21 == "Software Developer") {
+																								echo "selected";
+																							} ?>>Software Developer</option>
+														<option value="Computer Engineer" <?php if ($CareerPath21 == "Computer Engineer") {
+																								echo "selected";
+																							} ?>>Computer Engineer</option>
+														<option value="Software Engineer" <?php if ($CareerPath21 == "Software Engineer") {
+																								echo "selected";
+																							} ?>>Software Engineer</option>
+														<option value="Network Administrator" <?php if ($CareerPath21 == "Network Administrator") {
+																									echo "selected";
+																								} ?>>Network Administrator</option>
+														<option value="Digital Media Designer" <?php if ($CareerPath21 == "Digital Media Designer") {
+																									echo "selected";
+																								} ?>>Digital Media Designer</option>
+														<option value="Web Developer" <?php if ($CareerPath21 == "Web Developer") {
+																							echo "selected";
+																						} ?>>Web Developer</option>
+														<option value="Cybersecurity Analyst" <?php if ($CareerPath21 == "Cybersecurity Analyst") {
+																									echo "selected";
+																								} ?>>Cybersecurity Analyst</option>
+														<option value="Data Scientist" <?php if ($CareerPath21 == "Data Scientist") {
+																							echo "selected";
+																						} ?>>Data Scientist</option>
+														<option value="Information Systems Manager" <?php if ($CareerPath21 == "Information Systems Manager") {
+																										echo "selected";
+																									} ?>>Information Systems Manager</option>
+														<option value="Chef" <?php if ($CareerPath21 == "Chef") {
+																					echo "selected";
+																				} ?>>Chef</option>
+														<option value="Pastry Chef" <?php if ($CareerPath21 == "Pastry Chef") {
+																						echo "selected";
+																					} ?>>Pastry Chef</option>
+														<option value="Fashion Designer" <?php if ($CareerPath21 == "Fashion Designer") {
+																								echo "selected";
+																							} ?>>Fashion Designer</option>
+														<option value="Textile Designer" <?php if ($CareerPath21 == "Textile Designer") {
+																								echo "selected";
+																							} ?>>Textile Designer</option>
+														<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath21 == "Family and Consumer Sciences Educator") {
+																													echo "selected";
+																												} ?>>Family and Consumer Sciences Educator</option>
+														<option value="Interior Designer" <?php if ($CareerPath21 == "Interior Designer") {
+																								echo "selected";
+																							} ?>>Interior Designer</option>
+														<option value="Home Economics Educator" <?php if ($CareerPath21 == "Home Economics Educator") {
+																									echo "selected";
+																								} ?>>Home Economics Educator</option>
+														<option value="Event Planner" <?php if ($CareerPath21 == "Event Planner") {
+																							echo "selected";
+																						} ?>>Event Planner</option>
+														<option value="Nutritionist" <?php if ($CareerPath21 == "Nutritionist") {
+																							echo "selected";
+																						} ?>>Nutritionist</option>
+														<option value="Dietitian" <?php if ($CareerPath21 == "Dietitian") {
+																						echo "selected";
+																					} ?>>Dietitian</option>
+														<option value="Hotel Manager" <?php if ($CareerPath21 == "Hotel Manager") {
+																							echo "selected";
+																						} ?>>Hotel Manager</option>
+														<option value="Restaurant Manager" <?php if ($CareerPath21 == "Restaurant Manager") {
+																								echo "selected";
+																							} ?>>Restaurant Manager</option>
+														<option value="Child Life Specialist" <?php if ($CareerPath21 == "Child Life Specialist") {
+																									echo "selected";
+																								} ?>>Child Life Specialist</option>
+														<option value="Family Counselor" <?php if ($CareerPath21 == "Family Counselor") {
+																								echo "selected";
+																							} ?>>Family Counselor</option>
+														<option value="Food Service Manager" <?php if ($CareerPath21 == "Food Service Manager") {
+																									echo "selected";
+																								} ?>>Food Service Manager</option>
 													</select>
 													<label for="CareerPath2" class="form-label">Career - 2nd Choice</label>
+													<input type="hidden" name="CareerPath2hid" id="CareerPath2hid" value="<?php echo $CareerPath21; ?>">
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
 													<select class="form-select" id="CareerPath3" name="CareerPath3">
-													<option value="N/A" <?php if ($CareerPath31 == "N/A") { echo "selected"; } ?>>N/A</option>
-													<option value="Chemical Engineer" <?php if ($CareerPath31 == "Chemical Engineer") { echo "selected"; } ?>>Chemical Engineer</option>
-													<option value="Industrial Engineer" <?php if ($CareerPath31 == "Industrial Engineer") { echo "selected"; } ?>>Industrial Engineer</option>
-													<option value="Biologist" <?php if ($CareerPath31 == "Biologist") { echo "selected"; } ?>>Biologist</option>
-													<option value="Mathematician" <?php if ($CareerPath31 == "Mathematician") { echo "selected"; } ?>>Mathematician</option>
-													<option value="Statistician" <?php if ($CareerPath31 == "Statistician") { echo "selected"; } ?>>Statistician</option>
-													<option value="Physicist" <?php if ($CareerPath31 == "Physicist") { echo "selected"; } ?>>Physicist</option>
-													<option value="Architect" <?php if ($CareerPath31 == "Architect") { echo "selected"; } ?>>Architect</option>
-													<option value="Doctor" <?php if ($CareerPath31 == "Doctor") { echo "selected"; } ?>>Doctor</option>
-													<option value="Registered Nurse" <?php if ($CareerPath31 == "Registered Nurse") { echo "selected"; } ?>>Registered Nurse</option>
-													<option value="Physical Therapist" <?php if ($CareerPath31 == "Physical Therapist") { echo "selected"; } ?>>Physical Therapist</option>
-													<option value="Pharmacist" <?php if ($CareerPath31 == "Pharmacist") { echo "selected"; } ?>>Pharmacist</option>
-													<option value="Civil Engineer" <?php if ($CareerPath31 == "Civil Engineer") { echo "selected"; } ?>>Civil Engineer</option>
-													<option value="Mechanical Engineer" <?php if ($CareerPath31 == "Mechanical Engineer") { echo "selected"; } ?>>Mechanical Engineer</option>
-													<option value="Food Technologist" <?php if ($CareerPath31 == "Food Technologist") { echo "selected"; } ?>>Food Technologist</option>
-													<option value="Environmental Scientist" <?php if ($CareerPath31 == "Environmental Scientist") { echo "selected"; } ?>>Environmental Scientist</option>
-													<option value="Social Scientist" <?php if ($CareerPath31 == "Social Scientist") { echo "selected"; } ?>>Social Scientist</option>
-													<option value="Psychologist" <?php if ($CareerPath31 == "Psychologist") { echo "selected"; } ?>>Psychologist</option>
-													<option value="Philosopher" <?php if ($CareerPath31 == "Philosopher") { echo "selected"; } ?>>Philosopher</option>
-													<option value="Social Worker" <?php if ($CareerPath31 == "Social Worker") { echo "selected"; } ?>>Social Worker</option>
-													<option value="Political Scientist" <?php if ($CareerPath31 == "Political Scientist") { echo "selected"; } ?>>Political Scientist</option>
-													<option value="Foreign Service Officer" <?php if ($CareerPath31 == "Foreign Service Officer") { echo "selected"; } ?>>Foreign Service Officer</option>
-													<option value="Police" <?php if ($CareerPath31 == "Police") { echo "selected"; } ?>>Police</option>
-													<option value="Fireman" <?php if ($CareerPath31 == "Fireman") { echo "selected"; } ?>>Fireman</option>
-													<option value="Soldier" <?php if ($CareerPath31 == "Soldier") { echo "selected"; } ?>>Soldier</option>
-													<option value="Communication Specialist" <?php if ($CareerPath31 == "Communication Specialist") { echo "selected"; } ?>>Communication Specialist</option>
-													<option value="Educator" <?php if ($CareerPath31 == "Educator") { echo "selected"; } ?>>Educator</option>
-													<option value="Journalist" <?php if ($CareerPath31 == "Journalist") { echo "selected"; } ?>>Journalist</option>
-													<option value="Broadcast Journalist" <?php if ($CareerPath31 == "Broadcast Journalist") { echo "selected"; } ?>>Broadcast Journalist</option>
-													<option value="Entrepreneur" <?php if ($CareerPath31 == "Entrepreneur") { echo "selected"; } ?>>Entrepreneur</option>
-													<option value="Tourism Manager" <?php if ($CareerPath31 == "Tourism Manager") { echo "selected"; } ?>>Tourism Manager</option>
-													<option value="Business Administrator" <?php if ($CareerPath31 == "Business Administrator") { echo "selected"; } ?>>Business Administrator</option>
-													<option value="Accountant" <?php if ($CareerPath31 == "Accountant") { echo "selected"; } ?>>Accountant</option>
-													<option value="Business Economist" <?php if ($CareerPath31 == "Business Economist") { echo "selected"; } ?>>Business Economist</option>
-													<option value="Banking and Finance Specialist" <?php if ($CareerPath31 == "Banking and Finance Specialist") { echo "selected"; } ?>>Banking and Finance Specialist</option>
-													<option value="Management Consultant" <?php if ($CareerPath31 == "Management Consultant") { echo "selected"; } ?>>Management Consultant</option>
-													<option value="IT Specialist" <?php if ($CareerPath31 == "IT Specialist") { echo "selected"; } ?>>IT Specialist</option>
-													<option value="Software Developer" <?php if ($CareerPath31 == "Software Developer") { echo "selected"; } ?>>Software Developer</option>
-													<option value="Computer Engineer" <?php if ($CareerPath31 == "Computer Engineer") { echo "selected"; } ?>>Computer Engineer</option>
-													<option value="Software Engineer" <?php if ($CareerPath31 == "Software Engineer") { echo "selected"; } ?>>Software Engineer</option>
-													<option value="Network Administrator" <?php if ($CareerPath31 == "Network Administrator") { echo "selected"; } ?>>Network Administrator</option>
-													<option value="Digital Media Designer" <?php if ($CareerPath31 == "Digital Media Designer") { echo "selected"; } ?>>Digital Media Designer</option>
-													<option value="Web Developer" <?php if ($CareerPath31 == "Web Developer") { echo "selected"; } ?>>Web Developer</option>
-													<option value="Cybersecurity Analyst" <?php if ($CareerPath31 == "Cybersecurity Analyst") { echo "selected"; } ?>>Cybersecurity Analyst</option>
-													<option value="Data Scientist" <?php if ($CareerPath31 == "Data Scientist") { echo "selected"; } ?>>Data Scientist</option>
-													<option value="Information Systems Manager" <?php if ($CareerPath31 == "Information Systems Manager") { echo "selected"; } ?>>Information Systems Manager</option>
-													<option value="Chef" <?php if ($CareerPath31 == "Chef") { echo "selected"; } ?>>Chef</option>
-													<option value="Pastry Chef" <?php if ($CareerPath31 == "Pastry Chef") { echo "selected"; } ?>>Pastry Chef</option>
-													<option value="Fashion Designer" <?php if ($CareerPath31 == "Fashion Designer") { echo "selected"; } ?>>Fashion Designer</option>
-													<option value="Textile Designer" <?php if ($CareerPath31 == "Textile Designer") { echo "selected"; } ?>>Textile Designer</option>
-													<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath31 == "Family and Consumer Sciences Educator") { echo "selected"; } ?>>Family and Consumer Sciences Educator</option>
-													<option value="Interior Designer" <?php if ($CareerPath31 == "Interior Designer") { echo "selected"; } ?>>Interior Designer</option>
-													<option value="Home Economics Educator" <?php if ($CareerPath31 == "Home Economics Educator") { echo "selected"; } ?>>Home Economics Educator</option>
-													<option value="Event Planner" <?php if ($CareerPath31 == "Event Planner") { echo "selected"; } ?>>Event Planner</option>
-													<option value="Nutritionist" <?php if ($CareerPath31 == "Nutritionist") { echo "selected"; } ?>>Nutritionist</option>
-													<option value="Dietitian" <?php if ($CareerPath31 == "Dietitian") { echo "selected"; } ?>>Dietitian</option>
-													<option value="Hotel Manager" <?php if ($CareerPath31 == "Hotel Manager") { echo "selected"; } ?>>Hotel Manager</option>
-													<option value="Restaurant Manager" <?php if ($CareerPath31 == "Restaurant Manager") { echo "selected"; } ?>>Restaurant Manager</option>
-													<option value="Child Life Specialist" <?php if ($CareerPath31 == "Child Life Specialist") { echo "selected"; } ?>>Child Life Specialist</option>
-													<option value="Family Counselor" <?php if ($CareerPath31 == "Family Counselor") { echo "selected"; } ?>>Family Counselor</option>
-													<option value="Food Service Manager" <?php if ($CareerPath31 == "Food Service Manager") { echo "selected"; } ?>>Food Service Manager</option>
+														<option value="Undecided" <?php if ($CareerPath31 == "Undecided") {
+																						echo "selected";
+																					} ?>>Undecided</option>
+														<option value="NA" <?php if ($CareerPath31 == "NA") {
+																				echo "selected";
+																			} ?>>N/A</option>
+														<option value="Chemical Engineer" <?php if ($CareerPath31 == "Chemical Engineer") {
+																								echo "selected";
+																							} ?>>Chemical Engineer</option>
+														<option value="Industrial Engineer" <?php if ($CareerPath31 == "Industrial Engineer") {
+																								echo "selected";
+																							} ?>>Industrial Engineer</option>
+														<option value="Biologist" <?php if ($CareerPath31 == "Biologist") {
+																						echo "selected";
+																					} ?>>Biologist</option>
+														<option value="Mathematician" <?php if ($CareerPath31 == "Mathematician") {
+																							echo "selected";
+																						} ?>>Mathematician</option>
+														<option value="Statistician" <?php if ($CareerPath31 == "Statistician") {
+																							echo "selected";
+																						} ?>>Statistician</option>
+														<option value="Physicist" <?php if ($CareerPath31 == "Physicist") {
+																						echo "selected";
+																					} ?>>Physicist</option>
+														<option value="Architect" <?php if ($CareerPath31 == "Architect") {
+																						echo "selected";
+																					} ?>>Architect</option>
+														<option value="Doctor" <?php if ($CareerPath31 == "Doctor") {
+																					echo "selected";
+																				} ?>>Doctor</option>
+														<option value="Registered Nurse" <?php if ($CareerPath31 == "Registered Nurse") {
+																								echo "selected";
+																							} ?>>Registered Nurse</option>
+														<option value="Physical Therapist" <?php if ($CareerPath31 == "Physical Therapist") {
+																								echo "selected";
+																							} ?>>Physical Therapist</option>
+														<option value="Pharmacist" <?php if ($CareerPath31 == "Pharmacist") {
+																						echo "selected";
+																					} ?>>Pharmacist</option>
+														<option value="Civil Engineer" <?php if ($CareerPath31 == "Civil Engineer") {
+																							echo "selected";
+																						} ?>>Civil Engineer</option>
+														<option value="Mechanical Engineer" <?php if ($CareerPath31 == "Mechanical Engineer") {
+																								echo "selected";
+																							} ?>>Mechanical Engineer</option>
+														<option value="Food Technologist" <?php if ($CareerPath31 == "Food Technologist") {
+																								echo "selected";
+																							} ?>>Food Technologist</option>
+														<option value="Environmental Scientist" <?php if ($CareerPath31 == "Environmental Scientist") {
+																									echo "selected";
+																								} ?>>Environmental Scientist</option>
+														<option value="Social Scientist" <?php if ($CareerPath31 == "Social Scientist") {
+																								echo "selected";
+																							} ?>>Social Scientist</option>
+														<option value="Psychologist" <?php if ($CareerPath31 == "Psychologist") {
+																							echo "selected";
+																						} ?>>Psychologist</option>
+														<option value="Philosopher" <?php if ($CareerPath31 == "Philosopher") {
+																						echo "selected";
+																					} ?>>Philosopher</option>
+														<option value="Social Worker" <?php if ($CareerPath31 == "Social Worker") {
+																							echo "selected";
+																						} ?>>Social Worker</option>
+														<option value="Political Scientist" <?php if ($CareerPath31 == "Political Scientist") {
+																								echo "selected";
+																							} ?>>Political Scientist</option>
+														<option value="Foreign Service Officer" <?php if ($CareerPath31 == "Foreign Service Officer") {
+																									echo "selected";
+																								} ?>>Foreign Service Officer</option>
+														<option value="Police" <?php if ($CareerPath31 == "Police") {
+																					echo "selected";
+																				} ?>>Police</option>
+														<option value="Fireman" <?php if ($CareerPath31 == "Fireman") {
+																					echo "selected";
+																				} ?>>Fireman</option>
+														<option value="Soldier" <?php if ($CareerPath31 == "Soldier") {
+																					echo "selected";
+																				} ?>>Soldier</option>
+														<option value="Communication Specialist" <?php if ($CareerPath31 == "Communication Specialist") {
+																										echo "selected";
+																									} ?>>Communication Specialist</option>
+														<option value="Educator" <?php if ($CareerPath31 == "Educator") {
+																						echo "selected";
+																					} ?>>Educator</option>
+														<option value="Journalist" <?php if ($CareerPath31 == "Journalist") {
+																						echo "selected";
+																					} ?>>Journalist</option>
+														<option value="Broadcast Journalist" <?php if ($CareerPath31 == "Broadcast Journalist") {
+																									echo "selected";
+																								} ?>>Broadcast Journalist</option>
+														<option value="Entrepreneur" <?php if ($CareerPath31 == "Entrepreneur") {
+																							echo "selected";
+																						} ?>>Entrepreneur</option>
+														<option value="Tourism Manager" <?php if ($CareerPath31 == "Tourism Manager") {
+																							echo "selected";
+																						} ?>>Tourism Manager</option>
+														<option value="Business Administrator" <?php if ($CareerPath31 == "Business Administrator") {
+																									echo "selected";
+																								} ?>>Business Administrator</option>
+														<option value="Accountant" <?php if ($CareerPath31 == "Accountant") {
+																						echo "selected";
+																					} ?>>Accountant</option>
+														<option value="Business Economist" <?php if ($CareerPath31 == "Business Economist") {
+																								echo "selected";
+																							} ?>>Business Economist</option>
+														<option value="Banking and Finance Specialist" <?php if ($CareerPath31 == "Banking and Finance Specialist") {
+																											echo "selected";
+																										} ?>>Banking and Finance Specialist</option>
+														<option value="Management Consultant" <?php if ($CareerPath31 == "Management Consultant") {
+																									echo "selected";
+																								} ?>>Management Consultant</option>
+														<option value="IT Specialist" <?php if ($CareerPath31 == "IT Specialist") {
+																							echo "selected";
+																						} ?>>IT Specialist</option>
+														<option value="Software Developer" <?php if ($CareerPath31 == "Software Developer") {
+																								echo "selected";
+																							} ?>>Software Developer</option>
+														<option value="Computer Engineer" <?php if ($CareerPath31 == "Computer Engineer") {
+																								echo "selected";
+																							} ?>>Computer Engineer</option>
+														<option value="Software Engineer" <?php if ($CareerPath31 == "Software Engineer") {
+																								echo "selected";
+																							} ?>>Software Engineer</option>
+														<option value="Network Administrator" <?php if ($CareerPath31 == "Network Administrator") {
+																									echo "selected";
+																								} ?>>Network Administrator</option>
+														<option value="Digital Media Designer" <?php if ($CareerPath31 == "Digital Media Designer") {
+																									echo "selected";
+																								} ?>>Digital Media Designer</option>
+														<option value="Web Developer" <?php if ($CareerPath31 == "Web Developer") {
+																							echo "selected";
+																						} ?>>Web Developer</option>
+														<option value="Cybersecurity Analyst" <?php if ($CareerPath31 == "Cybersecurity Analyst") {
+																									echo "selected";
+																								} ?>>Cybersecurity Analyst</option>
+														<option value="Data Scientist" <?php if ($CareerPath31 == "Data Scientist") {
+																							echo "selected";
+																						} ?>>Data Scientist</option>
+														<option value="Information Systems Manager" <?php if ($CareerPath31 == "Information Systems Manager") {
+																										echo "selected";
+																									} ?>>Information Systems Manager</option>
+														<option value="Chef" <?php if ($CareerPath31 == "Chef") {
+																					echo "selected";
+																				} ?>>Chef</option>
+														<option value="Pastry Chef" <?php if ($CareerPath31 == "Pastry Chef") {
+																						echo "selected";
+																					} ?>>Pastry Chef</option>
+														<option value="Fashion Designer" <?php if ($CareerPath31 == "Fashion Designer") {
+																								echo "selected";
+																							} ?>>Fashion Designer</option>
+														<option value="Textile Designer" <?php if ($CareerPath31 == "Textile Designer") {
+																								echo "selected";
+																							} ?>>Textile Designer</option>
+														<option value="Family and Consumer Sciences Educator" <?php if ($CareerPath31 == "Family and Consumer Sciences Educator") {
+																													echo "selected";
+																												} ?>>Family and Consumer Sciences Educator</option>
+														<option value="Interior Designer" <?php if ($CareerPath31 == "Interior Designer") {
+																								echo "selected";
+																							} ?>>Interior Designer</option>
+														<option value="Home Economics Educator" <?php if ($CareerPath31 == "Home Economics Educator") {
+																									echo "selected";
+																								} ?>>Home Economics Educator</option>
+														<option value="Event Planner" <?php if ($CareerPath31 == "Event Planner") {
+																							echo "selected";
+																						} ?>>Event Planner</option>
+														<option value="Nutritionist" <?php if ($CareerPath31 == "Nutritionist") {
+																							echo "selected";
+																						} ?>>Nutritionist</option>
+														<option value="Dietitian" <?php if ($CareerPath31 == "Dietitian") {
+																						echo "selected";
+																					} ?>>Dietitian</option>
+														<option value="Hotel Manager" <?php if ($CareerPath31 == "Hotel Manager") {
+																							echo "selected";
+																						} ?>>Hotel Manager</option>
+														<option value="Restaurant Manager" <?php if ($CareerPath31 == "Restaurant Manager") {
+																								echo "selected";
+																							} ?>>Restaurant Manager</option>
+														<option value="Child Life Specialist" <?php if ($CareerPath31 == "Child Life Specialist") {
+																									echo "selected";
+																								} ?>>Child Life Specialist</option>
+														<option value="Family Counselor" <?php if ($CareerPath31 == "Family Counselor") {
+																								echo "selected";
+																							} ?>>Family Counselor</option>
+														<option value="Food Service Manager" <?php if ($CareerPath31 == "Food Service Manager") {
+																									echo "selected";
+																								} ?>>Food Service Manager</option>
 
 													</select>
 													<label for="CareerPath3" class="form-label">Career - 3rd Choice</label>
+													<input type="hidden" name="CareerPath3hid" id="CareerPath3hid" value="<?php echo $CareerPath31; ?>">
 												</div>
 											</div>
 										</div>
 									</div>
 
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
-										<button type="button" class="btn btn-update form-button-text" id="updateButton"><span class="fw-bold">UPDATE</span></button>
+										<button type="submit" class="btn btn-update form-button-text" id="submitButton" name="update2"><span class="fw-bold">UPDATE</span></button>
 									</div>
 								</form>
 							</div>
@@ -1316,17 +1968,249 @@ if (!isset($_SESSION["admin"])) {
 								<h4 class="fw-bold card-text-header">Results</h4>
 							</div>
 							<div class="card-body">
-								<h4>Profile: <span style="color: red">NOT DONE</span></h4>
+								<h4>Profile: <span id="profileStatus" style="color: red">NOT DONE</span></h4>
 								<p class="text-muted">If Profile is already done, click Generate...</p>
 								<form action="" method="post">
 									<div class="form-floating mb-3">
-										<input type="text" class="form-control" id="result" placeholder="Result">
+										<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>">
 										<label for="result">RESULT</label>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
-										<button type="button" class="btn btn-add form-button-text"><span class="fw-bold">GENERATE</span></button>
+										<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-add form-button-text"><span class="fw-bold">GENERATE</span></button>
 									</div>
 								</form>
+								<?php
+								if (isset($_POST['generateBtn'])) {
+									$id = $_GET['lrn'];
+									
+									$user_input = array(
+										"skiCommunicationSkills" => $skiCommunicationSkills1,
+										"skiCriticalThinking" => $skiCriticalThinking1,
+										"skiReadingComprehension" => $skiReadingComprehension1,
+										"skiProblemSolving" => $skiProblemSolving1,
+										"skiResearchSkills" => $skiResearchSkills1,
+										"skiDigitalLiteracy" => $skiDigitalLiteracy1,
+										"skiInnovative" => $skiInnovative1,
+										"skiTimeManagement" => $skiTimeManagement1,
+										"skiAdaptability" => $skiAdaptability1,
+										"skiScientificInquiry" => $skiScientificInquiry1,
+										"skiMathematicalSkills" => $skiMathematicalSkills1,
+										"skiLogicalReasoning" => $skiLogicalReasoning1,
+										"skiLabExperimentalSkills" => $skiLabExperimentalSkills1,
+										"skiAnalyticalSkills" => $skiAnalyticalSkills1,
+										"skiResearchWriting" => $skiResearchWriting1,
+										"skiSociologicalAnalysis" => $skiSociologicalAnalysis1,
+										"skiCulturalCompetence" => $skiCulturalCompetence1,
+										"skiEthicalReasoning" => $skiEthicalReasoning1,
+										"skiHistoryPoliticalScience" => $skiHistoryPoliticalScience1,
+										"skiFinancialLiteracy" => $skiFinancialLiteracy1,
+										"skiBusinessPlanning" => $skiBusinessPlanning1,
+										"skiMarketing" => $skiMarketing1,
+										"skiAccounting" => $skiAccounting1,
+										"skiEntrepreneurship" => $skiEntrepreneurship1,
+										"skiEconomics" => $skiEconomics1,
+										"skiComputerHardwareSoftware" => $skiComputerHardwareSoftware1,
+										"skiComputerNetworking" => $skiComputerNetworking1,
+										"skiWebDevelopment" => $skiWebDevelopment1,
+										"skiProgramming" => $skiProgramming1,
+										"skiTroubleshooting" => $skiTroubleshooting1,
+										"skiGraphicsDesign" => $skiGraphicsDesign1,
+										"skiCulinarySkills" => $skiCulinarySkills1,
+										"skiSewingFashionDesign" => $skiSewingFashionDesign1,
+										"skiInteriorDesign" => $skiInteriorDesign1,
+										"skiChildcareFamilyServices" => $skiChildcareFamilyServices1,
+										"skiNutritionFoodSafety" => $skiNutritionFoodSafety1,
+										"intCalculus" => $intCalculus1,
+										"intBiology" => $intBiology1,
+										"intPhysics" => $intPhysics1,
+										"intChemistry" => $intChemistry1,
+										"intCreativeWriting" => $intCreativeWriting1,
+										"intCreativeNonfiction" => $intCreativeNonfiction1,
+										"intIntroWorldReligionsBeliefSystems" => $intIntroWorldReligionsBeliefSystems1,
+										"intPhilippinePoliticsGovernance" => $intPhilippinePoliticsGovernance1,
+										"intDisciplinesIdeasSocialSciences" => $intDisciplinesIdeasSocialSciences1,
+										"intAppliedEconomics" => $intAppliedEconomics1,
+										"intBusinessEthicsSocialResponsibility" => $intBusinessEthicsSocialResponsibility1,
+										"intFundamentalsABM" => $intFundamentalsABM1,
+										"intBusinessMath" => $intBusinessMath1,
+										"intBusinessFinance" => $intBusinessFinance1,
+										"intOrganizationManagement" => $intOrganizationManagement1,
+										"intPrinciplesMarketing" => $intPrinciplesMarketing1,
+										"intComputerProgramming" => $intComputerProgramming1,
+										"intComputerSystemServicing" => $intComputerSystemServicing1,
+										"intContactCenterServices" => $intContactCenterServices1,
+										"intCISCOComputerNetworking" => $intCISCOComputerNetworking1,
+										"intAnimationIllustration" => $intAnimationIllustration1,
+										"intCookery" => $intCookery1,
+										"intBreadPastryProduction" => $intBreadPastryProduction1,
+										"intFashionDesign" => $intFashionDesign1,
+										"intFoodBeverages" => $intFoodBeverages1,
+										"intTailoring" => $intTailoring1,
+										"TotalHouseholdMonthlyIncome" => $TotalHouseholdMonthlyIncome1,
+										"acadScience" => $acadScience1,
+										"acadMath" => $acadMath1,
+										"acadEnglish" => $acadEnglish1,
+										"acadFilipino" => $acadFilipino1,
+										"acadICTRelatedSub" => $acadICTRelatedSub1,
+										"acadHERelatedSub" => $acadHERelatedSub1,
+										"CareerPath1" => $CareerPath11,
+										"CareerPath2" => $CareerPath21,
+										"CareerPath3" => $CareerPath31
+									);
+
+									// Convert the user input array to a JSON string
+									$input_json = json_encode($user_input);
+									// echo "<p>Here is the result: " . $input_json;
+
+									$json_file = '../Model/output.json';
+
+									file_put_contents($json_file, $input_json);
+
+									/*if (file_put_contents($json_file, $input_json)) {
+										echo "<p>JSON data saved to $json_file.</p>";
+									} else {
+										echo "<p>Error saving JSON data to $json_file.</p>";
+									}*/
+
+									// Define the R script path
+									$r_scriptexe_path = '"C:\Program Files\R\R-4.2.2\bin\Rscript.exe"';
+									$r_script_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\predictStrand.R"'; // Update with the correct path
+									$jsonfile_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\output.json"';
+
+									// Construct the command to execute the R script with input JSON
+									$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
+									// echo "<p>Here is the result: " . $command;
+
+									// Execute the command and capture the output
+									$output = shell_exec($command);
+									// echo "<p>Here is the result: " . $output;
+
+									// Parse the JSON output from R
+									$resultscores = json_decode($output, true);
+
+									$mostSuitableStrand = $resultscores["MostSuitableStrand"][0];
+
+									// Access the first element of StudentScores
+									$stemStudentScore = $resultscores["StudentScores"][0];
+									$humssStudentScore = $resultscores["StudentScores"][1];
+									$abmStudentScore = $resultscores["StudentScores"][2];
+									$gasStudentScore = $resultscores["StudentScores"][3];
+									$tvlictStudentScore = $resultscores["StudentScores"][4];
+									$tvlheStudentScore = $resultscores["StudentScores"][5];
+
+									// Access specific values within the first student score
+									$strand1 = $stemStudentScore["Strand"];
+									$skillsProbability1 = number_format($stemStudentScore["Skills_Probability"], 4);
+									$academicProbability1 = number_format($stemStudentScore["Academic_Probability"], 4);
+									$interestProbability1 = number_format($stemStudentScore["Interest_Probability"], 4);
+									$careerProbability1 = number_format($stemStudentScore["Career_Probability"], 4);
+									$totalScore1 = number_format($stemStudentScore["Total_Score"], 4);
+									$percentageScore1 = number_format($stemStudentScore["Percentage_Score"], 2);
+
+									$strand2 = $humssStudentScore["Strand"];
+									$skillsProbability2 = number_format($humssStudentScore["Skills_Probability"], 4);
+									$academicProbability2 = number_format($humssStudentScore["Academic_Probability"], 4);
+									$interestProbability2 = number_format($humssStudentScore["Interest_Probability"], 4);
+									$careerProbability2 = number_format($humssStudentScore["Career_Probability"], 4);
+									$totalScore2 = number_format($humssStudentScore["Total_Score"], 4);
+									$percentageScore2 = number_format($humssStudentScore["Percentage_Score"], 2);
+
+									$strand3 = $abmStudentScore["Strand"];
+									$skillsProbability3 = number_format($abmStudentScore["Skills_Probability"], 4);
+									$academicProbability3 = number_format($abmStudentScore["Academic_Probability"], 4);
+									$interestProbability3 = number_format($abmStudentScore["Interest_Probability"], 4);
+									$careerProbability3 = number_format($abmStudentScore["Career_Probability"], 4);
+									$totalScore3 = number_format($abmStudentScore["Total_Score"], 4);
+									$percentageScore3 = number_format($abmStudentScore["Percentage_Score"], 2);
+
+									$strand4 = $gasStudentScore["Strand"];
+									$skillsProbability4 = number_format($gasStudentScore["Skills_Probability"], 4);
+									$academicProbability4 = number_format($gasStudentScore["Academic_Probability"], 4);
+									$interestProbability4 = number_format($gasStudentScore["Interest_Probability"], 4);
+									$careerProbability4 = number_format($gasStudentScore["Career_Probability"], 4);
+									$totalScore4 = number_format($gasStudentScore["Total_Score"], 4);
+									$percentageScore4 = number_format($gasStudentScore["Percentage_Score"], 2);
+
+									$strand5 = $tvlictStudentScore["Strand"];
+									$skillsProbability5 = number_format($tvlictStudentScore["Skills_Probability"], 4);
+									$academicProbability5 = number_format($tvlictStudentScore["Academic_Probability"], 4);
+									$interestProbability5 = number_format($tvlictStudentScore["Interest_Probability"], 4);
+									$careerProbability5 = number_format($tvlictStudentScore["Career_Probability"], 4);
+									$totalScore5 = number_format($tvlictStudentScore["Total_Score"], 4);
+									$percentageScore5 = number_format($tvlictStudentScore["Percentage_Score"], 2);
+
+									$strand6 = $tvlheStudentScore["Strand"];
+									$skillsProbability6 = number_format($tvlheStudentScore["Skills_Probability"], 4);
+									$academicProbability6 = number_format($tvlheStudentScore["Academic_Probability"], 4);
+									$interestProbability6 = number_format($tvlheStudentScore["Interest_Probability"], 4);
+									$careerProbability6 = number_format($tvlheStudentScore["Career_Probability"], 4);
+									$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
+									$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
+
+									$sql3 = "UPDATE studentprofile
+											JOIN result ON studentprofile.lrn = result.lrn
+											JOIN stemresult ON studentprofile.lrn = stemresult.lrn
+											JOIN humssresult ON studentprofile.lrn = humssresult.lrn
+											JOIN abmresult ON studentprofile.lrn = abmresult.lrn
+											JOIN gasresult ON studentprofile.lrn = gasresult.lrn
+											JOIN tvlictresult ON studentprofile.lrn = tvlictresult.lrn
+											JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
+											SET
+											result.MostSuitableStrand = '$mostSuitableStrand',
+
+											stemresult.acadProb = '$academicProbability1',
+											stemresult.intProb = '$interestProbability1',
+											stemresult.carProb = '$careerProbability1',
+											stemresult.skiProb = '$skillsProbability1',
+											stemresult.totalScore = '$totalScore1',
+											stemresult.percScore = '$percentageScore1',
+											
+											humssresult.acadProb = '$academicProbability2',
+											humssresult.intProb = '$interestProbability2',
+											humssresult.carProb = '$careerProbability2',
+											humssresult.skiProb = '$skillsProbability2',
+											humssresult.totalScore = '$totalScore2',
+											humssresult.percScore = '$percentageScore2',
+											
+											abmresult.acadProb = '$academicProbability3',
+											abmresult.intProb = '$interestProbability3',
+											abmresult.carProb = '$careerProbability3',
+											abmresult.skiProb = '$skillsProbability3',
+											abmresult.totalScore = '$totalScore3',
+											abmresult.percScore = '$percentageScore3',
+											
+											gasresult.acadProb = '$academicProbability4',
+											gasresult.intProb = '$interestProbability4',
+											gasresult.carProb = '$careerProbability4',
+											gasresult.skiProb = '$skillsProbability4',
+											gasresult.totalScore = '$totalScore4',
+											gasresult.percScore = '$percentageScore4',
+											
+											tvlictresult.acadProb = '$academicProbability5',
+											tvlictresult.intProb = '$interestProbability5',
+											tvlictresult.carProb = '$careerProbability5',
+											tvlictresult.skiProb = '$skillsProbability5',
+											tvlictresult.totalScore = '$totalScore5',
+											tvlictresult.percScore = '$percentageScore5',
+											
+											tvlheresult.acadProb = '$academicProbability6',
+											tvlheresult.intProb = '$interestProbability6',
+											tvlheresult.carProb = '$careerProbability6',
+											tvlheresult.skiProb = '$skillsProbability6',
+											tvlheresult.totalScore = '$totalScore6',
+											tvlheresult.percScore = '$percentageScore6'
+											WHERE
+												studentprofile.lrn = '$id'";
+
+									// Execute the update query
+									if ($conn->query($sql3) === TRUE) {
+										echo "<script>alert('Successfully generated a recomendation!');</script>";
+										echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
+									} else {
+										echo "Error generating recomendation: " . $conn->error;
+									}
+								}
+								?>
 							</div>
 						</div>
 					</div>
@@ -1335,19 +2219,160 @@ if (!isset($_SESSION["admin"])) {
 							<div class="card-header">
 								<h4 class="fw-bold card-text-header">STATISTIC</h4>
 							</div>
+
+							<?php
+							if (isset($_GET['lrn'])) {
+								include "connection.php";
+
+								$user_id = $_GET['lrn'];
+
+								$sql = "SELECT sp.*, r.*, 
+								sr.acadProb AS acadProbStem, 
+								sr.intProb AS intProbStem, 
+								sr.carProb AS carProbStem, 
+								sr.skiProb AS skiProbStem, 
+								sr.totalScore AS totalScoreStem, 
+								sr.percScore AS percScoreStem, 
+								hr.acadProb AS acadProbHumss, 
+								hr.intProb AS intProbHumss, 
+								hr.carProb AS carProbHumss, 
+								hr.skiProb AS skiProbHumss, 
+								hr.totalScore AS totalScoreHumss, 
+								hr.percScore AS percScoreHumss, 
+								ar.acadProb AS acadProbAbm, 
+								ar.intProb AS intProbAbm, 
+								ar.carProb AS carProbAbm, 
+								ar.skiProb AS skiProbAbm, 
+								ar.totalScore AS totalScoreAbm, 
+								ar.percScore AS percScoreAbm, 
+								gr.acadProb AS acadProbGas, 
+								gr.intProb AS intProbGas, 
+								gr.carProb AS carProbGas, 
+								gr.skiProb AS skiProbGas, 
+								gr.totalScore AS totalScoreGas, 
+								gr.percScore AS percScoreGas, 
+								tr.acadProb AS acadProbTvlict, 
+								tr.intProb AS intProbTvlict, 
+								tr.carProb AS carProbTvlict, 
+								tr.skiProb AS skiProbTvlict, 
+								tr.totalScore AS totalScoreTvlict, 
+								tr.percScore AS percScoreTvlict, 
+								tlr.acadProb AS acadProbTvlhe, 
+								tlr.intProb AS intProbTvlhe, 
+								tlr.carProb AS carProbTvlhe, 
+								tlr.skiProb AS skiProbTvlhe, 
+								tlr.totalScore AS totalScoreTvlhe, 
+								tlr.percScore AS percScoreTvlhe 
+						FROM studentprofile sp
+						JOIN result r ON sp.lrn = r.lrn 
+						JOIN stemresult sr ON sp.lrn = sr.lrn 
+						JOIN humssresult hr ON sp.lrn = hr.lrn 
+						JOIN abmresult ar ON sp.lrn = ar.lrn 
+						JOIN gasresult gr ON sp.lrn = gr.lrn 
+						JOIN tvlictresult tr ON sp.lrn = tr.lrn 
+						JOIN tvlheresult tlr ON sp.lrn = tlr.lrn 
+						WHERE sp.lrn = '$user_id';";
+
+								$result = $conn->query($sql);
+
+								if ($result->num_rows > 0) {
+
+									while ($row = $result->fetch_assoc()) {
+										$ovrSTEM = $row['percScoreStem'];
+										$ovrHUMSS = $row['percScoreHumss'];
+										$ovrABM = $row['percScoreAbm'];
+										$ovrGAS = $row['percScoreGas'];
+										$ovrTVLICT = $row['percScoreTvlict'];
+										$ovrTVLHE = $row['percScoreTvlhe'];
+
+										$skiSTEM = $row['skiProbStem'];
+										$skiHUMSS = $row['skiProbHumss'];
+										$skiABM = $row['skiProbAbm'];
+										$skiGAS = $row['skiProbGas'];
+										$skiTVLICT = $row['skiProbTvlict'];
+										$skiTVLHE = $row['skiProbTvlhe'];
+
+										$intSTEM = $row['intProbStem'];
+										$intHUMSS = $row['intProbHumss'];
+										$intABM = $row['intProbAbm'];
+										$intGAS = $row['intProbGas'];
+										$intTVLICT = $row['intProbTvlict'];
+										$intTVLHE = $row['intProbTvlhe'];
+
+										$acadSTEM = $row['acadProbStem'];
+										$acadHUMSS = $row['acadProbHumss'];
+										$acadABM = $row['acadProbAbm'];
+										$acadGAS = $row['acadProbGas'];
+										$acadTVLICT = $row['acadProbTvlict'];
+										$acadTVLHE = $row['acadProbTvlhe'];
+
+										$carSTEM = $row['carProbStem'];
+										$carHUMSS = $row['carProbHumss'];
+										$carABM = $row['carProbAbm'];
+										$carGAS = $row['carProbGas'];
+										$carTVLICT = $row['carProbTvlict'];
+										$carTVLHE = $row['carProbTvlhe'];
+									}
+									$haveResult = ($ovrSTEM == 0 && $ovrHUMSS == 0 && $ovrABM == 0 && $ovrGAS == 0 && $ovrTVLICT == 0 && $ovrTVLHE == 0) ? 0 : 1;
+								}
+							}
+							?>
+
 							<div class="card-body">
 								<div class="row w-100">
+									<input type="hidden" class="checkRes" name="checkRes" id="checkRes" value="<?php echo $haveResult; ?>">
+									<p id="messageTitle">LEGENDS:
+										<small class="fw-bold" style="color: rgba(112,214,255,1.0);">STEM</small> -
+										<small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
+										<small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
+										<small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
+										<small class="fw-bold" style="color: rgba(233,255,112,1.0);">TVL-ICT</small> -
+										<small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
+									</p>
 									<div class="col-12">
 										<canvas id="overallpieChart"></canvas>
+										<input type="hidden" class="ovr" name="ovrSTEM" id="ovrSTEM" value="<?php echo $ovrSTEM; ?>">
+										<input type="hidden" class="ovr" name="ovrHUMSS" id="ovrHUMSS" value="<?php echo $ovrHUMSS; ?>">
+										<input type="hidden" class="ovr" name="ovrABM" id="ovrABM" value="<?php echo $ovrABM; ?>">
+										<input type="hidden" class="ovr" name="ovrGAS" id="ovrGAS" value="<?php echo $ovrGAS; ?>">
+										<input type="hidden" class="ovr" name="ovrTVLICT" id="ovrTVLICT" value="<?php echo $ovrTVLICT; ?>">
+										<input type="hidden" class="ovr" name="ovrTVLHE" id="ovrTVLHE" value="<?php echo $ovrTVLHE; ?>">
 									</div>
-									<div class="col-6 col-md-4">
-										<canvas id="skintpieChart"></canvas>
+									<div class="col-12 col-md-6">
+										<canvas id="skipieChart"></canvas>
+										<input type="hidden" class="ski" name="skiSTEM" id="skiSTEM" value="<?php echo $skiSTEM; ?>">
+										<input type="hidden" class="ski" name="skiHUMSS" id="skiHUMSS" value="<?php echo $skiHUMSS; ?>">
+										<input type="hidden" class="ski" name="skiABM" id="skiABM" value="<?php echo $skiABM; ?>">
+										<input type="hidden" class="ski" name="skiGAS" id="skiGAS" value="<?php echo $skiGAS; ?>">
+										<input type="hidden" class="ski" name="skiTVLICT" id="skiTVLICT" value="<?php echo $skiTVLICT; ?>">
+										<input type="hidden" class="ski" name="skiTVLHE" id="skiTVLHE" value="<?php echo $skiTVLHE; ?>">
 									</div>
-									<div class="col-6 col-md-4">
+									<div class="col-12 col-md-6">
+										<canvas id="intpieChart"></canvas>
+										<input type="hidden" class="int" name="intSTEM" id="intSTEM" value="<?php echo $intSTEM; ?>">
+										<input type="hidden" class="int" name="intHUMSS" id="intHUMSS" value="<?php echo $intHUMSS; ?>">
+										<input type="hidden" class="int" name="intABM" id="intABM" value="<?php echo $intABM; ?>">
+										<input type="hidden" class="int" name="intGAS" id="intGAS" value="<?php echo $intGAS; ?>">
+										<input type="hidden" class="int" name="intTVLICT" id="intTVLICT" value="<?php echo $intTVLICT; ?>">
+										<input type="hidden" class="int" name="intTVLHE" id="intTVLHE" value="<?php echo $intTVLHE; ?>">
+									</div>
+									<div class="col-12 col-md-6">
 										<canvas id="acadpieChart"></canvas>
+										<input type="hidden" class="acad" name="acadSTEM" id="acadSTEM" value="<?php echo $acadSTEM; ?>">
+										<input type="hidden" class="acad" name="acadHUMSS" id="acadHUMSS" value="<?php echo $acadHUMSS; ?>">
+										<input type="hidden" class="acad" name="acadABM" id="acadABM" value="<?php echo $acadABM; ?>">
+										<input type="hidden" class="acad" name="acadGAS" id="acadGAS" value="<?php echo $acadGAS; ?>">
+										<input type="hidden" class="acad" name="acadTVLICT" id="acadTVLICT" value="<?php echo $acadTVLICT; ?>">
+										<input type="hidden" class="acad" name="acadTVLHE" id="acadTVLHE" value="<?php echo $acadTVLHE; ?>">
 									</div>
-									<div class="col-6 col-md-4">
+									<div class="col-12 col-md-6">
 										<canvas id="careerpieChart"></canvas>
+										<input type="hidden" class="car" name="carSTEM" id="carSTEM" value="<?php echo $carSTEM; ?>">
+										<input type="hidden" class="car" name="carHUMSS" id="carHUMSS" value="<?php echo $carHUMSS; ?>">
+										<input type="hidden" class="car" name="carABM" id="carABM" value="<?php echo $carABM; ?>">
+										<input type="hidden" class="car" name="carGAS" id="carGAS" value="<?php echo $carGAS; ?>">
+										<input type="hidden" class="car" name="carTVLICT" id="carTVLICT" value="<?php echo $carTVLICT; ?>">
+										<input type="hidden" class="car" name="carTVLHE" id="carTVLHE" value="<?php echo $carTVLHE; ?>">
 									</div>
 								</div>
 							</div>
@@ -1409,6 +2434,7 @@ if (!isset($_SESSION["admin"])) {
 		const rangeInputs = document.querySelectorAll('.form-range');
 		const rangeValueSpans = document.querySelectorAll('.rangeValue');
 
+		// Displays the range values for each input element
 		rangeInputs.forEach((input, index) => {
 			input.addEventListener('input', () => {
 				rangeValueSpans[index].textContent = input.value;
@@ -1417,177 +2443,334 @@ if (!isset($_SESSION["admin"])) {
 			rangeValueSpans[index].textContent = input.value;
 		});
 
+		var prevVal1;
+		var prevVal2;
+
 		window.addEventListener('DOMContentLoaded', function() {
 			const careerPath1 = document.getElementById('CareerPath1');
 			const careerPath2 = document.getElementById('CareerPath2');
 			const careerPath3 = document.getElementById('CareerPath3');
+			const hidcareerPath2 = document.getElementById('CareerPath2hid');
+			const hidcareerPath3 = document.getElementById('CareerPath3hid');
 
-			if (careerPath1.value === 'Undecided') {
-				careerPath2.value = 'N/A';
-				careerPath3.value = 'N/A';
-				careerPath2.disabled = true;
-				careerPath3.disabled = true;
-			} else {
-				careerPath2.disabled = false;
-				careerPath3.disabled = false;
-			}
+			function updateCareerPathSelect1() {
 
-			careerPath1.addEventListener('change', function() {
 				if (careerPath1.value === 'Undecided') {
-					careerPath2.value = 'N/A';
-					careerPath3.value = 'N/A';
+					showOption(careerPath2, 'Undecided');
+					showOption(careerPath3, 'Undecided');
+					showOption(careerPath2, prevVal1);
+					showOption(careerPath3, prevVal1);
+
+					careerPath2.value = 'Undecided';
+					careerPath3.value = 'Undecided';
+
 					careerPath2.disabled = true;
 					careerPath3.disabled = true;
+
+
 				} else {
+					careerPath2.value = 'NA';
+					careerPath3.value = 'NA';
+					updateCareerPathSelect2();
 					careerPath2.disabled = false;
+
+					showOption(careerPath2, prevVal1);
+					showOption(careerPath3, prevVal1);
+					hideOption(careerPath2, 'Undecided');
+					hideOption(careerPath3, 'Undecided');
+					hideOption(careerPath2, careerPath1.value);
+					hideOption(careerPath3, careerPath1.value);
+					prevVal1 = careerPath1.value;
+				}
+				hidcareerPath2.value = careerPath2.value;
+				hidcareerPath3.value = careerPath3.value;
+			}
+
+			function updateCareerPathSelect2() {
+				if (careerPath1.value != 'Undecided' && (careerPath2.value === 'NA' || careerPath2.value === 'Undecided')) {
+					careerPath3.value = 'NA';
+					careerPath3.disabled = true;
+				} else {
+					careerPath3.value = 'NA';
 					careerPath3.disabled = false;
 				}
+				hidcareerPath2.value = careerPath2.value;
+				hidcareerPath3.value = careerPath3.value;
+				showOption(careerPath3, prevVal2);
+				hideOption(careerPath3, careerPath2.value);
+				prevVal2 = careerPath2.value;
+			}
+			// Function to hide an option by its value
+			function hideOption(selectElement, optionValue) {
+				const options = selectElement.querySelectorAll('option');
+				for (const option of options) {
+					if (option.value === optionValue) {
+						option.style.display = 'none';
+					}
+				}
+			}
+			// Function to show a hidden option
+			function showOption(selectElement, optionValue) {
+				const options = selectElement.querySelectorAll('option');
+				for (const option of options) {
+					if (option.value === optionValue) {
+						option.style.display = '';
+					}
+				}
+			}
+
+			// Call the function when the page loads
+			if (careerPath1.value === 'Undecided') {
+				updateCareerPathSelect2();
+				updateCareerPathSelect1();
+			}
+			if (careerPath1.value != 'Undecided' && careerPath2.value === 'NA') {
+				updateCareerPathSelect2();
+				hideOption(careerPath2, 'Undecided');
+				hideOption(careerPath3, 'Undecided');
+				hideOption(careerPath2, careerPath1.value);
+				hideOption(careerPath3, careerPath1.value);
+				prevVal1 = careerPath1.value;
+			} else {
+				hideOption(careerPath2, 'Undecided');
+				hideOption(careerPath3, 'Undecided');
+				hideOption(careerPath2, careerPath1.value);
+				hideOption(careerPath3, careerPath1.value);
+				prevVal1 = careerPath1.value;
+				if (careerPath2.value != 'NA') {
+					hideOption(careerPath3, careerPath2.value);
+					prevVal2 = careerPath2.value;
+				}
+			}
+			hidcareerPath2.value = careerPath2.value;
+			hidcareerPath3.value = careerPath3.value;
+
+			careerPath1.addEventListener('change', updateCareerPathSelect1);
+			careerPath2.addEventListener('change', updateCareerPathSelect2);
+			careerPath3.addEventListener('change', function() {
+				hidcareerPath3.value = careerPath3.value;
 			});
-		});
 
-		var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
-		var skintvalues = [60, 30, 10, 0, 0, 0];
-		var acadvalues = [70, 20, 10, 0, 0, 0];
-		var careervalues = [90, 5, 5, 0, 0, 0];
-		var overallvalues = [95, 3, 2, 0, 0, 0];
-		var barColors = [
-			"rgba(112,214,255,1.0)",
-			"rgba(255,112,166,1.0)",
-			"rgba(255,151,112,1.0)",
-			"rgba(255,214,112,1.0)",
-			"rgba(233,255,112,1.0)",
-			"rgba(104,122,0,1.0)",
-		];
+			const totalHouseholdIncomeSelect = document.getElementById('TotalHouseholdMonthlyIncome');
+			const acadScience = document.getElementById('acadScience');
+			const acadMath = document.getElementById('acadMath');
+			const acadEnglish = document.getElementById('acadEnglish');
+			const acadFilipino = document.getElementById('acadFilipino');
+			const acadICTRelatedSub = document.getElementById('acadICTRelatedSub');
+			const acadHERelatedSub = document.getElementById('acadHERelatedSub');
+			const submitButton = document.getElementById('submitButton');
+			const profileStatus = document.getElementById("profileStatus");
+			const generateButton = document.getElementById("generateBtn");
 
-		const skintpieChart = new Chart("skintpieChart", {
-			type: "doughnut",
-			data: {
-				labels: labels,
-				datasets: [{
-					backgroundColor: barColors,
-					data: skintvalues
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: "Skills & Interests"
-				},
-				legend: {
-					display: false
-				}
-			}
-		});
-
-		const acadpieChart = new Chart("acadpieChart", {
-			type: "doughnut",
-			data: {
-				labels: labels,
-				datasets: [{
-					backgroundColor: barColors,
-					data: acadvalues
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: "Academic Performance"
-				},
-				legend: {
-					display: false
-				}
-			}
-		});
-
-		const careerpieChart = new Chart("careerpieChart", {
-			type: "doughnut",
-			data: {
-				labels: labels,
-				datasets: [{
-					backgroundColor: barColors,
-					data: careervalues
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: "Career"
-				},
-				legend: {
-					display: false
-				}
-			}
-		});
-
-		const overallpieChart = new Chart("overallpieChart", {
-			type: "doughnut",
-			data: {
-				labels: labels,
-				datasets: [{
-					backgroundColor: barColors,
-					data: overallvalues
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: "OVERALL"
-				}
-			}
-		});
-
-		const totalHouseholdIncomeSelect = document.getElementById('TotalHouseholdMonthlyIncome');
-		const acadScience = document.getElementById('acadScience');
-		const acadMath = document.getElementById('acadMath');
-		const acadEnglish = document.getElementById('acadEnglish');
-		const acadFilipino = document.getElementById('acadFilipino');
-		const acadICTRelatedSub = document.getElementById('acadICTRelatedSub');
-		const acadHERelatedSub = document.getElementById('acadHERelatedSub');
-		const updateButton = document.getElementById('updateButton');
-
-		updateButton.addEventListener('click', function() {
-			let canSubmit = true;
+			let interestHasZero = false;
+			let thmiIsSelect = false;
+			let acadIsSelect = false;
 
 			rangeInputs.forEach(rangeInputs => {
 				if (rangeInputs.value === '0') {
-					canSubmit = false;
+					interestHasZero = true;
 					return;
 				}
 			});
 
 			if (totalHouseholdIncomeSelect.value === 'SELECT') {
-				canSubmit = false;
+				thmiIsSelect = true;
 			}
 
 			if (acadScience.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
 			if (acadMath.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
 			if (acadEnglish.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
 			if (acadFilipino.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
 			if (acadICTRelatedSub.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
 			if (acadHERelatedSub.value === 'SELECT') {
-				canSubmit = false;
+				acadIsSelect = true;
 			}
 
-			if (!canSubmit) {
-				swal({
-					title: 'Please answer all fields!',
-					icon: 'error',
-					button: 'OK',
+			if (interestHasZero || thmiIsSelect || acadIsSelect) {
+				// Update the text to "DONE"
+				profileStatus.textContent = "NOT DONE";
+
+				// Change the text color to green
+				profileStatus.style.color = "red";
+
+				//Disable the button
+				generateButton.disabled = true;
+			} else {
+				// Update the text to "DONE"
+				profileStatus.textContent = "DONE";
+
+				// Change the text color to green
+				profileStatus.style.color = "green";
+
+				//Enable the button
+				generateButton.disabled = false;
+			}
+
+			const checkRes = document.getElementById('checkRes');
+			const canvases = document.querySelectorAll('canvas');
+			const messageTitle = document.getElementById('messageTitle');
+
+			if (checkRes.value === '0') {
+				for (let i = 0; i < canvases.length; i++) {
+					canvases[i].style.display = 'none';
+				}
+				messageTitle.innerText = 'NO RESULTS HAVE BEEN FOUND!';
+				messageTitle.classList.add('fw-bold');
+			} else {
+				var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
+				var skivalues = [];
+				var intvalues = [];
+				var acadvalues = [];
+				var careervalues = [];
+				var overallvalues = [];
+
+				let ovrhiddenInputs = document.querySelectorAll("input[type=hidden].ovr");
+				ovrhiddenInputs.forEach(input => {
+					overallvalues.push(input.value);
+				});
+
+				let skihiddenInputs = document.querySelectorAll("input[type=hidden].ski");
+				skihiddenInputs.forEach(input => {
+					skivalues.push(input.value);
+				});
+
+				let inthiddenInputs = document.querySelectorAll("input[type=hidden].int");
+				inthiddenInputs.forEach(input => {
+					intvalues.push(input.value);
+				});
+
+				let acadhiddenInputs = document.querySelectorAll("input[type=hidden].acad");
+				acadhiddenInputs.forEach(input => {
+					acadvalues.push(input.value);
+				});
+
+				let carhiddenInputs = document.querySelectorAll("input[type=hidden].car");
+				carhiddenInputs.forEach(input => {
+					careervalues.push(input.value);
+				});
+
+				var barColors = [
+					"rgba(112,214,255,1.0)",
+					"rgba(255,112,166,1.0)",
+					"rgba(255,151,112,1.0)",
+					"rgba(255,214,112,1.0)",
+					"rgba(233,255,112,1.0)",
+					"rgba(104,122,0,1.0)",
+				];
+
+				const skipieChart = new Chart("skipieChart", {
+					type: "doughnut",
+					data: {
+						labels: labels,
+						datasets: [{
+							backgroundColor: barColors,
+							data: skivalues
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: "Skills"
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+
+				const intpieChart = new Chart("intpieChart", {
+					type: "doughnut",
+					data: {
+						labels: labels,
+						datasets: [{
+							backgroundColor: barColors,
+							data: intvalues
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: "Interests"
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+
+				const acadpieChart = new Chart("acadpieChart", {
+					type: "doughnut",
+					data: {
+						labels: labels,
+						datasets: [{
+							backgroundColor: barColors,
+							data: acadvalues
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: "Academic Performance"
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+
+				const careerpieChart = new Chart("careerpieChart", {
+					type: "doughnut",
+					data: {
+						labels: labels,
+						datasets: [{
+							backgroundColor: barColors,
+							data: careervalues
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: "Career"
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+
+				const overallpieChart = new Chart("overallpieChart", {
+					type: "doughnut",
+					data: {
+						labels: labels,
+						datasets: [{
+							backgroundColor: barColors,
+							data: overallvalues
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: "OVERALL"
+						},
+						legend: {
+							display: false
+						}
+					}
 				});
 			}
 		});

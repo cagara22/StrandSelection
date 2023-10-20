@@ -40,7 +40,7 @@ session_start();
 					</div>
 					<div class="card-body">
 						<?php
-						$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+						include "connection.php";
 
 						if (isset($_POST['lrn']) && isset($_POST['password'])) {
 							$username = mysqli_real_escape_string($conn, $_POST['lrn']);

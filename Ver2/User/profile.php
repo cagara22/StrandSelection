@@ -72,6 +72,7 @@ if (!isset($_SESSION["student"])) {
 	</nav>
 
 	<section class="section-100 d-flex flex-column justify-content-center px-3 py-5">
+		<?php include "connection.php"; ?>
 		<h2 class="fw-bold sub-title mt-3">Hello <?php echo $_SESSION["fname"]; ?>!</h2>
 		<div class="row w-100">
 			<div class="col-12 col-lg-9 d-flex justify-content-center">
@@ -83,31 +84,19 @@ if (!isset($_SESSION["student"])) {
 							</div>
 							<div class="card-body">
 
-
-
 								<?php
-								//Database creds
-								$db_host = 'localhost';
-								$db_user = 'root';
-								$db_password = '';
-								$db_name = 'dss_db';
-
-								// Establish database connection
-								$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Unable to connect to database');
-
 								// Check if form was submitted
 								if (isset($_POST['submit1'])) {
 									// Retrieve form data
 									$id = $_SESSION['student'];
-									$Fname = mysqli_real_escape_string($conn, $_POST['Fname']);
-									$Mname = mysqli_real_escape_string($conn, $_POST['Mname']);
-									$Lname = mysqli_real_escape_string($conn, $_POST['Lname']);
-									$address = mysqli_real_escape_string($conn, $_POST['address']);
+									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
+									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
+									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
+									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
 									$age = mysqli_real_escape_string($conn, $_POST['age']);
 									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
-									$suffix = mysqli_real_escape_string($conn, $_POST['suffix']);
+									$suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
 									$email = mysqli_real_escape_string($conn, $_POST['email']);
-									$section = mysqli_real_escape_string($conn, $_POST['section']);
 									$password = md5($_POST['password']);
 									$cpassword = md5($_POST['cpassword']);
 
@@ -121,7 +110,7 @@ if (!isset($_SESSION["student"])) {
 											}
 											// Define the SQL statement for updating user data
 											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID='$section', password='$password' WHERE lrn='$id'";
+										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
 										} else {
 											echo "<script>alert('Please confirm your password!');</script>";
 											echo "<script>window.location.href='profile.php';</script>";
@@ -129,7 +118,7 @@ if (!isset($_SESSION["student"])) {
 									} else {
 										// Define the SQL statement for updating user data
 										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID='$section' WHERE lrn='$id'";
+										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
 									}
 
 									// Execute the update query
@@ -178,6 +167,7 @@ if (!isset($_SESSION["student"])) {
 											$sex1 = $row['sex'];
 											$email1 = $row['email'];
 											$sectionID1 = $row['sectionID'];
+											$schoolyrID1 = $row['schoolyrID'];
 											//skills
 											$skiCommunicationSkills1 = $row['skiCommunicationSkills'];
 											$skiCriticalThinking1 = $row['skiCriticalThinking'];
@@ -301,7 +291,7 @@ if (!isset($_SESSION["student"])) {
 											<label for="address">Address</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 mb-1">
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
 												<option value="M" <?php if ($sex1 == "Male") {
@@ -314,21 +304,20 @@ if (!isset($_SESSION["student"])) {
 											<label for="sex">Sex</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 mb-1">
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
 											<label for="age">Age</label>
 										</div>
 									</div>
 									<?php
-									$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Unable to connect to database');
 									$sql = "SELECT * FROM section";
 
 									$result = $conn->query($sql);
 									?>
-									<div class="col-12 col-md-4 mb-1">
+									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
-											<select class="form-select" id="section" name="section" value="">
+											<select class="form-select" id="section" name="section" value="" disabled>
 												<?php
 												while ($row = $result->fetch_assoc()) {
 													if ($sectionID1 == $row['sectionID']) {
@@ -340,6 +329,27 @@ if (!isset($_SESSION["student"])) {
 												?>
 											</select>
 											<label for="section">Section</label>
+										</div>
+									</div>
+									<?php
+									$sql = "SELECT * FROM schoolyr";
+
+									$result = $conn->query($sql);
+									?>
+									<div class="col-12 col-md-3 mb-1">
+										<div class="form-floating mb-3">
+											<select class="form-select" id="schoolyr" name="schoolyr" value="" disabled>
+												<?php
+												while ($row = $result->fetch_assoc()) {
+													if ($schoolyrID1 == $row['schoolyrID']) {
+														echo '<option value="' . $row['schoolyrID'] . '" selected>' . $row['schoolyrName'] . '</option>';
+													} else {
+														echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+													}
+												}
+												?>
+											</select>
+											<label for="schoolyr">School Year</label>
 										</div>
 									</div>
 									<div class="col-12 mb-3">
@@ -378,9 +388,6 @@ if (!isset($_SESSION["student"])) {
 							<div class="card-body">
 
 								<?php
-								// Establish database connection
-								$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Unable to connect to database');
-
 								// Check if form was submitted
 								if (isset($_POST['submit2'])) {
 
@@ -1450,7 +1457,7 @@ if (!isset($_SESSION["student"])) {
 														<option value="Data Scientist" <?php if ($CareerPath11 == "Data Scientist") {
 																							echo "selected";
 																						} ?>>Data Scientist</option>
-														<option value="Information Systems Manager" <?php if ($Career11 == "Information Systems Manager") {
+														<option value="Information Systems Manager" <?php if ($CareerPath11 == "Information Systems Manager") {
 																										echo "selected";
 																									} ?>>Information Systems Manager</option>
 														<option value="Chef" <?php if ($CareerPath11 == "Chef") {
@@ -2088,8 +2095,6 @@ if (!isset($_SESSION["student"])) {
 							$careerProbability6 = number_format($tvlheStudentScore["Career_Probability"], 4);
 							$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 							$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
-
-							$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Unable to connect to database');
 
 							$sql3 = "UPDATE studentprofile
 									JOIN result ON studentprofile.lrn = result.lrn

@@ -4,9 +4,9 @@ session_start();
 if (!isset($_SESSION["admin"])) {
 
 ?>
-	<script type="text/javascript">
-		window.location = "index.php";
-	</script>
+    <script type="text/javascript">
+        window.location = "index.php";
+    </script>
 <?php
 
 }
@@ -41,11 +41,11 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4">ADMIN</span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
+                    <li>
                         <a href="./dashboard.php" class="nav-link link-body-emphasis">
                             <img src="./images/dashboard.png" alt="" width="16" height="16" class="bi pe-none me-2">
                             DASHBOARD
@@ -57,43 +57,63 @@ if (!isset($_SESSION["admin"])) {
                             PROFILES
                         </a>
                     </li>
-                    <li>
-                        <a href="./admins.php" class="nav-link link-body-emphasis">
-                            <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            ADMINS
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./backup.php" class="nav-link link-body-emphasis">
-                            <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            BACKUP
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./reports.php" class="nav-link active" aria-current="page">
-                            <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            REPORTS
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./logs.php" class="nav-link link-body-emphasis">
-                            <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                            LOGS
-                        </a>
-                    </li>
+                    <?php
+                    
+                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                        echo '
+                        <li>
+                            <a href="./admins.php" class="nav-link link-body-emphasis">
+                                <img src="./images/admins.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                ADMINS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./sections.php" class="nav-link link-body-emphasis">
+                                <img src="./images/section.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                SECTIONS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
+                                <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                SCHLYRS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./backup.php" class="nav-link link-body-emphasis">
+                                <img src="./images/backup.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                BACKUP
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./reports.php" class="nav-link active" aria-current="page">
+                                <img src="./images/reports.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                REPORTS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./logs.php" class="nav-link link-body-emphasis">
+                                <img src="./images/logs.png" alt="" width="16" height="16" class="bi pe-none me-2">
+                                LOGS
+                            </a>
+                        </li>
+                        ';
+                    }
+                    
+                    ?>
                 </ul>
                 <hr>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong>mdo</strong>
+                        <strong><?php echo $_SESSION['admin']; ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                     </ul>
                 </div>
             </div>

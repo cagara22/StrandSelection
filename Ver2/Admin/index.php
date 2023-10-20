@@ -39,58 +39,56 @@ session_start();
 						<img src="./images/man.png" class="card-img-top rounded" alt="..." style="width: 50px; height: 50px;">
 					</div>
 					<div class="card-body">
-					<?php
-					if (isset($_POST['username']) && isset($_POST['password'])) {
-						$username = $_POST['username'];
-						$password = $_POST['password'];
+						<?php
+						include "connection.php";
 
+						if (isset($_POST['username']) && isset($_POST['password'])) {
+							$username = $_POST['username'];
+							$password = $_POST['password'];
 
+							$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
+							$q = mysqli_query($conn, $sql);
+							$num = mysqli_num_rows($q);
 
+							if ($num == 1) {
 
-						$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								$data = mysqli_fetch_assoc($q);
 
-						$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
-						$q = mysqli_query($conn, $sql);
-						$num = mysqli_num_rows($q);
+								$upass = $data['password'];
 
-						if ($num == 1) {
-
-							$data = mysqli_fetch_assoc($q);
-
-							$upass = $data['password'];
-
-							if (md5($password) == "$upass") {
-								$_SESSION['admin'] = $username;
-								header("Location: dashboard.php");
-							} else {
-								echo "<script>swal({
+								if (md5($password) == "$upass") {
+									$_SESSION['admin'] = $username;
+									$_SESSION['role'] = $data['role'];
+									header("Location: dashboard.php");
+								} else {
+									echo "<script>swal({
                 title: 'Login Failed!',
                 text: 'Invalid Username or Password.',
                 icon: 'error',
                 button: 'OK',
               });</script>";
-								echo "<script>document location ='index.php';</script>";
-							}
-						} else {
-							echo "<script>swal({
+									echo "<script>document location ='index.php';</script>";
+								}
+							} else {
+								echo "<script>swal({
             title: 'Login Failed!',
             text: 'Invalid Username or Password.',
             icon: 'error',
             button: 'OK',
           });</script>";
-							echo "<script>document location ='index.php';</script>";
+								echo "<script>document location ='index.php';</script>";
+							}
 						}
-					}
 
 
-					?>
+						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="username" name = "username" placeholder="111111111111">
+								<input type="text" class="form-control" id="username" name="username" placeholder="111111111111">
 								<label for="username">USERNAME</label>
 							</div>
 							<div class="form-floating">
-								<input type="password" class="form-control" id="password" name = "password" placeholder="password">
+								<input type="password" class="form-control" id="password" name="password" placeholder="password">
 								<label for="password">PASSWORD</label>
 							</div>
 							<div class="d-grid gap-2 my-2">

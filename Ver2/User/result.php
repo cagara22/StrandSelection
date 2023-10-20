@@ -80,16 +80,9 @@ if (!isset($_SESSION["student"])) {
 
 					<?php
 					if (isset($_SESSION['student'])) {
+						include "connection.php";
+
 						$user_id = $_SESSION['student'];
-
-						//Database creds
-						$db_host = 'localhost';
-						$db_user = 'root';
-						$db_password = '';
-						$db_name = 'dss_db';
-
-						// Establish database connection
-						$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name) or die('Unable to connect to database');
 
 						$sql = "SELECT sp.*, r.*, 
 						sr.acadProb AS acadProbStem, 
