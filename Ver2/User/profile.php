@@ -294,10 +294,10 @@ if (!isset($_SESSION["student"])) {
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
-												<option value="M" <?php if ($sex1 == "Male") {
+												<option value="M" <?php if ($sex1 == "M") {
 																		echo " selected";
 																	} ?>>Male</option>
-												<option value="F" <?php if ($sex1 == "Female") {
+												<option value="F" <?php if ($sex1 == "F") {
 																		echo " selected";
 																	} ?>>Female</option>
 											</select>

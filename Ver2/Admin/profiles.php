@@ -185,8 +185,9 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
 
                                 echo "<td class='text-center'>
-            <a <a href='deleteprofile.php?lrn=" . $row['lrn'] . "' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
-            <img src='./images/delete.png' alt='' width='20' height='20' class=''></a> 
+            <a href='#' onclick='deleteRecord(". $row['lrn'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                <img src='./images/delete.png' alt='' width='20' height='20' class=''>
+            </a> 
             <a href='viewprofile.php?lrn=" . $row['lrn'] . "' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
                 <img src='./images/view.png' alt='' width='20' height='20' class=''>
             </a>
@@ -231,6 +232,23 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        function deleteRecord(clientNum) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = `delete.php?lrn=${clientNum}`;
+                } else {
+                    swal("CANCELED", "Record not deleted!", "info");
+                }
+            });
+        }
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

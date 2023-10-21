@@ -136,7 +136,8 @@ if (!isset($_SESSION["admin"])) {
 								// Check if form was submitted
 								if (isset($_POST['update1'])) {
 									// Retrieve form data
-									$id = $_GET['lrn'];
+									$curid = $_GET['lrn'];
+									$newid = mysqli_real_escape_string($conn, $_POST['lrn']);
 									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
 									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
 									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
@@ -150,40 +151,136 @@ if (!isset($_SESSION["admin"])) {
 									$password = md5($_POST['password']);
 									$cpassword = md5($_POST['cpassword']);
 
-									// Check if password and confirm password match
-									if (!empty($_POST['password'])) {
-										if (!empty($_POST['cpassword'])) {
-											if ($password !== $cpassword) {
-												echo "<script>alert('Password and Confirm Password do not match!');</script>";
-												echo "<script>window.location.href='profile.php';</script>";
-												exit; // Exit the script if passwords do not match
+									if($curid == $newid){
+										// Check if password and confirm password match
+										if (!empty($_POST['password'])) {
+											if (!empty($_POST['cpassword'])) {
+												if ($password !== $cpassword) {
+													echo "<script>alert('Password and Confirm Password do not match!');</script>";
+													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+													exit; // Exit the script if passwords do not match
+												}
+												// Define the SQL statement for updating user data
+												$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
+											} else {
+												echo "<script>alert('Please confirm your password!');</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
 											}
+										} else {
 											// Define the SQL statement for updating user data
 											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$id'";
-										} else {
-											echo "<script>alert('Please confirm your password!');</script>";
-											echo "<script>window.location.href='profile.php';</script>";
+											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 										}
-									} else {
-										// Define the SQL statement for updating user data
-										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
-									}
 
-									// Execute the update query
-									if (mysqli_query($conn, $sql)) {
-										$affected_rows = mysqli_affected_rows($conn);
+										// Execute the update query
+										if (mysqli_query($conn, $sql)) {
+											$affected_rows = mysqli_affected_rows($conn);
 
-										if ($affected_rows > 0) {
-											echo "<script>alert('Record updated successfully!');</script>";
-											echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
-											$_SESSION['fname'] = $Fname;
+											if ($affected_rows > 0) {
+												echo "<script>alert('Record updated successfully!');</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+											} else {
+												echo "<script>alert('No changes were made to the record.');</script>";
+											}
 										} else {
-											echo "<script>alert('No changes were made to the record.');</script>";
+											echo "Error updating record: " . mysqli_error($conn);
 										}
-									} else {
-										echo "Error updating record: " . mysqli_error($conn);
+									}else{
+										$query = "SELECT lrn FROM studentprofile WHERE lrn = '$newid'";
+										$result = mysqli_query($conn, $query);
+										if (mysqli_num_rows($result) > 0) {
+											echo "<script>swal({
+												title: 'INVALID LRN!',
+												text: 'LRN already exists in the database!',
+												icon: 'error',
+												button: 'OK',
+												});</script>";
+											echo "<script>document location ='viewprofile.php?lrn=". $curid ."';</script>";
+										}else{
+											// Check if password and confirm password match
+											if (!empty($_POST['password'])) {
+												if (!empty($_POST['cpassword'])) {
+													if ($password !== $cpassword) {
+														echo "<script>alert('Password and Confirm Password do not match!');</script>";
+														echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+														exit; // Exit the script if passwords do not match
+													}
+													// Define the SQL statement for updating user data
+													$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
+												} else {
+													echo "<script>alert('Please confirm your password!');</script>";
+													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+												}
+											} else {
+												// Define the SQL statement for updating user data
+												$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
+											}
+
+											$sql_result = "UPDATE result SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_studentacad = "UPDATE studentacad SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_studentinterest = "UPDATE studentinterest SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_studentskill = "UPDATE studentskill SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_studentsocioeco = "UPDATE studentsocioeco SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_studentcareer = "UPDATE studentcareer SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_stemresult = "UPDATE stemresult SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_humssresult = "UPDATE humssresult SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_abmresult = "UPDATE abmresult SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_gasresult = "UPDATE gasresult SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_tvlictresult = "UPDATE tvlictresult SET lrn = '$newid' WHERE lrn = '$curid'";
+                                            $sql_tvlheresult = "UPDATE tvlheresult SET lrn = '$newid' WHERE lrn = '$curid'";
+
+											$conn->query("SET foreign_key_checks = 0");
+											// Execute the update query
+											if (mysqli_query($conn, $sql)) {
+												$affected_rows = mysqli_affected_rows($conn);
+
+												if ($affected_rows > 0) {
+													
+													mysqli_autocommit($conn, false);
+													if (
+														mysqli_query($conn, $sql_result) &&
+														mysqli_query($conn, $sql_studentacad) &&
+														mysqli_query($conn, $sql_studentinterest) &&
+														mysqli_query($conn, $sql_studentskill) &&
+														mysqli_query($conn, $sql_studentcareer) &&
+														mysqli_query($conn, $sql_studentsocioeco) &&
+														mysqli_query($conn, $sql_stemresult) &&
+														mysqli_query($conn, $sql_humssresult) &&
+														mysqli_query($conn, $sql_abmresult) &&
+														mysqli_query($conn, $sql_gasresult) &&
+														mysqli_query($conn, $sql_tvlictresult) &&
+														mysqli_query($conn, $sql_tvlheresult)
+													) {
+														mysqli_commit($conn);
+														$conn->query("SET foreign_key_checks = 1");
+														mysqli_autocommit($conn, true);
+
+														echo "<script>alert('Record updated successfully!');</script>";
+														echo "<script>window.location.href='viewprofile.php?lrn=". $newid ."';</script>";
+														
+													} else {
+														mysqli_rollback($conn);
+														$conn->query("SET foreign_key_checks = 1");
+														mysqli_autocommit($conn, true);
+														echo "Error updating record: R" . mysqli_error($conn);
+													}
+
+													// Restore autocommit mode
+													$conn->query("SET foreign_key_checks = 1");
+													mysqli_autocommit($conn, true);
+
+												} else {
+													echo "<script>alert('No changes were made to the record.');</script>";
+												}
+											} else {
+												echo "Error updating record: " . mysqli_error($conn);
+											}
+
+											
+										}
 									}
 								}
 
@@ -340,10 +437,10 @@ if (!isset($_SESSION["admin"])) {
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
-												<option value="M" <?php if ($sex1 == "Male") {
+												<option value="M" <?php if ($sex1 == "M") {
 																		echo " selected";
 																	} ?>>Male</option>
-												<option value="F" <?php if ($sex1 == "Female") {
+												<option value="F" <?php if ($sex1 == "F") {
 																		echo " selected";
 																	} ?>>Female</option>
 											</select>
@@ -363,7 +460,7 @@ if (!isset($_SESSION["admin"])) {
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
-											<select class="form-select" id="section" name="section" value="">
+											<select class="form-select" id="section" name="section" value="<?php echo $sectionID1; ?>">
 												<?php
 												while ($row = $result->fetch_assoc()) {
 													if ($sectionID1 == $row['sectionID']) {
@@ -384,7 +481,7 @@ if (!isset($_SESSION["admin"])) {
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
-											<select class="form-select" id="schoolyr" name="schoolyr" value="">
+											<select class="form-select" id="schoolyr" name="schoolyr" value="<?php echo $schoolyrID1; ?>">
 												<?php
 												while ($row = $result->fetch_assoc()) {
 													if ($schoolyrID1 == $row['schoolyrID']) {
