@@ -211,10 +211,10 @@ predict_strand <- function(skiCommunicationSkills, skiCriticalThinking, skiReadi
   carStrandPrediction <- predict(car_rf, carStudentProfile, type = "prob")
   skiandintStrandPrediction <- predict(skiandint_rf, skiandintStudentProfile, type = "prob")
   
-  weight_skills <- 0.15
-  weight_academic <- 0.30
-  weight_interest <- 0.25
-  weight_career <- 0.30
+  weight_skills <- 0.172
+  weight_academic <- 0.325
+  weight_interest <- 0.275
+  weight_career <- 0.225
   
   student_scores <- data.frame(
     Strand = c('STEM', 'HUMSS', 'ABM', 'GAS', 'TVL-ICT', 'TVL-HE'),  # Strands 1 to 6

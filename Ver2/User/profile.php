@@ -18,7 +18,7 @@ if (!isset($_SESSION["student"])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Strand Selection Ver2</title>
+	<title>GUIDE</title>
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -2096,6 +2096,30 @@ if (!isset($_SESSION["student"])) {
 							$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 							$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
+							require '../vendor/autoload.php';
+
+                            $prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
+                                STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
+                                HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
+                                ABM: Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ." Overall Score in Percentage=". $percentageScore3 ."
+                                GAS: Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ." Overall Score in Percentage=". $percentageScore4 ."
+                                TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
+                                TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
+                                Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
+                                Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State what strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background. Start your statement with 'Based on your result...'";
+
+							$client = OpenAI::client('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');
+			
+							$data = $client->chat()->create([
+								'model' => 'gpt-3.5-turbo',
+								'messages' => [[
+									'role' => 'user',
+									'content' => $prompt,
+								]],
+							]);
+
+							$recomendation = $data['choices'][0]['message']['content'];
+
 							$sql3 = "UPDATE studentprofile
 									JOIN result ON studentprofile.lrn = result.lrn
 									JOIN stemresult ON studentprofile.lrn = stemresult.lrn
@@ -2106,6 +2130,7 @@ if (!isset($_SESSION["student"])) {
 									JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
 									SET
 									result.MostSuitableStrand = '$mostSuitableStrand',
+									result.recommendation = '$recomendation',
 
 									stemresult.acadProb = '$academicProbability1',
 									stemresult.intProb = '$interestProbability1',
@@ -2154,7 +2179,7 @@ if (!isset($_SESSION["student"])) {
 							// Execute the update query
 							if ($conn->query($sql3) === TRUE) {
 								echo "<script>alert('Successfully generated a recomendation!');</script>";
-								echo "<script>window.location.href='profile.php';</script>";
+								// echo "<script>window.location.href='profile.php';</script>";
 							} else {
 								echo "Error generating recomendation: " . $conn->error;
 							}

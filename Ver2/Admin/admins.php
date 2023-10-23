@@ -17,7 +17,7 @@ if (!isset($_SESSION["admin"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Strand Selection Admin Ver2</title>
+    <title>GUIDE Admin</title>
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -169,6 +169,13 @@ if (!isset($_SESSION["admin"])) {
 
                         $sql = "SELECT * FROM adminprofile LIMIT $offset, $total_records_per_page";
 
+                        if (isset($_GET['searchname'])) {
+                            $search = $_GET['searchname'];
+                            $sql = "SELECT * FROM adminprofile WHERE CONCAT(fname, ' ', lname) LIKE '%$search%' OR username LIKE '%$search%'";
+                        } else {
+                            $sql = "SELECT * FROM adminprofile LIMIT $offset, $total_records_per_page";
+                        }
+
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
@@ -183,12 +190,12 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['age'] . "</td>";
                                 echo "<td class='text-center'>" . $row['sex'] . "</td>";
                                 echo "<td class='text-center'>" . $row['role'] . "</td>";
-
+                                $name = $row['fname']. " " . $row['lname'];
                                 echo "<td class='text-center'>
                     <a href='' class='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                         <img src='./images/delete.png' alt='' width='20' height='20' class=''>
                     </a>
-                    <a href='viewadmin.php' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
+                    <a href='viewadmin.php?id=". $row['adminID'] ."&name=". $name ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
                         <img src='./images/view.png' alt='' width='20' height='20' class=''>
                     </a>
                 </td>";

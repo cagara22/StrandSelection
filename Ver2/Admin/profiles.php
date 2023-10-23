@@ -17,7 +17,7 @@ if (!isset($_SESSION["admin"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Strand Selection Admin Ver2</title>
+    <title>GUIDE Admin</title>
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -140,6 +140,7 @@ if (!isset($_SESSION["admin"])) {
                             <th scope="col">Suffix</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
+                            <th scope="col">Section</th>
                             <th scope="col">Qualified Strand</th>
                             <th scope="col" colspan="2">Action</th>
                         </tr>
@@ -160,9 +161,11 @@ if (!isset($_SESSION["admin"])) {
                         if (isset($_GET['searchname'])) {
                             $search = $_GET['searchname'];
                             $sql = "SELECT * FROM studentprofile
-                            JOIN result ON studentprofile.lrn = result.lrn WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%'";
+                            JOIN section ON studentprofile.sectionID = section.sectionID
+                            JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%'";
                         } else {
                             $sql = "SELECT * FROM studentprofile
+                            JOIN section ON studentprofile.sectionID = section.sectionID
                             JOIN result ON studentprofile.lrn = result.lrn LIMIT $offset, $total_records_per_page";
                         }
 
@@ -182,13 +185,14 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['suffix'] . "</td>";
                                 echo "<td class='text-center'>" . $row['age'] . "</td>";
                                 echo "<td class='text-center'>" . $row['sex'] . "</td>";
+                                echo "<td class='text-center'>" . $row['sectionName'] . "</td>";
                                 echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
-
+                                $fullName = $row['Fname'] . " " . $row['Lname'];
                                 echo "<td class='text-center'>
             <a href='#' onclick='deleteRecord(". $row['lrn'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                 <img src='./images/delete.png' alt='' width='20' height='20' class=''>
             </a> 
-            <a href='viewprofile.php?lrn=" . $row['lrn'] . "' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
+            <a href='viewprofile.php?lrn=" . $row['lrn'] . "&name=". $fullName ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
                 <img src='./images/view.png' alt='' width='20' height='20' class=''>
             </a>
         </td>";
