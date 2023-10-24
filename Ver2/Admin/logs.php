@@ -134,76 +134,100 @@ if (!isset($_SESSION["admin"])) {
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">xx:xx:xx xx/xx/xx</td>
-                            <td class="text-center">Adding</td>
-                            <td class="text-center">Added new User</td>
-                            <td class="text-center">Admin01</td>
-                            <td class="text-center">
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">xx:xx:xx xx/xx/xx</td>
-                            <td class="text-center">Adding</td>
-                            <td class="text-center">Added new User</td>
-                            <td class="text-center">Admin01</td>
-                            <td class="text-center">
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">xx:xx:xx xx/xx/xx</td>
-                            <td class="text-center">Adding</td>
-                            <td class="text-center">Added new User</td>
-                            <td class="text-center">Admin01</td>
-                            <td class="text-center">
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">xx:xx:xx xx/xx/xx</td>
-                            <td class="text-center">Adding</td>
-                            <td class="text-center">Added new User</td>
-                            <td class="text-center">Admin01</td>
-                            <td class="text-center">
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">xx:xx:xx xx/xx/xx</td>
-                            <td class="text-center">Adding</td>
-                            <td class="text-center">Added new User</td>
-                            <td class="text-center">Admin01</td>
-                            <td class="text-center">
-                                <a href="" class="btn btn-delete" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="DELETE">
-                                    <img src="./images/delete.png" alt="" width="20" height="20" class="">
-                                </a>
-                            </td>
-                        </tr>
+                    <?php
+                        include "connection.php";
 
+                        if (isset($_GET['page_no'])) {
+                            $page_no = $_GET['page_no'];
+                        } else {
+                            $page_no = 1;
+                        }
+
+                        $total_records_per_page = 30;
+                        $offset = ($page_no - 1) * $total_records_per_page;
+
+                        $previous_page = $page_no - 1;
+                        $next_page = $page_no + 1;
+
+                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM logs") or die('Unable to get total records.');
+
+                        $records = mysqli_fetch_array($result_count);
+                        $total_records = $records['total_records'];
+
+                        $total_no_of_page = ceil($total_records / $total_records_per_page);
+
+                        $sql = "SELECT * FROM logs LIMIT $offset, $total_records_per_page";
+
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            // output data of each row
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td class='text-center'>" . $row['id'] . "</td>";
+                                echo "<td class='text-center'>" . $row['timestamp'] . "</td>";
+                                echo "<td class='text-center'>" . $row['action'] . "</td>";
+                                echo "<td class='text-center'>" . $row['details'] . "</td>";
+                                echo "<td class='text-center'>" . $row['doer'] . "</td>";
+
+                                echo "<td class='text-center'>
+                                <a href='#' onclick='deleteRecord(". $row['id'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                                <img src='./images/delete.png' alt='' width='20' height='20' class=''>
+                            </a> 
+                    </a>
+                </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='9' class='text-center'>0 results</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
-            </section>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=?page_no=' . $previous_page : ''; ?>>Previous</a></li>
+                        <?php for ($counter = 1; $counter <= $total_no_of_page; $counter++) {
+                        ?>
+                            <li class="page-item"><a class="page-link" href="?page_no=<?= $counter; ?>">
+                                    <?= $counter; ?></a></li>
+                        <?php
+                        }
+                        ?>
+                        <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_page) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_page) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+                    </ul>
+                </nav>
+
+                <div class="p-10">
+                    <strong>Page <?= $page_no; ?> of <?= $total_no_of_page; ?>
+
+                    </strong>
+
+                </div> 
+
+</section>
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        function deleteRecord(clientNum) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = `deletelogs.php?id=${clientNum}`;
+                } else {
+                    swal("CANCELED", "Record not deleted!", "info");
+                }
+            });
+        }
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

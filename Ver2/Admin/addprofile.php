@@ -159,12 +159,21 @@ if (!isset($_SESSION["admin"])) {
                                             button: 'OK',
                                           });</script>";
                                         echo "<script>document location ='addprofile.php';</script>";
+                                   
                                     } else {
                                         // LRN does not exist in the referenced tables, insert into studentprofile
                                         $sql_studentprofile = "INSERT INTO studentprofile (`lrn`, `Fname`, `Mname`, `Lname`, `suffix`,`sectionID`, `schoolyrID`, `password`)
-                                                                VALUES ('$lrn', '$Fname', '$Mname', '$Lname', '$suffix', '$sectionID', '$schoolyrID', MD5('$lrn'))";
-
-                                        if(mysqli_query($conn, $sql_studentprofile)){
+                                                               VALUES ('$lrn', '$Fname', '$Mname', '$Lname', '$suffix', '$sectionID', '$schoolyrID', MD5('$lrn'))";
+                                        if(isset($_SESSION['fullname'])) {
+                                            $admin_username = $_SESSION['fullname'];
+                                    
+                                            if (mysqli_query($conn, $sql_studentprofile)) {
+                                                // Retrieve the last inserted LRN
+                                                $last_inserted_lrn = $lrn;
+                                    
+                                                // Insert log with details and doer
+                                                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', 'Student with LRN $last_inserted_lrn was added', '$admin_username')";
+                                                $conn->query($log);
                                             // Insert LRN into other tables
                                             $sql_result = "INSERT INTO result (lrn) VALUES ('$lrn')";
                                             $sql_studentacad = "INSERT INTO studentacad (lrn) VALUES ('$lrn')";
@@ -210,6 +219,8 @@ if (!isset($_SESSION["admin"])) {
                                         }  
                                     }
                                 }
+                            }
+                        
                                 ?>
                                 <form class="row" action="" method="post">
                                     <div class="col-12 mb-1">
