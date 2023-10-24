@@ -18,7 +18,7 @@ if (!isset($_SESSION["student"])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Strand Selection Ver2</title>
+	<title>GUIDE</title>
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -69,7 +69,7 @@ if (!isset($_SESSION["student"])) {
 		</div>
 	</nav>
 
-	<section class="section-100 d-flex flex-column justify-content-center align-items-center px-3 py-5">
+	<section class="section-100 d-flex flex-column justify-content-top align-items-center px-3 py-5">
 		<h2 class="fw-bold sub-title mt-3">Here is your detailed result!</h2>
 		<div class="row w-100">
 			<div class="col-12 col-lg-8 d-flex justify-content-center align-items-center mb-3">
@@ -136,6 +136,8 @@ if (!isset($_SESSION["student"])) {
 						if ($result->num_rows > 0) {
 
 							while ($row = $result->fetch_assoc()) {
+								$recommendation = $row['recommendation'];
+
 								$ovrSTEM = $row['percScoreStem'];
 								$ovrHUMSS = $row['percScoreHumss'];
 								$ovrABM = $row['percScoreAbm'];
@@ -236,13 +238,21 @@ if (!isset($_SESSION["student"])) {
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-4 d-flex justify-content-center align-items-center mb-3">
+			<div class="col-12 col-lg-4 d-flex justify-content-center align-items-start mb-3">
 				<div class="card custcard border-light text-center" style="width: 100%;">
 					<div class="card-header">
 						<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
 					</div>
-					<div class="card-body">
-
+					<div class="card-body text-start">
+						<?php
+						if (empty($recommendation)) {
+							// Your code here for handling the empty or null case
+							echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
+						} else {
+							// Your code here for when the recommendation is not empty or null
+							echo "<p>". $recommendation . "</p>";
+						}
+						?>
 					</div>
 				</div>
 			</div>

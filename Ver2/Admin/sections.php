@@ -17,7 +17,7 @@ if (!isset($_SESSION["admin"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Strand Selection Admin Ver2</title>
+    <title>GUIDE Admin</title>
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -163,12 +163,13 @@ if (!isset($_SESSION["admin"])) {
 
                                 if(isset($_GET['id'])){
                                     $id = $_GET['id'];
-                                    $sql_edit = "SELECT * FROM section WHERE sectionID = '$id'";
+                                    $sql_edit = "SELECT section.adminID, section.sectionName, adminprofile.fname, adminprofile.lname FROM section JOIN adminprofile ON section.adminID = adminprofile.adminID WHERE sectionID = '$id'";
                                     $result = $conn->query($sql_edit);
                                     if($result->num_rows > 0){
                                         while ($row = $result->fetch_assoc()) {
                                             $sectionName = $row['sectionName'];
                                             $adminID = $row['adminID'];
+                                            $adminName = $row['fname'] . " " . $row['lname'];
                                         }
                                     }
                                 }
@@ -311,13 +312,13 @@ if (!isset($_SESSION["admin"])) {
                                     ?>
                                     <div class="col-12 mb-1">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="sectionAdviser" name="sectionAdviser" value="">
+                                            <select class="form-select" id="sectionAdviser" name="sectionAdviser" value="<?php echo $adminName ?>">
                                                 <?php
                                                 while ($row = $result->fetch_assoc()) {
                                                     $name = $row['fname'] . " " . $row['lname'];
                                                     if(isset($_GET['id'])){
                                                         if($adminID == $row['adminID']){
-                                                            echo '<option value="' . $row['adminID'] . ' selected">' . $name . '</option>';
+                                                            echo '<option value="' . $row['adminID'] . '" selected>' . $name . '</option>';
                                                         }else{
                                                             echo '<option value="' . $row['adminID'] . '">' . $name . '</option>';
                                                         }

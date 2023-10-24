@@ -17,7 +17,7 @@ if (!isset($_SESSION["admin"])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Strand Selection Admin Ver2</title>
+	<title>GUIDE Admin</title>
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
@@ -122,7 +122,7 @@ if (!isset($_SESSION["admin"])) {
 			<section class="section-100 d-flex flex-column py-2">
 				<?php include "connection.php"; ?>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="fw-bold sub-title"><?php echo $_GET['lrn']; ?></h1>
+					<h1 class="fw-bold sub-title"><?php echo $_GET['name']; ?></h1>
 				</div>
 				<div class="row w-100">
 					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
@@ -141,6 +141,8 @@ if (!isset($_SESSION["admin"])) {
 									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
 									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
 									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
+									$curName = $_GET['name'];
+									$newName = $Fname . " " . $Lname;
 									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
 									$age = mysqli_real_escape_string($conn, $_POST['age']);
 									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
@@ -157,7 +159,7 @@ if (!isset($_SESSION["admin"])) {
 											if (!empty($_POST['cpassword'])) {
 												if ($password !== $cpassword) {
 													echo "<script>alert('Password and Confirm Password do not match!');</script>";
-													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 													exit; // Exit the script if passwords do not match
 												}
 												// Define the SQL statement for updating user data
@@ -165,7 +167,7 @@ if (!isset($_SESSION["admin"])) {
 											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 											} else {
 												echo "<script>alert('Please confirm your password!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 											}
 										} else {
 											// Define the SQL statement for updating user data
@@ -179,7 +181,7 @@ if (!isset($_SESSION["admin"])) {
 
 											if ($affected_rows > 0) {
 												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $newName ."';</script>";
 											} else {
 												echo "<script>alert('No changes were made to the record.');</script>";
 											}
@@ -196,14 +198,14 @@ if (!isset($_SESSION["admin"])) {
 												icon: 'error',
 												button: 'OK',
 												});</script>";
-											echo "<script>document location ='viewprofile.php?lrn=". $curid ."';</script>";
+											echo "<script>document location ='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 										}else{
 											// Check if password and confirm password match
 											if (!empty($_POST['password'])) {
 												if (!empty($_POST['cpassword'])) {
 													if ($password !== $cpassword) {
 														echo "<script>alert('Password and Confirm Password do not match!');</script>";
-														echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+														echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 														exit; // Exit the script if passwords do not match
 													}
 													// Define the SQL statement for updating user data
@@ -211,7 +213,7 @@ if (!isset($_SESSION["admin"])) {
 												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 												} else {
 													echo "<script>alert('Please confirm your password!');</script>";
-													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."';</script>";
+													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 												}
 											} else {
 												// Define the SQL statement for updating user data
@@ -259,7 +261,7 @@ if (!isset($_SESSION["admin"])) {
 														mysqli_autocommit($conn, true);
 
 														echo "<script>alert('Record updated successfully!');</script>";
-														echo "<script>window.location.href='viewprofile.php?lrn=". $newid ."';</script>";
+														echo "<script>window.location.href='viewprofile.php?lrn=". $newid ."&name=". $newName ."';</script>";
 														
 													} else {
 														mysqli_rollback($conn);
@@ -430,7 +432,7 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 									<div class="col-12 mb-3">
 										<div class="form-floating mb-1">
-											<input type="text" class="form-control" id="address" name="address" value="<?php echo $address1; ?>" oninput="validateAddress(this)" placeholder="Address" required>
+											<input type="text" class="form-control" id="address" name="address" value="<?php echo $address1; ?>" oninput="validateAddress(this)" placeholder="Address">
 											<label for="address">Address</label>
 										</div>
 									</div>
@@ -449,7 +451,7 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
-											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age">
 											<label for="age">Age</label>
 										</div>
 									</div>
@@ -497,7 +499,7 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 									<div class="col-12 mb-3">
 										<div class="form-floating mb-1">
-											<input type="email" class="form-control" id="email" name="email" value="<?php echo $email1; ?>" placeholder="Email" required>
+											<input type="email" class="form-control" id="email" name="email" value="<?php echo $email1; ?>" placeholder="Email">
 											<label for="email">Email</label>
 										</div>
 									</div>
@@ -757,7 +759,7 @@ if (!isset($_SESSION["admin"])) {
 											// Execute the update query
 											if ($conn->query($sql2) === TRUE) {
 												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
+												echo "<script>window.location.href='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';</script>";
 											} else {
 												echo "Error updating record: " . $conn->error;
 											}
@@ -2244,6 +2246,30 @@ if (!isset($_SESSION["admin"])) {
 									$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 									$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
+									require '../vendor/autoload.php';
+
+									$prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
+										STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
+										HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
+										ABM: Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ." Overall Score in Percentage=". $percentageScore3 ."
+										GAS: Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ." Overall Score in Percentage=". $percentageScore4 ."
+										TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
+										TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
+										Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
+										Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State what strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background. Start your statement with 'Based on your result...'";
+
+									$client = OpenAI::client('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');
+					
+									$data = $client->chat()->create([
+										'model' => 'gpt-3.5-turbo',
+										'messages' => [[
+											'role' => 'user',
+											'content' => $prompt,
+										]],
+									]);
+
+									$recomendation = $data['choices'][0]['message']['content'];
+
 									$sql3 = "UPDATE studentprofile
 											JOIN result ON studentprofile.lrn = result.lrn
 											JOIN stemresult ON studentprofile.lrn = stemresult.lrn
@@ -2254,6 +2280,7 @@ if (!isset($_SESSION["admin"])) {
 											JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
 											SET
 											result.MostSuitableStrand = '$mostSuitableStrand',
+											result.recommendation = '$recomendation',
 
 											stemresult.acadProb = '$academicProbability1',
 											stemresult.intProb = '$interestProbability1',
@@ -2302,7 +2329,7 @@ if (!isset($_SESSION["admin"])) {
 									// Execute the update query
 									if ($conn->query($sql3) === TRUE) {
 										echo "<script>alert('Successfully generated a recomendation!');</script>";
-										echo "<script>window.location.href='viewprofile.php?lrn=". $id ."';</script>";
+										echo "<script>window.location.href='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';</script>";
 									} else {
 										echo "Error generating recomendation: " . $conn->error;
 									}
@@ -2375,6 +2402,8 @@ if (!isset($_SESSION["admin"])) {
 								if ($result->num_rows > 0) {
 
 									while ($row = $result->fetch_assoc()) {
+										$recommendation = $row['recommendation'];
+
 										$ovrSTEM = $row['percScoreStem'];
 										$ovrHUMSS = $row['percScoreHumss'];
 										$ovrABM = $row['percScoreAbm'];
@@ -2480,8 +2509,16 @@ if (!isset($_SESSION["admin"])) {
 							<div class="card-header">
 								<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
 							</div>
-							<div class="card-body">
-
+							<div class="card-body text-start">
+								<?php
+								if (empty($recommendation)) {
+									// Your code here for handling the empty or null case
+									echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
+								} else {
+									// Your code here for when the recommendation is not empty or null
+									echo "<p>". $recommendation . "</p>";
+								}
+								?>
 							</div>
 						</div>
 					</div>
