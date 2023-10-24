@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "connection.php";
 
 if (isset($_GET['lrn'])) {
@@ -34,60 +35,29 @@ if (isset($_GET['lrn'])) {
     ) {
         mysqli_commit($conn);
         mysqli_autocommit($conn, true);
+
+        // Deletion of the studentprofile
         $sql = "DELETE FROM studentprofile WHERE lrn = '$user_id'";
         $result = $conn->query($sql);
+
         if ($result == TRUE) {
+            // Logging the 'deleted' action in the logs table
+            if (isset($_SESSION['fullname'])) {
+                $admin_username = $_SESSION['fullname'];
+                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Student with LRN $user_id was deleted', '$admin_username')";
+                $conn->query($log);
+            } else {
+                // Handle the case when the admin username is not set in the session
+                echo "Admin username not found in the session.";
+            }
+
             echo "<script type ='text/javascript'>
             window.location='profiles.php'
             </script>";
         } else {
             echo "Error:" . $sql . "<br>" . $conn->error;
         }
-    }else{
-        mysqli_rollback($conn);
-        mysqli_autocommit($conn, true);
-        echo "Error updating record: R" . mysqli_error($conn);
-    }
-
-    if(isset($_POST['confirm'])) {
-        // Delete child records first
-        $sql = "DELETE FROM studentsocioeco WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM studentinterest WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM studentskill WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM studentacad WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM studentcareer WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM result WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        $sql = "DELETE FROM exam_score WHERE lrn = '$user_id'";
-        $conn->query($sql);
-
-        // Finally, delete the record from the student table
-        $sql = "DELETE FROM studentprofile WHERE lrn = '$user_id'";
-        $result = $conn->query($sql);
-
-        if ($result == TRUE) {
-            echo "<script type ='text/javascript'>
-            window.location='profiles.php'
-            </script>";
-        } else {
-            echo "Error:" . $sql . "<br>" . $conn->error;
-        }
-    } else {
-        // Display a confirmation prompt
-        echo "Are you sure you want to delete this record? <br>";
-        echo "<form method='POST'><input type='submit' name='confirm' value='Yes'> ";
-        echo "<a href='profiles.php'>No</a></form>";
-    }
 }
+}
+
 ?>

@@ -45,20 +45,36 @@ session_start();
 						if (isset($_POST['username']) && isset($_POST['password'])) {
 							$username = $_POST['username'];
 							$password = $_POST['password'];
-
+						
 							$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
-
+						
 							if ($num == 1) {
-
+						
 								$data = mysqli_fetch_assoc($q);
-
+						
 								$upass = $data['password'];
-
+						
 								if (md5($password) == "$upass") {
 									$_SESSION['admin'] = $username;
 									$_SESSION['role'] = $data['role'];
+						
+									// Concatenate fname, mname, and lname to create the full name
+									
+									$fullname = $data['fname']; // Initialize with the first name
+
+									if (!empty($data['mname'])) {
+										$fullname .= ' ' . $data['mname']; // Add the middle name if it exists
+									}
+
+									if (!empty($data['lname'])) {
+										$fullname .= ' ' . $data['lname']; // Add the last name if it exists
+									}
+
+									$_SESSION['fullname'] = $fullname;
+								
+
 									header("Location: dashboard.php");
 								} else {
 									echo "<script>swal({

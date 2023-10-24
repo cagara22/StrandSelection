@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -129,7 +129,13 @@ if (!isset($_SESSION["admin"])) {
                             <div class="card-body">
                                 <h5 class="card-title">No. of Profiles:</h5>
                                 <div class="text-center">
-                                    <p class='card-text fs-1 fw-bold'>100</p>
+                                <?php
+								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								$query = "SELECT lrn FROM studentprofile ORDER BY lname";
+								$query_run = mysqli_query($conn, $query);
+								$row = mysqli_num_rows($query_run);
+								echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+								?>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +145,13 @@ if (!isset($_SESSION["admin"])) {
                             <div class="card-body">
                                 <h5 class="card-title">No. of Admins:</h5>
                                 <div class="text-center">
-                                    <p class='card-text fs-1 fw-bold'>100</p>
+                                <?php
+								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								$query = "SELECT fname FROM adminprofile ORDER BY lname";
+								$query_run = mysqli_query($conn, $query);
+								$row = mysqli_num_rows($query_run);
+								echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+								?>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +161,13 @@ if (!isset($_SESSION["admin"])) {
                             <div class="card-body">
                                 <h5 class="card-title">No. of Logs:</h5>
                                 <div class="text-center">
-                                    <p class='card-text fs-1 fw-bold'>100</p>
+                                <?php
+								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
+								$query = "SELECT id FROM logs ORDER BY `timestamp`";
+								$query_run = mysqli_query($conn, $query);
+								$row = mysqli_num_rows($query_run);
+								echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+								?>
                                 </div>
                             </div>
                         </div>
