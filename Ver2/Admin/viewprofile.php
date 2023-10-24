@@ -120,7 +120,7 @@ if (!isset($_SESSION["admin"])) {
 		</div>
 		<div class="col-10">
 			<section class="section-100 d-flex flex-column py-2">
-				<?php include "connection.php"; ?>
+				<?php include "connection.php"; include "../vendor/autoload.php";?>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="fw-bold sub-title"><?php echo $_GET['name']; ?></h1>
 				</div>
@@ -2171,11 +2171,6 @@ if (!isset($_SESSION["admin"])) {
 										echo "<p>Error saving JSON data to $json_file.</p>";
 									}*/
 
-									// Define the R script path
-									$r_scriptexe_path = '"C:\Program Files\R\R-4.2.2\bin\Rscript.exe"';
-									$r_script_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\predictStrand.R"'; // Update with the correct path
-									$jsonfile_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\output.json"';
-
 									// Construct the command to execute the R script with input JSON
 									$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
 									// echo "<p>Here is the result: " . $command;
@@ -2246,7 +2241,7 @@ if (!isset($_SESSION["admin"])) {
 									$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 									$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
-									require '../vendor/autoload.php';
+									// require '../vendor/autoload.php';
 
 									$prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
 										STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
@@ -2256,9 +2251,9 @@ if (!isset($_SESSION["admin"])) {
 										TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
 										TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
 										Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
-										Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State what strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background. Start your statement with 'Based on your result...'";
+										Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...'";
 
-									$client = OpenAI::client('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');
+									$client = OpenAI::client($apiKey);
 					
 									$data = $client->chat()->create([
 										'model' => 'gpt-3.5-turbo',
