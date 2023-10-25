@@ -140,70 +140,78 @@ if (!isset($_SESSION["admin"])) {
                             <th scope="col">Suffix</th>
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
+                            <th scope="col">Section</th>
                             <th scope="col">Qualified Strand</th>
                             <th scope="col" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <?php
-                        include "connection.php";
+                    <?php
+include "connection.php";
 
-                        if (isset($_GET['page_no'])) {
-                            $page_no = $_GET['page_no'];
-                        } else {
-                            $page_no = 1;
-                        }
+if (isset($_GET['page_no'])) {
+    $page_no = $_GET['page_no'];
+} else {
+    $page_no = 1;
+}
 
-                        $total_records_per_page = 30;
-                        $offset = ($page_no - 1) * $total_records_per_page;
+$total_records_per_page = 30;
+$offset = ($page_no - 1) * $total_records_per_page;
 
-                        if (isset($_GET['searchname'])) {
-                            $search = $_GET['searchname'];
-                            $sql = "SELECT * FROM studentprofile
-                            JOIN result ON studentprofile.lrn = result.lrn WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%'";
-                        } else {
-                            $sql = "SELECT * FROM studentprofile
-                            JOIN result ON studentprofile.lrn = result.lrn LIMIT $offset, $total_records_per_page";
-                        }
+if (isset($_GET['searchname'])) {
+    $search = $_GET['searchname'];
+    $sql = "SELECT * FROM studentprofile
+            JOIN result ON studentprofile.lrn = result.lrn 
+            JOIN section ON studentprofile.sectionID = section.sectionID 
+            WHERE Fname LIKE '%$search%' OR Mname LIKE '%$search%' OR Lname LIKE '%$search%' OR CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%'
+            LIMIT $offset, $total_records_per_page";
+} else {
+    $sql = "SELECT * FROM studentprofile
+            JOIN section ON studentprofile.sectionID = section.sectionID
+            JOIN result ON studentprofile.lrn = result.lrn
+            LIMIT $offset, $total_records_per_page";
+}
 
-                        // Calculate the next and previous page numbers before executing the query
-                        $next_page = $page_no + 1;
-                        $previous_page = $page_no - 1;
+// Calculate the next and previous page numbers before executing the query
+$next_page = $page_no + 1;
+$previous_page = $page_no - 1;
 
-                        $result = $conn->query($sql);
-                        if ($result->num_rows > 0) {
-                            // output data of each row
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td class='text-center'>" . $row['lrn'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Fname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Mname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['Lname'] . "</td>";
-                                echo "<td class='text-center'>" . $row['suffix'] . "</td>";
-                                echo "<td class='text-center'>" . $row['age'] . "</td>";
-                                echo "<td class='text-center'>" . $row['sex'] . "</td>";
-                                echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td class='text-center'>" . $row['lrn'] . "</td>";
+        echo "<td class='text-center'>" . $row['Fname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Mname'] . "</td>";
+        echo "<td class='text-center'>" . $row['Lname'] . "</td>";
+        echo "<td class='text-center'>" . $row['suffix'] . "</td>";
+        echo "<td class='text-center'>" . $row['age'] . "</td>";
+        echo "<td class='text-center'>" . $row['sex'] . "</td>";
+        echo "<td class='text-center'>" . $row['sectionName'] . "</td>";
+        echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
 
-                                echo "<td class='text-center'>
-            <a href='#' onclick='deleteRecord(". $row['lrn'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
-                <img src='./images/delete.png' alt='' width='20' height='20' class=''>
-            </a> 
-            <a href='viewprofile.php?lrn=" . $row['lrn'] . "' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
-                <img src='./images/view.png' alt='' width='20' height='20' class=''>
-            </a>
-        </td>";
-                                echo "</tr>";
-                            }
-                            echo "</table>";
-                        } else {
-                            echo "0 results";
-                        }
+        $fullName = $row['Fname'] . " " . $row['Lname'];
+        echo "<td class='text-center'>
+                <a href='#' onclick='deleteRecord(". $row['lrn'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                    <img src='./images/delete.png' alt='' width='20' height='20' class=''>
+                </a> 
+                <a href='viewprofile.php?lrn=" . $row['lrn'] . "&name=". $fullName ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
+                    <img src='./images/view.png' alt='' width='20' height='20' class=''>
+                </a>
+            </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
 
-                        $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
-                        $result = $conn->query($sql);
-                        $total_records = $result->fetch_assoc()['total_records'];
-                        $total_no_of_pages = ceil($total_records / $total_records_per_page);
-                        ?>
+$sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+$result = $conn->query($sql);
+$total_records = $result->fetch_assoc()['total_records'];
+$total_no_of_pages = ceil($total_records / $total_records_per_page);
+?>
 
                     </tbody>
                 </table>
