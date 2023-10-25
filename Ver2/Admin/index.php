@@ -74,7 +74,14 @@ session_start();
 
 									$_SESSION['fullname'] = $fullname;
 								
-
+									if (isset($_SESSION['fullname'])) {
+										$admin_username = $_SESSION['fullname'];
+										$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Logged in', '$admin_username logged in', '$admin_username')";
+										$conn->query($log);
+									} else {
+										// Handle the case when the admin username is not set in the session
+										echo "Admin username not found in the session.";
+									}
 									header("Location: dashboard.php");
 								} else {
 									echo "<script>swal({

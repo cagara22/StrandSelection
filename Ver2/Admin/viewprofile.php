@@ -120,7 +120,7 @@ if (!isset($_SESSION["admin"])) {
 		</div>
 		<div class="col-10">
 			<section class="section-100 d-flex flex-column py-2">
-				<?php include "connection.php"; include "../vendor/autoload.php";?>
+				<!-- <?php include "connection.php"; include "../vendor/autoload.php";?> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="fw-bold sub-title"><?php echo $_GET['name']; ?></h1>
 				</div>
@@ -173,6 +173,14 @@ if (!isset($_SESSION["admin"])) {
 											// Define the SQL statement for updating user data
 											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
 											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
+										}
+										if (isset($_SESSION['fullname'])) {
+											$admin_username = $_SESSION['fullname'];
+											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $curid got its account details updated', '$admin_username')";
+											$conn->query($log);
+										} else {
+											// Handle the case when the admin username is not set in the session
+											echo "Admin username not found in the session.";
 										}
 
 										// Execute the update query
@@ -758,6 +766,14 @@ if (!isset($_SESSION["admin"])) {
 
 											// Execute the update query
 											if ($conn->query($sql2) === TRUE) {
+												if (isset($_SESSION['fullname'])) {
+													$admin_username = $_SESSION['fullname'];
+													$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
+													$conn->query($log);
+												} else {
+													// Handle the case when the admin username is not set in the session
+													echo "Admin username not found in the session.";
+												}
 												echo "<script>alert('Record updated successfully!');</script>";
 												echo "<script>window.location.href='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';</script>";
 											} else {
