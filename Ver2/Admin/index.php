@@ -45,23 +45,23 @@ session_start();
 						if (isset($_POST['username']) && isset($_POST['password'])) {
 							$username = $_POST['username'];
 							$password = $_POST['password'];
-						
+
 							$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
-						
+
 							if ($num == 1) {
-						
+
 								$data = mysqli_fetch_assoc($q);
-						
+
 								$upass = $data['password'];
-						
+
 								if (md5($password) == "$upass") {
 									$_SESSION['admin'] = $username;
 									$_SESSION['role'] = $data['role'];
-						
+
 									// Concatenate fname, mname, and lname to create the full name
-									
+
 									$fullname = $data['fname']; // Initialize with the first name
 
 									if (!empty($data['mname'])) {
@@ -73,10 +73,11 @@ session_start();
 									}
 
 									$_SESSION['fullname'] = $fullname;
-								
+
 									if (isset($_SESSION['fullname'])) {
 										$admin_username = $_SESSION['fullname'];
-										$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Logged in', '$admin_username logged in', '$admin_username')";
+										$role = $_SESSION['role'];
+										$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Logged in', '$admin_username logged in as $role', '$admin_username')";
 										$conn->query($log);
 									} else {
 										// Handle the case when the admin username is not set in the session

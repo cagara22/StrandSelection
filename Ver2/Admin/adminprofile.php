@@ -57,8 +57,8 @@ if (!isset($_SESSION["admin"])) {
                         </a>
                     </li>
                     <?php
-                    
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+
+                    if ($_SESSION['role'] == 'SUPER ADMIN') {
                         echo '
                         <li class="nav-item">
                             <a href="./admins.php" class="nav-link active" aria-current="page">
@@ -98,7 +98,7 @@ if (!isset($_SESSION["admin"])) {
                         </li>
                         ';
                     }
-                    
+
                     ?>
                 </ul>
                 <hr>
@@ -120,7 +120,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-10">
             <section class="section-100 d-flex flex-column py-2">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="fw-bold sub-title">[ADMIN USERNAME]</h1>
+                    <h1 class="fw-bold sub-title"><?php echo $_SESSION['fullname']; ?></h1>
                 </div>
                 <div class="card custcard border-light text-center" style="width: 100%;">
                     <div class="card-header">
@@ -128,88 +128,115 @@ if (!isset($_SESSION["admin"])) {
                     </div>
                     <div class="card-body">
 
-                                            <?php
+                        <?php
                         // Establish database connection
-                        $conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to the database');
+                        include "connection.php";
 
                         // Check if form was submitted
                         if (isset($_POST['update'])) {
+                            $sql = '';
                             // Retrieve form data
                             $id = $_SESSION['admin'];
+                            $fname = strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
+                            $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
+                            $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
+                            $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
+                            $age = mysqli_real_escape_string($conn, $_POST['age']);
+                            $role = mysqli_real_escape_string($conn, $_POST['role']);
+                            $sex = mysqli_real_escape_string($conn, $_POST['sex']);
+                            $email = mysqli_real_escape_string($conn, $_POST['email']);
+                            $username = mysqli_real_escape_string($conn, $_POST['username']);
+                            $address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
+                            $password = md5($_POST['pass1']);
+						    $cpassword = md5($_POST['pass2']);
 
-                            $fname = $_POST['fname'];
-                            $mname = $_POST['mname'];
-                            $lname = $_POST['lname'];
-                            $suffix = $_POST['suffix'];
-                            $age = $_POST['age'];
-                            $role = $_POST['role'];
-                            $sex = $_POST['sex'];
-                            $email = $_POST['email'];
-                            $username = $_POST['username'];
-                            $address = $_POST['address'];
-
-                            // Prepare update query
-                            $sql = "UPDATE `adminprofile` SET 
-                                        `fname` = '$fname', 
-                                        `mname` = '$mname', 
-                                        `lname` = '$lname', 
-                                        `suffix` = '$suffix', 
-                                        `age` = '$age', 
-                                        `role` = '$role', 
-                                        `sex` = '$sex', 
-                                        `email` = '$email', 
-                                        `username` = '$username', 
-                                        `address` = '$address'";
-
-                            if (!empty($_POST['password'])) {
-                                $password = md5($_POST['password']);
-                                $cpassword = md5($_POST['cpassword']);
-
-                                // Check if password and confirm password match
-                                if ($password !== $cpassword) {
-                                    echo "<script>alert('Password and Confirm Password do not match!');</script>";
-                                    echo "<script type='text/javascript'>history.go(-1);</script>";
-                                    exit;
+                            $query = "SELECT adminID FROM adminprofile WHERE username = '$username' AND adminID <> '$id'";
+                            $result = mysqli_query($conn, $query);
+                            if (mysqli_num_rows($result) > 0) {
+                                echo "<script>swal({
+                                    title: 'INVALID USERNAME!',
+                                    text: 'USERNAME already exists in the database!',
+                                    icon: 'error',
+                                    button: 'OK',
+                                    });</script>";
+                            }else{
+                                if (!empty($_POST['pass1'])) {
+                                    if (!empty($_POST['pass2'])) {
+                                        if ($password !== $cpassword) {
+                                            echo "<script>swal({
+                                                title: 'PASSWORDS DON'T MATCH!',
+                                                text: 'Password and Confirm Password don't match!',
+                                                icon: 'error',
+                                                button: 'OK',
+                                                });</script>";
+                                        }else{
+                                            $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
+                                            address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role' password='$password' WHERE adminID='$id'";
+                                        }
+                                    }else{
+                                        echo "<script>swal({
+                                            title: 'CONFIRM PASSWORD',
+                                            text: 'Please confirm the password.',
+                                            icon: 'info',
+                                            button: 'OK',
+                                            });</script>";
+                                    }
+                                }else{
+                                    $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
+                                    address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE adminID='$id'";
                                 }
 
-                                $sql .= ", password = '$password'";
-                            }
+                                if(!empty($sql)){
+                                    if (mysqli_query($conn, $sql)) {
+                                        $_SESSION['admin'] = $username;
+									    $_SESSION['role'] = $role;
 
-                            $sql .= " WHERE username = '$id'";
+                                        // Concatenate fname, mname, and lname to create the full name
 
-                            // Execute update query
-                            $result = $conn->query($sql);
+                                        $fullname = $fname; // Initialize with the first name
 
-                            // Check if query was successful
-                            if ($result) {
-                                // Display success message and redirect to profiles page
-                                echo "<script>alert('Record updated successfully!');</script>";
-                                echo "<script>window.location.href = 'adminprofile.php';</script>";
-                            } else {
-                                // Display error message and MySQL error details
-                                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                        if (!empty($mname)) {
+                                            $fullname .= ' ' . $mname; // Add the middle name if it exists
+                                        }
+
+                                        if (!empty($lname)) {
+                                            $fullname .= ' ' . $lname; // Add the last name if it exists
+                                        }
+
+                                        $_SESSION['fullname'] = $fullname;
+
+                                        $admin_username = $_SESSION['fullname'];
+                                        $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username has updated his account', '$admin_username')";
+                                        $conn->query($log);
+
+                                        echo "<script>alert('Record updated successfully!');</script>";
+                                        echo "<script>document.location='adminprofile.php';</script>";
+                                    } else {
+                                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                    }
+                                }
                             }
                         }
 
                         if (isset($_SESSION['admin'])) {
                             $user_id = $_SESSION['admin'];
 
-                            $sql = "SELECT * FROM `adminprofile` WHERE username = '$user_id';";
+                            $sql1 = "SELECT * FROM `adminprofile` WHERE username = '$user_id';";
 
-                            $result = $conn->query($sql);
+                            $result = $conn->query($sql1);
 
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     $fname1 = $row['fname'];
-                            $mname1 = $row['mname'];
-                            $lname1 = $row['lname'];
-                            $suffix1 = $row['suffix'];
-                            $age1 = $row['age'];
-                            $role1 = $row['role'];
-                            $sex1 = $row['sex'];
-                            $email1 = $row['email'];
-                            $username1 = $row['username'];
-                            $address1 = $row['address'];
+                                    $mname1 = $row['mname'];
+                                    $lname1 = $row['lname'];
+                                    $suffix1 = $row['suffix'];
+                                    $age1 = $row['age'];
+                                    $role1 = $row['role'];
+                                    $sex1 = $row['sex'];
+                                    $email1 = $row['email'];
+                                    $username1 = $row['username'];
+                                    $address1 = $row['address'];
                                 }
                             }
                         }
@@ -218,56 +245,56 @@ if (!isset($_SESSION["admin"])) {
                         <form class="row" action="" method="post">
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name = "username"  value="<?php echo $username1; ?>" oninput="validateName(this)" placeholder="Username" required>
+                                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $username1; ?>" oninput="validateName(this)" placeholder="Username" required>
                                     <label for="username">Username</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="fname" name = "fname" value="<?php echo $fname1; ?>" oninput="validateName(this)" placeholder="First Name" required>
+                                    <input type="text" class="form-control" id="fname" name="fname" value="<?php echo $fname1; ?>" oninput="validateName(this)" placeholder="First Name" required>
                                     <label for="fname">First Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="mname" name = "mname" value="<?php echo $mname1; ?>" oninput="validateName(this)" placeholder="Middle Name">
+                                    <input type="text" class="form-control" id="mname" name="mname" value="<?php echo $mname1; ?>" oninput="validateName(this)" placeholder="Middle Name">
                                     <label for="mname">Middle Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lname" name = "lname" value="<?php echo $lname1; ?>" oninput="validateName(this)" placeholder="Last Name" required>
+                                    <input type="text" class="form-control" id="lname" name="lname" value="<?php echo $lname1; ?>" oninput="validateName(this)" placeholder="Last Name" required>
                                     <label for="lname">Last Name</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="suffix" name = "suffix" value="<?php echo $suffix1; ?>" oninput="validateName(this)" placeholder="Suffix">
+                                    <input type="text" class="form-control" id="suffix" name="suffix" value="<?php echo $suffix1; ?>" oninput="validateName(this)" placeholder="Suffix">
                                     <label for="suffix">Suffix</label>
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-floating mb-1">
-                                    <input type="text" class="form-control" id="address" name = "address" value="<?php echo $address1; ?>" oninput="validateAddress(this)" placeholder="Address" required>
+                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo $address1; ?>" oninput="validateAddress(this)" placeholder="Address" required>
                                     <label for="address">Address</label>
                                 </div>
-                             </div>
-                                <div class="col-12 col-md-6 mb-1">
+                            </div>
+                            <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="sex" name="sex">
                                         <option value="M" <?php if ($sex1 == "M") {
-                                            echo "selected";
-                                        } ?>>Male</option>
+                                                                echo "selected";
+                                                            } ?>>Male</option>
                                         <option value="F" <?php if ($sex1 == "F") {
-                                            echo "selected";
-                                        } ?>>Female</option>
+                                                                echo "selected";
+                                                            } ?>>Female</option>
                                     </select>
                                     <label for="sex">Sex</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="age" name ="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+                                    <input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
                                     <label for="age">Age</label>
                                 </div>
                             </div>
@@ -275,11 +302,11 @@ if (!isset($_SESSION["admin"])) {
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="role" name="role" value="">
                                         <option value="ADMIN" <?php if ($role1 == "ADMIN") {
-                                            echo "selected";
-                                        } ?>>ADMIN</option>
+                                                                    echo "selected";
+                                                                } ?>>ADMIN</option>
                                         <option value="SUPER ADMIN" <?php if ($role1 == "SUPER ADMIN") {
-                                            echo "selected";
-                                        } ?>>SUPER ADMIN</option>
+                                                                        echo "selected";
+                                                                    } ?>>SUPER ADMIN</option>
                                     </select>
                                     <label for="role">Role</label>
                                 </div>
@@ -301,12 +328,12 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass2" name="cpassword"  placeholder="Confirm Password">
+                                    <input type="password" class="form-control" id="pass2" name="cpassword" placeholder="Confirm Password">
                                     <label for="pass2">CONFIRM PASSWORD</label>
                                 </div>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
-                                <button type="submit" name ="update" class="btn btn-update form-button-text"><span class="fw-bold">UPDATE</span></button>
+                                <button type="submit" name="update" class="btn btn-update form-button-text"><span class="fw-bold">UPDATE</span></button>
                             </div>
                         </form>
                     </div>

@@ -132,48 +132,71 @@ if (!isset($_SESSION["admin"])) {
 
                         if (isset($_POST['add'])) {
 
-                            $username = $_POST['username'];
-                            $fname = $_POST['fname'];
-                            $mname = $_POST['mname'];
-                            $lname = $_POST['lname'];
-                            $age = $_POST['age'];
-                            $sex = $_POST['sex'];
-                            $role = $_POST['role'];
-                            $email = $_POST['email'];
-                            $suffix = $_POST['suffix'];
-                            $password = $_POST['password'];
-                            $address = $_POST['address'];
-                            $cpassword = $_POST['cpassword'];
+                            $username = mysqli_real_escape_string($conn, $_POST['username']);
+                            $fname =  strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
+                            $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
+                            $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
+                            $age = mysqli_real_escape_string($conn, $_POST['age']);
+                            $sex = mysqli_real_escape_string($conn, $_POST['sex']);
+                            $role = mysqli_real_escape_string($conn, $_POST['role']);
+                            $email = mysqli_real_escape_string($conn, $_POST['email']);
+                            $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
+                            $address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
+                            $password = md5($_POST['password']);
+                            $cpassword = md5($_POST['cpassword']);
 
-                            // Check if passwords match
-                            if ($password !== $cpassword) {
-                                echo "<script>alert('Passwords do not match.');</script>";
-                                echo "<script>document.location='admins.php';</script>";
-                                exit();
-                            }
+                            $query = "SELECT * FROM `adminprofile` WHERE username = '$username'";
 
-                            $username = mysqli_real_escape_string($conn, $username); // Escape user inputs to prevent SQL injection
-                            $sql = "SELECT * FROM `adminprofile` WHERE username = '$username'";
-                            $result = mysqli_query($conn, $sql);
+                            $result = mysqli_query($conn, $query);
+                            if (mysqli_num_rows($result) > 0) {
+                                echo "<script>swal({
+                                    title: 'INVALID USERNAME!',
+                                    text: 'USERNAME already exists in the database!',
+                                    icon: 'error',
+                                    button: 'OK',
+                                    });</script>";
+                                // echo "<script>document location ='addadmin.php';</script>";
+                            }else{
+                                if (!empty($_POST['password'])) {
+                                    if (!empty($_POST['cpassword'])) {
+                                        if ($password !== $cpassword) {
+                                            echo "<script>swal({
+                                                title: 'PASSWORDS DON'T MATCH!',
+                                                text: 'Password and Confirm Password don't match!',
+                                                icon: 'error',
+                                                button: 'OK',
+                                                });</script>";
+                                        }else{
+                                            $sql = "INSERT INTO `adminprofile`(`username`, `fname`, `mname`, `lname`, `suffix`, `address`, `sex`, `age`, `role`, `email`, `password`) 
+                                            VALUES ('$username', '$fname', '$mname', '$lname', '$suffix', '$address', '$sex', '$age', '$role', '$email', '$password')";
 
-                            if ($result) {
-                                $num = mysqli_num_rows($result);
-                                if ($num > 0) {
-                                    echo "<script>alert('Admin record already exists.');</script>";
-                                    echo "<script>document.location='admins.php';</script>";
-                                } else {
-                                    $hashed_password = md5($password); // Deprecated, consider using more secure methods like bcrypt or Argon2
-                                    $sql = "INSERT INTO `adminprofile`(`username`, `fname`, `mname`, `lname`, `suffix`, `address`, `sex`, `age`, `role`, `email`, `password`) 
-            VALUES ('$username', '$fname', '$mname', '$lname', '$suffix', '$address', '$sex', '$age', '$role', '$email', '$hashed_password')";
-                                    if (mysqli_query($conn, $sql)) {
-                                        echo "<script>alert('New record added successfully!');</script>";
-                                        echo "<script>document.location='admins.php';</script>";
-                                    } else {
-                                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                            if (mysqli_query($conn, $sql)) {
+                                                $admin_username = $_SESSION['fullname'];
+                                                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username was added', '$admin_username')";
+                                                $conn->query($log);
+
+                                                echo "<script>alert('New record added successfully!');</script>";
+                                                echo "<script>document.location='addadmin.php';</script>";
+                                            } else {
+                                                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                            }
+                                        }
+                                    }else{
+                                        echo "<script>swal({
+                                            title: 'CONFIRM PASSWORD',
+                                            text: 'Please confirm the password.',
+                                            icon: 'info',
+                                            button: 'OK',
+                                            });</script>";
                                     }
+                                }else{
+                                    echo "<script>swal({
+                                        title: 'ADD PASSWORD',
+                                        text: 'Please add the password.',
+                                        icon: 'info',
+                                        button: 'OK',
+                                        });</script>";
                                 }
-                            } else {
-                                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                             }
                         }
                         ?>
@@ -210,7 +233,7 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-floating mb-1">
-                                    <input type="text" class="form-control" id="address" name="address" oninput="validateAddress(this)" placeholder="Address" required>
+                                    <input type="text" class="form-control" id="address" name="address" oninput="validateAddress(this)" placeholder="Address">
                                     <label for="address">Address</label>
                                 </div>
                             </div>
@@ -225,22 +248,22 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="age" name="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+                                    <input type="number" class="form-control" id="age" name="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age">
                                     <label for="age">Age</label>
                                 </div>
                             </div>
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="role" name="role" value="">
-                                        <option value="Admin">ADMIN</option>
-                                        <option value="Super Admin">SUPER ADMIN</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="SUPER ADMIN">SUPER ADMIN</option>
                                     </select>
                                     <label for="role">Role</label>
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-floating mb-1">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                     <label for="email">Email</label>
                                 </div>
                             </div>
