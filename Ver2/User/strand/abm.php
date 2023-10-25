@@ -1,4 +1,5 @@
 <?php
+//Starts the sessin and checks if the student is logged in or not
 session_start();
 
 if (!isset($_SESSION["student"])) {
@@ -57,7 +58,7 @@ if (!isset($_SESSION["student"])) {
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php $_SESSION['fname']; ?>
+							<?php $_SESSION['fname']; //The name off the Student?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>

@@ -40,26 +40,33 @@ session_start();
 					</div>
 					<div class="card-body">
 						<?php
-						include "connection.php";
+						include "connection.php"; //include the connection file for the datbase
 
+						//If the login button is clicked
 						if (isset($_POST['lrn']) && isset($_POST['password'])) {
+							//get the username/lrn and password
 							$username = mysqli_real_escape_string($conn, $_POST['lrn']);
 							$password = mysqli_real_escape_string($conn, $_POST['password']);
 
+							//check the database if the username/lr exists
 							$sql = "SELECT * FROM studentprofile WHERE lrn = '$username'";
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
 
-							if ($num == 1) {
+
+							if ($num == 1) { //if the username/lrn exists
+								//get the username and password from the database
 								$data = mysqli_fetch_assoc($q);
 								$upass = $data['password'];
 								$ufname = $data['Fname'];
 
-								if (md5($password) == "$upass") {
-									$_SESSION['student'] = $username;
-									$_SESSION['fname'] = $ufname;
-									header("Location: home.php");
-								} else {
+								if (md5($password) == "$upass") { //check if the password is correct
+									//Set the session variables
+									$_SESSION['student'] = $username; //lrn
+									$_SESSION['fname'] = $ufname; //first name
+									header("Location: home.php"); //redirect to the home page
+
+								} else {//the password is not correct
 									echo "<script>swal({
 												title: 'Wrong Password',
 												icon: 'error',
@@ -67,7 +74,7 @@ session_start();
 												});</script>";
 									echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
 								}
-							} else {
+							} else {//the usernama/lrn doesn't exist in the database
 								echo "<script>swal({
 											title: 'Invalid Username or Account not yet created!.',
 											icon: 'error',

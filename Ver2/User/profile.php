@@ -1,4 +1,5 @@
 <?php
+//Starts the sessin and checks if the student is logged in or not
 session_start();
 
 if (!isset($_SESSION["student"])) {
@@ -60,7 +61,7 @@ if (!isset($_SESSION["student"])) {
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php echo $_SESSION['fname']; ?>
+							<?php echo $_SESSION['fname']; //The name off the Student ?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -72,8 +73,8 @@ if (!isset($_SESSION["student"])) {
 	</nav>
 
 	<section class="section-100 d-flex flex-column justify-content-center px-3 py-5">
-		<?php include "connection.php"; include "../vendor/autoload.php";?>
-		<h2 class="fw-bold sub-title mt-3">Hello <?php echo $_SESSION["fname"]; ?>!</h2>
+		<?php include "connection.php"; include "../vendor/autoload.php"; //include the connection file to the database and the OpenAI API Lib ?>
+		<h2 class="fw-bold sub-title mt-3">Hello <?php echo $_SESSION["fname"]; //the name of the student ?>!</h2>
 		<div class="row w-100">
 			<div class="col-12 col-lg-9 d-flex justify-content-center">
 				<div class="row w-100">
@@ -85,9 +86,10 @@ if (!isset($_SESSION["student"])) {
 							<div class="card-body">
 
 								<?php
-								// Check if form was submitted
+								$sql='';
+								//check if submit button for the account details has been clicked
 								if (isset($_POST['submit1'])) {
-									// Retrieve form data
+									//retrieve form data
 									$id = $_SESSION['student'];
 									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
 									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
@@ -100,48 +102,53 @@ if (!isset($_SESSION["student"])) {
 									$password = md5($_POST['password']);
 									$cpassword = md5($_POST['cpassword']);
 
-									// Check if password and confirm password match
-									if (!empty($_POST['password'])) {
-										if (!empty($_POST['cpassword'])) {
-											if ($password !== $cpassword) {
+									//check if the password is empty or not
+									if (!empty($_POST['password'])) { //password not empty
+										if (!empty($_POST['cpassword'])) {//confirm password is not empty
+											//check if the password and confirm password are the same
+											if ($password !== $cpassword) {//not the same
 												echo "<script>alert('Password and Confirm Password do not match!');</script>";
-												echo "<script>window.location.href='profile.php';</script>";
-												exit; // Exit the script if passwords do not match
+												//echo "<script>window.location.href='profile.php';</script>";
+												//exit; //exit the script if passwords do not match
+											}else{//if everything is good, define the sql statement to update the student account details with password
+												$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
 											}
-											// Define the SQL statement for updating user data
-											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
-										} else {
+										} else {//confirm password is empty
 											echo "<script>alert('Please confirm your password!');</script>";
-											echo "<script>window.location.href='profile.php';</script>";
+											//echo "<script>window.location.href='profile.php';</script>";
 										}
 									} else {
-										// Define the SQL statement for updating user data
+										//if everything is good, define the sql statement to update the student account details without password
 										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
 										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
 									}
 
-									// Execute the update query
-									if (mysqli_query($conn, $sql)) {
-										$affected_rows = mysqli_affected_rows($conn);
+									if(!empty($sql)){ //check if sql statement is not empty
+										//execute the update query
+										if (mysqli_query($conn, $sql)) {
+											$affected_rows = mysqli_affected_rows($conn);
 
-										if ($affected_rows > 0) {
-											echo "<script>alert('Record updated successfully!');</script>";
-											echo "<script>window.location.href='profile.php';</script>";
-											$_SESSION['fname'] = $Fname;
-										} else {
-											echo "<script>alert('No changes were made to the record.');</script>";
+											if ($affected_rows > 0) {//check if a row in the database was updated successfully
+												echo "<script>alert('Record updated successfully!');</script>";
+												echo "<script>window.location.href='profile.php';</script>";
+												$_SESSION['fname'] = $Fname;
+											} else {//no changes were made to the record
+												echo "<script>alert('No changes were made to the record.');</script>";
+											}
+										} else {//error in updating the account
+											echo "Error updating record: " . mysqli_error($conn);
 										}
-									} else {
-										echo "Error updating record: " . mysqli_error($conn);
 									}
 								}
 
+								//check if the student's lrn is available
 								if (isset($_SESSION['student'])) {
 
-									$user_id = $_SESSION['student'];
+									$user_id = $_SESSION['student']; //get the lrn
 
-									$sql = "SELECT * FROM studentprofile
+									//prep the select statement
+									$sql1 = "SELECT * FROM studentprofile
 					JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
 					JOIN studentacad ON studentcareer.lrn = studentacad.lrn
 					JOIN studentskill ON studentacad.lrn = studentskill.lrn
@@ -149,10 +156,11 @@ if (!isset($_SESSION["student"])) {
 					JOIN studentsocioeco  ON studentinterest.lrn = studentsocioeco.lrn
 					JOIN result ON studentsocioeco.lrn = result.lrn WHERE studentprofile.lrn = '$user_id';";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql1);
 
 									if ($result->num_rows > 0) {
 
+										//retrieve the students information
 										while ($row = $result->fetch_assoc()) {
 
 											$_SESSION['student'] = $row['lrn'];
@@ -311,9 +319,9 @@ if (!isset($_SESSION["student"])) {
 										</div>
 									</div>
 									<?php
-									$sql = "SELECT * FROM section";
+									$sql2 = "SELECT * FROM section";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql2);
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
@@ -332,9 +340,9 @@ if (!isset($_SESSION["student"])) {
 										</div>
 									</div>
 									<?php
-									$sql = "SELECT * FROM schoolyr";
+									$sql3 = "SELECT * FROM schoolyr";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql3);
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
@@ -388,10 +396,10 @@ if (!isset($_SESSION["student"])) {
 							<div class="card-body">
 
 								<?php
-								// Check if form was submitted
+								//check if the submit button for the student's profile has been clicked
 								if (isset($_POST['submit2'])) {
 
-									// Retrieve form data
+									//retrieve form data
 									$id = $_SESSION['student'];
 									//skills
 									$skiCommunicationSkills = isset($_POST['skiCommunicationSkills']) ? 1 : 0;
@@ -471,6 +479,7 @@ if (!isset($_SESSION["student"])) {
 									//socioeco
 									$TotalHouseholdMonthlyIncome = $_POST['TotalHouseholdMonthlyIncome'];
 
+
 									$variables = array(
 										'intCalculus',
 										'intBiology',
@@ -500,7 +509,7 @@ if (!isset($_SESSION["student"])) {
 										'intTailoring'
 									);
 
-									// Check if any variable has a value of zero
+									//check if any variable has a value of zero
 									$hasZeroValue = false;
 									foreach ($variables as $variable) {
 										if ($_POST[$variable] == 0) {
@@ -509,22 +518,22 @@ if (!isset($_SESSION["student"])) {
 										}
 									}
 
-									if ($hasZeroValue) {
+									if ($hasZeroValue) { //if one of the vrables in interest has zero value
 										echo "<script>swal({
 												title: 'Please select a valid answer in the Interest Section!',
 												icon: 'error',
 												button: 'OK',
 											});</script>";
 									} else {
-										if ($_POST['TotalHouseholdMonthlyIncome'] == "SELECT") {
+										if ($_POST['TotalHouseholdMonthlyIncome'] == "SELECT") { //if the totalHouseholdMonthlyIncome has not been answered
 											echo "<script>swal({
 													title: 'Please select a valid answer in the Socioeconomic Section!',
 													icon: 'error',
 													button: 'OK',
 												});</script>";
 										} else {
-											// Prepare update query
-											$sql2 = "UPDATE studentprofile
+											//prepare update query
+											$sql4 = "UPDATE studentprofile
 									JOIN studentinterest ON studentprofile.lrn = studentinterest.lrn
 									JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
 									JOIN studentsocioeco ON studentprofile.lrn = studentsocioeco.lrn
@@ -566,7 +575,7 @@ if (!isset($_SESSION["student"])) {
 										studentskill.skiChildcareFamilyServices = '$skiChildcareFamilyServices',
 										studentskill.skiNutritionFoodSafety = '$skiNutritionFoodSafety',
 										studentskill.skiEconomics = '$skiEconomics',
-										-- interests
+
 										studentinterest.intCalculus = '$intCalculus',
 										studentinterest.intBiology = '$intBiology',
 										studentinterest.intPhysics = '$intPhysics',
@@ -597,13 +606,14 @@ if (!isset($_SESSION["student"])) {
 										studentcareer.CareerPath1 = '$CareerPath1',
 										studentcareer.CareerPath2 = '$CareerPath2',
 										studentcareer.CareerPath3 = '$CareerPath3',
+
 										studentsocioeco.TotalHouseholdMonthlyIncome = '$TotalHouseholdMonthlyIncome'
 									WHERE
 										studentprofile.lrn = '$id'";
 
 
-											// Execute the update query
-											if ($conn->query($sql2) === TRUE) {
+											//execute the update query
+											if ($conn->query($sql4) === TRUE) {//if the update is successful
 												echo "<script>alert('Record updated successfully!');</script>";
 												echo "<script>window.location.href='profile.php';</script>";
 											} else {
@@ -1929,9 +1939,11 @@ if (!isset($_SESSION["student"])) {
 							</div>
 						</form>
 						<?php
+						//check if the generate button has been clicked
 						if (isset($_POST['generateBtn'])) {
-							$id = $_SESSION['student'];
+							$id = $_SESSION['student']; //get the lrn of the student
 							
+							//store the student's profile in an aaray
 							$user_input = array(
 								"skiCommunicationSkills" => $skiCommunicationSkills1,
 								"skiCriticalThinking" => $skiCriticalThinking1,
@@ -2007,34 +2019,34 @@ if (!isset($_SESSION["student"])) {
 								"CareerPath3" => $CareerPath31
 							);
 
-							// Convert the user input array to a JSON string
+							//convert the user input array to a JSON string
 							$input_json = json_encode($user_input);
 							// echo "<p>Here is the result: " . $input_json;
 
+							//put the json string into a file
 							$json_file = '../Model/output.json';
-
 							file_put_contents($json_file, $input_json);
-
 							/*if (file_put_contents($json_file, $input_json)) {
                                 echo "<p>JSON data saved to $json_file.</p>";
                             } else {
                                 echo "<p>Error saving JSON data to $json_file.</p>";
                             }*/
 
-							// Construct the command to execute the R script with input JSON
+							//construct the command to execute the R script with input JSON
 							$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
 							// echo "<p>Here is the result: " . $command;
 
-							// Execute the command and capture the output
+							//execute the command and capture the output
 							$output = shell_exec($command);
 							// echo "<p>Here is the result: " . $output;
 
-							// Parse the JSON output from R
+							//parse the JSON output from R
 							$resultscores = json_decode($output, true);
 
+							//access the result scores
 							$mostSuitableStrand = $resultscores["MostSuitableStrand"][0];
 
-							// Access the first element of StudentScores
+							//access the first element of StudentScores
 							$stemStudentScore = $resultscores["StudentScores"][0];
 							$humssStudentScore = $resultscores["StudentScores"][1];
 							$abmStudentScore = $resultscores["StudentScores"][2];
@@ -2042,7 +2054,7 @@ if (!isset($_SESSION["student"])) {
 							$tvlictStudentScore = $resultscores["StudentScores"][4];
 							$tvlheStudentScore = $resultscores["StudentScores"][5];
 
-							// Access specific values within the first student score
+							//access specific values within the first student score
 							$strand1 = $stemStudentScore["Strand"];
 							$skillsProbability1 = number_format($stemStudentScore["Skills_Probability"], 4);
 							$academicProbability1 = number_format($stemStudentScore["Academic_Probability"], 4);
@@ -2091,8 +2103,9 @@ if (!isset($_SESSION["student"])) {
 							$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 							$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
-							// require '../vendor/autoload.php';
 
+							// require '../vendor/autoload.php';
+							//prepare the prompt for thr gpt api
                             $prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
                                 STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
                                 HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
@@ -2101,82 +2114,155 @@ if (!isset($_SESSION["student"])) {
                                 TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
                                 TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
                                 Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
-                                Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...'";
+                                Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
 
+							//place yout api key here
 							$client = OpenAI::client($apiKey);
-			
-							$data = $client->chat()->create([
-								'model' => 'gpt-3.5-turbo',
-								'messages' => [[
-									'role' => 'user',
-									'content' => $prompt,
-								]],
-							]);
 
-							$recomendation = $data['choices'][0]['message']['content'];
+							$maxAttempts = 10;
+							$attempt = 1;
+							$recomendation = null;
 
-							$sql3 = "UPDATE studentprofile
-									JOIN result ON studentprofile.lrn = result.lrn
-									JOIN stemresult ON studentprofile.lrn = stemresult.lrn
-									JOIN humssresult ON studentprofile.lrn = humssresult.lrn
-									JOIN abmresult ON studentprofile.lrn = abmresult.lrn
-									JOIN gasresult ON studentprofile.lrn = gasresult.lrn
-									JOIN tvlictresult ON studentprofile.lrn = tvlictresult.lrn
-									JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
-									SET
-									result.MostSuitableStrand = '$mostSuitableStrand',
-									result.recommendation = '$recomendation',
+							while ($attempt <= $maxAttempts) {
+								try{
+									//access the api with the prompt
+									$data = $client->chat()->create([
+										'model' => 'gpt-3.5-turbo',
+										'messages' => [[
+											'role' => 'user',
+											'content' => $prompt,
+										]],
+										'max_tokens' => 512,
+									]);
 
-									stemresult.acadProb = '$academicProbability1',
-									stemresult.intProb = '$interestProbability1',
-									stemresult.carProb = '$careerProbability1',
-									stemresult.skiProb = '$skillsProbability1',
-									stemresult.totalScore = '$totalScore1',
-									stemresult.percScore = '$percentageScore1',
-									
-									humssresult.acadProb = '$academicProbability2',
-									humssresult.intProb = '$interestProbability2',
-									humssresult.carProb = '$careerProbability2',
-									humssresult.skiProb = '$skillsProbability2',
-									humssresult.totalScore = '$totalScore2',
-									humssresult.percScore = '$percentageScore2',
-									
-									abmresult.acadProb = '$academicProbability3',
-									abmresult.intProb = '$interestProbability3',
-									abmresult.carProb = '$careerProbability3',
-									abmresult.skiProb = '$skillsProbability3',
-									abmresult.totalScore = '$totalScore3',
-									abmresult.percScore = '$percentageScore3',
-									
-									gasresult.acadProb = '$academicProbability4',
-									gasresult.intProb = '$interestProbability4',
-									gasresult.carProb = '$careerProbability4',
-									gasresult.skiProb = '$skillsProbability4',
-									gasresult.totalScore = '$totalScore4',
-									gasresult.percScore = '$percentageScore4',
-									
-									tvlictresult.acadProb = '$academicProbability5',
-									tvlictresult.intProb = '$interestProbability5',
-									tvlictresult.carProb = '$careerProbability5',
-									tvlictresult.skiProb = '$skillsProbability5',
-									tvlictresult.totalScore = '$totalScore5',
-									tvlictresult.percScore = '$percentageScore5',
-									
-									tvlheresult.acadProb = '$academicProbability6',
-									tvlheresult.intProb = '$interestProbability6',
-									tvlheresult.carProb = '$careerProbability6',
-									tvlheresult.skiProb = '$skillsProbability6',
-									tvlheresult.totalScore = '$totalScore6',
-									tvlheresult.percScore = '$percentageScore6'
-									WHERE
-										studentprofile.lrn = '$id'";
+									if (!empty($data['choices'][0]['message']['content'])) { //check if has returend a message
+										$recomendation = $data['choices'][0]['message']['content'];
+										break;
+									} else { //try again
+										$attempt++;
+										sleep(1);
+									}
+								}catch(Exception $e){
+									echo 'Caught exception: ',  $e->getMessage(), "\n";
+									$attempt++;
+								}
+							}
 
-							// Execute the update query
-							if ($conn->query($sql3) === TRUE) {
-								echo "<script>alert('Successfully generated a recomendation!');</script>";
-								echo "<script>window.location.href='profile.php';</script>";
-							} else {
-								echo "Error generating recomendation: " . $conn->error;
+							if ($recomendation === null) {//handle the case where a recommendation was not obtained after maximum attempts
+								echo 'error generating recommendation';
+							} else {//prepare the update statement for student's results
+								$sql5 = "UPDATE studentprofile
+								JOIN result ON studentprofile.lrn = result.lrn
+								JOIN stemresult ON studentprofile.lrn = stemresult.lrn
+								JOIN humssresult ON studentprofile.lrn = humssresult.lrn
+								JOIN abmresult ON studentprofile.lrn = abmresult.lrn
+								JOIN gasresult ON studentprofile.lrn = gasresult.lrn
+								JOIN tvlictresult ON studentprofile.lrn = tvlictresult.lrn
+								JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
+								SET
+								result.MostSuitableStrand = ?,
+								result.recommendation = ?,
+
+								stemresult.acadProb = ?,
+								stemresult.intProb = ?,
+								stemresult.carProb = ?,
+								stemresult.skiProb = ?,
+								stemresult.totalScore = ?,
+								stemresult.percScore = ?,
+								
+								humssresult.acadProb = ?,
+								humssresult.intProb = ?,
+								humssresult.carProb = ?,
+								humssresult.skiProb = ?,
+								humssresult.totalScore = ?,
+								humssresult.percScore = ?,
+								
+								abmresult.acadProb = ?,
+								abmresult.intProb = ?,
+								abmresult.carProb = ?,
+								abmresult.skiProb = ?,
+								abmresult.totalScore = ?,
+								abmresult.percScore = ?,
+								
+								gasresult.acadProb = ?,
+								gasresult.intProb = ?,
+								gasresult.carProb = ?,
+								gasresult.skiProb = ?,
+								gasresult.totalScore = ?,
+								gasresult.percScore = ?,
+								
+								tvlictresult.acadProb = ?,
+								tvlictresult.intProb = ?,
+								tvlictresult.carProb = ?,
+								tvlictresult.skiProb = ?,
+								tvlictresult.totalScore = ?,
+								tvlictresult.percScore = ?,
+								
+								tvlheresult.acadProb = ?,
+								tvlheresult.intProb = ?,
+								tvlheresult.carProb = ?,
+								tvlheresult.skiProb = ?,
+								tvlheresult.totalScore = ?,
+								tvlheresult.percScore = ?
+								WHERE
+									studentprofile.lrn = ?";
+
+								$stmt = $conn->prepare($sql5);
+								if($stmt){
+									$stmt->bind_param("sssssssssssssssssssssssssssssssssssssss",
+									$mostSuitableStrand,
+									$recomendation,
+									$academicProbability1,
+									$interestProbability1,
+									$careerProbability1,
+									$skillsProbability1,
+									$totalScore1,
+									$percentageScore1,
+									$academicProbability2,
+									$interestProbability2,
+									$careerProbability2,
+									$skillsProbability2,
+									$totalScore2,
+									$percentageScore2,
+									$academicProbability3,
+									$interestProbability3,
+									$careerProbability3,
+									$skillsProbability3,
+									$totalScore3,
+									$percentageScore3,
+									$academicProbability4,
+									$interestProbability4,
+									$careerProbability4,
+									$skillsProbability4,
+									$totalScore4,
+									$percentageScore4,
+									$academicProbability5,
+									$interestProbability5,
+									$careerProbability5,
+									$skillsProbability5,
+									$totalScore5,
+									$percentageScore5,
+									$academicProbability6,
+									$interestProbability6,
+									$careerProbability6,
+									$skillsProbability6,
+									$totalScore6,
+									$percentageScore6,
+									$id);
+
+									$stmt->execute();
+
+									if ($stmt->affected_rows > 0) {
+										echo "<script>alert('Successfully generated a recommendation!');</script>";
+										echo "<script>window.location.href='profile.php';</script>";
+									} else {
+										echo "Error generating recommendation: " . $stmt->error;
+									}
+
+									$stmt->close();
+								}else{
+									echo "Prepare statement error: " . $conn->error;
+								}
 							}
 						}
 						?>
@@ -2201,6 +2287,7 @@ if (!isset($_SESSION["student"])) {
 	<script type="text/javascript" src="./js/password-score-options.js"></script>
 	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
 	<script type="text/javascript">
+		//for pasword strength measurement
 		$(document).ready(function() {
 			$('#pass1').strengthMeter('text', {
 				container: $('#passstrength'),
@@ -2216,6 +2303,7 @@ if (!isset($_SESSION["student"])) {
 			});
 		});
 
+		//for validating Address
 		function validateAddress(input) {
 			var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
 
@@ -2224,6 +2312,7 @@ if (!isset($_SESSION["student"])) {
 			}
 		}
 
+		//for validating Names
 		function validateName(input) {
 			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
@@ -2232,10 +2321,11 @@ if (!isset($_SESSION["student"])) {
 			}
 		}
 
+		//for displaying the value for the sliders
 		const rangeInputs = document.querySelectorAll('.form-range');
 		const rangeValueSpans = document.querySelectorAll('.rangeValue');
 
-		// Displays the range values for each input element
+		//displays the range values for each input element
 		rangeInputs.forEach((input, index) => {
 			input.addEventListener('input', () => {
 				rangeValueSpans[index].textContent = input.value;
@@ -2244,6 +2334,7 @@ if (!isset($_SESSION["student"])) {
 			rangeValueSpans[index].textContent = input.value;
 		});
 
+		//for the carrer option logic DO NOT F**kING touch it!!!
 		var prevVal1;
 		var prevVal2;
 
@@ -2352,6 +2443,7 @@ if (!isset($_SESSION["student"])) {
 				hidcareerPath3.value = careerPath3.value;
 			});
 
+			//for determining if the student's profile is already been filled out and good to go for generating results
 			const totalHouseholdIncomeSelect = document.getElementById('TotalHouseholdMonthlyIncome');
 			const acadScience = document.getElementById('acadScience');
 			const acadMath = document.getElementById('acadMath');
@@ -2423,6 +2515,7 @@ if (!isset($_SESSION["student"])) {
 			}
 		});
 
+		//for bootstrap tooltips
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	</script>

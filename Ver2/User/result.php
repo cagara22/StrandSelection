@@ -1,4 +1,5 @@
 <?php
+//Starts the sessin and checks if the student is logged in or not
 session_start();
 
 if (!isset($_SESSION["student"])) {
@@ -58,7 +59,7 @@ if (!isset($_SESSION["student"])) {
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php echo $_SESSION['fname']; ?>
+							<?php echo $_SESSION['fname']; //The name off the Student?>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
@@ -79,11 +80,13 @@ if (!isset($_SESSION["student"])) {
 					</div>
 
 					<?php
+					//check for the students lrn
 					if (isset($_SESSION['student'])) {
-						include "connection.php";
+						include "connection.php"; //include the connection file
 
-						$user_id = $_SESSION['student'];
+						$user_id = $_SESSION['student']; //get the lrn
 
+						//prep the select query
 						$sql = "SELECT sp.*, r.*, 
 						sr.acadProb AS acadProbStem, 
 						sr.intProb AS intProbStem, 
@@ -136,6 +139,7 @@ if (!isset($_SESSION["student"])) {
 						if ($result->num_rows > 0) {
 
 							while ($row = $result->fetch_assoc()) {
+								//get all the student's result
 								$recommendation = $row['recommendation'];
 
 								$ovrSTEM = $row['percScoreStem'];
@@ -173,6 +177,7 @@ if (!isset($_SESSION["student"])) {
 								$carTVLICT = $row['carProbTvlict'];
 								$carTVLHE = $row['carProbTvlhe'];
 							}
+							//check if the student has a result already
 							$haveResult = ($ovrSTEM == 0 && $ovrHUMSS == 0 && $ovrABM == 0 && $ovrGAS == 0 && $ovrTVLICT == 0 && $ovrTVLHE == 0) ? 0 : 1;
 						}
 					}
@@ -246,10 +251,10 @@ if (!isset($_SESSION["student"])) {
 					<div class="card-body text-start">
 						<?php
 						if (empty($recommendation)) {
-							// Your code here for handling the empty or null case
+							//if the recommendation is empty
 							echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
 						} else {
-							// Your code here for when the recommendation is not empty or null
+							//display the recomendation
 							echo "<p>". $recommendation . "</p>";
 						}
 						?>
@@ -272,17 +277,18 @@ if (!isset($_SESSION["student"])) {
 
 	<script>
 		window.addEventListener('DOMContentLoaded', function() {
+			//for checking if there is a result generated for the student
 			const checkRes = document.getElementById('checkRes');
 			const canvases = document.querySelectorAll('canvas');
 			const messageTitle = document.getElementById('messageTitle');
 
-			if (checkRes.value === '0') {
+			if (checkRes.value === '0') {//no results
 				for (let i = 0; i < canvases.length; i++) {
 					canvases[i].style.display = 'none';
 				}
 				messageTitle.innerText = 'NO RESULTS HAVE BEEN FOUND!';
 				messageTitle.classList.add('fw-bold');
-			} else {
+			} else {//have results, display it
 				var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
 				var skivalues = [];
 				var intvalues = [];
