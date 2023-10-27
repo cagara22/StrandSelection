@@ -86,9 +86,9 @@ if (!isset($_SESSION["student"])) {
 							<div class="card-body">
 
 								<?php
-								$sql='';
 								//check if submit button for the account details has been clicked
 								if (isset($_POST['submit1'])) {
+									$sql='';
 									//retrieve form data
 									$id = $_SESSION['student'];
 									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
@@ -107,7 +107,12 @@ if (!isset($_SESSION["student"])) {
 										if (!empty($_POST['cpassword'])) {//confirm password is not empty
 											//check if the password and confirm password are the same
 											if ($password !== $cpassword) {//not the same
-												echo "<script>alert('Password and Confirm Password do not match!');</script>";
+												echo "<script>swal({
+													title: 'PASSWORDS DO NOT MATCH!',
+													text: 'Password and Confirm Password do not match!',
+													icon: 'error',
+													button: 'OK',
+													});</script>";
 												//echo "<script>window.location.href='profile.php';</script>";
 												//exit; //exit the script if passwords do not match
 											}else{//if everything is good, define the sql statement to update the student account details with password
@@ -115,7 +120,12 @@ if (!isset($_SESSION["student"])) {
 												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
 											}
 										} else {//confirm password is empty
-											echo "<script>alert('Please confirm your password!');</script>";
+											echo "<script>swal({
+												title: 'CONFIRM PASSWORD',
+												text: 'Please confirm the password.',
+												icon: 'info',
+												button: 'OK',
+												});</script>";
 											//echo "<script>window.location.href='profile.php';</script>";
 										}
 									} else {
@@ -130,11 +140,28 @@ if (!isset($_SESSION["student"])) {
 											$affected_rows = mysqli_affected_rows($conn);
 
 											if ($affected_rows > 0) {//check if a row in the database was updated successfully
-												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='profile.php';</script>";
 												$_SESSION['fname'] = $Fname;
+												echo "<script>swal({
+													title: 'Successfully Updated',
+													text: 'Student Account updated successfully!',
+													icon: 'success',
+													buttons: {
+													confirm: true,
+													},
+												}).then((value) => {
+													if (value) {
+													document.location='profile.php';
+													} else {
+													document.location='profile.php';
+													}
+												});</script>";
 											} else {//no changes were made to the record
-												echo "<script>alert('No changes were made to the record.');</script>";
+												echo "<script>swal({
+													title: 'NO CHANGES',
+													text: 'No changes were made',
+													icon: 'info',
+													button: 'OK',
+													});</script>";
 											}
 										} else {//error in updating the account
 											echo "Error updating record: " . mysqli_error($conn);
@@ -614,8 +641,20 @@ if (!isset($_SESSION["student"])) {
 
 											//execute the update query
 											if ($conn->query($sql4) === TRUE) {//if the update is successful
-												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='profile.php';</script>";
+												echo "<script>swal({
+													title: 'Successfully Updated',
+													text: 'Student Profile updated successfully!',
+													icon: 'success',
+													buttons: {
+													confirm: true,
+													},
+												}).then((value) => {
+													if (value) {
+													document.location='profile.php';
+													} else {
+													document.location='profile.php';
+													}
+												});</script>";
 											} else {
 												echo "Error updating record: " . $conn->error;
 											}
@@ -2103,7 +2142,6 @@ if (!isset($_SESSION["student"])) {
 							$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
 							$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
-
 							// require '../vendor/autoload.php';
 							//prepare the prompt for thr gpt api
                             $prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
@@ -2253,8 +2291,20 @@ if (!isset($_SESSION["student"])) {
 									$stmt->execute();
 
 									if ($stmt->affected_rows > 0) {
-										echo "<script>alert('Successfully generated a recommendation!');</script>";
-										echo "<script>window.location.href='profile.php';</script>";
+										echo "<script>swal({
+											title: 'Successfully Generated',
+											text: 'Student results generated successfully!',
+											icon: 'success',
+											buttons: {
+											confirm: true,
+											},
+										}).then((value) => {
+											if (value) {
+											document.location='profile.php';
+											} else {
+											document.location='profile.php';
+											}
+										});</script>";
 									} else {
 										echo "Error generating recommendation: " . $stmt->error;
 									}

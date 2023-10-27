@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
 
-                    if ($_SESSION['role'] == 'SUPER ADMIN') {
+                    if ($_SESSION['role'] == 'SUPER ADMIN') { //Restrict the rest of the page to Super Admin only
                         echo '
                         <li class="nav-item">
                             <a href="./admins.php" class="nav-link active" aria-current="page">
@@ -105,10 +106,10 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -146,8 +147,9 @@ if (!isset($_SESSION["admin"])) {
                     </thead>
                     <tbody class="table-group-divider">
                         <?php
-                        include "connection.php";
+                        include "connection.php"; //include the connection file
 
+                        //for pagination
                         if (isset($_GET['page_no'])) {
                             $page_no = $_GET['page_no'];
                         } else {
@@ -167,19 +169,20 @@ if (!isset($_SESSION["admin"])) {
 
                         $total_no_of_page = ceil($total_records / $total_records_per_page);
 
-                        $sql = "SELECT * FROM adminprofile LIMIT $offset, $total_records_per_page";
+                        //retrieve all admin records exept for the current admin
+                        $cur_Admin = $_SESSION['admin'];
 
                         if (isset($_GET['searchname'])) {
                             $search = $_GET['searchname'];
-                            $sql = "SELECT * FROM adminprofile WHERE CONCAT(fname, ' ', lname) LIKE '%$search%' OR username LIKE '%$search%'";
+                            $sql = "SELECT * FROM adminprofile WHERE (CONCAT(fname, ' ', lname) LIKE '%$search%' OR username LIKE '%$search%') AND username != '$cur_Admin' LIMIT $offset, $total_records_per_page";
                         } else {
-                            $sql = "SELECT * FROM adminprofile LIMIT $offset, $total_records_per_page";
+                            $sql = "SELECT * FROM adminprofile WHERE username != '$cur_Admin' LIMIT $offset, $total_records_per_page";
                         }
 
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
-                            // output data of each row
+                            //display all the record in the table
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
                                 echo "<td class='text-center'>" . $row['username'] . "</td>";
@@ -192,7 +195,7 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['role'] . "</td>";
                                 $name = $row['fname']. " " . $row['lname'];
                                 echo "<td class='text-center'>
-                    <a href='' class='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                    <a href='#' onclick='deleteRecord(". $row['adminID'] .", \"". $row['username'] ."\")' class='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                         <img src='./images/delete.png' alt='' width='20' height='20' class=''>
                     </a>
                     <a href='viewadmin.php?id=". $row['adminID'] ."&name=". $name ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
@@ -239,6 +242,23 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        //for delete confirmation
+        function deleteRecord(clientNum, clientName) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = `delete.php?adminid=${clientNum}&adminname=${clientName}`;
+                } else {
+                    swal("CANCELED", "Record not deleted!", "info");
+                }
+            });
+        }
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

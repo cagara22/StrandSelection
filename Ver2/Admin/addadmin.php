@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li class="nav-item">
                             <a href="./admins.php" class="nav-link active" aria-current="page">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
@@ -128,10 +129,12 @@ if (!isset($_SESSION["admin"])) {
                     </div>
                     <div class="card-body">
                         <?php
-                        include "connection.php";
+                        include "connection.php"; //include the connection file
 
+                        //check if the add button is clicked
                         if (isset($_POST['add'])) {
 
+                            //get the data from the form
                             $username = mysqli_real_escape_string($conn, $_POST['username']);
                             $fname =  strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
@@ -145,10 +148,11 @@ if (!isset($_SESSION["admin"])) {
                             $password = md5($_POST['password']);
                             $cpassword = md5($_POST['cpassword']);
 
+                            //check if the username is already taken
                             $query = "SELECT * FROM `adminprofile` WHERE username = '$username'";
 
                             $result = mysqli_query($conn, $query);
-                            if (mysqli_num_rows($result) > 0) {
+                            if (mysqli_num_rows($result) > 0) { //if taken
                                 echo "<script>swal({
                                     title: 'INVALID USERNAME!',
                                     text: 'USERNAME already exists in the database!',
@@ -156,32 +160,48 @@ if (!isset($_SESSION["admin"])) {
                                     button: 'OK',
                                     });</script>";
                                 // echo "<script>document location ='addadmin.php';</script>";
-                            }else{
-                                if (!empty($_POST['password'])) {
-                                    if (!empty($_POST['cpassword'])) {
-                                        if ($password !== $cpassword) {
+                            }else{ //not taken
+                                if (!empty($_POST['password'])) { //password not empty
+                                    if (!empty($_POST['cpassword'])) { //confirm password not empty
+                                        if ($password !== $cpassword) {//confirm password does not match
                                             echo "<script>swal({
-                                                title: 'PASSWORDS DON'T MATCH!',
-                                                text: 'Password and Confirm Password don't match!',
+                                                title: 'PASSWORDS DO NOT MATCH!',
+                                                text: 'Password and Confirm Password do not match!',
                                                 icon: 'error',
                                                 button: 'OK',
                                                 });</script>";
-                                        }else{
+                                        }else{ //confirm password and password match
+                                            //prepare sql statement with password
                                             $sql = "INSERT INTO `adminprofile`(`username`, `fname`, `mname`, `lname`, `suffix`, `address`, `sex`, `age`, `role`, `email`, `password`) 
                                             VALUES ('$username', '$fname', '$mname', '$lname', '$suffix', '$address', '$sex', '$age', '$role', '$email', '$password')";
 
                                             if (mysqli_query($conn, $sql)) {
+                                                //log the adding of admin
                                                 $admin_username = $_SESSION['fullname'];
                                                 $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username was added', '$admin_username')";
                                                 $conn->query($log);
 
-                                                echo "<script>alert('New record added successfully!');</script>";
-                                                echo "<script>document.location='addadmin.php';</script>";
+                                                echo "<script>swal({
+                                                    title: 'Successfully Added',
+                                                    text: 'New admin profile added successfully!',
+                                                    icon: 'success',
+                                                    buttons: {
+                                                      confirm: true,
+                                                    },
+                                                  }).then((value) => {
+                                                    if (value) {
+                                                      document.location='addadmin.php';
+                                                    } else {
+                                                      document.location='addadmin.php';
+                                                    }
+                                                  });</script>";
+                                                //echo "<script>alert('New record added successfully!');</script>";
+                                                //echo "<script>document.location='addadmin.php';</script>";
                                             } else {
                                                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                                             }
                                         }
-                                    }else{
+                                    }else{//cofirm password empty
                                         echo "<script>swal({
                                             title: 'CONFIRM PASSWORD',
                                             text: 'Please confirm the password.',
@@ -189,7 +209,7 @@ if (!isset($_SESSION["admin"])) {
                                             button: 'OK',
                                             });</script>";
                                     }
-                                }else{
+                                }else{//password empty
                                     echo "<script>swal({
                                         title: 'ADD PASSWORD',
                                         text: 'Please add the password.',
@@ -299,6 +319,7 @@ if (!isset($_SESSION["admin"])) {
     <script type="text/javascript" src="./js/password-score-options.js"></script>
     <script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
     <script>
+        //for password strength mesurements
         $(document).ready(function() {
             $('#pass1').strengthMeter('text', {
                 container: $('#passstrength'),
@@ -314,6 +335,7 @@ if (!isset($_SESSION["admin"])) {
             });
         });
 
+        //for text formatting
         function validateAddress(input) {
             var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
 

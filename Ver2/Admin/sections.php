@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
                             <a href="./admins.php" class="nav-link link-body-emphasis">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -143,8 +144,9 @@ if (!isset($_SESSION["admin"])) {
                             </thead>
                             <tbody class="table-group-divider">
                                 <?php
-                                include "connection.php";
+                                include "connection.php"; //include the connection file
 
+                                //for pagination
                                 if (isset($_GET['page_no'])) {
                                     $page_no = $_GET['page_no'];
                                 } else {
@@ -154,10 +156,10 @@ if (!isset($_SESSION["admin"])) {
                                 $total_records_per_page = 30;
                                 $offset = ($page_no - 1) * $total_records_per_page;
 
-                                if (isset($_GET['searchname'])) {
+                                if (isset($_GET['searchname'])) {//if the search button is clicked
                                     $search = $_GET['searchname'];
                                     $sql = "SELECT section.sectionID, section.sectionName, adminprofile.adminID, adminprofile.username FROM section JOIN adminprofile ON section.adminID = adminprofile.adminID WHERE sectionName LIKE '%$search%'";
-                                } else {
+                                } else {//retrieve all section record
                                     $sql = "SELECT section.sectionID, section.sectionName, adminprofile.adminID, adminprofile.username FROM section JOIN adminprofile ON section.adminID = adminprofile.adminID LIMIT $offset, $total_records_per_page";
                                 }
 
@@ -188,7 +190,7 @@ if (!isset($_SESSION["admin"])) {
                                         echo "<td class='text-center'>" . $row['username'] . "</td>";
 
                                         echo "<td class='text-center'>
-                    <a <a href='sections.php?id=". $row['sectionID'] ."' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                    <a <a href='#' onclick='deleteRecord(". $row['sectionID'] .", \"". $row['sectionName'] ."\")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                     <img src='./images/delete.png' alt='' width='20' height='20' class=''></a> 
                     <a href='sections.php?id=". $row['sectionID'] ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
                         <img src='./images/view.png' alt='' width='20' height='20' class=''>
@@ -198,7 +200,7 @@ if (!isset($_SESSION["admin"])) {
                                     }
                                     echo "</table>";
                                 } else {
-                                    echo "0 results";
+                                    echo "<tr><td colspan='9' class='text-center'>0 results</td></tr>";
                                 }
 
                                 $sql = "SELECT COUNT(*) AS total_records FROM section";
@@ -235,48 +237,68 @@ if (!isset($_SESSION["admin"])) {
                                 <?php
                                 include "connection.php";
 
-                                // Check if the form was submitted
+                                //check if the add button is clicked
                                 if (isset($_POST['addBtn'])) {
                                     
+                                    //retrieve the data from the form
                                     $sectionName = strtoupper(mysqli_real_escape_string($conn, $_POST['sectionName']));
                                     $adminID = $_POST['sectionAdviser'];
 
-                                    // Check if the Section Name already exists
+                                    //check if the section already exists
                                     $query = "SELECT sectionID FROM section WHERE sectionName = '$sectionName'";
 
                                     $result = mysqli_query($conn, $query);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) > 0) {//it already exists
                                         echo "<script>swal({
                                             title: 'INVALID SECTION NAME!',
                                             text: 'SECTION NAME already exists in the database!',
                                             icon: 'error',
                                             button: 'OK',
                                             });</script>";
-                                        echo "<script>document location ='sections.php';</script>";
-                                    } else {
-                                        // LRN does not exist in the referenced tables, insert into studentprofile
+                                    } else {//it does not exist yet
+                                        //prepare the adding sql statement
                                         $sql_section = "INSERT INTO section (`adminID`, `sectionName`)
                                                                 VALUES ('$adminID', '$sectionName')";
 
                                         if(mysqli_query($conn, $sql_section)){
-                                            echo "<script>alert('Record inserted successfully!');</script>";
-                                            echo "<script>window.location.href='sections.php';</script>";
+                                            //log the adding
+                                            $admin_username = $_SESSION['fullname'];
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username added $sectionName Section', '$admin_username')";
+                                            $conn->query($log);
+
+                                            echo "<script>swal({
+                                                title: 'Successfully Added',
+                                                text: 'New section added successfully!',
+                                                icon: 'success',
+                                                buttons: {
+                                                  confirm: true,
+                                                },
+                                              }).then((value) => {
+                                                if (value) {
+                                                  document.location='sections.php';
+                                                } else {
+                                                  document.location='sections.php';
+                                                }
+                                              });</script>";
                                         }else{
                                             echo "Error inserting record: " . mysqli_error($conn);
                                         }  
                                     }
                                 }
 
+                                //check if the update button is clickes
                                 if(isset($_POST['updateBtn'])){
+                                    //retreived all the data from the form
                                     $sectionName = strtoupper(mysqli_real_escape_string($conn, $_POST['sectionName']));
                                     $adminID = $_POST['sectionAdviser'];
                                     $sectionID = $_POST['sectionID'];
 
+                                    //check if the section already exists
                                     $query = "SELECT sectionID FROM section WHERE sectionName = '$sectionName' AND sectionID <> '$sectionID'";
 
                                     $result = mysqli_query($conn, $query);
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) > 0) {//it already exists
                                         echo "<script>swal({
                                             title: 'INVALID SECTION NAME!',
                                             text: 'SECTION NAME already exists in the database!',
@@ -284,13 +306,30 @@ if (!isset($_SESSION["admin"])) {
                                             button: 'OK',
                                             });</script>";
                                         echo "<script>document location ='sections.php?id=". $sectionID ."';</script>";
-                                    } else {
-                                        // LRN does not exist in the referenced tables, insert into studentprofile
+                                    } else {//it does not exist yet
+                                        //prepare the update sql statement
                                         $sql_section = "UPDATE section SET sectionName='$sectionName', adminID='$adminID' WHERE sectionID = '$sectionID'";
 
                                         if(mysqli_query($conn, $sql_section)){
-                                            echo "<script>alert('Record updated successfully!');</script>";
-                                            echo "<script>window.location.href='sections.php';</script>";
+                                            //log the update
+                                            $admin_username = $_SESSION['fullname'];
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $sectionName Section', '$admin_username')";
+                                            $conn->query($log);
+
+                                            echo "<script>swal({
+                                                title: 'Successfully Updated',
+                                                text: 'Section updated successfully!',
+                                                icon: 'success',
+                                                buttons: {
+                                                  confirm: true,
+                                                },
+                                              }).then((value) => {
+                                                if (value) {
+                                                  document.location='sections.php';
+                                                } else {
+                                                  document.location='sections.php';
+                                                }
+                                              });</script>";
                                         }else{
                                             echo "Error updating record: " . mysqli_error($conn);
                                         }  
@@ -351,6 +390,23 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        //for delete confirmation
+        function deleteRecord(clientNum, clientName) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = `delete.php?sectionid=${clientNum}&sectionname=${clientName}`;
+                } else {
+                    swal("CANCELED", "Record not deleted!", "info");
+                }
+            });
+        }
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

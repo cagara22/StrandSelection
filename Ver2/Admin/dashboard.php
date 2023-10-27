@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -41,7 +42,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -59,7 +60,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
                             <a href="./admins.php" class="nav-link link-body-emphasis">
@@ -106,7 +107,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
@@ -130,6 +131,7 @@ if (!isset($_SESSION["admin"])) {
                                 <h5 class="card-title">No. of Profiles:</h5>
                                 <div class="text-center">
                                 <?php
+                                //get the count of all profiles
 								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 								$query = "SELECT lrn FROM studentprofile ORDER BY lname";
 								$query_run = mysqli_query($conn, $query);
@@ -146,6 +148,7 @@ if (!isset($_SESSION["admin"])) {
                                 <h5 class="card-title">No. of Admins:</h5>
                                 <div class="text-center">
                                 <?php
+                                //get the count of all the admins
 								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 								$query = "SELECT fname FROM adminprofile ORDER BY lname";
 								$query_run = mysqli_query($conn, $query);
@@ -162,6 +165,7 @@ if (!isset($_SESSION["admin"])) {
                                 <h5 class="card-title">No. of Logs:</h5>
                                 <div class="text-center">
                                 <?php
+                                //get the count of all the logs
 								$conn = mysqli_connect('localhost', 'root', '', 'dss_db') or die('Unable to connect to database');
 								$query = "SELECT id FROM logs ORDER BY `timestamp`";
 								$query_run = mysqli_query($conn, $query);

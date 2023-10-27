@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
 
-                    if ($_SESSION['role'] == 'SUPER ADMIN') {
+                    if ($_SESSION['role'] == 'SUPER ADMIN') { //Restrict the rest of the page to Super Admin only
                         echo '
                         <li class="nav-item">
                             <a href="./admins.php" class="nav-link active" aria-current="page">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -120,7 +121,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-10">
             <section class="section-100 d-flex flex-column py-2">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="fw-bold sub-title"><?php echo $_SESSION['fullname']; ?></h1>
+                    <h1 class="fw-bold sub-title"><?php echo $_SESSION['fullname']; //display the name of the admin ?></h1>
                 </div>
                 <div class="card custcard border-light text-center" style="width: 100%;">
                     <div class="card-header">
@@ -129,13 +130,13 @@ if (!isset($_SESSION["admin"])) {
                     <div class="card-body">
 
                         <?php
-                        // Establish database connection
-                        include "connection.php";
 
-                        // Check if form was submitted
+                        include "connection.php"; //include the connection file
+
+                        //check if the update button is clicked
                         if (isset($_POST['update'])) {
                             $sql = '';
-                            // Retrieve form data
+                            //retrieve form data
                             $id = $_SESSION['admin'];
                             $fname = strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
@@ -150,30 +151,32 @@ if (!isset($_SESSION["admin"])) {
                             $password = md5($_POST['pass1']);
 						    $cpassword = md5($_POST['pass2']);
 
+                            //check if the username is already taken
                             $query = "SELECT adminID FROM adminprofile WHERE username = '$username' AND adminID <> '$id'";
                             $result = mysqli_query($conn, $query);
-                            if (mysqli_num_rows($result) > 0) {
+                            if (mysqli_num_rows($result) > 0) { //username already taken
                                 echo "<script>swal({
                                     title: 'INVALID USERNAME!',
                                     text: 'USERNAME already exists in the database!',
                                     icon: 'error',
                                     button: 'OK',
                                     });</script>";
-                            }else{
-                                if (!empty($_POST['pass1'])) {
-                                    if (!empty($_POST['pass2'])) {
-                                        if ($password !== $cpassword) {
+                            }else{ //username not taken
+                                if (!empty($_POST['pass1'])) { //password not empty
+                                    if (!empty($_POST['pass2'])) { //confirm password not empty
+                                        if ($password !== $cpassword) { //password and confirm password do not match
                                             echo "<script>swal({
-                                                title: 'PASSWORDS DON'T MATCH!',
-                                                text: 'Password and Confirm Password don't match!',
+                                                title: 'PASSWORDS DO NOT MATCH!',
+                                                text: 'Password and Confirm Password do not match!',
                                                 icon: 'error',
                                                 button: 'OK',
                                                 });</script>";
-                                        }else{
+                                        }else{ //passwrod and confirm password matches
+                                            //prepare the update sql statement with password
                                             $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
                                             address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role' password='$password' WHERE adminID='$id'";
                                         }
-                                    }else{
+                                    }else{ //confirm password empty
                                         echo "<script>swal({
                                             title: 'CONFIRM PASSWORD',
                                             text: 'Please confirm the password.',
@@ -181,18 +184,19 @@ if (!isset($_SESSION["admin"])) {
                                             button: 'OK',
                                             });</script>";
                                     }
-                                }else{
+                                }else{ //password empty
+                                    //prepare update sql statement without password
                                     $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
                                     address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE adminID='$id'";
                                 }
 
-                                if(!empty($sql)){
+                                if(!empty($sql)){ //if everything is set, update
                                     if (mysqli_query($conn, $sql)) {
+                                        //log the update
                                         $_SESSION['admin'] = $username;
 									    $_SESSION['role'] = $role;
 
-                                        // Concatenate fname, mname, and lname to create the full name
-
+                                        //concatenate fname, mname, and lname to create the full name
                                         $fullname = $fname; // Initialize with the first name
 
                                         if (!empty($mname)) {
@@ -209,8 +213,20 @@ if (!isset($_SESSION["admin"])) {
                                         $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username has updated his account', '$admin_username')";
                                         $conn->query($log);
 
-                                        echo "<script>alert('Record updated successfully!');</script>";
-                                        echo "<script>document.location='adminprofile.php';</script>";
+                                        echo "<script>swal({
+                                            title: 'Successfully Updated',
+                                            text: 'Student profile updated successfully!',
+                                            icon: 'success',
+                                            buttons: {
+                                              confirm: true,
+                                            },
+                                          }).then((value) => {
+                                            if (value) {
+                                              document.location='adminprofile.php';
+                                            } else {
+                                              document.location='adminprofile.php';
+                                            }
+                                          });</script>";
                                     } else {
                                         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                                     }
@@ -218,9 +234,11 @@ if (!isset($_SESSION["admin"])) {
                             }
                         }
 
+                        //check id the admin is log in
                         if (isset($_SESSION['admin'])) {
                             $user_id = $_SESSION['admin'];
 
+                            //retrieve the admin's info
                             $sql1 = "SELECT * FROM `adminprofile` WHERE username = '$user_id';";
 
                             $result = $conn->query($sql1);

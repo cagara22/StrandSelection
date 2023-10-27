@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
                             <a href="./admins.php" class="nav-link link-body-emphasis">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -119,6 +120,7 @@ if (!isset($_SESSION["admin"])) {
         </div>
         <div class="col-10">
             <section class="section-100 d-flex flex-column py-2">
+                <?php include "connection.php"; //include the conneciton file ?>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">SCHOOL YEARS</h1>
                 </div>
@@ -142,8 +144,8 @@ if (!isset($_SESSION["admin"])) {
                             </thead>
                             <tbody class="table-group-divider">
                                 <?php
-                                include "connection.php";
 
+                                //for pagination
                                 if (isset($_GET['page_no'])) {
                                     $page_no = $_GET['page_no'];
                                 } else {
@@ -153,10 +155,10 @@ if (!isset($_SESSION["admin"])) {
                                 $total_records_per_page = 30;
                                 $offset = ($page_no - 1) * $total_records_per_page;
 
-                                if (isset($_GET['searchname'])) {
+                                if (isset($_GET['searchname'])) {//if search is clicked
                                     $search = $_GET['searchname'];
                                     $sql = "SELECT * FROM schoolyr WHERE schoolyrName LIKE '%$search%'";
-                                } else {
+                                } else {//retrieve all school year records
                                     $sql = "SELECT * FROM schoolyr LIMIT $offset, $total_records_per_page";
                                 }
 
@@ -184,7 +186,7 @@ if (!isset($_SESSION["admin"])) {
                                         echo "<td class='text-center'>" . $row['schoolyrName'] . "</td>";
 
                                         echo "<td class='text-center'>
-                    <a <a href='deleteprofile.php?id=". $row['schoolyrID'] ."' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+                    <a <a href='#' onclick='deleteRecord(". $row['schoolyrID'] .", \"". $row['schoolyrName'] ."\")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                     <img src='./images/delete.png' alt='' width='20' height='20' class=''></a> 
                     <a href='schoolyrs.php?id=". $row['schoolyrID'] ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
                         <img src='./images/view.png' alt='' width='20' height='20' class=''>
@@ -194,7 +196,7 @@ if (!isset($_SESSION["admin"])) {
                                     }
                                     echo "</table>";
                                 } else {
-                                    echo "0 results";
+                                    echo "<tr><td colspan='9' class='text-center'>0 results</td></tr>";
                                 }
 
                                 $sql = "SELECT COUNT(*) AS total_records FROM schoolyr";
@@ -229,62 +231,97 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="card-body">
                                 <?php
-                                include "connection.php";
 
-                                // Check if the form was submitted
+                                //check if the add button is clicked
                                 if (isset($_POST['addBtn'])) {
                                     
+                                    //retrive the schoolyr info from the form
                                     $schoolyrName = mysqli_real_escape_string($conn, $_POST['schoolyrName']);
 
-                                    // Check if the Section Name already exists
+                                    //check if the schoolyr is already in the database
                                     $query = "SELECT schoolyrID FROM schoolyr WHERE schoolyrName = '$schoolyrName'";
 
                                     $result = mysqli_query($conn, $query);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) > 0) { //already exists
                                         echo "<script>swal({
                                             title: 'INVALID SCHOOL YEAR!',
                                             text: 'SCHOOL YEAR already exists in the database!',
                                             icon: 'error',
                                             button: 'OK',
                                             });</script>";
-                                        echo "<script>document location ='schoolyrs.php';</script>";
-                                    } else {
-                                        // LRN does not exist in the referenced tables, insert into studentprofile
-                                        $sql_section = "INSERT INTO schoolyr (`schoolyrName`)
+                                    } else { //school yr does not exist
+                                        //prep add sql statement
+                                        $sql_schlyr = "INSERT INTO schoolyr (`schoolyrName`)
                                                                 VALUES ('$schoolyrName')";
 
-                                        if(mysqli_query($conn, $sql_section)){
-                                            echo "<script>alert('Record inserted successfully!');</script>";
-                                            echo "<script>window.location.href='schoolyrs.php';</script>";
+                                        if(mysqli_query($conn, $sql_schlyr)){
+                                            //log the adding
+                                            $admin_username = $_SESSION['fullname'];
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username added $schoolyrName School Year', '$admin_username')";
+                                            $conn->query($log);
+
+                                            echo "<script>swal({
+                                                title: 'Successfully Added',
+                                                text: 'New school year added successfully!',
+                                                icon: 'success',
+                                                buttons: {
+                                                  confirm: true,
+                                                },
+                                              }).then((value) => {
+                                                if (value) {
+                                                  document.location='schoolyrs.php';
+                                                } else {
+                                                  document.location='schoolyrs.php';
+                                                }
+                                              });</script>";
                                         }else{
                                             echo "Error inserting record: " . mysqli_error($conn);
                                         }  
                                     }
                                 }
 
+                                //check if the update button is clicked
                                 if(isset($_POST['updateBtn'])){
+                                    //retreive the data from the form
                                     $schoolyrName = mysqli_real_escape_string($conn, $_POST['schoolyrName']);
                                     $schoolyrID = $_POST['schoolyrID'];
 
+                                    //check if the schoolyr already exists
                                     $query = "SELECT schoolyrID FROM schoolyr WHERE schoolyrName = '$schoolyrName'";
 
                                     $result = mysqli_query($conn, $query);
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) > 0) { //already exists
                                         echo "<script>swal({
                                             title: 'INVALID SCHOOL YEAR!',
                                             text: 'SCHOOL YEAR already exists in the database!',
                                             icon: 'error',
                                             button: 'OK',
                                             });</script>";
-                                        echo "<script>document location ='schoolyrs.php?id=". $schoolyrID ."';</script>";
-                                    } else {
-                                        // LRN does not exist in the referenced tables, insert into studentprofile
-                                        $sql_section = "UPDATE schoolyr SET schoolyrName='$schoolyrName' WHERE schoolyrID = '$schoolyrID'";
+                                    } else {//does not yet exist
+                                        //prepare the update sqp statement
+                                        $sql_schlyr = "UPDATE schoolyr SET schoolyrName='$schoolyrName' WHERE schoolyrID = '$schoolyrID'";
 
-                                        if(mysqli_query($conn, $sql_section)){
-                                            echo "<script>alert('Record updated successfully!');</script>";
-                                            echo "<script>window.location.href='schoolyrs.php';</script>";
+                                        if(mysqli_query($conn, $sql_schlyr)){
+                                            //log the update
+                                            $admin_username = $_SESSION['fullname'];
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $schoolyrName School Year', '$admin_username')";
+                                            $conn->query($log);
+
+                                            echo "<script>swal({
+                                                title: 'Successfully Updated',
+                                                text: 'School year updated successfully!',
+                                                icon: 'success',
+                                                buttons: {
+                                                  confirm: true,
+                                                },
+                                              }).then((value) => {
+                                                if (value) {
+                                                  document.location='schoolyrs.php';
+                                                } else {
+                                                  document.location='schoolyrs.php';
+                                                }
+                                              });</script>";
                                         }else{
                                             echo "Error inserting record: " . mysqli_error($conn);
                                         }  
@@ -320,6 +357,23 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        //for delete confirmation
+        function deleteRecord(clientNum, clientName) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = `delete.php?schoolyrid=${clientNum}&schoolyrname=${clientName}`;
+                } else {
+                    swal("CANCELED", "Record not deleted!", "info");
+                }
+            });
+        }
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

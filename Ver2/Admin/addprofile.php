@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
                             <a href="./admins.php" class="nav-link link-body-emphasis">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -131,11 +132,11 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="card-body">
                                 <?php
-                                include "connection.php";
+                                include "connection.php"; //include the connection file
 
-                                // Check if the form was submitted
+                                //check if the add buttonis clicked
                                 if (isset($_POST['addBtn'])) {
-                                    // Assuming $Fname, $Mname, $Lname, $suffix, and other variables are defined
+                                    //get the data from the form
                                     $Fname = strtoupper($_POST['Fname']);
                                     $Mname = strtoupper($_POST['Mname']);
                                     $Lname = strtoupper($_POST['Lname']);
@@ -143,32 +144,30 @@ if (!isset($_SESSION["admin"])) {
                                     $sectionID = $_POST['section'];
                                     $schoolyrID = $_POST['schoolyr'];
 
-                                    // Get LRN from POST data
+                                    //get LRN from POST data
                                     $lrn = $_POST['lrn'];
 
-                                    // Check if the LRN already exists
+                                    //check if the LRN already exists
                                     $query = "SELECT lrn FROM studentprofile WHERE lrn = '$lrn'";
 
                                     $result = mysqli_query($conn, $query);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) > 0) { //lrn already exists
                                         echo "<script>swal({
                                             title: 'INVALID LRN!',
                                             text: 'LRN already exists in the database!',
                                             icon: 'error',
                                             button: 'OK',
                                           });</script>";
-                                        echo "<script>document location ='addprofile.php';</script>";
-                                   
-                                    } else {
-                                        // LRN does not exist in the referenced tables, insert into studentprofile
+                                    } else { //lrn does not exist yet
+                                        //prep the sql statement for profile creation
                                         $sql_studentprofile = "INSERT INTO studentprofile (`lrn`, `Fname`, `Mname`, `Lname`, `suffix`,`sectionID`, `schoolyrID`, `password`)
                                                                VALUES ('$lrn', '$Fname', '$Mname', '$Lname', '$suffix', '$sectionID', '$schoolyrID', MD5('$lrn'))";
                                             
-                                    
+                                        
                                         if (mysqli_query($conn, $sql_studentprofile)) {
                                                 
-                                            // Insert LRN into other tables
+                                            //insert LRN into other tables
                                             $sql_result = "INSERT INTO result (lrn) VALUES ('$lrn')";
                                             $sql_studentacad = "INSERT INTO studentacad (lrn) VALUES ('$lrn')";
                                             $sql_studentinterest = "INSERT INTO studentinterest (lrn) VALUES ('$lrn')";
@@ -181,7 +180,7 @@ if (!isset($_SESSION["admin"])) {
                                             $sql_gasresult = "INSERT INTO gasresult (lrn) VALUES ('$lrn')";
                                             $sql_tvlictresult = "INSERT INTO tvlictresult (lrn) VALUES ('$lrn')";
                                             $sql_tvlheresult = "INSERT INTO tvlheresult (lrn) VALUES ('$lrn')";
-                                            // Use a transaction to ensure all inserts succeed or fail together
+                                            //use a transaction to ensure all inserts succeed or fail together
                                             mysqli_autocommit($conn, false);
 
                                             if (
@@ -202,14 +201,26 @@ if (!isset($_SESSION["admin"])) {
                                                 mysqli_autocommit($conn, true);
 
                                                 $admin_username = $_SESSION['fullname'];
-                                                // Retrieve the last inserted LRN
+                                                //retrieve the last inserted LRN
                                                 $last_inserted_lrn = $lrn;
-                                                // Insert log with details and doer
+                                                //insert log with details and doer
                                                 $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', 'Student with LRN $last_inserted_lrn was added', '$admin_username')";
                                                 $conn->query($log);
 
-                                                echo "<script>alert('Record inserted successfully!');</script>";
-                                                echo "<script>window.location.href='addprofile.php';</script>";
+                                                echo "<script>swal({
+                                                    title: 'Successfully Added',
+                                                    text: 'New student profile added successfully!',
+                                                    icon: 'success',
+                                                    buttons: {
+                                                      confirm: true,
+                                                    },
+                                                  }).then((value) => {
+                                                    if (value) {
+                                                      document.location='addprofile.php';
+                                                    } else {
+                                                      document.location='addprofile.php';
+                                                    }
+                                                  });</script>";
                                             } else {
                                                 mysqli_rollback($conn);
                                                 echo "Error inserting record: " . mysqli_error($conn);
@@ -316,6 +327,7 @@ if (!isset($_SESSION["admin"])) {
     <script type="text/javascript" src="./js/password-score-options.js"></script>
     <script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
     <script>
+        //for password strength measurement
         $(document).ready(function() {
             $('#pass1').strengthMeter('text', {
                 container: $('#passstrength'),
@@ -331,6 +343,7 @@ if (!isset($_SESSION["admin"])) {
             });
         });
 
+        //for text formatting and validation
         function validateName(input) {
             var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
 

@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); //Start the session
 ?>
 <!doctype html>
 <html lang="en">
@@ -40,28 +40,31 @@ session_start();
 					</div>
 					<div class="card-body">
 						<?php
-						include "connection.php";
+						include "connection.php"; //include the connection file
 
+						//check if the login button is clicked
 						if (isset($_POST['username']) && isset($_POST['password'])) {
+							//get the username and password
 							$username = $_POST['username'];
 							$password = $_POST['password'];
 
+							//check if the username exists in the database
 							$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
 
-							if ($num == 1) {
+							if ($num == 1) { //user exists
 
-								$data = mysqli_fetch_assoc($q);
+								$data = mysqli_fetch_assoc($q); //get the user data
 
-								$upass = $data['password'];
+								$upass = $data['password'];// get the ussers password
 
-								if (md5($password) == "$upass") {
-									$_SESSION['admin'] = $username;
-									$_SESSION['role'] = $data['role'];
+								if (md5($password) == "$upass") { //password is correct
+									$_SESSION['admin'] = $username; //get the username
+									$_SESSION['role'] = $data['role']; //get the role
+									$_SESSION['adminID'] = $data['adminID']; //get the admin ID
 
-									// Concatenate fname, mname, and lname to create the full name
-
+									//concatenate fname, mname, and lname to create the full name
 									$fullname = $data['fname']; // Initialize with the first name
 
 									if (!empty($data['mname'])) {
@@ -74,17 +77,15 @@ session_start();
 
 									$_SESSION['fullname'] = $fullname;
 
-									if (isset($_SESSION['fullname'])) {
-										$admin_username = $_SESSION['fullname'];
-										$role = $_SESSION['role'];
-										$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Logged in', '$admin_username logged in as $role', '$admin_username')";
-										$conn->query($log);
-									} else {
-										// Handle the case when the admin username is not set in the session
-										echo "Admin username not found in the session.";
-									}
+									//record the login in the logs
+									$admin_username = $_SESSION['fullname'];
+									$role = $_SESSION['role'];
+									$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Logged in', '$admin_username logged in as $role', '$admin_username')";
+									$conn->query($log);
+									
+									//redirect to the dashboard
 									header("Location: dashboard.php");
-								} else {
+								} else { //password is incorrect
 									echo "<script>swal({
                 title: 'Login Failed!',
                 text: 'Invalid Username or Password.',
@@ -93,7 +94,7 @@ session_start();
               });</script>";
 									echo "<script>document location ='index.php';</script>";
 								}
-							} else {
+							} else { //user doesn't exist
 								echo "<script>swal({
             title: 'Login Failed!',
             text: 'Invalid Username or Password.',

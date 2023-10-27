@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -41,7 +42,7 @@ if (!isset($_SESSION["admin"])) {
 		<div class="col-2">
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-					<span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+					<span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
 				</a>
 				<hr>
 				<ul class="nav nav-pills flex-column mb-auto">
@@ -59,7 +60,7 @@ if (!isset($_SESSION["admin"])) {
 					</li>
 					<?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
 							<a href="./admins.php" class="nav-link link-body-emphasis">
@@ -106,7 +107,7 @@ if (!isset($_SESSION["admin"])) {
 				<div class="dropdown">
 					<a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 						<img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-						<strong><?php echo $_SESSION['admin']; ?></strong>
+						<strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
 					</a>
 					<ul class="dropdown-menu text-small shadow">
 						<li><a class="dropdown-item" href="#">Profile</a></li>
@@ -120,7 +121,7 @@ if (!isset($_SESSION["admin"])) {
 		</div>
 		<div class="col-10">
 			<section class="section-100 d-flex flex-column py-2">
-				<!-- <?php include "connection.php"; include "../vendor/autoload.php";?> -->
+				<?php include "connection.php"; include "../vendor/autoload.php";?>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="fw-bold sub-title"><?php echo $_GET['name']; ?></h1>
 				</div>
@@ -133,9 +134,10 @@ if (!isset($_SESSION["admin"])) {
 							<div class="card-body">
 								<?php
 
-								// Check if form was submitted
+								// Check if the update button for the account details has been clicked
 								if (isset($_POST['update1'])) {
-									// Retrieve form data
+									$sql = '';
+									//retrieve form data
 									$curid = $_GET['lrn'];
 									$newid = mysqli_real_escape_string($conn, $_POST['lrn']);
 									$Fname = strtoupper(mysqli_real_escape_string($conn, $_POST['Fname']));
@@ -153,152 +155,218 @@ if (!isset($_SESSION["admin"])) {
 									$password = md5($_POST['password']);
 									$cpassword = md5($_POST['cpassword']);
 
-									if($curid == $newid){
-										// Check if password and confirm password match
-										if (!empty($_POST['password'])) {
-											if (!empty($_POST['cpassword'])) {
-												if ($password !== $cpassword) {
-													echo "<script>alert('Password and Confirm Password do not match!');</script>";
-													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-													exit; // Exit the script if passwords do not match
+									//check if the lrn has been changed
+									if($curid == $newid){//lrn not changed
+										//check if the password is empty or not
+										if (!empty($_POST['password'])) {//password is not empty
+											if (!empty($_POST['cpassword'])) {//confirm password is not empty
+												if ($password !== $cpassword) {//password and confirm password does not match
+													echo "<script>swal({
+														title: 'PASSWORDS DO NOT MATCH!',
+														text: 'Password and Confirm Password do not match!',
+														icon: 'error',
+														button: 'OK',
+														});</script>";
+													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
+													//exit; // Exit the script if passwords do not match
+												}else{//password and confirm password does match
+													//define the SQL statement for updating user data with password
+													$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+													address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 												}
-												// Define the SQL statement for updating user data
-												$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-											} else {
-												echo "<script>alert('Please confirm your password!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
+											} else {//confirm password is empty
+												echo "<script>swal({
+													title: 'CONFIRM PASSWORD',
+													text: 'Please confirm the password.',
+													icon: 'info',
+													button: 'OK',
+													});</script>";
+												//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 											}
-										} else {
+										} else {//password is empty
 											// Define the SQL statement for updating user data
 											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
 											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 										}
-										if (isset($_SESSION['fullname'])) {
-											$admin_username = $_SESSION['fullname'];
-											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $curid got its account details updated', '$admin_username')";
-											$conn->query($log);
-										} else {
-											// Handle the case when the admin username is not set in the session
-											echo "Admin username not found in the session.";
-										}
 
-										// Execute the update query
-										if (mysqli_query($conn, $sql)) {
-											$affected_rows = mysqli_affected_rows($conn);
+										if(!empty($sql)){ //check if sql statement is not empty
+											//execute the update query
+											if (mysqli_query($conn, $sql)) {
+												$affected_rows = mysqli_affected_rows($conn);
 
-											if ($affected_rows > 0) {
-												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $newName ."';</script>";
-											} else {
-												echo "<script>alert('No changes were made to the record.');</script>";
+												if ($affected_rows > 0) {//check if a row in the database was updated successfully
+													//log the update
+													$admin_username = $_SESSION['fullname'];
+													$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $curid got its account details updated', '$admin_username')";
+													$conn->query($log);
+
+													echo "<script>swal({
+														title: 'Successfully Updated',
+														text: 'Student Account updated successfully!',
+														icon: 'success',
+														buttons: {
+														confirm: true,
+														},
+													}).then((value) => {
+														if (value) {
+														document.location='viewprofile.php?lrn=". $curid ."&name=". $newName ."';
+														} else {
+														document.location='viewprofile.php?lrn=". $curid ."&name=". $newName ."';
+														}
+													});</script>";
+												} else {//no changes were made to the record
+													echo "<script>swal({
+														title: 'NO CHANGES',
+														text: 'No changes were made',
+														icon: 'info',
+														button: 'OK',
+														});</script>";
+												}
+											} else {//error in updating the account
+												echo "Error updating record: " . mysqli_error($conn);
 											}
-										} else {
-											echo "Error updating record: " . mysqli_error($conn);
 										}
-									}else{
+									}else{//lrn has been changed
+										//check if the lrn already exists in the database
 										$query = "SELECT lrn FROM studentprofile WHERE lrn = '$newid'";
 										$result = mysqli_query($conn, $query);
-										if (mysqli_num_rows($result) > 0) {
+										if (mysqli_num_rows($result) > 0) {//it already exists
 											echo "<script>swal({
 												title: 'INVALID LRN!',
 												text: 'LRN already exists in the database!',
 												icon: 'error',
 												button: 'OK',
 												});</script>";
-											echo "<script>document location ='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-										}else{
-											// Check if password and confirm password match
-											if (!empty($_POST['password'])) {
-												if (!empty($_POST['cpassword'])) {
-													if ($password !== $cpassword) {
-														echo "<script>alert('Password and Confirm Password do not match!');</script>";
-														echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-														exit; // Exit the script if passwords do not match
+											//echo "<script>document location ='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
+										}else{//it does not exist
+											//check if the password is empty or not
+											if (!empty($_POST['password'])) {//password is not empty
+												if (!empty($_POST['cpassword'])) {//confirm passsword not empty
+													if ($password !== $cpassword) {//password and confirm password does not match
+														echo "<script>swal({
+															title: 'PASSWORDS DO NOT MATCH!',
+															text: 'Password and Confirm Password do not match!',
+															icon: 'error',
+															button: 'OK',
+															});</script>";
+														// echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
+														// exit; // Exit the script if passwords do not match
+													}else{//password and confirm password match
+														//define the SQL statement for updating user data
+														$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+														address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 													}
-													// Define the SQL statement for updating user data
-													$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-												} else {
-													echo "<script>alert('Please confirm your password!');</script>";
-													echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
+												} else {//confirm password is empty
+													echo "<script>swal({
+														title: 'CONFIRM PASSWORD',
+														text: 'Please confirm the password.',
+														icon: 'info',
+														button: 'OK',
+														});</script>";
+													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 												}
-											} else {
+											} else {//password is empty
 												// Define the SQL statement for updating user data
 												$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
 												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 											}
 
-											$sql_result = "UPDATE result SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_studentacad = "UPDATE studentacad SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_studentinterest = "UPDATE studentinterest SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_studentskill = "UPDATE studentskill SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_studentsocioeco = "UPDATE studentsocioeco SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_studentcareer = "UPDATE studentcareer SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_stemresult = "UPDATE stemresult SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_humssresult = "UPDATE humssresult SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_abmresult = "UPDATE abmresult SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_gasresult = "UPDATE gasresult SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_tvlictresult = "UPDATE tvlictresult SET lrn = '$newid' WHERE lrn = '$curid'";
-                                            $sql_tvlheresult = "UPDATE tvlheresult SET lrn = '$newid' WHERE lrn = '$curid'";
+											if(!empty($sql)){//check if the sql is empty
+												//prep the update statement for the child table
+												$sql_result = "UPDATE result SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_studentacad = "UPDATE studentacad SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_studentinterest = "UPDATE studentinterest SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_studentskill = "UPDATE studentskill SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_studentsocioeco = "UPDATE studentsocioeco SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_studentcareer = "UPDATE studentcareer SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_stemresult = "UPDATE stemresult SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_humssresult = "UPDATE humssresult SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_abmresult = "UPDATE abmresult SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_gasresult = "UPDATE gasresult SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_tvlictresult = "UPDATE tvlictresult SET lrn = '$newid' WHERE lrn = '$curid'";
+												$sql_tvlheresult = "UPDATE tvlheresult SET lrn = '$newid' WHERE lrn = '$curid'";
 
-											$conn->query("SET foreign_key_checks = 0");
-											// Execute the update query
-											if (mysqli_query($conn, $sql)) {
-												$affected_rows = mysqli_affected_rows($conn);
+												//disable foreign key check
+												$conn->query("SET foreign_key_checks = 0");
+												//execute the update query
+												if (mysqli_query($conn, $sql)) {
+													$affected_rows = mysqli_affected_rows($conn);
 
-												if ($affected_rows > 0) {
-													
-													mysqli_autocommit($conn, false);
-													if (
-														mysqli_query($conn, $sql_result) &&
-														mysqli_query($conn, $sql_studentacad) &&
-														mysqli_query($conn, $sql_studentinterest) &&
-														mysqli_query($conn, $sql_studentskill) &&
-														mysqli_query($conn, $sql_studentcareer) &&
-														mysqli_query($conn, $sql_studentsocioeco) &&
-														mysqli_query($conn, $sql_stemresult) &&
-														mysqli_query($conn, $sql_humssresult) &&
-														mysqli_query($conn, $sql_abmresult) &&
-														mysqli_query($conn, $sql_gasresult) &&
-														mysqli_query($conn, $sql_tvlictresult) &&
-														mysqli_query($conn, $sql_tvlheresult)
-													) {
-														mysqli_commit($conn);
-														$conn->query("SET foreign_key_checks = 1");
-														mysqli_autocommit($conn, true);
-
-														echo "<script>alert('Record updated successfully!');</script>";
-														echo "<script>window.location.href='viewprofile.php?lrn=". $newid ."&name=". $newName ."';</script>";
+													if ($affected_rows > 0) {//check if a row in the database was updated successfully
 														
-													} else {
-														mysqli_rollback($conn);
+														//update the child tables
+														mysqli_autocommit($conn, false);
+														if (
+															mysqli_query($conn, $sql_result) &&
+															mysqli_query($conn, $sql_studentacad) &&
+															mysqli_query($conn, $sql_studentinterest) &&
+															mysqli_query($conn, $sql_studentskill) &&
+															mysqli_query($conn, $sql_studentcareer) &&
+															mysqli_query($conn, $sql_studentsocioeco) &&
+															mysqli_query($conn, $sql_stemresult) &&
+															mysqli_query($conn, $sql_humssresult) &&
+															mysqli_query($conn, $sql_abmresult) &&
+															mysqli_query($conn, $sql_gasresult) &&
+															mysqli_query($conn, $sql_tvlictresult) &&
+															mysqli_query($conn, $sql_tvlheresult)
+														) {
+															mysqli_commit($conn);
+															$conn->query("SET foreign_key_checks = 1");
+															mysqli_autocommit($conn, true);
+															
+															//log the update
+															$admin_username = $_SESSION['fullname'];
+															$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $newid got its account details updated', '$admin_username')";
+															$conn->query($log);
+
+															echo "<script>swal({
+																title: 'Successfully Updated',
+																text: 'Student Account updated successfully!',
+																icon: 'success',
+																buttons: {
+																confirm: true,
+																},
+															}).then((value) => {
+																if (value) {
+																document.location='viewprofile.php?lrn=". $newid ."&name=". $newName ."';
+																} else {
+																document.location='viewprofile.php?lrn=". $newid ."&name=". $newName ."';
+																}
+															});</script>";	
+														} else {//error updating child table
+															mysqli_rollback($conn);
+															$conn->query("SET foreign_key_checks = 1");
+															mysqli_autocommit($conn, true);
+															echo "Error updating record: R" . mysqli_error($conn);
+														}
+
+														// Restore autocommit mode
 														$conn->query("SET foreign_key_checks = 1");
 														mysqli_autocommit($conn, true);
-														echo "Error updating record: R" . mysqli_error($conn);
+
+													} else {//no changes were made
+														echo "<script>swal({
+															title: 'NO CHANGES',
+															text: 'No changes were made',
+															icon: 'info',
+															button: 'OK',
+															});</script>";
 													}
-
-													// Restore autocommit mode
-													$conn->query("SET foreign_key_checks = 1");
-													mysqli_autocommit($conn, true);
-
-												} else {
-													echo "<script>alert('No changes were made to the record.');</script>";
+												} else {//error updatin the record
+													echo "Error updating record: " . mysqli_error($conn);
 												}
-											} else {
-												echo "Error updating record: " . mysqli_error($conn);
 											}
-
-											
 										}
 									}
 								}
 
+								//check if the student's lrn is available
 								if (isset($_GET['lrn'])) {
 
-									$user_id = $_GET['lrn'];
+									$user_id = $_GET['lrn']; //get the lrn
 
-									$sql = "SELECT * FROM studentprofile
+									//prep the select statement
+									$sql1 = "SELECT * FROM studentprofile
 					JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
 					JOIN studentacad ON studentcareer.lrn = studentacad.lrn
 					JOIN studentskill ON studentacad.lrn = studentskill.lrn
@@ -306,10 +374,11 @@ if (!isset($_SESSION["admin"])) {
 					JOIN studentsocioeco  ON studentinterest.lrn = studentsocioeco.lrn
 					JOIN result ON studentsocioeco.lrn = result.lrn WHERE studentprofile.lrn = '$user_id';";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql1);
 
 									if ($result->num_rows > 0) {
 
+										//retrieve the students information
 										while ($row = $result->fetch_assoc()) {
 
 											$lrn1 = $row['lrn'];
@@ -464,9 +533,9 @@ if (!isset($_SESSION["admin"])) {
 										</div>
 									</div>
 									<?php
-									$sql = "SELECT * FROM section";
+									$sql2 = "SELECT * FROM section";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql2);
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
@@ -485,9 +554,9 @@ if (!isset($_SESSION["admin"])) {
 										</div>
 									</div>
 									<?php
-									$sql = "SELECT * FROM schoolyr";
+									$sql3 = "SELECT * FROM schoolyr";
 
-									$result = $conn->query($sql);
+									$result = $conn->query($sql3);
 									?>
 									<div class="col-12 col-md-3 mb-1">
 										<div class="form-floating mb-3">
@@ -624,161 +693,126 @@ if (!isset($_SESSION["admin"])) {
 									//socioeco
 									$TotalHouseholdMonthlyIncome = $_POST['TotalHouseholdMonthlyIncome'];
 
-									$variables = array(
-										'intCalculus',
-										'intBiology',
-										'intPhysics',
-										'intChemistry',
-										'intCreativeWriting',
-										'intCreativeNonfiction',
-										'intIntroWorldReligionsBeliefSystems',
-										'intPhilippinePoliticsGovernance',
-										'intDisciplinesIdeasSocialSciences',
-										'intAppliedEconomics',
-										'intBusinessEthicsSocialResponsibility',
-										'intFundamentalsABM',
-										'intBusinessMath',
-										'intBusinessFinance',
-										'intOrganizationManagement',
-										'intPrinciplesMarketing',
-										'intComputerProgramming',
-										'intComputerSystemServicing',
-										'intContactCenterServices',
-										'intCISCOComputerNetworking',
-										'intAnimationIllustration',
-										'intCookery',
-										'intBreadPastryProduction',
-										'intFashionDesign',
-										'intFoodBeverages',
-										'intTailoring'
-									);
-
-									// Check if any variable has a value of zero
-									$hasZeroValue = false;
-									foreach ($variables as $variable) {
-										if ($_POST[$variable] == 0) {
-											$hasZeroValue = true;
-											break;
-										}
-									}
-
-									if ($hasZeroValue) {
+									if($acadScience === "SELECT" || $acadMath === "SELECT" || $acadEnglish === "SELECT" || $acadFilipino === "SELECT" || $acadICTRelatedSubject === "SELECT" || $acadHERelatedSubject === "SELECT"){
 										echo "<script>swal({
-												title: 'Please select a valid answer in the Interest Section!',
-												icon: 'error',
-												button: 'OK',
-											});</script>";
-									} else {
-										if ($_POST['TotalHouseholdMonthlyIncome'] == "SELECT") {
+											title: 'LACK OF DATA!',
+											text: 'Atleast update the students academic performance!',
+											icon: 'info',
+											button: 'OK',
+										});</script>";
+									}else{
+										if($TotalHouseholdMonthlyIncome == "SELECT"){
+											$TotalHouseholdMonthlyIncome = '';
+										}
+
+										$sql4 = "UPDATE studentprofile
+										JOIN studentinterest ON studentprofile.lrn = studentinterest.lrn
+										JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
+										JOIN studentsocioeco ON studentprofile.lrn = studentsocioeco.lrn
+										JOIN studentskill ON studentprofile.lrn = studentskill.lrn
+										JOIN studentacad ON studentprofile.lrn = studentacad.lrn
+										SET
+											studentskill.skiCommunicationSkills = '$skiCommunicationSkills',
+											studentskill.skiCriticalThinking = '$skiCriticalThinking',
+											studentskill.skiReadingComprehension = '$skiReadingComprehension',
+											studentskill.skiProblemSolving = '$skiProblemSolving',
+											studentskill.skiResearchSkills = '$skiResearchSkills ',
+											studentskill.skiDigitalLiteracy = '$skiDigitalLiteracy',
+											studentskill.skiInnovative = '$skiInnovative',
+											studentskill.skiTimeManagement = '$skiTimeManagement',
+											studentskill.skiAdaptability = '$skiAdaptability',
+											studentskill.skiScientificInquiry = '$skiScientificInquiry',
+											studentskill.skiMathematicalSkills = '$skiMathematicalSkills',
+											studentskill.skiLogicalReasoning = '$skiLogicalReasoning',
+											studentskill.skiLabExperimentalSkills = '$skiLabExperimentalSkills',
+											studentskill.skiAnalyticalSkills = '$skiAnalyticalSkills',
+											studentskill.skiResearchWriting = '$skiResearchWriting',
+											studentskill.skiSociologicalAnalysis = '$skiSociologicalAnalysis',
+											studentskill.skiCulturalCompetence = '$skiCulturalCompetence',
+											studentskill.skiEthicalReasoning = '$skiEthicalReasoning',
+											studentskill.skiHistoryPoliticalScience = '$skiHistoryPoliticalScience',
+											studentskill.skiFinancialLiteracy = '$skiFinancialLiteracy',
+											studentskill.skiBusinessPlanning = '$skiBusinessPlanning',
+											studentskill.skiMarketing = '$skiMarketing',
+											studentskill.skiAccounting = '$skiAccounting',
+											studentskill.skiEntrepreneurship = '$skiEntrepreneurship',
+											studentskill.skiComputerHardwareSoftware = '$skiComputerHardwareSoftware',
+											studentskill.skiComputerNetworking = '$skiComputerNetworking ',
+											studentskill.skiWebDevelopment = '$skiWebDevelopment',
+											studentskill.skiProgramming = '$skiProgramming',
+											studentskill.skiTroubleshooting = '$skiTroubleshooting ',
+											studentskill.skiGraphicsDesign = '$skiGraphicsDesign',
+											studentskill.skiCulinarySkills = '$skiCulinarySkills',
+											studentskill.skiSewingFashionDesign = '$skiSewingFashionDesign',
+											studentskill.skiInteriorDesign = '$skiInteriorDesign',
+											studentskill.skiChildcareFamilyServices = '$skiChildcareFamilyServices',
+											studentskill.skiNutritionFoodSafety = '$skiNutritionFoodSafety',
+											studentskill.skiEconomics = '$skiEconomics',
+											-- interests
+											studentinterest.intCalculus = '$intCalculus',
+											studentinterest.intBiology = '$intBiology',
+											studentinterest.intPhysics = '$intPhysics',
+											studentinterest.intCreativeWriting = '$intCreativeWriting',
+											studentinterest.intCreativeNonfiction = '$intCreativeNonfiction',
+											studentinterest.intIntroWorldReligionsBeliefSystems = '$intIntroWorldReligionsBeliefSystems',
+											studentinterest.intPhilippinePoliticsGovernance = '$intPhilippinePoliticsGovernance',
+											studentinterest.intDisciplinesIdeasSocialSciences = '$intDisciplinesIdeasSocialSciences',
+											studentinterest.intAppliedEconomics = '$intAppliedEconomics',
+											studentinterest.intBusinessEthicsSocialResponsibility = '$intBusinessEthicsSocialResponsibility',
+											studentinterest.intFundamentalsABM = '$intFundamentalsABM',
+											studentinterest.intBusinessMath = '$intBusinessMath',
+											studentinterest.intBusinessFinance = '$intBusinessFinance',
+											studentinterest.intOrganizationManagement = '$intOrganizationManagement',
+											studentinterest.intPrinciplesMarketing = '$intPrinciplesMarketing',
+											studentinterest.intComputerProgramming = '$intComputerProgramming',
+											studentinterest.intComputerSystemServicing = '$intComputerSystemServicing',
+											studentinterest.intContactCenterServices = '$intContactCenterServices',
+											studentinterest.intCISCOComputerNetworking = '$intCISCOComputerNetworking',
+											studentinterest.intAnimationIllustration = '$intAnimationIllustration',
+											studentinterest.intCookery = '$intCookery',
+											studentinterest.intBreadPastryProduction = '$intBreadPastryProduction',
+											studentinterest.intFashionDesign = '$intFashionDesign',
+											studentinterest.intFoodBeverages = '$intFoodBeverages',
+											studentinterest.intTailoring = '$intTailoring',
+											studentinterest.intChemistry = '$intChemistry',
+										
+											studentacad.acadScience = '$acadScience',
+											studentacad.acadMath = '$acadMath',
+											studentacad.acadEnglish = '$acadEnglish',
+											studentacad.acadFilipino = '$acadFilipino',
+											studentacad.acadICTRelatedSubject = '$acadICTRelatedSubject',
+											studentacad.acadHERelatedSubject = '$acadHERelatedSubject',
+
+											studentcareer.CareerPath1 = '$CareerPath1',
+											studentcareer.CareerPath2 = '$CareerPath2',
+											studentcareer.CareerPath3 = '$CareerPath3',
+
+											studentsocioeco.TotalHouseholdMonthlyIncome = '$TotalHouseholdMonthlyIncome'
+										WHERE
+											studentprofile.lrn = '$id'";
+
+										if ($conn->query($sql4) === TRUE) {
+											//log the update
+											$admin_username = $_SESSION['fullname'];
+											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
+											$conn->query($log);
+											
 											echo "<script>swal({
-													title: 'Please select a valid answer in the Socioeconomic Section!',
-													icon: 'error',
-													button: 'OK',
-												});</script>";
-										} else {
-											// Prepare update query
-											$sql2 = "UPDATE studentprofile
-									JOIN studentinterest ON studentprofile.lrn = studentinterest.lrn
-									JOIN studentcareer ON studentprofile.lrn = studentcareer.lrn
-									JOIN studentsocioeco ON studentprofile.lrn = studentsocioeco.lrn
-									JOIN studentskill ON studentprofile.lrn = studentskill.lrn
-									JOIN studentacad ON studentprofile.lrn = studentacad.lrn
-									SET
-										studentskill.skiCommunicationSkills = '$skiCommunicationSkills',
-										studentskill.skiCriticalThinking = '$skiCriticalThinking',
-										studentskill.skiReadingComprehension = '$skiReadingComprehension',
-										studentskill.skiProblemSolving = '$skiProblemSolving',
-										studentskill.skiResearchSkills = '$skiResearchSkills ',
-										studentskill.skiDigitalLiteracy = '$skiDigitalLiteracy',
-										studentskill.skiInnovative = '$skiInnovative',
-										studentskill.skiTimeManagement = '$skiTimeManagement',
-										studentskill.skiAdaptability = '$skiAdaptability',
-										studentskill.skiScientificInquiry = '$skiScientificInquiry',
-										studentskill.skiMathematicalSkills = '$skiMathematicalSkills',
-										studentskill.skiLogicalReasoning = '$skiLogicalReasoning',
-										studentskill.skiLabExperimentalSkills = '$skiLabExperimentalSkills',
-										studentskill.skiAnalyticalSkills = '$skiAnalyticalSkills',
-										studentskill.skiResearchWriting = '$skiResearchWriting',
-										studentskill.skiSociologicalAnalysis = '$skiSociologicalAnalysis',
-										studentskill.skiCulturalCompetence = '$skiCulturalCompetence',
-										studentskill.skiEthicalReasoning = '$skiEthicalReasoning',
-										studentskill.skiHistoryPoliticalScience = '$skiHistoryPoliticalScience',
-										studentskill.skiFinancialLiteracy = '$skiFinancialLiteracy',
-										studentskill.skiBusinessPlanning = '$skiBusinessPlanning',
-										studentskill.skiMarketing = '$skiMarketing',
-										studentskill.skiAccounting = '$skiAccounting',
-										studentskill.skiEntrepreneurship = '$skiEntrepreneurship',
-										studentskill.skiComputerHardwareSoftware = '$skiComputerHardwareSoftware',
-										studentskill.skiComputerNetworking = '$skiComputerNetworking ',
-										studentskill.skiWebDevelopment = '$skiWebDevelopment',
-										studentskill.skiProgramming = '$skiProgramming',
-										studentskill.skiTroubleshooting = '$skiTroubleshooting ',
-										studentskill.skiGraphicsDesign = '$skiGraphicsDesign',
-										studentskill.skiCulinarySkills = '$skiCulinarySkills',
-										studentskill.skiSewingFashionDesign = '$skiSewingFashionDesign',
-										studentskill.skiInteriorDesign = '$skiInteriorDesign',
-										studentskill.skiChildcareFamilyServices = '$skiChildcareFamilyServices',
-										studentskill.skiNutritionFoodSafety = '$skiNutritionFoodSafety',
-										studentskill.skiEconomics = '$skiEconomics',
-										-- interests
-										studentinterest.intCalculus = '$intCalculus',
-										studentinterest.intBiology = '$intBiology',
-										studentinterest.intPhysics = '$intPhysics',
-										studentinterest.intCreativeWriting = '$intCreativeWriting',
-										studentinterest.intCreativeNonfiction = '$intCreativeNonfiction',
-										studentinterest.intIntroWorldReligionsBeliefSystems = '$intIntroWorldReligionsBeliefSystems',
-										studentinterest.intPhilippinePoliticsGovernance = '$intPhilippinePoliticsGovernance',
-										studentinterest.intDisciplinesIdeasSocialSciences = '$intDisciplinesIdeasSocialSciences',
-										studentinterest.intAppliedEconomics = '$intAppliedEconomics',
-										studentinterest.intBusinessEthicsSocialResponsibility = '$intBusinessEthicsSocialResponsibility',
-										studentinterest.intFundamentalsABM = '$intFundamentalsABM',
-										studentinterest.intBusinessMath = '$intBusinessMath',
-										studentinterest.intBusinessFinance = '$intBusinessFinance',
-										studentinterest.intOrganizationManagement = '$intOrganizationManagement',
-										studentinterest.intPrinciplesMarketing = '$intPrinciplesMarketing',
-										studentinterest.intComputerProgramming = '$intComputerProgramming',
-										studentinterest.intComputerSystemServicing = '$intComputerSystemServicing',
-										studentinterest.intContactCenterServices = '$intContactCenterServices',
-										studentinterest.intCISCOComputerNetworking = '$intCISCOComputerNetworking',
-										studentinterest.intAnimationIllustration = '$intAnimationIllustration',
-										studentinterest.intCookery = '$intCookery',
-										studentinterest.intBreadPastryProduction = '$intBreadPastryProduction',
-										studentinterest.intFashionDesign = '$intFashionDesign',
-										studentinterest.intFoodBeverages = '$intFoodBeverages',
-										studentinterest.intTailoring = '$intTailoring',
-										studentinterest.intChemistry = '$intChemistry',
-									
-										studentacad.acadScience = '$acadScience',
-										studentacad.acadMath = '$acadMath',
-										studentacad.acadEnglish = '$acadEnglish',
-										studentacad.acadFilipino = '$acadFilipino',
-										studentacad.acadICTRelatedSubject = '$acadICTRelatedSubject',
-										studentacad.acadHERelatedSubject = '$acadHERelatedSubject',
-
-										studentcareer.CareerPath1 = '$CareerPath1',
-										studentcareer.CareerPath2 = '$CareerPath2',
-										studentcareer.CareerPath3 = '$CareerPath3',
-
-										studentsocioeco.TotalHouseholdMonthlyIncome = '$TotalHouseholdMonthlyIncome'
-									WHERE
-										studentprofile.lrn = '$id'";
-
-
-											// Execute the update query
-											if ($conn->query($sql2) === TRUE) {
-												if (isset($_SESSION['fullname'])) {
-													$admin_username = $_SESSION['fullname'];
-													$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
-													$conn->query($log);
+												title: 'Successfully Updated',
+												text: 'Student Profile updated successfully!',
+												icon: 'success',
+												buttons: {
+												confirm: true,
+												},
+											}).then((value) => {
+												if (value) {
+												document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
 												} else {
-													// Handle the case when the admin username is not set in the session
-													echo "Admin username not found in the session.";
+												document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
 												}
-												echo "<script>alert('Record updated successfully!');</script>";
-												echo "<script>window.location.href='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';</script>";
-											} else {
-												echo "Error updating record: " . $conn->error;
-											}
+											});</script>";
+										} else {
+											echo "Error updating record: " . $conn->error;
 										}
 									}
 								}
@@ -2095,254 +2129,401 @@ if (!isset($_SESSION["admin"])) {
 									</div>
 								</form>
 								<?php
+								//check if the generate button has been clicked
 								if (isset($_POST['generateBtn'])) {
-									$id = $_GET['lrn'];
+									//check if there is an invalid data
+									if (
+										$intCalculus1 == 0 ||
+										$intBiology1 == 0 ||
+										$intPhysics1 == 0 ||
+										$intChemistry1 == 0 ||
+										$intCreativeWriting1 == 0 ||
+										$intCreativeNonfiction1 == 0 ||
+										$intIntroWorldReligionsBeliefSystems1 == 0 ||
+										$intPhilippinePoliticsGovernance1 == 0 ||
+										$intDisciplinesIdeasSocialSciences1 == 0 ||
+										$intAppliedEconomics1 == 0 ||
+										$intBusinessEthicsSocialResponsibility1 == 0 ||
+										$intFundamentalsABM1 == 0 ||
+										$intBusinessMath1 == 0 ||
+										$intBusinessFinance1 == 0 ||
+										$intOrganizationManagement1 == 0 ||
+										$intPrinciplesMarketing1 == 0 ||
+										$intComputerProgramming1 == 0 ||
+										$intComputerSystemServicing1 == 0 ||
+										$intContactCenterServices1 == 0 ||
+										$intCISCOComputerNetworking1 == 0 ||
+										$intAnimationIllustration1 == 0 ||
+										$intCookery1 == 0 ||
+										$intBreadPastryProduction1 == 0 ||
+										$intFashionDesign1 == 0 ||
+										$intFoodBeverages1 == 0 ||
+										$intTailoring1 == 0
+									) {//Interest data invalid
+										echo "<script>swal({
+											title: 'INVALID DATA!',
+											text: 'Invalid data detected at the Interest Section! Please select a valid answer.',
+											icon: 'error',
+											button: 'OK',
+										});</script>";
+									}else{//interest data valid
+										if($TotalHouseholdMonthlyIncome1 == "SELECT" || empty($TotalHouseholdMonthlyIncome1)){ //thmi data invalid
+											echo "<script>swal({
+												title: 'INVALID DATA!',
+												text: 'Invalid data detected at the Socioeconomic Section! Please select a valid answer.',
+												icon: 'error',
+												button: 'OK',
+											});</script>";
+										}else{//thmi data valid
+											if(($acadScience1 == "SELECT" || $acadMath1 == "SELECT" || $acadEnglish1 == "SELECT" || $acadFilipino1 == "SELECT" || $acadICTRelatedSub1 == "SELECT" || $acadHERelatedSub1 == "SELECT") || (empty($acadScience1) || empty($acadMath1) || empty($acadEnglish1) || empty($acadFilipino1) || empty($acadICTRelatedSub1) || empty($acadHERelatedSub1))){ //academic perf data invalid
+												echo "<script>swal({
+													title: 'INVALID DATA!',
+													text: 'Invalid data detected at the Academic Performance Section! Please select a valid answer.',
+													icon: 'error',
+													button: 'OK',
+												});</script>";
+											}else{//academic perf data valid
+												$id = $_GET['lrn']; //get the lrn of the student
 									
-									$user_input = array(
-										"skiCommunicationSkills" => $skiCommunicationSkills1,
-										"skiCriticalThinking" => $skiCriticalThinking1,
-										"skiReadingComprehension" => $skiReadingComprehension1,
-										"skiProblemSolving" => $skiProblemSolving1,
-										"skiResearchSkills" => $skiResearchSkills1,
-										"skiDigitalLiteracy" => $skiDigitalLiteracy1,
-										"skiInnovative" => $skiInnovative1,
-										"skiTimeManagement" => $skiTimeManagement1,
-										"skiAdaptability" => $skiAdaptability1,
-										"skiScientificInquiry" => $skiScientificInquiry1,
-										"skiMathematicalSkills" => $skiMathematicalSkills1,
-										"skiLogicalReasoning" => $skiLogicalReasoning1,
-										"skiLabExperimentalSkills" => $skiLabExperimentalSkills1,
-										"skiAnalyticalSkills" => $skiAnalyticalSkills1,
-										"skiResearchWriting" => $skiResearchWriting1,
-										"skiSociologicalAnalysis" => $skiSociologicalAnalysis1,
-										"skiCulturalCompetence" => $skiCulturalCompetence1,
-										"skiEthicalReasoning" => $skiEthicalReasoning1,
-										"skiHistoryPoliticalScience" => $skiHistoryPoliticalScience1,
-										"skiFinancialLiteracy" => $skiFinancialLiteracy1,
-										"skiBusinessPlanning" => $skiBusinessPlanning1,
-										"skiMarketing" => $skiMarketing1,
-										"skiAccounting" => $skiAccounting1,
-										"skiEntrepreneurship" => $skiEntrepreneurship1,
-										"skiEconomics" => $skiEconomics1,
-										"skiComputerHardwareSoftware" => $skiComputerHardwareSoftware1,
-										"skiComputerNetworking" => $skiComputerNetworking1,
-										"skiWebDevelopment" => $skiWebDevelopment1,
-										"skiProgramming" => $skiProgramming1,
-										"skiTroubleshooting" => $skiTroubleshooting1,
-										"skiGraphicsDesign" => $skiGraphicsDesign1,
-										"skiCulinarySkills" => $skiCulinarySkills1,
-										"skiSewingFashionDesign" => $skiSewingFashionDesign1,
-										"skiInteriorDesign" => $skiInteriorDesign1,
-										"skiChildcareFamilyServices" => $skiChildcareFamilyServices1,
-										"skiNutritionFoodSafety" => $skiNutritionFoodSafety1,
-										"intCalculus" => $intCalculus1,
-										"intBiology" => $intBiology1,
-										"intPhysics" => $intPhysics1,
-										"intChemistry" => $intChemistry1,
-										"intCreativeWriting" => $intCreativeWriting1,
-										"intCreativeNonfiction" => $intCreativeNonfiction1,
-										"intIntroWorldReligionsBeliefSystems" => $intIntroWorldReligionsBeliefSystems1,
-										"intPhilippinePoliticsGovernance" => $intPhilippinePoliticsGovernance1,
-										"intDisciplinesIdeasSocialSciences" => $intDisciplinesIdeasSocialSciences1,
-										"intAppliedEconomics" => $intAppliedEconomics1,
-										"intBusinessEthicsSocialResponsibility" => $intBusinessEthicsSocialResponsibility1,
-										"intFundamentalsABM" => $intFundamentalsABM1,
-										"intBusinessMath" => $intBusinessMath1,
-										"intBusinessFinance" => $intBusinessFinance1,
-										"intOrganizationManagement" => $intOrganizationManagement1,
-										"intPrinciplesMarketing" => $intPrinciplesMarketing1,
-										"intComputerProgramming" => $intComputerProgramming1,
-										"intComputerSystemServicing" => $intComputerSystemServicing1,
-										"intContactCenterServices" => $intContactCenterServices1,
-										"intCISCOComputerNetworking" => $intCISCOComputerNetworking1,
-										"intAnimationIllustration" => $intAnimationIllustration1,
-										"intCookery" => $intCookery1,
-										"intBreadPastryProduction" => $intBreadPastryProduction1,
-										"intFashionDesign" => $intFashionDesign1,
-										"intFoodBeverages" => $intFoodBeverages1,
-										"intTailoring" => $intTailoring1,
-										"TotalHouseholdMonthlyIncome" => $TotalHouseholdMonthlyIncome1,
-										"acadScience" => $acadScience1,
-										"acadMath" => $acadMath1,
-										"acadEnglish" => $acadEnglish1,
-										"acadFilipino" => $acadFilipino1,
-										"acadICTRelatedSub" => $acadICTRelatedSub1,
-										"acadHERelatedSub" => $acadHERelatedSub1,
-										"CareerPath1" => $CareerPath11,
-										"CareerPath2" => $CareerPath21,
-										"CareerPath3" => $CareerPath31
-									);
+												//store the student's profile in an aaray
+												$user_input = array(
+													"skiCommunicationSkills" => $skiCommunicationSkills1,
+													"skiCriticalThinking" => $skiCriticalThinking1,
+													"skiReadingComprehension" => $skiReadingComprehension1,
+													"skiProblemSolving" => $skiProblemSolving1,
+													"skiResearchSkills" => $skiResearchSkills1,
+													"skiDigitalLiteracy" => $skiDigitalLiteracy1,
+													"skiInnovative" => $skiInnovative1,
+													"skiTimeManagement" => $skiTimeManagement1,
+													"skiAdaptability" => $skiAdaptability1,
+													"skiScientificInquiry" => $skiScientificInquiry1,
+													"skiMathematicalSkills" => $skiMathematicalSkills1,
+													"skiLogicalReasoning" => $skiLogicalReasoning1,
+													"skiLabExperimentalSkills" => $skiLabExperimentalSkills1,
+													"skiAnalyticalSkills" => $skiAnalyticalSkills1,
+													"skiResearchWriting" => $skiResearchWriting1,
+													"skiSociologicalAnalysis" => $skiSociologicalAnalysis1,
+													"skiCulturalCompetence" => $skiCulturalCompetence1,
+													"skiEthicalReasoning" => $skiEthicalReasoning1,
+													"skiHistoryPoliticalScience" => $skiHistoryPoliticalScience1,
+													"skiFinancialLiteracy" => $skiFinancialLiteracy1,
+													"skiBusinessPlanning" => $skiBusinessPlanning1,
+													"skiMarketing" => $skiMarketing1,
+													"skiAccounting" => $skiAccounting1,
+													"skiEntrepreneurship" => $skiEntrepreneurship1,
+													"skiEconomics" => $skiEconomics1,
+													"skiComputerHardwareSoftware" => $skiComputerHardwareSoftware1,
+													"skiComputerNetworking" => $skiComputerNetworking1,
+													"skiWebDevelopment" => $skiWebDevelopment1,
+													"skiProgramming" => $skiProgramming1,
+													"skiTroubleshooting" => $skiTroubleshooting1,
+													"skiGraphicsDesign" => $skiGraphicsDesign1,
+													"skiCulinarySkills" => $skiCulinarySkills1,
+													"skiSewingFashionDesign" => $skiSewingFashionDesign1,
+													"skiInteriorDesign" => $skiInteriorDesign1,
+													"skiChildcareFamilyServices" => $skiChildcareFamilyServices1,
+													"skiNutritionFoodSafety" => $skiNutritionFoodSafety1,
+													"intCalculus" => $intCalculus1,
+													"intBiology" => $intBiology1,
+													"intPhysics" => $intPhysics1,
+													"intChemistry" => $intChemistry1,
+													"intCreativeWriting" => $intCreativeWriting1,
+													"intCreativeNonfiction" => $intCreativeNonfiction1,
+													"intIntroWorldReligionsBeliefSystems" => $intIntroWorldReligionsBeliefSystems1,
+													"intPhilippinePoliticsGovernance" => $intPhilippinePoliticsGovernance1,
+													"intDisciplinesIdeasSocialSciences" => $intDisciplinesIdeasSocialSciences1,
+													"intAppliedEconomics" => $intAppliedEconomics1,
+													"intBusinessEthicsSocialResponsibility" => $intBusinessEthicsSocialResponsibility1,
+													"intFundamentalsABM" => $intFundamentalsABM1,
+													"intBusinessMath" => $intBusinessMath1,
+													"intBusinessFinance" => $intBusinessFinance1,
+													"intOrganizationManagement" => $intOrganizationManagement1,
+													"intPrinciplesMarketing" => $intPrinciplesMarketing1,
+													"intComputerProgramming" => $intComputerProgramming1,
+													"intComputerSystemServicing" => $intComputerSystemServicing1,
+													"intContactCenterServices" => $intContactCenterServices1,
+													"intCISCOComputerNetworking" => $intCISCOComputerNetworking1,
+													"intAnimationIllustration" => $intAnimationIllustration1,
+													"intCookery" => $intCookery1,
+													"intBreadPastryProduction" => $intBreadPastryProduction1,
+													"intFashionDesign" => $intFashionDesign1,
+													"intFoodBeverages" => $intFoodBeverages1,
+													"intTailoring" => $intTailoring1,
+													"TotalHouseholdMonthlyIncome" => $TotalHouseholdMonthlyIncome1,
+													"acadScience" => $acadScience1,
+													"acadMath" => $acadMath1,
+													"acadEnglish" => $acadEnglish1,
+													"acadFilipino" => $acadFilipino1,
+													"acadICTRelatedSub" => $acadICTRelatedSub1,
+													"acadHERelatedSub" => $acadHERelatedSub1,
+													"CareerPath1" => $CareerPath11,
+													"CareerPath2" => $CareerPath21,
+													"CareerPath3" => $CareerPath31
+												);
 
-									// Convert the user input array to a JSON string
-									$input_json = json_encode($user_input);
-									// echo "<p>Here is the result: " . $input_json;
+												//convert the user input array to a JSON string
+												$input_json = json_encode($user_input);
+												// echo "<p>Here is the result: " . $input_json;
 
-									$json_file = '../Model/output.json';
+												//put the json string into a file
+												$json_file = '../Model/output.json';
+												file_put_contents($json_file, $input_json);
+												/*if (file_put_contents($json_file, $input_json)) {
+													echo "<p>JSON data saved to $json_file.</p>";
+												} else {
+													echo "<p>Error saving JSON data to $json_file.</p>";
+												}*/
 
-									file_put_contents($json_file, $input_json);
+												//construct the command to execute the R script with input JSON
+												$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
+												// echo "<p>Here is the result: " . $command;
 
-									/*if (file_put_contents($json_file, $input_json)) {
-										echo "<p>JSON data saved to $json_file.</p>";
-									} else {
-										echo "<p>Error saving JSON data to $json_file.</p>";
-									}*/
+												//execute the command and capture the output
+												$output = shell_exec($command);
+												// echo "<p>Here is the result: " . $output;
 
-									// Construct the command to execute the R script with input JSON
-									$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
-									// echo "<p>Here is the result: " . $command;
+												//parse the JSON output from R
+												$resultscores = json_decode($output, true);
 
-									// Execute the command and capture the output
-									$output = shell_exec($command);
-									// echo "<p>Here is the result: " . $output;
+												//access the result scores
+												$mostSuitableStrand = $resultscores["MostSuitableStrand"][0];
 
-									// Parse the JSON output from R
-									$resultscores = json_decode($output, true);
+												// Access the first element of StudentScores
+												$stemStudentScore = $resultscores["StudentScores"][0];
+												$humssStudentScore = $resultscores["StudentScores"][1];
+												$abmStudentScore = $resultscores["StudentScores"][2];
+												$gasStudentScore = $resultscores["StudentScores"][3];
+												$tvlictStudentScore = $resultscores["StudentScores"][4];
+												$tvlheStudentScore = $resultscores["StudentScores"][5];
 
-									$mostSuitableStrand = $resultscores["MostSuitableStrand"][0];
+												// Access specific values within the first student score
+												$strand1 = $stemStudentScore["Strand"];
+												$skillsProbability1 = number_format($stemStudentScore["Skills_Probability"], 4);
+												$academicProbability1 = number_format($stemStudentScore["Academic_Probability"], 4);
+												$interestProbability1 = number_format($stemStudentScore["Interest_Probability"], 4);
+												$careerProbability1 = number_format($stemStudentScore["Career_Probability"], 4);
+												$totalScore1 = number_format($stemStudentScore["Total_Score"], 4);
+												$percentageScore1 = number_format($stemStudentScore["Percentage_Score"], 2);
 
-									// Access the first element of StudentScores
-									$stemStudentScore = $resultscores["StudentScores"][0];
-									$humssStudentScore = $resultscores["StudentScores"][1];
-									$abmStudentScore = $resultscores["StudentScores"][2];
-									$gasStudentScore = $resultscores["StudentScores"][3];
-									$tvlictStudentScore = $resultscores["StudentScores"][4];
-									$tvlheStudentScore = $resultscores["StudentScores"][5];
+												$strand2 = $humssStudentScore["Strand"];
+												$skillsProbability2 = number_format($humssStudentScore["Skills_Probability"], 4);
+												$academicProbability2 = number_format($humssStudentScore["Academic_Probability"], 4);
+												$interestProbability2 = number_format($humssStudentScore["Interest_Probability"], 4);
+												$careerProbability2 = number_format($humssStudentScore["Career_Probability"], 4);
+												$totalScore2 = number_format($humssStudentScore["Total_Score"], 4);
+												$percentageScore2 = number_format($humssStudentScore["Percentage_Score"], 2);
 
-									// Access specific values within the first student score
-									$strand1 = $stemStudentScore["Strand"];
-									$skillsProbability1 = number_format($stemStudentScore["Skills_Probability"], 4);
-									$academicProbability1 = number_format($stemStudentScore["Academic_Probability"], 4);
-									$interestProbability1 = number_format($stemStudentScore["Interest_Probability"], 4);
-									$careerProbability1 = number_format($stemStudentScore["Career_Probability"], 4);
-									$totalScore1 = number_format($stemStudentScore["Total_Score"], 4);
-									$percentageScore1 = number_format($stemStudentScore["Percentage_Score"], 2);
+												$strand3 = $abmStudentScore["Strand"];
+												$skillsProbability3 = number_format($abmStudentScore["Skills_Probability"], 4);
+												$academicProbability3 = number_format($abmStudentScore["Academic_Probability"], 4);
+												$interestProbability3 = number_format($abmStudentScore["Interest_Probability"], 4);
+												$careerProbability3 = number_format($abmStudentScore["Career_Probability"], 4);
+												$totalScore3 = number_format($abmStudentScore["Total_Score"], 4);
+												$percentageScore3 = number_format($abmStudentScore["Percentage_Score"], 2);
 
-									$strand2 = $humssStudentScore["Strand"];
-									$skillsProbability2 = number_format($humssStudentScore["Skills_Probability"], 4);
-									$academicProbability2 = number_format($humssStudentScore["Academic_Probability"], 4);
-									$interestProbability2 = number_format($humssStudentScore["Interest_Probability"], 4);
-									$careerProbability2 = number_format($humssStudentScore["Career_Probability"], 4);
-									$totalScore2 = number_format($humssStudentScore["Total_Score"], 4);
-									$percentageScore2 = number_format($humssStudentScore["Percentage_Score"], 2);
+												$strand4 = $gasStudentScore["Strand"];
+												$skillsProbability4 = number_format($gasStudentScore["Skills_Probability"], 4);
+												$academicProbability4 = number_format($gasStudentScore["Academic_Probability"], 4);
+												$interestProbability4 = number_format($gasStudentScore["Interest_Probability"], 4);
+												$careerProbability4 = number_format($gasStudentScore["Career_Probability"], 4);
+												$totalScore4 = number_format($gasStudentScore["Total_Score"], 4);
+												$percentageScore4 = number_format($gasStudentScore["Percentage_Score"], 2);
 
-									$strand3 = $abmStudentScore["Strand"];
-									$skillsProbability3 = number_format($abmStudentScore["Skills_Probability"], 4);
-									$academicProbability3 = number_format($abmStudentScore["Academic_Probability"], 4);
-									$interestProbability3 = number_format($abmStudentScore["Interest_Probability"], 4);
-									$careerProbability3 = number_format($abmStudentScore["Career_Probability"], 4);
-									$totalScore3 = number_format($abmStudentScore["Total_Score"], 4);
-									$percentageScore3 = number_format($abmStudentScore["Percentage_Score"], 2);
+												$strand5 = $tvlictStudentScore["Strand"];
+												$skillsProbability5 = number_format($tvlictStudentScore["Skills_Probability"], 4);
+												$academicProbability5 = number_format($tvlictStudentScore["Academic_Probability"], 4);
+												$interestProbability5 = number_format($tvlictStudentScore["Interest_Probability"], 4);
+												$careerProbability5 = number_format($tvlictStudentScore["Career_Probability"], 4);
+												$totalScore5 = number_format($tvlictStudentScore["Total_Score"], 4);
+												$percentageScore5 = number_format($tvlictStudentScore["Percentage_Score"], 2);
 
-									$strand4 = $gasStudentScore["Strand"];
-									$skillsProbability4 = number_format($gasStudentScore["Skills_Probability"], 4);
-									$academicProbability4 = number_format($gasStudentScore["Academic_Probability"], 4);
-									$interestProbability4 = number_format($gasStudentScore["Interest_Probability"], 4);
-									$careerProbability4 = number_format($gasStudentScore["Career_Probability"], 4);
-									$totalScore4 = number_format($gasStudentScore["Total_Score"], 4);
-									$percentageScore4 = number_format($gasStudentScore["Percentage_Score"], 2);
+												$strand6 = $tvlheStudentScore["Strand"];
+												$skillsProbability6 = number_format($tvlheStudentScore["Skills_Probability"], 4);
+												$academicProbability6 = number_format($tvlheStudentScore["Academic_Probability"], 4);
+												$interestProbability6 = number_format($tvlheStudentScore["Interest_Probability"], 4);
+												$careerProbability6 = number_format($tvlheStudentScore["Career_Probability"], 4);
+												$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
+												$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
 
-									$strand5 = $tvlictStudentScore["Strand"];
-									$skillsProbability5 = number_format($tvlictStudentScore["Skills_Probability"], 4);
-									$academicProbability5 = number_format($tvlictStudentScore["Academic_Probability"], 4);
-									$interestProbability5 = number_format($tvlictStudentScore["Interest_Probability"], 4);
-									$careerProbability5 = number_format($tvlictStudentScore["Career_Probability"], 4);
-									$totalScore5 = number_format($tvlictStudentScore["Total_Score"], 4);
-									$percentageScore5 = number_format($tvlictStudentScore["Percentage_Score"], 2);
+												// require '../vendor/autoload.php';
+												//prepare the prompt for thr gpt api
+												$prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
+													STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
+													HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
+													ABM: Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ." Overall Score in Percentage=". $percentageScore3 ."
+													GAS: Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ." Overall Score in Percentage=". $percentageScore4 ."
+													TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
+													TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
+													Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
+													Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
 
-									$strand6 = $tvlheStudentScore["Strand"];
-									$skillsProbability6 = number_format($tvlheStudentScore["Skills_Probability"], 4);
-									$academicProbability6 = number_format($tvlheStudentScore["Academic_Probability"], 4);
-									$interestProbability6 = number_format($tvlheStudentScore["Interest_Probability"], 4);
-									$careerProbability6 = number_format($tvlheStudentScore["Career_Probability"], 4);
-									$totalScore6 = number_format($tvlheStudentScore["Total_Score"], 4);
-									$percentageScore6 = number_format($tvlheStudentScore["Percentage_Score"], 2);
+												//place yout api key here
+												$client = OpenAI::client($apiKey);
 
-									// require '../vendor/autoload.php';
+												$maxAttempts = 10;
+												$attempt = 1;
+												$recomendation = null;
 
-									$prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
-										STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
-										HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
-										ABM: Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ." Overall Score in Percentage=". $percentageScore3 ."
-										GAS: Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ." Overall Score in Percentage=". $percentageScore4 ."
-										TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
-										TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
-										Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
-										Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...'";
+												while ($attempt <= $maxAttempts) {
+													try{
+														//access the api with the prompt
+														$data = $client->chat()->create([
+															'model' => 'gpt-3.5-turbo',
+															'messages' => [[
+																'role' => 'user',
+																'content' => $prompt,
+															]],
+															'max_tokens' => 512,
+														]);
 
-									$client = OpenAI::client($apiKey);
+														if (!empty($data['choices'][0]['message']['content'])) { //check if has returend a message
+															$recomendation = $data['choices'][0]['message']['content'];
+															break;
+														} else { //try again
+															$attempt++;
+															sleep(1);
+														}
+													}catch(Exception $e){
+														echo 'Caught exception: ',  $e->getMessage(), "\n";
+														$attempt++;
+													}
+												}
+
+												if ($recomendation === null) {//handle the case where a recommendation was not obtained after maximum attempts
+													echo 'error generating recommendation';
+												} else {//prepare the update statement for student's results
+													$sql5 = "UPDATE studentprofile
+													JOIN result ON studentprofile.lrn = result.lrn
+													JOIN stemresult ON studentprofile.lrn = stemresult.lrn
+													JOIN humssresult ON studentprofile.lrn = humssresult.lrn
+													JOIN abmresult ON studentprofile.lrn = abmresult.lrn
+													JOIN gasresult ON studentprofile.lrn = gasresult.lrn
+													JOIN tvlictresult ON studentprofile.lrn = tvlictresult.lrn
+													JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
+													SET
+													result.MostSuitableStrand = ?,
+													result.recommendation = ?,
 					
-									$data = $client->chat()->create([
-										'model' => 'gpt-3.5-turbo',
-										'messages' => [[
-											'role' => 'user',
-											'content' => $prompt,
-										]],
-									]);
-
-									$recomendation = $data['choices'][0]['message']['content'];
-
-									$sql3 = "UPDATE studentprofile
-											JOIN result ON studentprofile.lrn = result.lrn
-											JOIN stemresult ON studentprofile.lrn = stemresult.lrn
-											JOIN humssresult ON studentprofile.lrn = humssresult.lrn
-											JOIN abmresult ON studentprofile.lrn = abmresult.lrn
-											JOIN gasresult ON studentprofile.lrn = gasresult.lrn
-											JOIN tvlictresult ON studentprofile.lrn = tvlictresult.lrn
-											JOIN tvlheresult ON studentprofile.lrn = tvlheresult.lrn
-											SET
-											result.MostSuitableStrand = '$mostSuitableStrand',
-											result.recommendation = '$recomendation',
-
-											stemresult.acadProb = '$academicProbability1',
-											stemresult.intProb = '$interestProbability1',
-											stemresult.carProb = '$careerProbability1',
-											stemresult.skiProb = '$skillsProbability1',
-											stemresult.totalScore = '$totalScore1',
-											stemresult.percScore = '$percentageScore1',
-											
-											humssresult.acadProb = '$academicProbability2',
-											humssresult.intProb = '$interestProbability2',
-											humssresult.carProb = '$careerProbability2',
-											humssresult.skiProb = '$skillsProbability2',
-											humssresult.totalScore = '$totalScore2',
-											humssresult.percScore = '$percentageScore2',
-											
-											abmresult.acadProb = '$academicProbability3',
-											abmresult.intProb = '$interestProbability3',
-											abmresult.carProb = '$careerProbability3',
-											abmresult.skiProb = '$skillsProbability3',
-											abmresult.totalScore = '$totalScore3',
-											abmresult.percScore = '$percentageScore3',
-											
-											gasresult.acadProb = '$academicProbability4',
-											gasresult.intProb = '$interestProbability4',
-											gasresult.carProb = '$careerProbability4',
-											gasresult.skiProb = '$skillsProbability4',
-											gasresult.totalScore = '$totalScore4',
-											gasresult.percScore = '$percentageScore4',
-											
-											tvlictresult.acadProb = '$academicProbability5',
-											tvlictresult.intProb = '$interestProbability5',
-											tvlictresult.carProb = '$careerProbability5',
-											tvlictresult.skiProb = '$skillsProbability5',
-											tvlictresult.totalScore = '$totalScore5',
-											tvlictresult.percScore = '$percentageScore5',
-											
-											tvlheresult.acadProb = '$academicProbability6',
-											tvlheresult.intProb = '$interestProbability6',
-											tvlheresult.carProb = '$careerProbability6',
-											tvlheresult.skiProb = '$skillsProbability6',
-											tvlheresult.totalScore = '$totalScore6',
-											tvlheresult.percScore = '$percentageScore6'
-											WHERE
-												studentprofile.lrn = '$id'";
-
-									// Execute the update query
-									if ($conn->query($sql3) === TRUE) {
-										echo "<script>alert('Successfully generated a recomendation!');</script>";
-										echo "<script>window.location.href='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';</script>";
-									} else {
-										echo "Error generating recomendation: " . $conn->error;
+													stemresult.acadProb = ?,
+													stemresult.intProb = ?,
+													stemresult.carProb = ?,
+													stemresult.skiProb = ?,
+													stemresult.totalScore = ?,
+													stemresult.percScore = ?,
+													
+													humssresult.acadProb = ?,
+													humssresult.intProb = ?,
+													humssresult.carProb = ?,
+													humssresult.skiProb = ?,
+													humssresult.totalScore = ?,
+													humssresult.percScore = ?,
+													
+													abmresult.acadProb = ?,
+													abmresult.intProb = ?,
+													abmresult.carProb = ?,
+													abmresult.skiProb = ?,
+													abmresult.totalScore = ?,
+													abmresult.percScore = ?,
+													
+													gasresult.acadProb = ?,
+													gasresult.intProb = ?,
+													gasresult.carProb = ?,
+													gasresult.skiProb = ?,
+													gasresult.totalScore = ?,
+													gasresult.percScore = ?,
+													
+													tvlictresult.acadProb = ?,
+													tvlictresult.intProb = ?,
+													tvlictresult.carProb = ?,
+													tvlictresult.skiProb = ?,
+													tvlictresult.totalScore = ?,
+													tvlictresult.percScore = ?,
+													
+													tvlheresult.acadProb = ?,
+													tvlheresult.intProb = ?,
+													tvlheresult.carProb = ?,
+													tvlheresult.skiProb = ?,
+													tvlheresult.totalScore = ?,
+													tvlheresult.percScore = ?
+													WHERE
+														studentprofile.lrn = ?";
+					
+													$stmt = $conn->prepare($sql5);
+													if($stmt){
+														$stmt->bind_param("sssssssssssssssssssssssssssssssssssssss",
+														$mostSuitableStrand,
+														$recomendation,
+														$academicProbability1,
+														$interestProbability1,
+														$careerProbability1,
+														$skillsProbability1,
+														$totalScore1,
+														$percentageScore1,
+														$academicProbability2,
+														$interestProbability2,
+														$careerProbability2,
+														$skillsProbability2,
+														$totalScore2,
+														$percentageScore2,
+														$academicProbability3,
+														$interestProbability3,
+														$careerProbability3,
+														$skillsProbability3,
+														$totalScore3,
+														$percentageScore3,
+														$academicProbability4,
+														$interestProbability4,
+														$careerProbability4,
+														$skillsProbability4,
+														$totalScore4,
+														$percentageScore4,
+														$academicProbability5,
+														$interestProbability5,
+														$careerProbability5,
+														$skillsProbability5,
+														$totalScore5,
+														$percentageScore5,
+														$academicProbability6,
+														$interestProbability6,
+														$careerProbability6,
+														$skillsProbability6,
+														$totalScore6,
+														$percentageScore6,
+														$id);
+					
+														$stmt->execute();
+					
+														if ($stmt->affected_rows > 0) {
+															//log the generation
+															$admin_username = $_SESSION['fullname'];
+															$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its results updated', '$admin_username')";
+															$conn->query($log);
+															
+															echo "<script>swal({
+																title: 'Successfully Generated',
+																text: 'Student results generated successfully!',
+																icon: 'success',
+																buttons: {
+																confirm: true,
+																},
+															}).then((value) => {
+																if (value) {
+																document.location='viewprofile.php?lrn=". $_GET['lrn'] ."&name=". $_GET['name'] ."';
+																} else {
+																document.location='viewprofile.php?lrn=". $_GET['lrn'] ."&name=". $_GET['name'] ."';
+																}
+															});</script>";
+														} else {
+															echo "Error generating recommendation: " . $stmt->error;
+														}
+					
+														$stmt->close();
+													}else{
+														echo "Prepare statement error: " . $conn->error;
+													}
+												}
+											}
+										}
 									}
 								}
 								?>
@@ -2356,11 +2537,13 @@ if (!isset($_SESSION["admin"])) {
 							</div>
 
 							<?php
+							//check for the students lrn
 							if (isset($_GET['lrn'])) {
-								include "connection.php";
+								include "connection.php"; //include the connection file
 
-								$user_id = $_GET['lrn'];
+								$user_id = $_GET['lrn']; //get the lrn
 
+								//prep the select query
 								$sql = "SELECT sp.*, r.*, 
 								sr.acadProb AS acadProbStem, 
 								sr.intProb AS intProbStem, 
@@ -2413,6 +2596,7 @@ if (!isset($_SESSION["admin"])) {
 								if ($result->num_rows > 0) {
 
 									while ($row = $result->fetch_assoc()) {
+										//get all the student's result
 										$recommendation = $row['recommendation'];
 
 										$ovrSTEM = $row['percScoreStem'];
@@ -2450,6 +2634,7 @@ if (!isset($_SESSION["admin"])) {
 										$carTVLICT = $row['carProbTvlict'];
 										$carTVLHE = $row['carProbTvlhe'];
 									}
+									//check if the student has a result already
 									$haveResult = ($ovrSTEM == 0 && $ovrHUMSS == 0 && $ovrABM == 0 && $ovrGAS == 0 && $ovrTVLICT == 0 && $ovrTVLHE == 0) ? 0 : 1;
 								}
 							}
@@ -2523,10 +2708,10 @@ if (!isset($_SESSION["admin"])) {
 							<div class="card-body text-start">
 								<?php
 								if (empty($recommendation)) {
-									// Your code here for handling the empty or null case
+									//if the recommendation is empty
 									echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
 								} else {
-									// Your code here for when the recommendation is not empty or null
+									//display the recomendation
 									echo "<p>". $recommendation . "</p>";
 								}
 								?>
@@ -2545,6 +2730,7 @@ if (!isset($_SESSION["admin"])) {
 	<script type="text/javascript" src="./js/password-score-options.js"></script>
 	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
 	<script>
+		//for pasword strength measurement
 		$(document).ready(function() {
 			$('#pass1').strengthMeter('text', {
 				container: $('#passstrength'),
@@ -2560,6 +2746,7 @@ if (!isset($_SESSION["admin"])) {
 			});
 		});
 
+		//for validating Address
 		function validateAddress(input) {
 			var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
 
@@ -2568,6 +2755,7 @@ if (!isset($_SESSION["admin"])) {
 			}
 		}
 
+		//for validating Names
 		function validateName(input) {
 			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
@@ -2576,10 +2764,11 @@ if (!isset($_SESSION["admin"])) {
 			}
 		}
 
+		//for displaying the value for the sliders
 		const rangeInputs = document.querySelectorAll('.form-range');
 		const rangeValueSpans = document.querySelectorAll('.rangeValue');
 
-		// Displays the range values for each input element
+		//displays the range values for each input element
 		rangeInputs.forEach((input, index) => {
 			input.addEventListener('input', () => {
 				rangeValueSpans[index].textContent = input.value;
@@ -2588,6 +2777,7 @@ if (!isset($_SESSION["admin"])) {
 			rangeValueSpans[index].textContent = input.value;
 		});
 
+		//for the carrer option logic DO NOT F**kING touch it!!!
 		var prevVal1;
 		var prevVal2;
 
@@ -2696,6 +2886,7 @@ if (!isset($_SESSION["admin"])) {
 				hidcareerPath3.value = careerPath3.value;
 			});
 
+			//for determining if the student's profile is already been filled out and good to go for generating results
 			const totalHouseholdIncomeSelect = document.getElementById('TotalHouseholdMonthlyIncome');
 			const acadScience = document.getElementById('acadScience');
 			const acadMath = document.getElementById('acadMath');
@@ -2766,17 +2957,18 @@ if (!isset($_SESSION["admin"])) {
 				generateButton.disabled = false;
 			}
 
+			//for checking if there is a result generated for the student
 			const checkRes = document.getElementById('checkRes');
 			const canvases = document.querySelectorAll('canvas');
 			const messageTitle = document.getElementById('messageTitle');
 
-			if (checkRes.value === '0') {
+			if (checkRes.value === '0') {//no results
 				for (let i = 0; i < canvases.length; i++) {
 					canvases[i].style.display = 'none';
 				}
 				messageTitle.innerText = 'NO RESULTS HAVE BEEN FOUND!';
 				messageTitle.classList.add('fw-bold');
-			} else {
+			} else {//have results, display it
 				var labels = ["STEM", "HUMSS", "ABM", "GAS", "TVL-ICT", "TVL-HE"];
 				var skivalues = [];
 				var intvalues = [];

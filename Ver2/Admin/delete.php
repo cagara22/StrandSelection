@@ -1,10 +1,12 @@
 <?php
-session_start();
-include "connection.php";
+session_start(); //start the session
+include "connection.php"; //include the connection file
 
+//this is for student profile deletion
 if (isset($_GET['lrn'])) {
-    $user_id = $_GET['lrn'];
+    $user_id = $_GET['lrn']; //get the lrn
 
+    //delete the child table first
     $sql_result = "DELETE FROM result WHERE lrn = '$user_id'";
     $sql_studentacad = "DELETE FROM studentacad WHERE lrn = '$user_id'";
     $sql_studentinterest = "DELETE FROM studentinterest WHERE lrn = '$user_id'";
@@ -36,28 +38,151 @@ if (isset($_GET['lrn'])) {
         mysqli_commit($conn);
         mysqli_autocommit($conn, true);
 
-        // Deletion of the studentprofile
+        //deletion of the studentprofile
         $sql = "DELETE FROM studentprofile WHERE lrn = '$user_id'";
         $result = $conn->query($sql);
 
         if ($result == TRUE) {
-            // Logging the 'deleted' action in the logs table
-            if (isset($_SESSION['fullname'])) {
-                $admin_username = $_SESSION['fullname'];
-                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Student with LRN $user_id was deleted', '$admin_username')";
-                $conn->query($log);
-            } else {
-                // Handle the case when the admin username is not set in the session
-                echo "Admin username not found in the session.";
-            }
+            //logging the 'deleted' action in the logs table
+            $admin_username = $_SESSION['fullname'];
+            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Student with LRN $user_id was deleted', '$admin_username')";
+            $conn->query($log);
 
+            //redirect back to profiles page
             echo "<script type ='text/javascript'>
             window.location='profiles.php'
             </script>";
         } else {
             echo "Error:" . $sql . "<br>" . $conn->error;
         }
-}
+    }
 }
 
+//this is for logs deletion
+if (isset($_GET['logid'])) {
+    $logs_id = $_GET['logid']; //get the log id
+
+    //deletion of the log
+    $sql = "DELETE FROM logs WHERE id = '$logs_id'";
+    $result = $conn->query($sql);
+
+    if ($result === TRUE) {
+        //redirect to logs page
+        echo "<script type ='text/javascript'>
+        window.location='logs.php'
+        </script>";
+    } else {
+        echo "Error:" . $sql . "<br>" . $conn->error;
+    }
+}
+
+
+//this is for admin profile deletion
+if(isset($_GET['adminid']) && isset($_GET['adminname'])){
+    $admin_id = $_GET['adminid']; //get the admin id
+    $admin_name = $_GET['adminname']; //get the admin name
+    $cur_admin_id = $_SESSION['adminID']; //get the current admin username
+
+    $conn->query("SET foreign_key_checks = 0"); //disable foreign key check
+
+    //check for the section where the admin is the adviser
+    $search_sql = "SELECT sectionID FROM section WHERE adminID = $admin_id";
+    $result = mysqli_query($conn, $search_sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $sectionID = $row['sectionID'];//get the section ID
+            $section_sql = "UPDATE section SET adminID='$cur_admin_id' WHERE sectionID = '$sectionID'"; //transfer the section adviser to current admin
+            if(mysqli_query($conn, $section_sql)){
+                echo "good";
+            }else{
+                echo "Error updating record: " . mysqli_error($conn);
+            }
+        }
+    }
+    
+    //prepare the delete statement
+    $delete_sql = "DELETE FROM adminprofile WHERE adminID = '$admin_id'";
+    $delete_result = $conn->query($delete_sql);
+
+    if ($delete_result === TRUE) {
+        $conn->query("SET foreign_key_checks = 1");
+        //log the deletion
+        $admin_username = $_SESSION['fullname'];
+        $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Admin profile with username $admin_name was deleted', '$admin_username')";
+        $conn->query($log);
+        //redirect to admins page
+        echo "<script type ='text/javascript'>
+        window.location='admins.php'
+        </script>";
+    } else {
+        $conn->query("SET foreign_key_checks = 1");
+        
+        echo "Error:" . $sql . "<br>" . $conn->error;
+    }
+    $conn->query("SET foreign_key_checks = 1");
+}
+
+//this is for section deletion
+if(isset($_GET['sectionid']) && isset($_GET['sectionname'])){
+    $sectionID = $_GET['sectionid']; //get the section id
+    $sectionName = $_GET['sectionname'];//get the section name
+
+    //check if the section id is being referenced
+    $search_sql = "SELECT lrn FROM studentprofile WHERE sectionID = '$sectionID'";
+    $result = mysqli_query($conn, $search_sql);
+    if(mysqli_num_rows($result) > 0){//being referenced
+        //can't be deleted
+        echo "<script>alert('Can not delete section! Section not empty!');</script>";
+        echo "<script>window.location.href='sections.php';</script>";
+    }else{//not being referenced
+        //prepare delete sql statement
+        $delete_sql = "DELETE FROM section WHERE sectionID = '$sectionID'";
+        $delete_result = $conn->query($delete_sql);
+
+        if($delete_result === TRUE){
+            //log the deletion of section
+            $admin_username = $_SESSION['fullname'];
+            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Section $sectionName was deleted', '$admin_username')";
+            $conn->query($log);
+            //redirect to sections page
+            echo "<script type ='text/javascript'>
+            window.location='sections.php'
+            </script>";
+        }else{
+            echo "Error:" . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+
+//this is for schoolyr deletion
+if(isset($_GET['schoolyrid']) && isset($_GET['schoolyrname'])){
+    $schoolyrID = $_GET['schoolyrid']; //get the id of school yr
+    $schoolyrName = $_GET['schoolyrname']; //get the name of school yr
+
+    //check if the schoolyr is being referenced
+    $search_sql = "SELECT lrn FROM studentprofile WHERE schoolyrID = '$schoolyrID'";
+    $result = mysqli_query($conn, $search_sql);
+    if(mysqli_num_rows($result) > 0){//being referenced
+        //can't be deleted
+        echo "<script>alert('Can not delete school year! School year not empty!');</script>";
+        echo "<script>window.location.href='schoolyrs.php';</script>";
+    }else{//not being referenced
+        //prepare deletion sql statement
+        $delete_sql = "DELETE FROM schoolyr WHERE schoolyrID = '$schoolyrID'";
+        $delete_result = $conn->query($delete_sql);
+
+        if($delete_result === TRUE){
+            //log the deletion of schoolyr
+            $admin_username = $_SESSION['fullname'];
+            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'School Year $schoolyrName was deleted', '$admin_username')";
+            $conn->query($log);
+            //redirect to schoolyr page
+            echo "<script type ='text/javascript'>
+            window.location='schoolyrs.php'
+            </script>";
+        }else{
+            echo "Error:" . $sql . "<br>" . $conn->error;
+        }
+    }
+}
 ?>

@@ -1,4 +1,5 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
 if (!isset($_SESSION["admin"])) {
@@ -40,7 +41,7 @@ if (!isset($_SESSION["admin"])) {
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
+                    <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -58,7 +59,7 @@ if (!isset($_SESSION["admin"])) {
                     </li>
                     <?php
                     
-                    if($_SESSION['role'] == 'SUPER ADMIN'){
+                    if($_SESSION['role'] == 'SUPER ADMIN'){ //Restrict the rest of the page to Super Admin only
                         echo '
                         <li>
                             <a href="./admins.php" class="nav-link link-body-emphasis">
@@ -105,7 +106,7 @@ if (!isset($_SESSION["admin"])) {
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="./images/man.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong><?php echo $_SESSION['admin']; ?></strong>
+                        <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -147,8 +148,9 @@ if (!isset($_SESSION["admin"])) {
                     </thead>
                     <tbody class="table-group-divider">
                         <?php
-                        include "connection.php";
+                        include "connection.php"; //include the connection file
 
+                        //for pagination
                         if (isset($_GET['page_no'])) {
                             $page_no = $_GET['page_no'];
                         } else {
@@ -158,15 +160,29 @@ if (!isset($_SESSION["admin"])) {
                         $total_records_per_page = 30;
                         $offset = ($page_no - 1) * $total_records_per_page;
 
-                        if (isset($_GET['searchname'])) {
-                            $search = $_GET['searchname'];
-                            $sql = "SELECT * FROM studentprofile
-                            JOIN section ON studentprofile.sectionID = section.sectionID
-                            JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%'";
-                        } else {
-                            $sql = "SELECT * FROM studentprofile
-                            JOIN section ON studentprofile.sectionID = section.sectionID
-                            JOIN result ON studentprofile.lrn = result.lrn LIMIT $offset, $total_records_per_page";
+                        if($_SESSION['role'] === "ADMIN"){//admin role
+                            $adminID = $_SESSION['adminID'];
+                            if (isset($_GET['searchname'])) {// if search is clicked
+                                $search = $_GET['searchname'];
+                                $sql = "SELECT * FROM studentprofile
+                                JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE (CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%') AND section.adminID = $adminID LIMIT $offset, $total_records_per_page";
+                            } else {//retrive all student profiles
+                                $sql = "SELECT * FROM studentprofile
+                                JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID LIMIT $offset, $total_records_per_page";
+                            }
+                        }else{//super admin role
+                            if (isset($_GET['searchname'])) {// if search is clicked
+                                $search = $_GET['searchname'];
+                                $sql = "SELECT * FROM studentprofile
+                                JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%' LIMIT $offset, $total_records_per_page";
+                            } else {//retrive all student profiles
+                                $sql = "SELECT * FROM studentprofile
+                                JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN result ON studentprofile.lrn = result.lrn LIMIT $offset, $total_records_per_page";
+                            }
                         }
 
                         // Calculate the next and previous page numbers before executing the query
@@ -200,10 +216,16 @@ if (!isset($_SESSION["admin"])) {
                             }
                             echo "</table>";
                         } else {
-                            echo "0 results";
+                            echo "<tr><td colspan='9' class='text-center'>0 results</td></tr>";
                         }
 
-                        $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+                        if($_SESSION['role'] === "ADMIN"){
+                            $sql = "SELECT COUNT(*) AS total_records FROM studentprofile 
+                            JOIN section ON studentprofile.sectionID = section.sectionID
+                            JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID";
+                        }else{
+                            $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+                        }
                         $result = $conn->query($sql);
                         $total_records = $result->fetch_assoc()['total_records'];
                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
@@ -236,6 +258,7 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
+        //for delete confirmation
         function deleteRecord(clientNum) {
             swal({
                 title: "Are you sure?",
