@@ -2,7 +2,8 @@
     "require": {
         "openai-php/client": "^0.7.4",
         "symfony/http-client": "^6.3",
-        "nyholm/psr7": "^1.8"
+        "nyholm/psr7": "^1.8",
+        "phpoffice/phpspreadsheet": "^1.29"
     },
     "config": {
         "allow-plugins": {

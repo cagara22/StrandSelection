@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -159,7 +159,7 @@ if (!isset($_SESSION["admin"])) {
                         $total_no_of_page = ceil($total_records / $total_records_per_page);
 
                         //retrieve all the logs from the database
-                        $sql = "SELECT * FROM logs LIMIT $offset, $total_records_per_page";
+                        $sql = "SELECT * FROM logs ORDER BY id DESC LIMIT $offset, $total_records_per_page";
 
                         $result = $conn->query($sql);
 

@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -157,22 +157,24 @@ if (!isset($_SESSION["admin"])) {
 
                             $result = mysqli_query($conn, $query);
                             if (mysqli_num_rows($result) > 0) {//already in use
-                                echo "<script>swal({
+                                echo "<script>Swal.fire({
                                     title: 'INVALID USERNAME!',
                                     text: 'USERNAME already exists in the database!',
                                     icon: 'error',
-                                    button: 'OK',
+                                    showConfirmButton: false,
+                                    timer: 5000
                                     });</script>";
                                 //echo "<script>document location ='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
                             } else {//not in use
                                 if (!empty($_POST['pass1'])) { //password not empty
                                     if (!empty($_POST['pass2'])) { //confirm password not empty
                                         if ($password !== $cpassword) {//password and confirm password does not match
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'PASSWORDS DO NOT MATCH!',
                                                 text: 'Password and Confirm Password do not match!',
                                                 icon: 'error',
-                                                button: 'OK',
+                                                showConfirmButton: false,
+                                                timer: 5000
                                                 });</script>";
                                             //echo "<script>window.location.href='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
                                             //exit; // Exit the script if passwords do not match
@@ -182,11 +184,12 @@ if (!isset($_SESSION["admin"])) {
                                             address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE adminID='$adminID'";
                                         }
                                     } else {//confirm password empty
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'CONFIRM PASSWORD',
                                             text: 'Please confirm the password.',
                                             icon: 'info',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                         //echo "<script>window.location.href='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
                                     }
@@ -208,7 +211,7 @@ if (!isset($_SESSION["admin"])) {
                                             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$cur_admin_role with Username $cur_admin has updated $username's account', '$admin_username')";
                                             $conn->query($log);
                                             
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'Successfully Updated',
                                                 text: 'Admin profile updated successfully!',
                                                 icon: 'success',
@@ -223,11 +226,12 @@ if (!isset($_SESSION["admin"])) {
                                                 }
                                               });</script>";
                                         } else {
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'NO CHANGES',
                                                 text: 'No changes were made',
                                                 icon: 'info',
-                                                button: 'OK',
+                                                showConfirmButton: false,
+                                                timer: 5000
                                                 });</script>";
                                         }
                                     } else {

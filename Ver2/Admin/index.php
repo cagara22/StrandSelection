@@ -11,7 +11,7 @@ session_start(); //Start the session
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="custom_css.css">
@@ -86,22 +86,22 @@ session_start(); //Start the session
 									//redirect to the dashboard
 									header("Location: dashboard.php");
 								} else { //password is incorrect
-									echo "<script>swal({
-                title: 'Login Failed!',
-                text: 'Invalid Username or Password.',
-                icon: 'error',
-                button: 'OK',
-              });</script>";
-									echo "<script>document location ='index.php';</script>";
+									echo "<script>Swal.fire({
+										title: 'Login Failed!',
+										text: 'Invalid Username or Password.',
+										icon: 'error',
+										showConfirmButton: false,
+										timer: 5000
+										});</script>";
 								}
 							} else { //user doesn't exist
-								echo "<script>swal({
-            title: 'Login Failed!',
-            text: 'Invalid Username or Password.',
-            icon: 'error',
-            button: 'OK',
-          });</script>";
-								echo "<script>document location ='index.php';</script>";
+								echo "<script>Swal.fire({
+										title: 'Login Failed!',
+										text: 'Invalid Username or Password.',
+										icon: 'error',
+										showConfirmButton: false,
+										timer: 5000
+										});</script>";
 							}
 						}
 

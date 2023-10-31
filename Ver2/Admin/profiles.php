@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -260,18 +260,20 @@ if (!isset($_SESSION["admin"])) {
     <script>
         //for delete confirmation
         function deleteRecord(clientNum) {
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this record!",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
             })
             .then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     window.location.href = `delete.php?lrn=${clientNum}`;
                 } else {
-                    swal("CANCELED", "Record not deleted!", "info");
+                    Swal.fire("CANCELED", "Record not deleted!", "info");
                 }
             });
         }

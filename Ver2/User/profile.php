@@ -23,10 +23,7 @@ if (!isset($_SESSION["student"])) {
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script type="text/javascript">
-
-	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="custom_css.css">
@@ -107,11 +104,12 @@ if (!isset($_SESSION["student"])) {
 										if (!empty($_POST['cpassword'])) {//confirm password is not empty
 											//check if the password and confirm password are the same
 											if ($password !== $cpassword) {//not the same
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'PASSWORDS DO NOT MATCH!',
 													text: 'Password and Confirm Password do not match!',
 													icon: 'error',
-													button: 'OK',
+													showConfirmButton: false,
+                                                	timer: 5000
 													});</script>";
 												//echo "<script>window.location.href='profile.php';</script>";
 												//exit; //exit the script if passwords do not match
@@ -120,11 +118,12 @@ if (!isset($_SESSION["student"])) {
 												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
 											}
 										} else {//confirm password is empty
-											echo "<script>swal({
+											echo "<script>Swal.fire({
 												title: 'CONFIRM PASSWORD',
 												text: 'Please confirm the password.',
 												icon: 'info',
-												button: 'OK',
+												showConfirmButton: false,
+                                                timer: 5000
 												});</script>";
 											//echo "<script>window.location.href='profile.php';</script>";
 										}
@@ -141,7 +140,7 @@ if (!isset($_SESSION["student"])) {
 
 											if ($affected_rows > 0) {//check if a row in the database was updated successfully
 												$_SESSION['fname'] = $Fname;
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'Successfully Updated',
 													text: 'Student Account updated successfully!',
 													icon: 'success',
@@ -156,11 +155,12 @@ if (!isset($_SESSION["student"])) {
 													}
 												});</script>";
 											} else {//no changes were made to the record
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'NO CHANGES',
 													text: 'No changes were made',
 													icon: 'info',
-													button: 'OK',
+													showConfirmButton: false,
+                                                	timer: 5000
 													});</script>";
 											}
 										} else {//error in updating the account
@@ -292,7 +292,7 @@ if (!isset($_SESSION["student"])) {
 								<form class="row" action="" method="post">
 									<div class="col-12 mb-1">
 										<div class="form-floating mb-3">
-											<input type="number" class="form-control" id="lrn" name="lrn" value="<?php echo $lrn1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" disabled readonly>
+											<input type="text" class="form-control" id="lrn" name="lrn" value="<?php echo $lrn1; ?>" oninput="validateLRN(this)" pattern=".{12}" title="Please enter exactly 12 digits" placeholder="Learner's Reference Number" disabled readonly>
 											<label for="lrn">Learner's Reference Number</label>
 										</div>
 									</div>
@@ -546,17 +546,19 @@ if (!isset($_SESSION["student"])) {
 									}
 
 									if ($hasZeroValue) { //if one of the vrables in interest has zero value
-										echo "<script>swal({
+										echo "<script>Swal.fire({
 												title: 'Please select a valid answer in the Interest Section!',
 												icon: 'error',
-												button: 'OK',
+												showConfirmButton: false,
+                                                timer: 5000
 											});</script>";
 									} else {
 										if ($_POST['TotalHouseholdMonthlyIncome'] == "SELECT") { //if the totalHouseholdMonthlyIncome has not been answered
-											echo "<script>swal({
+											echo "<script>Swal.fire({
 													title: 'Please select a valid answer in the Socioeconomic Section!',
 													icon: 'error',
-													button: 'OK',
+													showConfirmButton: false,
+                                                	timer: 5000
 												});</script>";
 										} else {
 											//prepare update query
@@ -641,7 +643,7 @@ if (!isset($_SESSION["student"])) {
 
 											//execute the update query
 											if ($conn->query($sql4) === TRUE) {//if the update is successful
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'Successfully Updated',
 													text: 'Student Profile updated successfully!',
 													icon: 'success',
@@ -2291,7 +2293,7 @@ if (!isset($_SESSION["student"])) {
 									$stmt->execute();
 
 									if ($stmt->affected_rows > 0) {
-										echo "<script>swal({
+										echo "<script>Swal.fire({
 											title: 'Successfully Generated',
 											text: 'Student results generated successfully!',
 											icon: 'success',
@@ -2352,6 +2354,18 @@ if (!isset($_SESSION["student"])) {
 				}
 			});
 		});
+
+		function validateLRN(input) {
+            var regex = /^[0-9]*$/; // Regular expression to allow only numbers
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove any characters that are not numeric
+            }
+
+            if (input.value.length > 12) {
+                input.value = input.value.slice(0, 12); // Truncate the input value to 12 characters if it exceeds the limit
+            }
+        }
 
 		//for validating Address
 		function validateAddress(input) {

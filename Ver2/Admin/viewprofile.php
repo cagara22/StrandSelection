@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Custom CSS -->
@@ -110,7 +110,7 @@ if (!isset($_SESSION["admin"])) {
 						<strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
 					</a>
 					<ul class="dropdown-menu text-small shadow">
-						<li><a class="dropdown-item" href="#">Profile</a></li>
+						<li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
@@ -161,11 +161,12 @@ if (!isset($_SESSION["admin"])) {
 										if (!empty($_POST['password'])) {//password is not empty
 											if (!empty($_POST['cpassword'])) {//confirm password is not empty
 												if ($password !== $cpassword) {//password and confirm password does not match
-													echo "<script>swal({
+													echo "<script>Swal.fire({
 														title: 'PASSWORDS DO NOT MATCH!',
 														text: 'Password and Confirm Password do not match!',
 														icon: 'error',
-														button: 'OK',
+														showConfirmButton: false,
+                                                		timer: 5000
 														});</script>";
 													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 													//exit; // Exit the script if passwords do not match
@@ -175,11 +176,12 @@ if (!isset($_SESSION["admin"])) {
 													address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 												}
 											} else {//confirm password is empty
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'CONFIRM PASSWORD',
 													text: 'Please confirm the password.',
 													icon: 'info',
-													button: 'OK',
+													showConfirmButton: false,
+                                                	timer: 5000
 													});</script>";
 												//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 											}
@@ -200,7 +202,7 @@ if (!isset($_SESSION["admin"])) {
 													$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $curid got its account details updated', '$admin_username')";
 													$conn->query($log);
 
-													echo "<script>swal({
+													echo "<script>Swal.fire({
 														title: 'Successfully Updated',
 														text: 'Student Account updated successfully!',
 														icon: 'success',
@@ -215,11 +217,12 @@ if (!isset($_SESSION["admin"])) {
 														}
 													});</script>";
 												} else {//no changes were made to the record
-													echo "<script>swal({
+													echo "<script>Swal.fire({
 														title: 'NO CHANGES',
 														text: 'No changes were made',
 														icon: 'info',
-														button: 'OK',
+														showConfirmButton: false,
+                                                		timer: 5000
 														});</script>";
 												}
 											} else {//error in updating the account
@@ -231,11 +234,12 @@ if (!isset($_SESSION["admin"])) {
 										$query = "SELECT lrn FROM studentprofile WHERE lrn = '$newid'";
 										$result = mysqli_query($conn, $query);
 										if (mysqli_num_rows($result) > 0) {//it already exists
-											echo "<script>swal({
+											echo "<script>Swal.fire({
 												title: 'INVALID LRN!',
 												text: 'LRN already exists in the database!',
 												icon: 'error',
-												button: 'OK',
+												showConfirmButton: false,
+                                                timer: 5000
 												});</script>";
 											//echo "<script>document location ='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 										}else{//it does not exist
@@ -243,11 +247,12 @@ if (!isset($_SESSION["admin"])) {
 											if (!empty($_POST['password'])) {//password is not empty
 												if (!empty($_POST['cpassword'])) {//confirm passsword not empty
 													if ($password !== $cpassword) {//password and confirm password does not match
-														echo "<script>swal({
+														echo "<script>Swal.fire({
 															title: 'PASSWORDS DO NOT MATCH!',
 															text: 'Password and Confirm Password do not match!',
 															icon: 'error',
-															button: 'OK',
+															showConfirmButton: false,
+                                                			timer: 5000
 															});</script>";
 														// echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 														// exit; // Exit the script if passwords do not match
@@ -257,11 +262,12 @@ if (!isset($_SESSION["admin"])) {
 														address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 													}
 												} else {//confirm password is empty
-													echo "<script>swal({
+													echo "<script>Swal.fire({
 														title: 'CONFIRM PASSWORD',
 														text: 'Please confirm the password.',
 														icon: 'info',
-														button: 'OK',
+														showConfirmButton: false,
+                                                		timer: 5000
 														});</script>";
 													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 												}
@@ -319,7 +325,7 @@ if (!isset($_SESSION["admin"])) {
 															$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $newid got its account details updated', '$admin_username')";
 															$conn->query($log);
 
-															echo "<script>swal({
+															echo "<script>Swal.fire({
 																title: 'Successfully Updated',
 																text: 'Student Account updated successfully!',
 																icon: 'success',
@@ -345,11 +351,12 @@ if (!isset($_SESSION["admin"])) {
 														mysqli_autocommit($conn, true);
 
 													} else {//no changes were made
-														echo "<script>swal({
+														echo "<script>Swal.fire({
 															title: 'NO CHANGES',
 															text: 'No changes were made',
 															icon: 'info',
-															button: 'OK',
+															showConfirmButton: false,
+                                                			timer: 5000
 															});</script>";
 													}
 												} else {//error updatin the record
@@ -479,7 +486,7 @@ if (!isset($_SESSION["admin"])) {
 								<form class="row" action="" method="post">
 									<div class="col-12 mb-1">
 										<div class="form-floating mb-3">
-											<input type="number" class="form-control" id="lrn" name="lrn" value="<?php echo $lrn1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" placeholder="Learner's Reference Number" required>
+											<input type="text" class="form-control" id="lrn" name="lrn" value="<?php echo $lrn1; ?>" oninput="validateLRN(this)" pattern=".{12}" title="Please enter exactly 12 digits" placeholder="Learner's Reference Number" required>
 											<label for="lrn">Learner's Reference Number</label>
 										</div>
 									</div>
@@ -694,11 +701,12 @@ if (!isset($_SESSION["admin"])) {
 									$TotalHouseholdMonthlyIncome = $_POST['TotalHouseholdMonthlyIncome'];
 
 									if($acadScience === "SELECT" || $acadMath === "SELECT" || $acadEnglish === "SELECT" || $acadFilipino === "SELECT" || $acadICTRelatedSubject === "SELECT" || $acadHERelatedSubject === "SELECT"){
-										echo "<script>swal({
+										echo "<script>Swal.fire({
 											title: 'LACK OF DATA!',
 											text: 'Atleast update the students academic performance!',
 											icon: 'info',
-											button: 'OK',
+											showConfirmButton: false,
+                                            timer: 5000
 										});</script>";
 									}else{
 										if($TotalHouseholdMonthlyIncome == "SELECT"){
@@ -797,7 +805,7 @@ if (!isset($_SESSION["admin"])) {
 											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
 											$conn->query($log);
 											
-											echo "<script>swal({
+											echo "<script>Swal.fire({
 												title: 'Successfully Updated',
 												text: 'Student Profile updated successfully!',
 												icon: 'success',
@@ -2160,27 +2168,30 @@ if (!isset($_SESSION["admin"])) {
 										$intFoodBeverages1 == 0 ||
 										$intTailoring1 == 0
 									) {//Interest data invalid
-										echo "<script>swal({
+										echo "<script>Swal.fire({
 											title: 'INVALID DATA!',
 											text: 'Invalid data detected at the Interest Section! Please select a valid answer.',
 											icon: 'error',
-											button: 'OK',
+											showConfirmButton: false,
+                                            timer: 5000
 										});</script>";
 									}else{//interest data valid
 										if($TotalHouseholdMonthlyIncome1 == "SELECT" || empty($TotalHouseholdMonthlyIncome1)){ //thmi data invalid
-											echo "<script>swal({
+											echo "<script>Swal.fire({
 												title: 'INVALID DATA!',
 												text: 'Invalid data detected at the Socioeconomic Section! Please select a valid answer.',
 												icon: 'error',
-												button: 'OK',
+												showConfirmButton: false,
+                                                timer: 5000
 											});</script>";
 										}else{//thmi data valid
 											if(($acadScience1 == "SELECT" || $acadMath1 == "SELECT" || $acadEnglish1 == "SELECT" || $acadFilipino1 == "SELECT" || $acadICTRelatedSub1 == "SELECT" || $acadHERelatedSub1 == "SELECT") || (empty($acadScience1) || empty($acadMath1) || empty($acadEnglish1) || empty($acadFilipino1) || empty($acadICTRelatedSub1) || empty($acadHERelatedSub1))){ //academic perf data invalid
-												echo "<script>swal({
+												echo "<script>Swal.fire({
 													title: 'INVALID DATA!',
 													text: 'Invalid data detected at the Academic Performance Section! Please select a valid answer.',
 													icon: 'error',
-													button: 'OK',
+													showConfirmButton: false,
+                                                	timer: 5000
 												});</script>";
 											}else{//academic perf data valid
 												$id = $_GET['lrn']; //get the lrn of the student
@@ -2499,7 +2510,7 @@ if (!isset($_SESSION["admin"])) {
 															$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its results updated', '$admin_username')";
 															$conn->query($log);
 															
-															echo "<script>swal({
+															echo "<script>Swal.fire({
 																title: 'Successfully Generated',
 																text: 'Student results generated successfully!',
 																icon: 'success',
@@ -2745,6 +2756,18 @@ if (!isset($_SESSION["admin"])) {
 				}
 			});
 		});
+
+		function validateLRN(input) {
+            var regex = /^[0-9]*$/; // Regular expression to allow only numbers
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove any characters that are not numeric
+            }
+
+            if (input.value.length > 12) {
+                input.value = input.value.slice(0, 12); // Truncate the input value to 12 characters if it exceeds the limit
+            }
+        }
 
 		//for validating Address
 		function validateAddress(input) {

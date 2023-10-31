@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -250,11 +250,12 @@ if (!isset($_SESSION["admin"])) {
                                     $result = mysqli_query($conn, $query);
 
                                     if (mysqli_num_rows($result) > 0) {//it already exists
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'INVALID SECTION NAME!',
                                             text: 'SECTION NAME already exists in the database!',
                                             icon: 'error',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                     } else {//it does not exist yet
                                         //prepare the adding sql statement
@@ -263,11 +264,13 @@ if (!isset($_SESSION["admin"])) {
 
                                         if(mysqli_query($conn, $sql_section)){
                                             //log the adding
+                                            $role = $_SESSION['role'];
+                                            $username = $_SESSION['admin'];
                                             $admin_username = $_SESSION['fullname'];
                                             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username added $sectionName Section', '$admin_username')";
                                             $conn->query($log);
 
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'Successfully Added',
                                                 text: 'New section added successfully!',
                                                 icon: 'success',
@@ -299,11 +302,12 @@ if (!isset($_SESSION["admin"])) {
 
                                     $result = mysqli_query($conn, $query);
                                     if (mysqli_num_rows($result) > 0) {//it already exists
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'INVALID SECTION NAME!',
                                             text: 'SECTION NAME already exists in the database!',
                                             icon: 'error',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                         echo "<script>document location ='sections.php?id=". $sectionID ."';</script>";
                                     } else {//it does not exist yet
@@ -312,11 +316,13 @@ if (!isset($_SESSION["admin"])) {
 
                                         if(mysqli_query($conn, $sql_section)){
                                             //log the update
+                                            $role = $_SESSION['role'];
+                                            $username = $_SESSION['admin'];
                                             $admin_username = $_SESSION['fullname'];
                                             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $sectionName Section', '$admin_username')";
                                             $conn->query($log);
 
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'Successfully Updated',
                                                 text: 'Section updated successfully!',
                                                 icon: 'success',
@@ -392,18 +398,20 @@ if (!isset($_SESSION["admin"])) {
     <script>
         //for delete confirmation
         function deleteRecord(clientNum, clientName) {
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this record!",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
             })
             .then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     window.location.href = `delete.php?sectionid=${clientNum}&sectionname=${clientName}`;
                 } else {
-                    swal("CANCELED", "Record not deleted!", "info");
+                    Swal.fire("CANCELED", "Record not deleted!", "info");
                 }
             });
         }

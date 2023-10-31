@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -153,22 +153,24 @@ if (!isset($_SESSION["admin"])) {
 
                             $result = mysqli_query($conn, $query);
                             if (mysqli_num_rows($result) > 0) { //if taken
-                                echo "<script>swal({
+                                echo "<script>Swal.fire({
                                     title: 'INVALID USERNAME!',
                                     text: 'USERNAME already exists in the database!',
                                     icon: 'error',
-                                    button: 'OK',
+                                    showConfirmButton: false,
+                                    timer: 5000
                                     });</script>";
                                 // echo "<script>document location ='addadmin.php';</script>";
                             }else{ //not taken
                                 if (!empty($_POST['password'])) { //password not empty
                                     if (!empty($_POST['cpassword'])) { //confirm password not empty
                                         if ($password !== $cpassword) {//confirm password does not match
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'PASSWORDS DO NOT MATCH!',
                                                 text: 'Password and Confirm Password do not match!',
                                                 icon: 'error',
-                                                button: 'OK',
+                                                showConfirmButton: false,
+                                                timer: 5000
                                                 });</script>";
                                         }else{ //confirm password and password match
                                             //prepare sql statement with password
@@ -181,7 +183,7 @@ if (!isset($_SESSION["admin"])) {
                                                 $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username was added', '$admin_username')";
                                                 $conn->query($log);
 
-                                                echo "<script>swal({
+                                                echo "<script>Swal.fire({
                                                     title: 'Successfully Added',
                                                     text: 'New admin profile added successfully!',
                                                     icon: 'success',
@@ -202,19 +204,21 @@ if (!isset($_SESSION["admin"])) {
                                             }
                                         }
                                     }else{//cofirm password empty
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'CONFIRM PASSWORD',
                                             text: 'Please confirm the password.',
                                             icon: 'info',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                     }
                                 }else{//password empty
-                                    echo "<script>swal({
+                                    echo "<script>Swal.fire({
                                         title: 'ADD PASSWORD',
                                         text: 'Please add the password.',
                                         icon: 'info',
-                                        button: 'OK',
+                                        showConfirmButton: false,
+                                        timer: 5000
                                         });</script>";
                                 }
                             }

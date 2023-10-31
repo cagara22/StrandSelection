@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["admin"])) {
                         <strong><?php echo $_SESSION['admin']; //Display the admin username ?></strong>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="adminprofile.php">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -244,11 +244,12 @@ if (!isset($_SESSION["admin"])) {
                                     $result = mysqli_query($conn, $query);
 
                                     if (mysqli_num_rows($result) > 0) { //already exists
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'INVALID SCHOOL YEAR!',
                                             text: 'SCHOOL YEAR already exists in the database!',
                                             icon: 'error',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                     } else { //school yr does not exist
                                         //prep add sql statement
@@ -257,11 +258,13 @@ if (!isset($_SESSION["admin"])) {
 
                                         if(mysqli_query($conn, $sql_schlyr)){
                                             //log the adding
+                                            $role = $_SESSION['role'];
+                                            $username = $_SESSION['admin'];
                                             $admin_username = $_SESSION['fullname'];
                                             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username added $schoolyrName School Year', '$admin_username')";
                                             $conn->query($log);
 
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'Successfully Added',
                                                 text: 'New school year added successfully!',
                                                 icon: 'success',
@@ -296,7 +299,8 @@ if (!isset($_SESSION["admin"])) {
                                             title: 'INVALID SCHOOL YEAR!',
                                             text: 'SCHOOL YEAR already exists in the database!',
                                             icon: 'error',
-                                            button: 'OK',
+                                            showConfirmButton: false,
+                                            timer: 5000
                                             });</script>";
                                     } else {//does not yet exist
                                         //prepare the update sqp statement
@@ -304,11 +308,13 @@ if (!isset($_SESSION["admin"])) {
 
                                         if(mysqli_query($conn, $sql_schlyr)){
                                             //log the update
+                                            $role = $_SESSION['role'];
+                                            $username = $_SESSION['admin'];
                                             $admin_username = $_SESSION['fullname'];
                                             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $schoolyrName School Year', '$admin_username')";
                                             $conn->query($log);
 
-                                            echo "<script>swal({
+                                            echo "<script>Swal.fire({
                                                 title: 'Successfully Updated',
                                                 text: 'School year updated successfully!',
                                                 icon: 'success',
@@ -332,7 +338,7 @@ if (!isset($_SESSION["admin"])) {
                                     <input type="hidden" name="schoolyrID" id="schoolyrID" value="<?php if(isset($_GET['id'])){echo $id;} ?>">
                                     <div class="col-12 mb-1">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="schoolyrName" name="schoolyrName" oninput="" placeholder="School Year" value="<?php if(isset($_GET['id'])){echo $schoolyrName;} ?>" required>
+                                            <input type="text" class="form-control" id="schoolyrName" name="schoolyrName" oninput="" placeholder="School Year" pattern="\d{4}-\d{4}" title="Please enter a valid school year (e.g. 2023-2024)" value="<?php if(isset($_GET['id'])){echo $schoolyrName;} ?>" required>
                                             <label for="schoolyrName">School Year</label>
                                         </div>
                                     </div>
@@ -359,18 +365,20 @@ if (!isset($_SESSION["admin"])) {
     <script>
         //for delete confirmation
         function deleteRecord(clientNum, clientName) {
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this record!",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
             })
             .then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     window.location.href = `delete.php?schoolyrid=${clientNum}&schoolyrname=${clientName}`;
                 } else {
-                    swal("CANCELED", "Record not deleted!", "info");
+                    Swal.fire("CANCELED", "Record not deleted!", "info");
                 }
             });
         }

@@ -11,7 +11,7 @@ session_start();
 	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="custom_css.css">
@@ -67,20 +67,20 @@ session_start();
 									header("Location: home.php"); //redirect to the home page
 
 								} else {//the password is not correct
-									echo "<script>swal({
+									echo "<script>Swal.fire({
 												title: 'Wrong Password',
 												icon: 'error',
-												button: 'OK',
+												showConfirmButton: false,
+                                                timer: 5000
 												});</script>";
-									echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
 								}
 							} else {//the usernama/lrn doesn't exist in the database
-								echo "<script>swal({
+								echo "<script>Swal.fire({
 											title: 'Invalid Username or Account not yet created!.',
 											icon: 'error',
-											button: 'OK',
+											showConfirmButton: false,
+                                            timer: 5000
 										});</script>";
-								echo "<script type='text/javascript'> document location =index.php#LoginSection</script>";
 							}
 						}
 						?>

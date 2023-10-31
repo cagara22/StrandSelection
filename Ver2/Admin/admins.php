@@ -22,7 +22,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom_css.css">
@@ -162,7 +162,8 @@ if (!isset($_SESSION["admin"])) {
                         $previous_page = $page_no - 1;
                         $next_page = $page_no + 1;
 
-                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM adminprofile") or die('Unable to get total records.');
+                        $cur_Admin = $_SESSION['admin'];
+                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM adminprofile WHERE username != '$cur_Admin'") or die('Unable to get total records.');
 
                         $records = mysqli_fetch_array($result_count);
                         $total_records = $records['total_records'];
@@ -170,8 +171,6 @@ if (!isset($_SESSION["admin"])) {
                         $total_no_of_page = ceil($total_records / $total_records_per_page);
 
                         //retrieve all admin records exept for the current admin
-                        $cur_Admin = $_SESSION['admin'];
-
                         if (isset($_GET['searchname'])) {
                             $search = $_GET['searchname'];
                             $sql = "SELECT * FROM adminprofile WHERE (CONCAT(fname, ' ', lname) LIKE '%$search%' OR username LIKE '%$search%') AND username != '$cur_Admin' LIMIT $offset, $total_records_per_page";
@@ -244,18 +243,20 @@ if (!isset($_SESSION["admin"])) {
     <script>
         //for delete confirmation
         function deleteRecord(clientNum, clientName) {
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this record!",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
             })
             .then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     window.location.href = `delete.php?adminid=${clientNum}&adminname=${clientName}`;
                 } else {
-                    swal("CANCELED", "Record not deleted!", "info");
+                    Swal.fire("CANCELED", "Record not deleted!", "info");
                 }
             });
         }
