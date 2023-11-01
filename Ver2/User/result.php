@@ -33,7 +33,7 @@ if (!isset($_SESSION["student"])) {
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
-				<img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+				<img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -70,7 +70,7 @@ if (!isset($_SESSION["student"])) {
 	</nav>
 
 	<section class="section-100 d-flex flex-column justify-content-top align-items-center px-3 py-5">
-		<h2 class="fw-bold sub-title mt-3">Here is your detailed result!</h2>
+		<h2 class="fw-bold sub-title mt-4">Here is your detailed result!</h2>
 		<div class="row w-100">
 			<div class="col-12 col-lg-8 d-flex justify-content-center align-items-center mb-3">
 				<div class="card custcard border-light text-center" style="width: 100%;">

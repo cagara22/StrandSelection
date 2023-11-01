@@ -32,7 +32,7 @@ if (!isset($_SESSION["student"])) {
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
-				<img src="../images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+				<img src="../images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>

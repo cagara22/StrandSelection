@@ -32,7 +32,7 @@ if (!isset($_SESSION["student"])) {
     <nav class="navbar navbar-expand-md fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+                <img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -74,7 +74,7 @@ if (!isset($_SESSION["student"])) {
                 <img src="./images/LNHSlogo.png" class="img-fluid" alt="...">
             </div>
             <div class="about-pic2">
-                <img src="./images/SystemBrandWhiteVer2.png" class="img-fluid" alt="...">
+                <img src="./images/GUIDE_Logo_3.png" class="img-fluid" alt="...">
             </div>
             <h1 class="title2 fst-italic fw-bold my-3">"Dream, Discover, Decide: Senior High Strands - Your Choice, Your Legacy."</h1>
         </div>
@@ -85,7 +85,7 @@ if (!isset($_SESSION["student"])) {
             <div class="card border-light mb-3" style="max-width: 100%;">
                 <div class="row g-0">
                     <div class="col-md-3 text-center">
-                        <img src="./images/decision.png" class="img-fluid rounded-start" alt="...">
+                        <img src="./images/GUIDE_Logo_2.png" class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
@@ -109,8 +109,8 @@ if (!isset($_SESSION["student"])) {
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h4 class="card-title fw-bold sub-title">[NAME]</h3>
-                                    <h5 class="fw-bold">[ROLE]</h5>
+                                <h4 class="card-title fw-bold sub-title">Francisco A. Tingzon Jr.</h3>
+                                    <h5 class="fw-bold">RESEARCHER</h5>
                                     <h5 class="fw-bold">[CONTACT]</h5>
                             </div>
                         </div>
@@ -125,8 +125,8 @@ if (!isset($_SESSION["student"])) {
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h4 class="card-title fw-bold sub-title">[NAME]</h3>
-                                    <h5 class="fw-bold">[ROLE]</h5>
+                                <h4 class="card-title fw-bold sub-title">Vincent Felix S. Cagara</h3>
+                                    <h5 class="fw-bold">FRONTEND DEV</h5>
                                     <h5 class="fw-bold">[CONTACT]</h5>
                             </div>
                         </div>
@@ -141,8 +141,8 @@ if (!isset($_SESSION["student"])) {
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h4 class="card-title fw-bold sub-title">[NAME]</h3>
-                                    <h5 class="fw-bold">[ROLE]</h5>
+                                <h4 class="card-title fw-bold sub-title">John Kenth O. Villamor</h3>
+                                    <h5 class="fw-bold">BACKEND DEV</h5>
                                     <h5 class="fw-bold">[CONTACT]</h5>
                             </div>
                         </div>
@@ -157,8 +157,8 @@ if (!isset($_SESSION["student"])) {
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h4 class="card-title fw-bold sub-title">[NAME]</h3>
-                                    <h5 class="fw-bold">[ROLE]</h5>
+                                <h4 class="card-title fw-bold sub-title">Angelica C. Labutap</h3>
+                                    <h5 class="fw-bold">RESEARCHER</h5>
                                     <h5 class="fw-bold">[CONTACT]</h5>
                             </div>
                         </div>

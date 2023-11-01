@@ -32,7 +32,7 @@ if (!isset($_SESSION["student"])) {
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
-				<img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+				<img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -94,7 +94,7 @@ if (!isset($_SESSION["student"])) {
 					<img src="./images/comprehensive.png" class="cust-img-75" alt="...">
 					<div class="card-body">
 						<h5 class="card-title fw-bold">Comprehensive Information Hub</h5>
-						<p class="card-text lh-1">STRAND SELECTION offers a rich database of academic strands, career opportunities, admission requirements, and real-world insights, empowering students with the information they need to confidently choose a path that suits their goals.</p>
+						<p class="card-text lh-1">GUIDE (Guidance Using Intelligent Decision Engine) provides a rich database of academic strands, career opportunities, admission requirements, and real-world insights, empowering students with the information they need to confidently choose a path that suits their goals.</p>
 					</div>
 				</div>
 			</div>
@@ -103,7 +103,7 @@ if (!isset($_SESSION["student"])) {
 					<img src="./images/efficacy.png" class="cust-img-75" alt="...">
 					<div class="card-body">
 						<h5 class="card-title fw-bold">Efficient Decision-Making</h5>
-						<p class="card-text lh-1">By streamlining the decision-making process, STRAND SELECTION reduces confusion and anxiety, guiding students towards informed choices that enhance their engagement, motivation, and success throughout their academic journey.</p>
+						<p class="card-text lh-1">By streamlining the decision-making process, GUIDE reduces confusion and anxiety, guiding students towards informed choices that enhance their engagement, motivation, and success throughout their academic journey.</p>
 					</div>
 				</div>
 			</div>

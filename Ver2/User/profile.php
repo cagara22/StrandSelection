@@ -33,7 +33,7 @@ if (!isset($_SESSION["student"])) {
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
-				<img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+				<img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -71,7 +71,7 @@ if (!isset($_SESSION["student"])) {
 
 	<section class="section-100 d-flex flex-column justify-content-center px-3 py-5">
 		<?php include "connection.php"; include "../vendor/autoload.php"; //include the connection file to the database and the OpenAI API Lib ?>
-		<h2 class="fw-bold sub-title mt-3">Hello <?php echo $_SESSION["fname"]; //the name of the student ?>!</h2>
+		<h2 class="fw-bold sub-title mt-4">Hello <?php echo $_SESSION["fname"]; //the name of the student ?>!</h2>
 		<div class="row w-100">
 			<div class="col-12 col-lg-9 d-flex justify-content-center">
 				<div class="row w-100">
