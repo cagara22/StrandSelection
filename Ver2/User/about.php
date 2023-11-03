@@ -111,7 +111,7 @@ if (!isset($_SESSION["student"])) {
                             <div class="card-body">
                                 <h4 class="card-title fw-bold sub-title">Francisco A. Tingzon Jr.</h3>
                                     <h5 class="fw-bold">RESEARCHER</h5>
-                                    <h5 class="fw-bold">[CONTACT]</h5>
+                                    <h5 class="fw-bold">2002253@lnu.edu.ph</h5>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@ if (!isset($_SESSION["student"])) {
                             <div class="card-body">
                                 <h4 class="card-title fw-bold sub-title">Vincent Felix S. Cagara</h3>
                                     <h5 class="fw-bold">FRONTEND DEV</h5>
-                                    <h5 class="fw-bold">[CONTACT]</h5>
+                                    <h5 class="fw-bold">2001988@lnu.edu.ph</h5>
                             </div>
                         </div>
                     </div>
@@ -137,13 +137,13 @@ if (!isset($_SESSION["student"])) {
                 <div class="card border-light mb-3" style="max-width: 100%;">
                     <div class="row g-0">
                         <div class="col-md-3 text-center">
-                            <img src="./images/man.png" class="img-fluid rounded" alt="...">
+                            <img src="./images/villamor.jpg" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
                                 <h4 class="card-title fw-bold sub-title">John Kenth O. Villamor</h3>
                                     <h5 class="fw-bold">BACKEND DEV</h5>
-                                    <h5 class="fw-bold">[CONTACT]</h5>
+                                    <h5 class="fw-bold">2002296@lnu.edu.ph</h5>
                             </div>
                         </div>
                     </div>
@@ -159,7 +159,7 @@ if (!isset($_SESSION["student"])) {
                             <div class="card-body">
                                 <h4 class="card-title fw-bold sub-title">Angelica C. Labutap</h3>
                                     <h5 class="fw-bold">RESEARCHER</h5>
-                                    <h5 class="fw-bold">[CONTACT]</h5>
+                                    <h5 class="fw-bold">1800908@lnu.edu.ph</h5>
                             </div>
                         </div>
                     </div>
