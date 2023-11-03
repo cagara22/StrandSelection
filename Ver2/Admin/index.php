@@ -8,7 +8,7 @@ session_start(); //Start the session
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>GUIDE Admin</title>
-	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -23,17 +23,17 @@ session_start(); //Start the session
 			<div class="col-12 d-flex justify-content-center align-items-end">
 				<div class="row">
 					<div class="col-12 d-flex justify-content-center">
-						<img src="./images/LNHSlogo.png" style="width: 100px; height: 100px;" alt="Sample image">
+						<img src="./images/LNHSlogo.png" style="width: 80px; height: 80px;" alt="Sample image">
 					</div>
-					<div class="col-12 d-flex justify-content-center">
-						<img src="./images/SystemBrandBlackVer2.png" style="width: 200px; height: 40px;" alt="Sample image">
+					<div class="col-12 d-flex justify-content-center pb-4">
+						<img src="./images/GUIDE_Logo_3.png" style="width: 200px; height: 70px;" alt="Sample image">
 					</div>
 				</div>
 			</div>
 			<div class="col-12 d-flex justify-content-center align-items-start">
 				<div class="card custcard border-light text-center" style="width: 22rem;">
-					<div class="card-header">
-						<h4 class="fw-bold card-text-header">ADMIN LOGIN</h4>
+					<div class="card-header" style="padding-bottom: 0px;">
+						<h2 class="fw-bold card-text-header">ADMIN LOGIN</h2>
 					</div>
 					<div class="align-items-center p-3">
 						<img src="./images/man.png" class="card-img-top rounded" alt="..." style="width: 50px; height: 50px;">

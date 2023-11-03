@@ -8,7 +8,7 @@ session_start();
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>GUIDE</title>
-	<link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+	<link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -86,7 +86,7 @@ session_start();
 						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="lrn" name ="lrn" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="12" placeholder="111111111111">
+								<input type="text" class="form-control" id="lrn" name ="lrn" oninput="validateLRN(this)" placeholder="111111111111">
 								<label for="lrn">LRN</label>
 							</div>
 							<div class="form-floating">
@@ -105,6 +105,19 @@ session_start();
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function validateLRN(input) {
+            var regex = /^[0-9]*$/; // Regular expression to allow only numbers
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove any characters that are not numeric
+            }
+
+            if (input.value.length > 12) {
+                input.value = input.value.slice(0, 12); // Truncate the input value to 12 characters if it exceeds the limit
+            }
+        }
+	</script>
 </body>
 
 </html>

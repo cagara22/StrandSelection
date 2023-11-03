@@ -18,7 +18,7 @@ if (!isset($_SESSION["admin"])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GUIDE Admin</title>
-    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -30,8 +30,8 @@ if (!isset($_SESSION["admin"])) {
 <body>
     <header class="navbar sticky-top flex-md-nowrap p-0 shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+            <a class="navbar-brand" href="./dashboard.php">
+                <img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
             </a>
         </div>
     </header>
@@ -39,7 +39,7 @@ if (!isset($_SESSION["admin"])) {
     <main class="row section-100">
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <a href="adminprofile.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                     <span class="fs-4"><?php echo $_SESSION['role']; ?></span>
                 </a>
                 <hr>
@@ -311,7 +311,7 @@ if (!isset($_SESSION["admin"])) {
                                         echo "<td class='text-center'>". $row['TVLICT_count'] ."</td>";
                                         echo "<td class='text-center'>". $row['TVLHE_count'] ."</td>";
                                         echo "<td class='text-center'>";
-                                        echo "<a href='' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='PRINT'>
+                                        echo "<a href='printpdf.php?schoolyrID=". $row['schoolyrID'] ."&schoolyrName=". $row['schoolyrName'] ."'  target='_blank' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='PRINT'>
                                         <img src='./images/print.png' alt='' width='20' height='20' class=''>
                                         </a>";
                                         echo "</td>";

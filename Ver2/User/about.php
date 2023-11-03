@@ -20,7 +20,7 @@ if (!isset($_SESSION["student"])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GUIDE</title>
-    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
 
@@ -85,7 +85,7 @@ if (!isset($_SESSION["student"])) {
             <div class="card border-light mb-3" style="max-width: 100%;">
                 <div class="row g-0">
                     <div class="col-md-3 text-center">
-                        <img src="./images/GUIDE_Logo_2.png" class="img-fluid rounded-start" alt="...">
+                        <img src="./images/GUIDE_Logo_2.png" class="img-fluid" alt="...">
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
@@ -105,7 +105,7 @@ if (!isset($_SESSION["student"])) {
                 <div class="card border-light mb-3" style="max-width: 100%;">
                     <div class="row g-0">
                         <div class="col-md-3 text-center">
-                            <img src="./images/man.png" class="img-fluid rounded-start" alt="...">
+                            <img src="./images/tingzon.jpg" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
@@ -121,7 +121,7 @@ if (!isset($_SESSION["student"])) {
                 <div class="card border-light mb-3" style="max-width: 100%;">
                     <div class="row g-0">
                         <div class="col-md-3 text-center">
-                            <img src="./images/man.png" class="img-fluid rounded-start" alt="...">
+                            <img src="./images/cagara.jpg" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
@@ -137,7 +137,7 @@ if (!isset($_SESSION["student"])) {
                 <div class="card border-light mb-3" style="max-width: 100%;">
                     <div class="row g-0">
                         <div class="col-md-3 text-center">
-                            <img src="./images/man.png" class="img-fluid rounded-start" alt="...">
+                            <img src="./images/man.png" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
@@ -153,7 +153,7 @@ if (!isset($_SESSION["student"])) {
                 <div class="card border-light mb-3" style="max-width: 100%;">
                     <div class="row g-0">
                         <div class="col-md-3 text-center">
-                            <img src="./images/woman.png" class="img-fluid rounded-start" alt="...">
+                            <img src="./images/labutap.jpg" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">

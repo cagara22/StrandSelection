@@ -19,7 +19,7 @@ if (!isset($_SESSION["admin"])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GUIDE Admin</title>
-    <link rel="icon" type="images/x-icon" href="images/SystemLogoWhite.png" />
+    <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,8 +31,8 @@ if (!isset($_SESSION["admin"])) {
 <body>
     <header class="navbar sticky-top flex-md-nowrap p-0 shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="./images/SystemBrandWhiteVer2.png" alt="Logo" width="200" height="34" class="d-inline-block align-text-top">
+            <a class="navbar-brand" href="./dashboard.php">
+                <img src="./images/GUIDE_Logo_3.png" alt="Logo" width="150" height="37" class="d-inline-block align-text-top">
             </a>
         </div>
     </header>
@@ -40,7 +40,7 @@ if (!isset($_SESSION["admin"])) {
     <main class="row section-100">
         <div class="col-2">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 100%; height: 100%;" id="sidebarMenu">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <a href="adminprofile.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                     <span class="fs-4"><?php echo $_SESSION['role']; //Display the role ?></span>
                 </a>
                 <hr>
@@ -227,7 +227,7 @@ if (!isset($_SESSION["admin"])) {
                     <div class="col-4">
                         <div class="card custcard border-light text-center" style="width: 100%;">
                             <div class="card-header">
-                                <h4 class="fw-bold card-text-header">Section Details</h4>
+                                <h4 class="fw-bold card-text-header">School Year Details</h4>
                             </div>
                             <div class="card-body">
                                 <?php
@@ -335,6 +335,7 @@ if (!isset($_SESSION["admin"])) {
                                 }
                                 ?>
                                 <form class="row" action="" method="post">
+                                    <p>NOTE: If you add a new school year, it will be the current school year...</p>
                                     <input type="hidden" name="schoolyrID" id="schoolyrID" value="<?php if(isset($_GET['id'])){echo $id;} ?>">
                                     <div class="col-12 mb-1">
                                         <div class="form-floating mb-3">
