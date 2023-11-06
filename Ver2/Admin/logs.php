@@ -125,6 +125,11 @@ if (!isset($_SESSION["admin"])) {
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">LOGS</h1>
                 </div>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <a href='#' onclick='deleteALLRecord()' class ='btn btn-lg btn-delete fw-bold w-100'>DELETE ALL LOGS</a>
+                    </div>
+                </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr class="text-center">
@@ -227,18 +232,39 @@ if (!isset($_SESSION["admin"])) {
     <script>
         //for delete confirmation
         function deleteRecord(clientNum) {
-            swal({
+            Swal.fire({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this record!",
                     icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
                 })
                 .then((willDelete) => {
-                    if (willDelete) {
+                    if (willDelete.isConfirmed) {
                         window.location.href = `delete.php?logid=${clientNum}`;
                     } else {
                         swal("CANCELED", "Record not deleted!", "info");
+                    }
+                });
+        }
+
+        function deleteALLRecord() {
+            Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete all logs in your database",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+                .then((willDelete) => {
+                    if (willDelete.isConfirmed) {
+                        window.location.href = `delete.php?logALL=1`;
+                    } else {
+                        swal("CANCELED", "Records not deleted!", "info");
                     }
                 });
         }

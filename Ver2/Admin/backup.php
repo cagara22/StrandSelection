@@ -205,7 +205,7 @@ if (!isset($_SESSION["admin"])) {
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <div class="mb-3">
                                             <label for="backupFile" class="form-label">Input Backup .sql file</label>
-                                            <input class="form-control" type="file" id="backupFile" name="backupFile" accept=".sql">
+                                            <input class="form-control" type="file" id="backupFile" name="backupFile" accept=".sql" required>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">

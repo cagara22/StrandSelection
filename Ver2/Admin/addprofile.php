@@ -481,12 +481,12 @@ if (!isset($_SESSION["admin"])) {
                                                 timer: 5000
                                                 });</script>";
                                         }
-                                        echo count($data);
-                                        echo $sucessCount;
-                                        echo $invalidLRNCount;
-                                        echo $emptyNameCount;
-                                        echo $duplicateLRNCount;
-                                        echo $errorCount;
+                                        //echo count($data);
+                                        //echo $sucessCount;
+                                        //echo $invalidLRNCount;
+                                        //echo $emptyNameCount;
+                                        //echo $duplicateLRNCount;
+                                        //echo $errorCount;
                                     }else{
                                         echo "<script>Swal.fire({
                                             title: 'INCORECT FILE TYPE!',
@@ -548,7 +548,10 @@ if (!isset($_SESSION["admin"])) {
                                     <label for="schoolyr">School Year</label>
                                 </div>
                             </div>
-                            <input type="file" name="profilelist" accept=".xls,.xlsx" required>
+                            <div class="mb-3">
+                                <label for="profilelist" class="form-label">Input Backup .xls or .xlsx template file</label>
+                                <input class="form-control" type="file" id="profilelist" name="profilelist" accept=".xls,.xlsx" required>
+                            </div>
                             <button type="submit" class="btn btn-add w-100 fw-bold" name="addbatch">ADD BATCH</button>
                         </form>
                     </div>

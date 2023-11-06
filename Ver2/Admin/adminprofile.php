@@ -137,19 +137,24 @@ if (!isset($_SESSION["admin"])) {
                         if (isset($_POST['update'])) {
                             $sql = '';
                             //retrieve form data
-                            $id = $_SESSION['admin'];
+                            $id = $_SESSION['adminID'];
                             $fname = strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
                             $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
                             $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
                             $age = mysqli_real_escape_string($conn, $_POST['age']);
-                            $role = mysqli_real_escape_string($conn, $_POST['role']);
+                            $role = '';
+                            if($_SESSION['role'] === 'ADMIN'){
+                                $role = 'ADMIN';
+                            }else{
+                                $role = mysqli_real_escape_string($conn, $_POST['role']);
+                            }
                             $sex = mysqli_real_escape_string($conn, $_POST['sex']);
                             $email = mysqli_real_escape_string($conn, $_POST['email']);
                             $username = mysqli_real_escape_string($conn, $_POST['username']);
                             $address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
-                            $password = md5($_POST['pass1']);
-						    $cpassword = md5($_POST['pass2']);
+                            $password = md5($_POST['password']);
+						    $cpassword = md5($_POST['cpassword']);
 
                             //check if the username is already taken
                             $query = "SELECT adminID FROM adminprofile WHERE username = '$username' AND adminID <> '$id'";
@@ -321,7 +326,7 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="role" name="role" value="">
+                                    <select class="form-select" id="role" name="role" value="" <?php if($role1 == "ADMIN"){echo "disabled";} ?>>
                                         <option value="ADMIN" <?php if ($role1 == "ADMIN") {
                                                                     echo "selected";
                                                                 } ?>>ADMIN</option>

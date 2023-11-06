@@ -12,7 +12,7 @@
     // Define the R script path
     $r_scriptexe_path = '"C:\Program Files\R\R-4.2.2\bin\Rscript.exe"';
     $r_script_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\predictStrand.R"';
-    $jsonfile_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\output.json"';
+    $jsonfile_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\\';
 
     //GPT API Key
     $apiKey = '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';

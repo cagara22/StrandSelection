@@ -2277,7 +2277,8 @@ if (!isset($_SESSION["admin"])) {
 												// echo "<p>Here is the result: " . $input_json;
 
 												//put the json string into a file
-												$json_file = '../Model/output.json';
+												$filename = 'output'. time() . '.json';
+												$json_file = '../Model/' . $filename;
 												file_put_contents($json_file, $input_json);
 												/*if (file_put_contents($json_file, $input_json)) {
 													echo "<p>JSON data saved to $json_file.</p>";
@@ -2285,12 +2286,15 @@ if (!isset($_SESSION["admin"])) {
 													echo "<p>Error saving JSON data to $json_file.</p>";
 												}*/
 
+												$jsonfile_path .= $filename . '"';
+
 												//construct the command to execute the R script with input JSON
 												$command = $r_scriptexe_path . " " . $r_script_path . " " . $jsonfile_path;
 												// echo "<p>Here is the result: " . $command;
 
 												//execute the command and capture the output
 												$output = shell_exec($command);
+												unlink($json_file);
 												// echo "<p>Here is the result: " . $output;
 
 												//parse the JSON output from R

@@ -44,7 +44,7 @@ if (!isset($_SESSION["student"])) {
 						<a class="nav-link" href="../home.php">HOME</a>
 					</li>
 					<li class="nav-item px-4 fw-bold">
-						<a class="nav-link active" aria-current="page" href="../strand.ph">STRAND</a>
+						<a class="nav-link active" aria-current="page" href="../strand.php">STRAND</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../profile.php">PROFILE</a>

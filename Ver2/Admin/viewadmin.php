@@ -208,7 +208,7 @@ if (!isset($_SESSION["admin"])) {
                                             $admin_username = $_SESSION['fullname'];
                                             $cur_admin = $_SESSION['admin'];
                                             $cur_admin_role = $_SESSION['role'];
-                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$cur_admin_role with Username $cur_admin has updated $username's account', '$admin_username')";
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$cur_admin_role with Username $cur_admin has updated $username account', '$admin_username')";
                                             $conn->query($log);
                                             
                                             echo "<script>Swal.fire({

@@ -74,6 +74,20 @@ if (isset($_GET['logid'])) {
     } else {
         echo "Error:" . $sql . "<br>" . $conn->error;
     }
+}else if(isset($_GET['logALL'])){
+    $sql = "TRUNCATE TABLE logs";
+
+    if ($conn->query($sql) === TRUE) {
+        $admin_username = $_SESSION['fullname'];
+        $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'ALL logs was deleted', '$admin_username')";
+        $conn->query($log);
+
+        echo "<script type ='text/javascript'>
+        window.location='logs.php'
+        </script>";
+    } else {
+        echo "Error emptying table: " . $conn->error;
+    }
 }
 
 
