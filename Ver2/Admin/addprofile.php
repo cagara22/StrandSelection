@@ -597,10 +597,10 @@ if (!isset($_SESSION["admin"])) {
 
         //for text formatting and validation
         function validateName(input) {
-            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
+            var regex = /^[a-zA-Z\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
 
             if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any characters that do not match the allowed set
+                input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any characters that do not match the allowed set
             }
         }
 

@@ -92,7 +92,7 @@ if (!isset($_SESSION["student"])) {
 									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
 									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
 									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
-									$age = mysqli_real_escape_string($conn, $_POST['age']);
+									$age = !empty($_POST['age']) ? $_POST['age'] : 0;
 									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
 									$suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
 									$email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -2302,12 +2302,11 @@ if (!isset($_SESSION["student"])) {
 											title: 'Successfully Generated',
 											text: 'Student results generated successfully!',
 											icon: 'success',
-											buttons: {
-											confirm: true,
-											},
+											confirmButtonColor: '#FFE761',
+											confirmButtonText: 'VIEW RESULTS'
 										}).then((value) => {
-											if (value) {
-											document.location='profile.php';
+											if (value.isConfirmed) {
+											document.location='result.php';
 											} else {
 											document.location='profile.php';
 											}
@@ -2383,10 +2382,10 @@ if (!isset($_SESSION["student"])) {
 
 		//for validating Names
 		function validateName(input) {
-			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+			var regex = /^[a-zA-Z\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
 			if (!regex.test(input.value)) {
-				input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any special characters
 			}
 		}
 

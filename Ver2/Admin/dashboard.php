@@ -180,7 +180,7 @@ if (!isset($_SESSION["admin"])) {
                             <small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
                             <small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
                             <small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
-                            <small class="fw-bold" style="color: rgba(233,255,112,1.0);">TVL-ICT</small> -
+                            <small class="fw-bold" style="color: rgba(91,95,151,1.0);">TVL-ICT</small> -
                             <small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
                         </p>
                     </div>
@@ -278,7 +278,7 @@ if (!isset($_SESSION["admin"])) {
                     fill: false
                 }, {
                     data: tvlict,
-                    borderColor: "rgba(233,255,112,1.0)",
+                    borderColor: "rgba(91,95,151,1.0)",
                     fill: false
                 }, {
                     data: tvlhe,
@@ -338,7 +338,7 @@ if (!isset($_SESSION["admin"])) {
             "rgba(255,112,166,1.0)",
             "rgba(255,151,112,1.0)",
             "rgba(255,214,112,1.0)",
-            "rgba(233,255,112,1.0)",
+            "rgba(91,95,151,1.0)",
             "rgba(104,122,0,1.0)",
         ];
 

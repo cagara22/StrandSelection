@@ -49,7 +49,7 @@ session_start(); //Start the session
 							$password = $_POST['password'];
 
 							//check if the username exists in the database
-							$sql = "SELECT * FROM adminprofile WHERE username = '$username'";
+							$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username'";
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
 
@@ -109,11 +109,11 @@ session_start(); //Start the session
 						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="username" name="username" placeholder="111111111111">
+								<input type="text" class="form-control" id="username" name="username" placeholder="111111111111" required>
 								<label for="username">USERNAME</label>
 							</div>
 							<div class="form-floating">
-								<input type="password" class="form-control" id="password" name="password" placeholder="password">
+								<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
 								<label for="password">PASSWORD</label>
 							</div>
 							<div class="d-grid gap-2 my-2">

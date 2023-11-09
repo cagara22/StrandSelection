@@ -86,11 +86,11 @@ session_start();
 						?>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="lrn" name ="lrn" oninput="validateLRN(this)" placeholder="111111111111">
+								<input type="text" class="form-control" id="lrn" name ="lrn" oninput="validateLRN(this)" placeholder="111111111111" required>
 								<label for="lrn">LRN</label>
 							</div>
 							<div class="form-floating">
-								<input type="password" class="form-control" id="password" name ="password" placeholder="password">
+								<input type="password" class="form-control" id="password" name ="password" placeholder="password" required>
 								<label for="password">PASSWORD</label>
 							</div>
 							<div class="d-grid gap-2 my-2">

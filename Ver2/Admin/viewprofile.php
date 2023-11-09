@@ -146,7 +146,7 @@ if (!isset($_SESSION["admin"])) {
 									$curName = $_GET['name'];
 									$newName = $Fname . " " . $Lname;
 									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
-									$age = mysqli_real_escape_string($conn, $_POST['age']);
+									$age = !empty($_POST['age']) ? $_POST['age'] : 0;
 									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
 									$suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
 									$email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -2663,7 +2663,7 @@ if (!isset($_SESSION["admin"])) {
 										<small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
 										<small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
 										<small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
-										<small class="fw-bold" style="color: rgba(233,255,112,1.0);">TVL-ICT</small> -
+										<small class="fw-bold" style="color: rgba(91,95,151,1.0);">TVL-ICT</small> -
 										<small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
 									</p>
 									<div class="col-12">
@@ -2727,6 +2727,17 @@ if (!isset($_SESSION["admin"])) {
 									echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
 								} else {
 									//display the recomendation
+									$terms_to_highlight = array('STEM', 'ABM', 'HUMSS', 'GAS', 'TVL-ICT', 'TVL-HE');
+									$replacement_terms = array(
+										'<span style="color: rgba(112,214,255,1.0); font-weight: bold;">STEM</span>',
+										'<span style="color: rgba(255,151,112,1.0); font-weight: bold;">ABM</span>',
+										'<span style="color: rgba(255,112,166,1.0); font-weight: bold;">HUMSS</span>',
+										'<span style="color: rgba(255,214,112,1.0); font-weight: bold;">GAS</span>',
+										'<span style="color: rgba(91,95,151,1.0); font-weight: bold;">TVL-ICT</span>',
+										'<span style="color: rgba(104,122,0,1.0); font-weight: bold;">TVL-HE</span>'
+									);
+
+									$recommendation = str_replace($terms_to_highlight, $replacement_terms, $recommendation);
 									echo "<p>". $recommendation . "</p>";
 								}
 								?>
@@ -2784,10 +2795,10 @@ if (!isset($_SESSION["admin"])) {
 
 		//for validating Names
 		function validateName(input) {
-			var regex = /^[a-zA-Z0-9\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
+			var regex = /^[a-zA-Z\s]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
 			if (!regex.test(input.value)) {
-				input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove any special characters
+				input.value = input.value.replace(/[^a-zA-Z\s]/g, ''); // Remove any special characters
 			}
 		}
 
@@ -3033,7 +3044,7 @@ if (!isset($_SESSION["admin"])) {
 					"rgba(255,112,166,1.0)",
 					"rgba(255,151,112,1.0)",
 					"rgba(255,214,112,1.0)",
-					"rgba(233,255,112,1.0)",
+					"rgba(91,95,151,1.0)",
 					"rgba(104,122,0,1.0)",
 				];
 

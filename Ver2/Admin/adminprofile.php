@@ -142,7 +142,7 @@ if (!isset($_SESSION["admin"])) {
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
                             $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
                             $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
-                            $age = mysqli_real_escape_string($conn, $_POST['age']);
+                            $age = !empty($_POST['age']) ? $_POST['age'] : 0;
                             $role = '';
                             if($_SESSION['role'] === 'ADMIN'){
                                 $role = 'ADMIN';
@@ -223,7 +223,7 @@ if (!isset($_SESSION["admin"])) {
 
                                         echo "<script>Swal.fire({
                                             title: 'Successfully Updated',
-                                            text: 'Student profile updated successfully!',
+                                            text: 'Admin profile updated successfully!',
                                             icon: 'success',
                                             buttons: {
                                               confirm: true,
@@ -271,7 +271,7 @@ if (!isset($_SESSION["admin"])) {
                         <form class="row" action="" method="post">
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $username1; ?>" oninput="validateName(this)" placeholder="Username" required>
+                                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $username1; ?>" oninput="validateUsername(this)" placeholder="Username" required>
                                     <label for="username">Username</label>
                                 </div>
                             </div>
@@ -398,11 +398,19 @@ if (!isset($_SESSION["admin"])) {
             }
         }
 
-        function validateName(input) {
-            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
+        function validateUsername(input) {
+            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
             if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any characters that do not match the allowed set
+                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any special characters
+            }
+        }
+
+        function validateName(input) {
+            var regex = /^[a-zA-Z\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any special characters
             }
         }
 

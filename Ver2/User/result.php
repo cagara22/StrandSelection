@@ -190,7 +190,7 @@ if (!isset($_SESSION["student"])) {
 								<small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
 								<small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
 								<small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
-								<small class="fw-bold" style="color: rgba(233,255,112,1.0);">TVL-ICT</small> -
+								<small class="fw-bold" style="color: rgba(91,95,151,1.0);">TVL-ICT</small> -
 								<small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
 							</p>
 							<div class="col-12">
@@ -254,6 +254,17 @@ if (!isset($_SESSION["student"])) {
 							echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
 						} else {
 							//display the recomendation
+							$terms_to_highlight = array('STEM', 'ABM', 'HUMSS', 'GAS', 'TVL-ICT', 'TVL-HE');
+							$replacement_terms = array(
+								'<span style="color: rgba(112,214,255,1.0); font-weight: bold;">STEM</span>',
+								'<span style="color: rgba(255,151,112,1.0); font-weight: bold;">ABM</span>',
+								'<span style="color: rgba(255,112,166,1.0); font-weight: bold;">HUMSS</span>',
+								'<span style="color: rgba(255,214,112,1.0); font-weight: bold;">GAS</span>',
+								'<span style="color: rgba(91,95,151,1.0); font-weight: bold;">TVL-ICT</span>',
+								'<span style="color: rgba(104,122,0,1.0); font-weight: bold;">TVL-HE</span>'
+							);
+
+							$recommendation = str_replace($terms_to_highlight, $replacement_terms, $recommendation);
 							echo "<p>". $recommendation . "</p>";
 						}
 						?>
@@ -325,7 +336,7 @@ if (!isset($_SESSION["student"])) {
 					"rgba(255,112,166,1.0)",
 					"rgba(255,151,112,1.0)",
 					"rgba(255,214,112,1.0)",
-					"rgba(233,255,112,1.0)",
+					"rgba(91,95,151,1.0)",
 					"rgba(104,122,0,1.0)",
 				];
 

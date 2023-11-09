@@ -60,7 +60,24 @@ if (isset($_GET['lrn'])) {
 
 //this is for logs deletion
 if (isset($_GET['logid'])) {
+    $filename = 'logs/archived_logs.txt'; // Name of the text file
+    $file = fopen($filename, 'a+'); // Open the file in write mode
+    $currentDateTime = date("Y-m-d", time());
+    fwrite($file, $currentDateTime . PHP_EOL);
+
     $logs_id = $_GET['logid']; //get the log id
+
+    $logsql = "SELECT * FROM logs WHERE id = '$logs_id'";
+    $result = $conn->query($logsql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $logEntry = $row['id'] . "\t" . $row['timestamp'] . "\t" . $row['action'] . "\t" . $row['details'] . "\t" . $row['doer'] . "\n";
+            fwrite($file, $logEntry . PHP_EOL);
+        }
+    }
+
+    fclose($file);
 
     //deletion of the log
     $sql = "DELETE FROM logs WHERE id = '$logs_id'";
@@ -75,13 +92,30 @@ if (isset($_GET['logid'])) {
         echo "Error:" . $sql . "<br>" . $conn->error;
     }
 }else if(isset($_GET['logALL'])){
+    $filename = 'logs/archived_logs.txt'; // Name of the text file
+    $file = fopen($filename, 'a+'); // Open the file in write mode
+    $currentDateTime = date("Y-m-d", time());
+    fwrite($file, $currentDateTime . PHP_EOL);
+
+    $logsql = "SELECT * FROM logs";
+    $result = $conn->query($logsql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $logEntry = $row['id'] . "\t" . $row['timestamp'] . "\t" . $row['action'] . "\t" . $row['details'] . "\t" . $row['doer'] . "\n";
+            fwrite($file, $logEntry . PHP_EOL);
+        }
+    }
+
+    fclose($file);
+
     $sql = "TRUNCATE TABLE logs";
 
     if ($conn->query($sql) === TRUE) {
         $admin_username = $_SESSION['fullname'];
         $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'ALL logs was deleted', '$admin_username')";
         $conn->query($log);
-
+        
         echo "<script type ='text/javascript'>
         window.location='logs.php'
         </script>";

@@ -139,9 +139,9 @@ if (!isset($_SESSION["admin"])) {
                             $fname =  strtoupper(mysqli_real_escape_string($conn, $_POST['fname']));
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
                             $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
-                            $age = mysqli_real_escape_string($conn, $_POST['age']);
-                            $sex = mysqli_real_escape_string($conn, $_POST['sex']);
-                            $role = mysqli_real_escape_string($conn, $_POST['role']);
+                            $age = !empty($_POST['age']) ? $_POST['age'] : 0;
+                            $sex = $_POST['sex'];
+                            $role = $_POST['role'];
                             $email = mysqli_real_escape_string($conn, $_POST['email']);
                             $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
                             $address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
@@ -227,7 +227,7 @@ if (!isset($_SESSION["admin"])) {
                         <form class="row" action="" method="post">
                             <div class="col-12 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name="username" oninput="validateName(this)" placeholder="Username" required>
+                                    <input type="text" class="form-control" id="username" name="username" oninput="validateUsername(this)" placeholder="Username" required>
                                     <label for="username">Username</label>
                                 </div>
                             </div>
@@ -348,11 +348,19 @@ if (!isset($_SESSION["admin"])) {
             }
         }
 
-        function validateName(input) {
-            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow alphanumeric characters, spaces, ñ, Ñ, and dash
+        function validateUsername(input) {
+            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
 
             if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any characters that do not match the allowed set
+                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any special characters
+            }
+        }
+
+        function validateName(input) {
+            var regex = /^[a-zA-Z\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any special characters
             }
         }
 

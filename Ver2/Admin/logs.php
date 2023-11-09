@@ -126,8 +126,11 @@ if (!isset($_SESSION["admin"])) {
                     <h1 class="fw-bold sub-title">LOGS</h1>
                 </div>
                 <div class="row g-3">
-                    <div class="col-12">
+                    <div class="col-6">
                         <a href='#' onclick='deleteALLRecord()' class ='btn btn-lg btn-delete fw-bold w-100'>DELETE ALL LOGS</a>
+                    </div>
+                    <div class="col-6">
+                        <a href='./logs/downloadlogs.php' class ='btn btn-lg btn-view fw-bold w-100'>DOWNLOAD ARCHIVED LOGS</a>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
