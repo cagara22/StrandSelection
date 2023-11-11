@@ -5,12 +5,14 @@ session_start();
 if (!isset($_SESSION["student"])) {
 
 ?>
+
 	<script type="text/javascript">
 		window.location = "index.php";
 	</script>
 <?php
 
 }
+
 ?>
 
 <!doctype html>
@@ -30,6 +32,18 @@ if (!isset($_SESSION["student"])) {
 </head>
 
 <body>
+	<?php
+		if (isset($_POST["generateBtn"])) {
+			echo "<script>Swal.fire({
+				title: 'Generating Recommendations!',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				didOpen: () => {
+				  Swal.showLoading();
+				}
+			  });</script>";
+		}
+	?>
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
@@ -110,7 +124,7 @@ if (!isset($_SESSION["student"])) {
 													icon: 'error',
 													showConfirmButton: false,
                                                 	timer: 5000
-													});</script>";
+													});</>";
 												//echo "<script>window.location.href='profile.php';</script>";
 												//exit; //exit the script if passwords do not match
 											}else{//if everything is good, define the sql statement to update the student account details with password
@@ -2167,6 +2181,7 @@ if (!isset($_SESSION["student"])) {
 							$maxAttempts = 10;
 							$attempt = 1;
 							$recomendation = null;
+							$timeout = false;
 
 							while ($attempt <= $maxAttempts) {
 								try{
@@ -2182,6 +2197,7 @@ if (!isset($_SESSION["student"])) {
 
 									if (!empty($data['choices'][0]['message']['content'])) { //check if has returend a message
 										$recomendation = $data['choices'][0]['message']['content'];
+										$timeout = false;
 										break;
 									} else { //try again
 										$attempt++;
@@ -2189,12 +2205,26 @@ if (!isset($_SESSION["student"])) {
 									}
 								}catch(Exception $e){
 									echo 'Caught exception: ',  $e->getMessage(), "\n";
+									$timeout = true;
 									$attempt++;
 								}
 							}
 
-							if ($recomendation === null) {//handle the case where a recommendation was not obtained after maximum attempts
-								echo 'error generating recommendation';
+							if ($recomendation === null || $timeout) {//handle the case where a recommendation was not obtained after maximum attempts
+								echo "<script>Swal.fire({
+									title: 'UNABLE TO GENERATE A RECOMMENDATION!',
+									text: 'Please try again...!',
+									icon: 'error',
+									buttons: {
+									  confirm: true,
+									},
+								  }).then((value) => {
+									if (value) {
+									  document.location='profile.php';
+									} else {
+									  document.location='profile.php';
+									}
+								  });</script>";
 							} else {//prepare the update statement for student's results
 								$sql5 = "UPDATE studentprofile
 								JOIN result ON studentprofile.lrn = result.lrn

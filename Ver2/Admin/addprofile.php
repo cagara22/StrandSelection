@@ -344,7 +344,7 @@ if (!isset($_SESSION["admin"])) {
                                         $invalidTemplate = false;
                                         $sucessCount = 0;
                                         $invalidLRNCount = 0;
-                                        $emptyNameCount = 0;
+                                        $invalidNameCount = 0;
                                         $duplicateLRNCount = 0;
                                         $errorCount = 0;
 
@@ -365,8 +365,8 @@ if (!isset($_SESSION["admin"])) {
                                                         $invalidLRNCount++;
                                                         continue;
                                                     }else{
-                                                        if(empty($row[1]) || empty($row[3])){
-                                                            $emptyName++;
+                                                        if(empty($row[1]) || empty($row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[1]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[2]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[4])){
+                                                            $invalidNameCount++;
                                                             continue;
                                                         }else{
                                                             $Fname = strtoupper(mysqli_real_escape_string($conn, $row[1]));
@@ -460,7 +460,7 @@ if (!isset($_SESSION["admin"])) {
                                                     title: 'Successfully Added',
                                                     text: 'Multiple profiles added successfully!',
                                                     icon: 'success',
-                                                    footer: 'Success: ". $sucessCount ."<br>Invalid LRN: ". $invalidLRNCount ."<br>Duplicate LRN: ". $duplicateLRNCount ."<br>Empty Name: ". $emptyNameCount ."<br>Errors: ". $errorCount ."',
+                                                    footer: 'Success: ". $sucessCount ."<br>Invalid LRN: ". $invalidLRNCount ."<br>Duplicate LRN: ". $duplicateLRNCount ."<br>Invalid Name: ". $invalidNameCount ."<br>Errors: ". $errorCount ."',
                                                     buttons: {
                                                       confirm: true,
                                                     },

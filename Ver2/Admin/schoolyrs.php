@@ -157,7 +157,7 @@ if (!isset($_SESSION["admin"])) {
 
                                 if (isset($_GET['searchname'])) {//if search is clicked
                                     $search = $_GET['searchname'];
-                                    $sql = "SELECT * FROM schoolyr WHERE schoolyrName LIKE '%$search%'";
+                                    $sql = "SELECT * FROM schoolyr WHERE schoolyrName LIKE '%$search%' LIMIT $offset, $total_records_per_page";
                                 } else {//retrieve all school year records
                                     $sql = "SELECT * FROM schoolyr LIMIT $offset, $total_records_per_page";
                                 }
@@ -199,7 +199,13 @@ if (!isset($_SESSION["admin"])) {
                                     echo "<tr><td colspan='9' class='text-center'>0 results</td></tr>";
                                 }
 
-                                $sql = "SELECT COUNT(*) AS total_records FROM schoolyr";
+                                if (isset($_GET['searchname'])) {//if the search button is clicked
+                                    $search = $_GET['searchname'];
+                                    $sql = "SELECT COUNT(*) AS total_records FROM schoolyr WHERE schoolyrName LIKE '%$search%'";
+                                } else {//retrieve all section record
+                                    $sql = "SELECT COUNT(*) AS total_records FROM schoolyr";
+                                }
+
                                 $result = $conn->query($sql);
                                 $total_records = $result->fetch_assoc()['total_records'];
                                 $total_no_of_pages = ceil($total_records / $total_records_per_page);
@@ -210,12 +216,40 @@ if (!isset($_SESSION["admin"])) {
 
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=?page_no=' . $previous_page : ''; ?>>Previous</a></li>
-                                <?php for ($counter = 1; $counter <= $total_no_of_pages; $counter++) { ?>
-                                    <li class="page-item"><a class="page-link" href="?page_no=<?= $counter; ?>">
-                                            <?= $counter; ?></a></li>
-                                <?php } ?>
-                                <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+                                <?php
+                                    if(isset($_GET['searchname'])){
+                                        $search = $_GET['searchname'];
+                                        $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
+                                        $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
+                                    }else{
+                                        $previouslink = "?page_no=". $previous_page;
+                                        $nextlink = "?page_no=" . $next_page;
+                                    }
+                                ?>
+                                <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=' . $previouslink : ''; ?>>Previous</a></li>
+                                <?php 
+                                    $max_visible_buttons = 10;
+                                    $start = max(1, $page_no - floor($max_visible_buttons / 2));
+                                    $end = min($start + $max_visible_buttons - 1, $total_no_of_pages);
+
+                                    if ($end - $start + 1 < $max_visible_buttons) {
+                                        $start = max(1, $end - $max_visible_buttons + 1);
+                                    }
+
+                                    for ($counter = $start; $counter <= $end; $counter++) {
+                                        if(isset($_GET['searchname'])){
+                                            $search = $_GET['searchname'];
+                                            $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
+                                        }else{
+                                            $numberlink = "?page_no=". $counter;
+                                        }
+                                ?>
+                                        <li class="page-item"><a class="page-link" href="<?= $numberlink; ?>">
+                                                <?= $counter; ?></a></li>
+                                <?php 
+                                    } 
+                                ?>
+                                <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=' . $nextlink : ''; ?>>Next</a></li>
                             </ul>
                         </nav>
 

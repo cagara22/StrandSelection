@@ -181,7 +181,7 @@ if (!isset($_SESSION["admin"])) {
                                         }else{ //passwrod and confirm password matches
                                             //prepare the update sql statement with password
                                             $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                            address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role' password='$password' WHERE adminID='$id'";
+                                            address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role', password='$password' WHERE adminID='$id'";
                                         }
                                     }else{ //confirm password empty
                                         echo "<script>Swal.fire({
@@ -195,7 +195,7 @@ if (!isset($_SESSION["admin"])) {
                                 }else{ //password empty
                                     //prepare update sql statement without password
                                     $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                    address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE adminID='$id'";
+                                    address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role'  WHERE adminID='$id'";
                                 }
 
                                 if(!empty($sql)){ //if everything is set, update

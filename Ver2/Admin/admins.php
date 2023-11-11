@@ -163,7 +163,12 @@ if (!isset($_SESSION["admin"])) {
                         $next_page = $page_no + 1;
 
                         $cur_Admin = $_SESSION['admin'];
-                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM adminprofile WHERE username != '$cur_Admin'") or die('Unable to get total records.');
+                        if(isset($_GET['searchname'])){
+                            $search = $_GET['searchname'];
+                            $result_count = mysqli_query($conn, "SELECT COUNT(*) AS total_records FROM adminprofile WHERE (CONCAT(fname, ' ', lname) LIKE '%$search%' OR username LIKE '%$search%') AND username != '$cur_Admin'") or die('Unable to get total records.');
+                        }else{
+                            $result_count = mysqli_query($conn, "SELECT COUNT(*) AS total_records FROM adminprofile WHERE username != '$cur_Admin'") or die('Unable to get total records.');
+                        }
 
                         $records = mysqli_fetch_array($result_count);
                         $total_records = $records['total_records'];
@@ -211,7 +216,17 @@ if (!isset($_SESSION["admin"])) {
                 </table>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=?page_no=' . $previous_page : ''; ?>>Previous</a></li>
+                        <?php
+                            if(isset($_GET['searchname'])){
+                                $search = $_GET['searchname'];
+                                $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
+                                $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
+                            }else{
+                                $previouslink = "?page_no=". $previous_page;
+                                $nextlink = "?page_no=" . $next_page;
+                            }
+                        ?>
+                        <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=' . $previouslink : ''; ?>>Previous</a></li>
                         <?php 
                             $max_visible_buttons = 10;
                             $start = max(1, $page_no - floor($max_visible_buttons / 2));
@@ -222,13 +237,19 @@ if (!isset($_SESSION["admin"])) {
                             }
 
                             for ($counter = $start; $counter <= $end; $counter++) {
+                                if(isset($_GET['searchname'])){
+                                    $search = $_GET['searchname'];
+                                    $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
+                                }else{
+                                    $numberlink = "?page_no=". $counter;
+                                }
                         ?>
-                                <li class="page-item"><a class="page-link" href="?page_no=<?= $counter; ?>">
+                                <li class="page-item"><a class="page-link" href="<?= $numberlink; ?>">
                                         <?= $counter; ?></a></li>
                         <?php 
                             } 
                         ?>
-                        <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+                        <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=' . $nextlink : ''; ?>>Next</a></li>
                     </ul>
                 </nav>
 

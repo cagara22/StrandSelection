@@ -30,6 +30,18 @@ if (!isset($_SESSION["admin"])) {
 </head>
 
 <body>
+	<?php
+		if (isset($_POST["generateBtn"])) {
+			echo "<script>Swal.fire({
+				title: 'Generating Recommendations!',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				didOpen: () => {
+				  Swal.showLoading();
+				}
+			  });</script>";
+		}
+	?>
 	<header class="navbar sticky-top flex-md-nowrap p-0 shadow">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="./dashboard.php">
@@ -2378,6 +2390,7 @@ if (!isset($_SESSION["admin"])) {
 												$maxAttempts = 10;
 												$attempt = 1;
 												$recomendation = null;
+												$timeout = false;
 
 												while ($attempt <= $maxAttempts) {
 													try{
@@ -2393,6 +2406,7 @@ if (!isset($_SESSION["admin"])) {
 
 														if (!empty($data['choices'][0]['message']['content'])) { //check if has returend a message
 															$recomendation = $data['choices'][0]['message']['content'];
+															$timeout = false;
 															break;
 														} else { //try again
 															$attempt++;
@@ -2400,12 +2414,26 @@ if (!isset($_SESSION["admin"])) {
 														}
 													}catch(Exception $e){
 														echo 'Caught exception: ',  $e->getMessage(), "\n";
+														$timeout = true;
 														$attempt++;
 													}
 												}
 
-												if ($recomendation === null) {//handle the case where a recommendation was not obtained after maximum attempts
-													echo 'error generating recommendation';
+												if ($recomendation === null || $timeout) {//handle the case where a recommendation was not obtained after maximum attempts
+													echo "<script>Swal.fire({
+														title: 'UNABLE TO GENERATE A RECOMMENDATION!',
+														text: 'Please try again...!',
+														icon: 'error',
+														buttons: {
+														  confirm: true,
+														},
+													  }).then((value) => {
+														if (value) {
+														  document.location='viewprofile.php';
+														} else {
+														  document.location='viewprofile.php';
+														}
+													  });</script>";
 												} else {//prepare the update statement for student's results
 													$sql5 = "UPDATE studentprofile
 													JOIN result ON studentprofile.lrn = result.lrn
