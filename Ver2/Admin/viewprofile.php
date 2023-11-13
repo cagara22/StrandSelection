@@ -30,18 +30,6 @@ if (!isset($_SESSION["admin"])) {
 </head>
 
 <body>
-	<?php
-		if (isset($_POST["generateBtn"])) {
-			echo "<script>Swal.fire({
-				title: 'Generating Recommendations!',
-				text: 'Please wait...',
-				allowOutsideClick: false,
-				didOpen: () => {
-				  Swal.showLoading();
-				}
-			  });</script>";
-		}
-	?>
 	<header class="navbar sticky-top flex-md-nowrap p-0 shadow">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="./dashboard.php">
@@ -3176,6 +3164,21 @@ if (!isset($_SESSION["admin"])) {
 					}
 				});
 			}
+		});
+
+		function showLoading() {
+			Swal.fire({
+				title: 'Generating Recommendations!',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				didOpen: () => {
+				  Swal.showLoading();
+				}
+			});
+		}
+
+		document.getElementById('generateBtn').addEventListener('click', function() {
+			showLoading();
 		});
 
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

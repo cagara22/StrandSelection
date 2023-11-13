@@ -64,6 +64,15 @@ session_start();
 									//Set the session variables
 									$_SESSION['student'] = $username; //lrn
 									$_SESSION['fname'] = $ufname; //first name
+									$ressql = "SELECT MostSuitableStrand FROM result WHERE lrn = '$username'";
+									$res = mysqli_query($conn, $ressql);
+									$result = mysqli_fetch_assoc($res);
+									if(empty($result['MostSuitableStrand'])){
+										$_SESSION['showGenerate'] = true;
+									}else{
+										$_SESSION['showGenerate'] = false;
+									}
+									
 									header("Location: home.php"); //redirect to the home page
 
 								} else {//the password is not correct

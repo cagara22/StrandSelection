@@ -32,18 +32,6 @@ if (!isset($_SESSION["student"])) {
 </head>
 
 <body>
-	<?php
-		if (isset($_POST["generateBtn"])) {
-			echo "<script>Swal.fire({
-				title: 'Generating Recommendations!',
-				text: 'Please wait...',
-				allowOutsideClick: false,
-				didOpen: () => {
-				  Swal.showLoading();
-				}
-			  });</script>";
-		}
-	?>
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
@@ -657,6 +645,8 @@ if (!isset($_SESSION["student"])) {
 
 											//execute the update query
 											if ($conn->query($sql4) === TRUE) {//if the update is successful
+												$_SESSION['showGenerate'] = true;
+
 												echo "<script>Swal.fire({
 													title: 'Successfully Updated',
 													text: 'Student Profile updated successfully!',
@@ -1990,7 +1980,13 @@ if (!isset($_SESSION["student"])) {
 								<label for="result">RESULT</label>
 							</div>
 							<div class="d-grid gap-2 d-md-flex justify-content-end">
-								<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-primary form-button-text"><span class="fw-bold">GENERATE</span></button>
+								<?php
+									if($_SESSION['showGenerate']){
+										echo '<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-primary form-button-text"><span class="fw-bold">GENERATE</span></button>';
+									}else{
+										echo '<a class="btn btn-warning fw-bold" href="result.php" role="button">VIEW RESULTS</a>';
+									}
+								?>
 							</div>
 						</form>
 						<?php
@@ -2328,6 +2324,8 @@ if (!isset($_SESSION["student"])) {
 									$stmt->execute();
 
 									if ($stmt->affected_rows > 0) {
+										$_SESSION['showGenerate'] = false;
+
 										echo "<script>Swal.fire({
 											title: 'Successfully Generated',
 											text: 'Student results generated successfully!',
@@ -2612,6 +2610,22 @@ if (!isset($_SESSION["student"])) {
 				generateButton.disabled = false;
 			}
 		});
+
+		function showLoading() {
+			Swal.fire({
+				title: 'Generating Recommendations!',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				didOpen: () => {
+				  Swal.showLoading();
+				}
+			});
+		}
+
+		document.getElementById('generateBtn').addEventListener('click', function() {
+			showLoading();
+		});
+
 		//for bootstrap tooltips
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
