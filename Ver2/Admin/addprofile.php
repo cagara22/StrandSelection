@@ -77,7 +77,7 @@ if (!isset($_SESSION["admin"])) {
                         <li>
                             <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li>
@@ -365,7 +365,7 @@ if (!isset($_SESSION["admin"])) {
                                                         $invalidLRNCount++;
                                                         continue;
                                                     }else{
-                                                        if(empty($row[1]) || empty($row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[1]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[2]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[4])){
+                                                        if(empty($row[1]) || empty($row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[1]) || !preg_match('/^[a-zA-Z\sñÑ-]*$/', $row[2]) || !preg_match('/^[a-zA-Z\sñÑ-]+$/', $row[3]) || !preg_match('/^[a-zA-Z\sñÑ-]*$/', $row[4])){
                                                             $invalidNameCount++;
                                                             continue;
                                                         }else{

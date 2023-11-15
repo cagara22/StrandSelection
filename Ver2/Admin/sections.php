@@ -76,7 +76,7 @@ if (!isset($_SESSION["admin"])) {
                         <li>
                             <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li>
@@ -127,7 +127,7 @@ if (!isset($_SESSION["admin"])) {
                     <div class="col-8">
                         <form class="row g-3" method="GET" action="">
                             <div class="col-10">
-                                <input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
+                                <input type="text" class="form-control" id="searchname" name="searchname" oninput="validateSearch(this)" placeholder="Search...">
                             </div>
                             <div class="col-2">
                                 <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
@@ -157,7 +157,7 @@ if (!isset($_SESSION["admin"])) {
                                 $offset = ($page_no - 1) * $total_records_per_page;
 
                                 if (isset($_GET['searchname'])) {//if the search button is clicked
-                                    $search = $_GET['searchname'];
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $sql = "SELECT section.sectionID, section.sectionName, adminprofile.adminID, adminprofile.username FROM section JOIN adminprofile ON section.adminID = adminprofile.adminID WHERE sectionName LIKE '%$search%' LIMIT $offset, $total_records_per_page";
                                 } else {//retrieve all section record
                                     $sql = "SELECT section.sectionID, section.sectionName, adminprofile.adminID, adminprofile.username FROM section JOIN adminprofile ON section.adminID = adminprofile.adminID LIMIT $offset, $total_records_per_page";
@@ -204,7 +204,7 @@ if (!isset($_SESSION["admin"])) {
                                 }
 
                                 if (isset($_GET['searchname'])) {//if the search button is clicked
-                                    $search = $_GET['searchname'];
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $sql = "SELECT COUNT(*) AS total_records FROM section WHERE sectionName LIKE '%$search%'";
                                 } else {//retrieve all section record
                                     $sql = "SELECT COUNT(*) AS total_records FROM section";
@@ -222,7 +222,7 @@ if (!isset($_SESSION["admin"])) {
                             <ul class="pagination">
                                 <?php
                                     if(isset($_GET['searchname'])){
-                                        $search = $_GET['searchname'];
+                                        $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                         $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
                                         $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
                                     }else{
@@ -242,7 +242,7 @@ if (!isset($_SESSION["admin"])) {
 
                                     for ($counter = $start; $counter <= $end; $counter++) {
                                         if(isset($_GET['searchname'])){
-                                            $search = $_GET['searchname'];
+                                            $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                             $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
                                         }else{
                                             $numberlink = "?page_no=". $counter;
@@ -449,6 +449,15 @@ if (!isset($_SESSION["admin"])) {
                 }
             });
         }
+
+        function validateSearch(input) {
+            var regex = /^[a-zA-Z0-9\sñÑ\(\)-]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ\(\)-]/g, ''); // Remove any special characters
+            }
+        }
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

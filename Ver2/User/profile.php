@@ -683,55 +683,64 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiCommunicationSkills" name="skiCommunicationSkills" value="1" <?php if (strpos($skiCommunicationSkills1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiCommunicationSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to convey thoughts, ideas, or information effectively to others through various means, such as speaking, writing, or listening.">Communication Skills</label>
+														<label class="form-check-label" for="skiCommunicationSkills">Communication Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to convey thoughts, ideas, or information effectively to others through various means, such as speaking, writing, or listening.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiCriticalThinking" name="skiCriticalThinking" value="1" <?php if (strpos($skiCriticalThinking1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiCriticalThinking" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to analyze, evaluate, and reason about information and situations in a logical and thoughtful manner to make informed decisions.">Critical Thinking</label>
+														<label class="form-check-label" for="skiCriticalThinking">Critical Thinking</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to analyze, evaluate, and reason about information and situations in a logical and thoughtful manner to make informed decisions.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiReadingComprehension" name="skiReadingComprehension" value="1" <?php if (strpos($skiReadingComprehension1, "1") !== false) {
 																																													echo " checked";
 																																												} ?>>
-														<label class="form-check-label" for="skiReadingComprehension" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of understanding and interpreting written text, including identifying key ideas and details.">Reading Comprehension</label>
+														<label class="form-check-label" for="skiReadingComprehension">Reading Comprehension</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of understanding and interpreting written text, including identifying key ideas and details.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiProblemSolving" name="skiProblemSolving" value="1" <?php if (strpos($skiProblemSolving1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiProblemSolving" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capability to identify challenges, analyze them, and develop effective solutions or strategies to overcome them.">Problem Solving</label>
+														<label class="form-check-label" for="skiProblemSolving">Problem Solving</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capability to identify challenges, analyze them, and develop effective solutions or strategies to overcome them.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiResearchSkills" name="skiResearchSkills" value="1" <?php if (strpos($skiResearchSkills1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiResearchSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The aptitude to gather, assess, and synthesize information from various sources to acquire knowledge and address questions or issues.">Research Skills</label>
+														<label class="form-check-label" for="skiResearchSkills">Research Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The aptitude to gather, assess, and synthesize information from various sources to acquire knowledge and address questions or issues.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiDigitalLiteracy" name="skiDigitalLiteracy" value="1" <?php if (strpos($skiDigitalLiteracy1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiDigitalLiteracy" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in using digital devices and technology to access, understand, and communicate information effectively in the digital age.">Digital Literacy</label>
+														<label class="form-check-label" for="skiDigitalLiteracy">Digital Literacy</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in using digital devices and technology to access, understand, and communicate information effectively in the digital age.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiInnovative" name="skiInnovative" value="1" <?php if (strpos($skiInnovative1, "1") !== false) {
 																																								echo " checked";
 																																							} ?>>
-														<label class="form-check-label" for="skiInnovative" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">Innovative</label>
+														<label class="form-check-label" for="skiInnovative">Innovative</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiTimeManagement" name="skiTimeManagement" value="1" <?php if (strpos($skiTimeManagement1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiTimeManagement" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of efficiently organizing and prioritizing tasks and activities to make the most of available time.">Time Management</label>
+														<label class="form-check-label" for="skiTimeManagement">Time Management</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of efficiently organizing and prioritizing tasks and activities to make the most of available time.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiAdaptability" name="skiAdaptability" value="1" <?php if (strpos($skiAdaptability1, "1") !== false) {
 																																									echo " checked";
 																																								} ?>>
-														<label class="form-check-label" for="skiAdaptability" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to adjust and thrive in changing circumstances, embracing new situations and challenges with flexibility.">Adaptability</label>
+														<label class="form-check-label" for="skiAdaptability">Adaptability</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to adjust and thrive in changing circumstances, embracing new situations and challenges with flexibility.">
 													</div>
 												</div>
 											</div>
@@ -742,31 +751,36 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiScientificInquiry" name="skiScientificInquiry" value="1" <?php if (strpos($skiScientificInquiry1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiScientificInquiry" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of asking questions, conducting investigations, and drawing conclusions based on evidence to understand the natural world.">Scientific Inquiry</label>
+														<label class="form-check-label" for="skiScientificInquiry">Scientific Inquiry</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of asking questions, conducting investigations, and drawing conclusions based on evidence to understand the natural world.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiMathematicalSkills" name="skiMathematicalSkills" value="1" <?php if (strpos($skiMathematicalSkills1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiMathematicalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to use mathematical concepts, operations, and methods to solve problems and make sense of numerical information.">Mathematical Skills</label>
+														<label class="form-check-label" for="skiMathematicalSkills">Mathematical Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to use mathematical concepts, operations, and methods to solve problems and make sense of numerical information.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiLogicalReasoning" name="skiLogicalReasoning" value="1" <?php if (strpos($skiLogicalReasoning1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiLogicalReasoning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to think rationally and systematically, making well-structured, coherent arguments and decisions.">Logical Reasoning</label>
+														<label class="form-check-label" for="skiLogicalReasoning">Logical Reasoning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to think rationally and systematically, making well-structured, coherent arguments and decisions.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiLabExperimentalSkills" name="skiLabExperimentalSkills" value="1" <?php if (strpos($skiLabExperimentalSkills1, "1") !== false) {
 																																													echo " checked";
 																																												} ?>>
-														<label class="form-check-label" for="skiLabExperimentalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in conducting experiments, including using equipment, collecting data, and following scientific procedures accurately.">Lab and Experimental Skills</label>
+														<label class="form-check-label" for="skiLabExperimentalSkills">Lab and Experimental Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in conducting experiments, including using equipment, collecting data, and following scientific procedures accurately.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiAnalyticalSkills" name="skiAnalyticalSkills" value="1" <?php if (strpos($skiAnalyticalSkills1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiAnalyticalSkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and interpreting complex data or information to identify patterns, trends, or insights.">Analytical Skills</label>
+														<label class="form-check-label" for="skiAnalyticalSkills">Analytical Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and interpreting complex data or information to identify patterns, trends, or insights.">
 													</div>
 												</div>
 											</div>
@@ -777,31 +791,36 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiResearchWriting" name="skiResearchWriting" value="1" <?php if (strpos($skiResearchWriting1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiResearchWriting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to gather information systematically and communicate ideas effectively through written means.">Research and Writing</label>
+														<label class="form-check-label" for="skiResearchWriting">Research and Writing</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to gather information systematically and communicate ideas effectively through written means.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiSociologicalAnalysis" name="skiSociologicalAnalysis" value="1" <?php if (strpos($skiSociologicalAnalysis1, "1") !== false) {
 																																													echo " checked";
 																																												} ?>>
-														<label class="form-check-label" for="skiSociologicalAnalysis" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and understanding social phenomena, behavior, and institutions, often through a critical and systematic approach.">Sociological Analysis</label>
+														<label class="form-check-label" for="skiSociologicalAnalysis">Sociological Analysis</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and understanding social phenomena, behavior, and institutions, often through a critical and systematic approach.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiCulturalCompetence" name="skiCulturalCompetence" value="1" <?php if (strpos($skiCulturalCompetence1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiCulturalCompetence" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to interact and work effectively with people from diverse cultural backgrounds while respecting and valuing their beliefs and practices.">Cultural Competence</label>
+														<label class="form-check-label" for="skiCulturalCompetence">Cultural Competence</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to interact and work effectively with people from diverse cultural backgrounds while respecting and valuing their beliefs and practices.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiEthicalReasoning" name="skiEthicalReasoning" value="1" <?php if (strpos($skiEthicalReasoning1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiEthicalReasoning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of evaluating moral dilemmas and making decisions that align with ethical principles and values.">Ethical Reasoning</label>
+														<label class="form-check-label" for="skiEthicalReasoning">Ethical Reasoning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of evaluating moral dilemmas and making decisions that align with ethical principles and values.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiHistoryPoliticalScience" name="skiHistoryPoliticalScience" value="1" <?php if (strpos($skiHistoryPoliticalScience1, "1") !== false) {
 																																														echo " checked";
 																																													} ?>>
-														<label class="form-check-label" for="skiHistoryPoliticalScience" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in studying and interpreting historical events and political systems to gain insights into the past and present.">History and Political Science</label>
+														<label class="form-check-label" for="skiHistoryPoliticalScience">History and Political Science</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in studying and interpreting historical events and political systems to gain insights into the past and present.">
 													</div>
 												</div>
 											</div>
@@ -812,37 +831,43 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiFinancialLiteracy" name="skiFinancialLiteracy" value="1" <?php if (strpos($skiFinancialLiteracy1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiFinancialLiteracy" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The understanding of financial concepts and practices, enabling informed financial decision-making.">Financial Literacy</label>
+														<label class="form-check-label" for="skiFinancialLiteracy">Financial Literacy</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The understanding of financial concepts and practices, enabling informed financial decision-making.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiBusinessPlanning" name="skiBusinessPlanning" value="1" <?php if (strpos($skiBusinessPlanning1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiBusinessPlanning" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of developing a detailed strategy for achieving business goals, including financial, operational, and marketing plans.">Business Planning</label>
+														<label class="form-check-label" for="skiBusinessPlanning">Business Planning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of developing a detailed strategy for achieving business goals, including financial, operational, and marketing plans.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiMarketing" name="skiMarketing" value="1" <?php if (strpos($skiMarketing1, "1") !== false) {
 																																							echo " checked";
 																																						} ?>>
-														<label class="form-check-label" for="skiMarketing" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of promoting and selling products or services by understanding customer needs and creating strategies to meet them.">Marketing</label>
+														<label class="form-check-label" for="skiMarketing">Marketing</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of promoting and selling products or services by understanding customer needs and creating strategies to meet them.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiAccounting" name="skiAccounting" value="1" <?php if (strpos($skiAccounting1, "1") !== false) {
 																																								echo " checked";
 																																							} ?>>
-														<label class="form-check-label" for="skiAccounting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The systematic recording, reporting, and analysis of financial transactions to track a business's financial health.">Accounting</label>
+														<label class="form-check-label" for="skiAccounting">Accounting</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The systematic recording, reporting, and analysis of financial transactions to track a business's financial health.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiEntrepreneurship" name="skiEntrepreneurship" value="1" <?php if (strpos($skiEntrepreneurship1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
-														<label class="form-check-label" for="skiEntrepreneurship" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify business opportunities, take calculated risks, and create and manage successful ventures.">Entrepreneurship</label>
+														<label class="form-check-label" for="skiEntrepreneurship">Entrepreneurship</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify business opportunities, take calculated risks, and create and manage successful ventures.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiEconomics" name="skiEconomics" value="1" <?php if (strpos($skiEconomics1, "1") !== false) {
 																																							echo " checked";
 																																						} ?>>
-														<label class="form-check-label" for="skiEconomics" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of how societies allocate resources and make decisions about production, distribution, and consumption.">Economics</label>
+														<label class="form-check-label" for="skiEconomics">Economics</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of how societies allocate resources and make decisions about production, distribution, and consumption.">
 													</div>
 												</div>
 											</div>
@@ -853,37 +878,43 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiComputerHardwareSoftware" name="skiComputerHardwareSoftware" value="1" <?php if (strpos($skiComputerHardwareSoftware1, "1") !== false) {
 																																															echo " checked";
 																																														} ?>>
-														<label class="form-check-label" for="skiComputerHardwareSoftware" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge of computer components and software programs, including installation and maintenance.">Computer Hardware and Software</label>
+														<label class="form-check-label" for="skiComputerHardwareSoftware">Computer Hardware and Software</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge of computer components and software programs, including installation and maintenance.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiComputerNetworking" name="skiComputerNetworking" value="1" <?php if (strpos($skiComputerNetworking1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiComputerNetworking" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to set up, configure, and manage computer networks for data communication.">Computer Networking</label>
+														<label class="form-check-label" for="skiComputerNetworking">Computer Networking</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to set up, configure, and manage computer networks for data communication.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiWebDevelopment" name="skiWebDevelopment" value="1" <?php if (strpos($skiWebDevelopment1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiWebDevelopment" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of creating websites and web applications, involving coding, design, and functionality.">Web Development</label>
+														<label class="form-check-label" for="skiWebDevelopment">Web Development</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of creating websites and web applications, involving coding, design, and functionality.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiProgramming" name="skiProgramming" value="1" <?php if (strpos($skiProgramming1, "1") !== false) {
 																																								echo " checked";
 																																							} ?>>
-														<label class="form-check-label" for="skiProgramming" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Writing, testing, and maintaining the source code of computer programs to achieve specific tasks or functions.">Programming</label>
+														<label class="form-check-label" for="skiProgramming">Programming</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Writing, testing, and maintaining the source code of computer programs to achieve specific tasks or functions.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiTroubleshooting" name="skiTroubleshooting" value="1" <?php if (strpos($skiTroubleshooting1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiTroubleshooting" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify and resolve technical issues or problems in hardware, software, or systems.">Troubleshooting</label>
+														<label class="form-check-label" for="skiTroubleshooting">Troubleshooting</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify and resolve technical issues or problems in hardware, software, or systems.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiGraphicsDesign" name="skiGraphicsDesign" value="1" <?php if (strpos($skiGraphicsDesign1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiGraphicsDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating visual content and layouts for digital or print media, including images, illustrations, and multimedia elements.">Graphics Design</label>
+														<label class="form-check-label" for="skiGraphicsDesign">Graphics Design</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating visual content and layouts for digital or print media, including images, illustrations, and multimedia elements.">
 													</div>
 												</div>
 											</div>
@@ -894,31 +925,36 @@ if (!isset($_SESSION["student"])) {
 														<input class="form-check-input" type="checkbox" id="skiCulinarySkills" name="skiCulinarySkills" value="1" <?php if (strpos($skiCulinarySkills1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiCulinarySkills" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in food preparation, cooking techniques, and culinary arts.">Culinary Skills</label>
+														<label class="form-check-label" for="skiCulinarySkills">Culinary Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in food preparation, cooking techniques, and culinary arts.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiSewingFashionDesign" name="skiSewingFashionDesign" value="1" <?php if (strpos($skiSewingFashionDesign1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiSewingFashionDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to create and tailor clothing, including sewing, pattern-making, and fashion design.">Sewing and Fashion Design</label>
+														<label class="form-check-label" for="skiSewingFashionDesign">Sewing and Fashion Design</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to create and tailor clothing, including sewing, pattern-making, and fashion design.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiInteriorDesign" name="skiInteriorDesign" value="1" <?php if (strpos($skiInteriorDesign1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiInteriorDesign" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Planning and decorating interior spaces to create functional and aesthetically pleasing environments.">Interior Design</label>
+														<label class="form-check-label" for="skiInteriorDesign">Interior Design</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Planning and decorating interior spaces to create functional and aesthetically pleasing environments.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiChildcareFamilyServices" name="skiChildcareFamilyServices" value="1" <?php if (strpos($skiChildcareFamilyServices1, "1") !== false) {
 																																														echo " checked";
 																																													} ?>>
-														<label class="form-check-label" for="skiChildcareFamilyServices" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Providing care, support, and services for children and families, often including early childhood education and child development.">Childcare and Family Services</label>
+														<label class="form-check-label" for="skiChildcareFamilyServices">Childcare and Family Services</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Providing care, support, and services for children and families, often including early childhood education and child development.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiNutritionFoodSafety" name="skiNutritionFoodSafety" value="1" <?php if (strpos($skiNutritionFoodSafety1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
-														<label class="form-check-label" for="skiNutritionFoodSafety" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge and practices related to proper nutrition, dietary planning, and ensuring the safety of food consumption.">Nutrition and Food Safety</label>
+														<label class="form-check-label" for="skiNutritionFoodSafety">Nutrition and Food Safety</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge and practices related to proper nutrition, dietary planning, and ensuring the safety of food consumption.">
 													</div>
 												</div>
 											</div>
@@ -931,7 +967,8 @@ if (!isset($_SESSION["student"])) {
 										<div class="row text-start">
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intCalculus" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of continuous change and mathematical analysis.">Calculus</label>
+													<label for="intCalculus" class="form-label">Calculus</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of continuous change and mathematical analysis.">
 													<input type="range" class="form-range" min="0" max="5" id="intCalculus" name="intCalculus" value="<?php echo $intCalculus1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -940,7 +977,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intBiology" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The exploration of living organisms and their processes.">Biology</label>
+													<label for="intBiology" class="form-label">Biology</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The exploration of living organisms and their processes.">
 													<input type="range" class="form-range" min="0" max="5" id="intBiology" name="intBiology" value="<?php echo $intBiology1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -949,7 +987,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intPhysics" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The investigation of matter, energy, and the fundamental forces of the universe.">Physics</label>
+													<label for="intPhysics" class="form-label">Physics</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The investigation of matter, energy, and the fundamental forces of the universe.">
 													<input type="range" class="form-range" min="0" max="5" id="intPhysics" name="intPhysics" value="<?php echo $intPhysics1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -958,7 +997,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intChemistry" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of substances, their properties, and chemical reactions.">Chemistry</label>
+													<label for="intChemistry" class="form-label">Chemistry</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of substances, their properties, and chemical reactions.">
 													<input type="range" class="form-range" min="0" max="5" id="intChemistry" name="intChemistry" value="<?php echo $intChemistry1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -967,7 +1007,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intCreativeWriting" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of expressing thoughts and ideas through imaginative written works.">Creative Writing</label>
+													<label for="intCreativeWriting" class="form-label">Creative Writing</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of expressing thoughts and ideas through imaginative written works.">
 													<input type="range" class="form-range" min="0" max="5" id="intCreativeWriting" name="intCreativeWriting" value="<?php echo $intCreativeWriting1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -976,7 +1017,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intCreativeNonfiction" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Crafting factual narratives in engaging and artistic ways.">Creative Nonfiction</label>
+													<label for="intCreativeNonfiction" class="form-label">Creative Nonfiction</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Crafting factual narratives in engaging and artistic ways.">
 													<input type="range" class="form-range" min="0" max="5" id="intCreativeNonfiction" name="intCreativeNonfiction" value="<?php echo $intCreativeNonfiction1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -985,7 +1027,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intIntroWorldReligionsBeliefSystems" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring diverse religious beliefs and their impact on societies.">Introduction to World Religions and Belief Systems</label>
+													<label for="intIntroWorldReligionsBeliefSystems" class="form-label">Introduction to World Religions and Belief Systems</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring diverse religious beliefs and their impact on societies.">
 													<input type="range" class="form-range" min="0" max="5" id="intIntroWorldReligionsBeliefSystems" name="intIntroWorldReligionsBeliefSystems" value="<?php echo $intIntroWorldReligionsBeliefSystems1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -994,7 +1037,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intPhilippinePoliticsGovernance" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Examining political systems and governance in the Philippines.">Philippine Politics and Governance</label>
+													<label for="intPhilippinePoliticsGovernance" class="form-label">Philippine Politics and Governance</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Examining political systems and governance in the Philippines.">
 													<input type="range" class="form-range" min="0" max="5" id="intPhilippinePoliticsGovernance" name="intPhilippinePoliticsGovernance" value="<?php echo $intPhilippinePoliticsGovernance1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1003,7 +1047,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intDisciplinesIdeasSocialSciences" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="An overview of various social science fields.">Disciplines and Ideas in the Social Sciences</label>
+													<label for="intDisciplinesIdeasSocialSciences" class="form-label">Disciplines and Ideas in the Social Sciences</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="An overview of various social science fields.">
 													<input type="range" class="form-range" min="0" max="5" id="intDisciplinesIdeasSocialSciences" name="intDisciplinesIdeasSocialSciences" value="<?php echo $intDisciplinesIdeasSocialSciences1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1012,7 +1057,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intAppliedEconomics" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Applying economic principles to real-world situations.">Applied Economics</label>
+													<label for="intAppliedEconomics" class="form-label">Applied Economics</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Applying economic principles to real-world situations.">
 													<input type="range" class="form-range" min="0" max="5" id="intAppliedEconomics" name="intAppliedEconomics" value="<?php echo $intAppliedEconomics1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1021,7 +1067,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intBusinessEthicsSocialResponsibility" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring ethical issues in business and corporate social responsibility.">Business Ethics and Social Responsibility</label>
+													<label for="intBusinessEthicsSocialResponsibility" class="form-label">Business Ethics and Social Responsibility</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring ethical issues in business and corporate social responsibility.">
 													<input type="range" class="form-range" min="0" max="5" id="intBusinessEthicsSocialResponsibility" name="intBusinessEthicsSocialResponsibility" value="<?php echo $intBusinessEthicsSocialResponsibility1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1030,7 +1077,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intFundamentalsABM" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Introduction to Accounting, Business, and Management principles.">Fundamentals of ABM</label>
+													<label for="intFundamentalsABM" class="form-label">Fundamentals of ABM</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Introduction to Accounting, Business, and Management principles.">
 													<input type="range" class="form-range" min="0" max="5" id="intFundamentalsABM" name="intFundamentalsABM" value="<?php echo $intFundamentalsABM1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1039,7 +1087,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intBusinessMath" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Mathematical concepts used in business and finance.">Business Math</label>
+													<label for="intBusinessMath" class="form-label">Business Math</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Mathematical concepts used in business and finance.">
 													<input type="range" class="form-range" min="0" max="5" id="intBusinessMath" name="intBusinessMath" value="<?php echo $intBusinessMath1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1048,7 +1097,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intBusinessFinance" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding financial management and investment.">Business Finance</label>
+													<label for="intBusinessFinance" class="form-label">Business Finance</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding financial management and investment.">
 													<input type="range" class="form-range" min="0" max="5" id="intBusinessFinance" name="intBusinessFinance" value="<?php echo $intBusinessFinance1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1057,7 +1107,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intOrganizationManagement" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Principles of organizational structure and management.">Organization and Management</label>
+													<label for="intOrganizationManagement" class="form-label">Organization and Management</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Principles of organizational structure and management.">
 													<input type="range" class="form-range" min="0" max="5" id="intOrganizationManagement" name="intOrganizationManagement" value="<?php echo $intOrganizationManagement1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1066,7 +1117,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intPrinciplesMarketing" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Basics of marketing strategies and consumer behavior.">Principles in Marketing</label>
+													<label for="intPrinciplesMarketing" class="form-label">Principles in Marketing</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Basics of marketing strategies and consumer behavior.">
 													<input type="range" class="form-range" min="0" max="5" id="intPrinciplesMarketing" name="intPrinciplesMarketing" value="<?php echo $intPrinciplesMarketing1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1075,7 +1127,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intComputerProgramming" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Learning to write and develop computer programs.">Computer Programming</label>
+													<label for="intComputerProgramming" class="form-label">Computer Programming</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Learning to write and develop computer programs.">
 													<input type="range" class="form-range" min="0" max="5" id="intComputerProgramming" name="intComputerProgramming" value="<?php echo $intComputerProgramming1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1084,7 +1137,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intComputerSystemServicing" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Maintaining and repairing computer systems.">Computer System Servicing</label>
+													<label for="intComputerSystemServicing" class="form-label">Computer System Servicing</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Maintaining and repairing computer systems.">
 													<input type="range" class="form-range" min="0" max="5" id="intComputerSystemServicing" name="intComputerSystemServicing" value="<?php echo $intComputerSystemServicing1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1093,7 +1147,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intContactCenterServices" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Skills for customer service and communication.">Contact Center Services</label>
+													<label for="intContactCenterServices" class="form-label">Contact Center Services</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Skills for customer service and communication.">
 													<input type="range" class="form-range" min="0" max="5" id="intContactCenterServices" name="intContactCenterServices" value="<?php echo $intContactCenterServices1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1102,7 +1157,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intCISCOComputerNetworking" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding network systems and Cisco technology.">CISCO Computer Networking</label>
+													<label for="intCISCOComputerNetworking" class="form-label">CISCO Computer Networking</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding network systems and Cisco technology.">
 													<input type="range" class="form-range" min="0" max="5" id="intCISCOComputerNetworking" name="intCISCOComputerNetworking" value="<?php echo $intCISCOComputerNetworking1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1111,7 +1167,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intAnimationIllustration" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating animations and illustrations using digital tools.">Animation / Illustration</label>
+													<label for="intAnimationIllustration" class="form-label">Animation / Illustration</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating animations and illustrations using digital tools.">
 													<input type="range" class="form-range" min="0" max="5" id="intAnimationIllustration" name="intAnimationIllustration" value="<?php echo $intAnimationIllustration1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1120,7 +1177,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intCookery" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Culinary skills and cooking techniques.">Cookery</label>
+													<label for="intCookery" class="form-label">Cookery</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Culinary skills and cooking techniques.">
 													<input type="range" class="form-range" min="0" max="5" id="intCookery" name="intCookery" value="<?php echo $intCookery1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1129,7 +1187,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intBreadPastryProduction" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Baking bread and pastries.">Bread and Pastry Production</label>
+													<label for="intBreadPastryProduction" class="form-label">Bread and Pastry Production</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Baking bread and pastries.">
 													<input type="range" class="form-range" min="0" max="5" id="intBreadPastryProduction" name="intBreadPastryProduction" value="<?php echo $intBreadPastryProduction1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1138,7 +1197,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intFashionDesign" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Designing clothing and fashion items.">Fashion Design</label>
+													<label for="intFashionDesign" class="form-label">Fashion Design</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Designing clothing and fashion items.">
 													<input type="range" class="form-range" min="0" max="5" id="intFashionDesign" name="intFashionDesign" value="<?php echo $intBreadPastryProduction1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1147,7 +1207,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intFoodBeverages" class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Managing food and beverage services.">Food and Beverages</label>
+													<label for="intFoodBeverages" class="form-label">Food and Beverages</label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Managing food and beverage services.">
 													<input type="range" class="form-range" min="0" max="5" id="intFoodBeverages" name="intFoodBeverages" value="<?php echo $intFoodBeverages1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1156,7 +1217,8 @@ if (!isset($_SESSION["student"])) {
 											</div>
 											<div class="col-12 col-md-6">
 												<div>
-													<label for="intTailoring " class="form-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Sewing and creating tailored clothing.">Tailoring </label>
+													<label for="intTailoring" class="form-label">Tailoring </label>
+													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Sewing and creating tailored clothing.">
 													<input type="range" class="form-range" min="0" max="5" id="intTailoring" name="intTailoring" value="<?php echo $intTailoring1 ?>">
 													<div class=" text-center">
 														<span class="rangeValue">0</span>
@@ -1200,9 +1262,10 @@ if (!isset($_SESSION["student"])) {
 									</div>
 									<div class="col-12">
 										<div class="divider d-flex align-items-center my-4">
-											<p class="text-center fw-bold mx-3 mb-0">Academic Performance</p>
+											<p class="text-center fw-bold ms-3 me-1 mb-0">Academic Performance</p>
+											<img src='./images/info.png' alt='' width='20' height='20' class='me-3' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="NOTE: Your teachers are the only one allowed to input this data...">
 										</div>
-										<p id="" class="d-block form-label">NOTE: Your teachers are the only one allowed to input this data...</p>
+										<p id="" class="d-block form-label"></p>
 										<div class="row">
 											<div class="col-12 col-md-6 col-lg-4">
 												<div class="form-floating mb-3">
@@ -1980,13 +2043,8 @@ if (!isset($_SESSION["student"])) {
 								<label for="result">RESULT</label>
 							</div>
 							<div class="d-grid gap-2 d-md-flex justify-content-end">
-								<?php
-									if($_SESSION['showGenerate']){
-										echo '<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-primary form-button-text"><span class="fw-bold">GENERATE</span></button>';
-									}else{
-										echo '<a class="btn btn-warning fw-bold" href="result.php" role="button">VIEW RESULTS</a>';
-									}
-								?>
+								<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-primary form-button-text" style="display: <?php echo ($_SESSION['showGenerate']) ? 'block' : 'none'; ?>;"><span class="fw-bold">GENERATE</span></button>
+								<a class="btn btn-warning fw-bold" href="result.php" role="button" style="display: <?php echo ($_SESSION['showGenerate']) ? 'none' : 'block'; ?>;">VIEW RESULTS</a>
 							</div>
 						</form>
 						<?php

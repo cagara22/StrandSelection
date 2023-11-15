@@ -77,7 +77,7 @@ if (!isset($_SESSION["admin"])) {
                         <li>
                             <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li>
@@ -125,7 +125,15 @@ if (!isset($_SESSION["admin"])) {
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">LOGS</h1>
                 </div>
-                <div class="row g-3">
+                <form class="row g-3" method="GET" action="">
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="searchname" name="searchname" oninput="validateSearch(this)" placeholder="Search...">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
+                    </div>
+                </form>
+                <div class="row g-3 py-3">
                     <div class="col-6">
                         <a href='#' onclick='deleteALLRecord()' class ='btn btn-lg btn-delete fw-bold w-100'>DELETE ALL LOGS</a>
                     </div>
@@ -136,7 +144,7 @@ if (!isset($_SESSION["admin"])) {
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr class="text-center">
-                            <th scope="col">ID</th>
+                            <!-- <th scope="col">ID</th> -->
                             <th scope="col">Timestamp</th>
                             <th scope="col">Action</th>
                             <th scope="col">Details</th>
@@ -161,7 +169,13 @@ if (!isset($_SESSION["admin"])) {
                         $previous_page = $page_no - 1;
                         $next_page = $page_no + 1;
 
-                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records FROM logs") or die('Unable to get total records.');
+                        if (isset($_GET['searchname'])) {//if the search button is clicked
+                            $search = mysqli_real_escape_string($conn, $_GET['searchname']);
+                            $logsql = "SELECT COUNT(*) AS total_records FROM logs WHERE timestamp LIKE '%$search%'";
+                        } else {//retrieve all section record
+                            $logsql = "SELECT COUNT(*) AS total_records FROM logs";
+                        }
+                        $result_count = mysqli_query($conn, $logsql) or die('Unable to get total records.');
 
                         $records = mysqli_fetch_array($result_count);
                         $total_records = $records['total_records'];
@@ -169,7 +183,12 @@ if (!isset($_SESSION["admin"])) {
                         $total_no_of_pages = ceil($total_records / $total_records_per_page);
 
                         //retrieve all the logs from the database
-                        $sql = "SELECT * FROM logs ORDER BY id DESC LIMIT $offset, $total_records_per_page";
+                        if (isset($_GET['searchname'])) {//if the search button is clicked
+                            $search = mysqli_real_escape_string($conn, $_GET['searchname']);
+                            $sql = "SELECT * FROM logs WHERE timestamp LIKE '%$search%' LIMIT $offset, $total_records_per_page";
+                        } else {//retrieve all logs record
+                            $sql = "SELECT * FROM logs ORDER BY id DESC LIMIT $offset, $total_records_per_page";
+                        }
 
                         $result = $conn->query($sql);
 
@@ -177,7 +196,7 @@ if (!isset($_SESSION["admin"])) {
                             //output data of each row
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
-                                echo "<td class='text-center'>" . $row['id'] . "</td>";
+                                //echo "<td class='text-center'>" . $row['id'] . "</td>";
                                 echo "<td class='text-center'>" . $row['timestamp'] . "</td>";
                                 echo "<td class='text-center'>" . $row['action'] . "</td>";
                                 echo "<td class='text-center'>" . $row['details'] . "</td>";
@@ -198,24 +217,40 @@ if (!isset($_SESSION["admin"])) {
                 </table>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=?page_no=' . $previous_page : ''; ?>>Previous</a></li>
                         <?php
-                        $max_visible_buttons = 15;
-                        $start = max(1, $page_no - floor($max_visible_buttons / 2));
-                        $end = min($start + $max_visible_buttons - 1, $total_no_of_pages);
-
-                        if ($end - $start + 1 < $max_visible_buttons) {
-                            $start = max(1, $end - $max_visible_buttons + 1);
-                        }
-
-                        for ($counter = $start; $counter <= $end; $counter++) {
+                            if(isset($_GET['searchname'])){
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
+                                $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
+                                $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
+                            }else{
+                                $previouslink = "?page_no=". $previous_page;
+                                $nextlink = "?page_no=" . $next_page;
+                            }
                         ?>
-                            <li class="page-item"><a class="page-link" href="?page_no=<?= $counter; ?>">
-                                    <?= $counter; ?></a></li>
-                        <?php
-                        }
+                        <li class="page-item"><a class="page-link <?= ($page_no <= 1) ? 'disabled' : ''; ?>" <?= ($page_no > 1) ? 'href=' . $previouslink : ''; ?>>Previous</a></li>
+                        <?php 
+                            $max_visible_buttons = 15;
+                            $start = max(1, $page_no - floor($max_visible_buttons / 2));
+                            $end = min($start + $max_visible_buttons - 1, $total_no_of_pages);
+
+                            if ($end - $start + 1 < $max_visible_buttons) {
+                                $start = max(1, $end - $max_visible_buttons + 1);
+                            }
+
+                            for ($counter = $start; $counter <= $end; $counter++) {
+                                if(isset($_GET['searchname'])){
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
+                                    $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
+                                }else{
+                                    $numberlink = "?page_no=". $counter;
+                                }
                         ?>
-                        <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=?page_no=' . $next_page : ''; ?>>Next</a></li>
+                                <li class="page-item"><a class="page-link" href="<?= $numberlink; ?>">
+                                        <?= $counter; ?></a></li>
+                        <?php 
+                            } 
+                        ?>
+                        <li class="page-item"><a class="page-link <?= ($page_no >= $total_no_of_pages) ? 'disabled' : ''; ?>" <?= ($page_no < $total_no_of_pages) ? 'href=' . $nextlink : ''; ?>>Next</a></li>
                     </ul>
                 </nav>
 
@@ -271,6 +306,15 @@ if (!isset($_SESSION["admin"])) {
                     }
                 });
         }
+
+        function validateSearch(input) {
+            var regex = /^[0-9\s-:]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9\s-:]/g, ''); // Remove any special characters
+            }
+        }
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>

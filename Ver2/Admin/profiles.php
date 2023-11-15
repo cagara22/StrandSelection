@@ -76,7 +76,7 @@ if (!isset($_SESSION["admin"])) {
                         <li>
                             <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li>
@@ -125,12 +125,15 @@ if (!isset($_SESSION["admin"])) {
                 </div>
                 <form class="row g-3" method="GET" action="">
                     <div class="col-10">
-                        <input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
+                        <input type="text" class="form-control" id="searchname" name="searchname" oninput="validateSearch(this)" placeholder="Search...">
                     </div>
                     <div class="col-2">
                         <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
                     </div>
                 </form>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end py-3">
+                    <a class="btn btn-add fw-bold w-100" href="addprofile.php" role="button">ADD NEW PROFILE</a>
+                </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr class="text-center">
@@ -163,7 +166,7 @@ if (!isset($_SESSION["admin"])) {
                         if($_SESSION['role'] === "ADMIN"){//admin role
                             $adminID = $_SESSION['adminID'];
                             if (isset($_GET['searchname'])) {// if search is clicked
-                                $search = $_GET['searchname'];
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE (CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%') AND section.adminID = $adminID LIMIT $offset, $total_records_per_page";
@@ -174,7 +177,7 @@ if (!isset($_SESSION["admin"])) {
                             }
                         }else{//super admin role
                             if (isset($_GET['searchname'])) {// if search is clicked
-                                $search = $_GET['searchname'];
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%' LIMIT $offset, $total_records_per_page";
@@ -205,7 +208,7 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
                                 $fullName = $row['Fname'] . " " . $row['Lname'];
                                 echo "<td class='text-center'>
-            <a href='#' onclick='deleteRecord(". $row['lrn'] .")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
+            <a href='#' onclick='deleteRecord(\"". $row['lrn'] ."\")' class ='btn btn-delete' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='DELETE'>
                 <img src='./images/delete.png' alt='' width='20' height='20' class=''>
             </a> 
             <a href='viewprofile.php?lrn=" . $row['lrn'] . "&name=". $fullName ."' class='btn btn-view' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='VIEW'>
@@ -221,7 +224,7 @@ if (!isset($_SESSION["admin"])) {
 
                         if($_SESSION['role'] === "ADMIN"){
                             if(isset($_GET['searchname'])){
-                                $search = $_GET['searchname'];
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE (CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%') AND section.adminID = $adminID";
@@ -232,7 +235,7 @@ if (!isset($_SESSION["admin"])) {
                             }
                         }else{
                             if(isset($_GET['searchname'])){
-                                $search = $_GET['searchname'];
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%'";
@@ -252,7 +255,7 @@ if (!isset($_SESSION["admin"])) {
                     <ul class="pagination">
                         <?php
                             if(isset($_GET['searchname'])){
-                                $search = $_GET['searchname'];
+                                $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
                                 $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
                             }else{
@@ -272,7 +275,7 @@ if (!isset($_SESSION["admin"])) {
 
                             for ($counter = $start; $counter <= $end; $counter++) {
                                 if(isset($_GET['searchname'])){
-                                    $search = $_GET['searchname'];
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
                                 }else{
                                     $numberlink = "?page_no=". $counter;
@@ -289,10 +292,6 @@ if (!isset($_SESSION["admin"])) {
 
                 <div class="p-10">
                     <strong>Page <?= $page_no; ?> of <?= $total_no_of_pages; ?></strong>
-                </div>
-                </table>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-add fw-bold" href="addprofile.php" role="button">ADD NEW PROFILE</a>
                 </div>
             </section>
     </main>
@@ -318,6 +317,14 @@ if (!isset($_SESSION["admin"])) {
                     Swal.fire("CANCELED", "Record not deleted!", "info");
                 }
             });
+        }
+
+        function validateSearch(input) {
+            var regex = /^[a-zA-Z0-9\sñÑ-]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z0-9\sñÑ-]/g, ''); // Remove any special characters
+            }
         }
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

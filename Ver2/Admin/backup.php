@@ -75,7 +75,7 @@ if (!isset($_SESSION["admin"])) {
                         <li>
                             <a href="./schoolyrs.php" class="nav-link link-body-emphasis">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li class="nav-item">
@@ -226,12 +226,33 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
         function confirmRestore() {
+            return new Promise((resolve, reject) => {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Restoring the database will delete all current data. Click OK if you know the consequences of the action and you want to proceed?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, proceed!'
+                })
+                .then((willDelete) => {
+                    if (willDelete.isConfirmed) {
+                        resolve(true);
+                    } else {
+                        reject(false);
+                    }
+                });
+            });
+        }
+
+        /* function confirmRestore() {
             if (confirm('Restoring the database will delete all current data. Cick OK if you know the consequences of the action and you want to proceed?')) {
                 return true;
             } else {
                 return false;
             }
-        }
+        } */
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

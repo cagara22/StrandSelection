@@ -84,13 +84,13 @@ if (!isset($_SESSION["student"])) {
         <div class="w-75">
             <div class="card border-light mb-3" style="max-width: 100%;">
                 <div class="row g-0">
-                    <div class="col-md-3 text-center">
+                    <div class="col-md-4 text-center">
                         <img src="./images/GUIDE_Logo_2.png" class="img-fluid" alt="...">
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <div class="card-body">
                             <h3 class="card-title fw-bold sub-title">ABOUT</h3>
-                            <p class="card-text fw-bold">Welcome to our Decision Support System (DSS) for Senior High School Students! Our DSS is designed to help incoming senior high school students at Leyte National High School in selecting the most suitable strand based on their academic performance, interests, skills, socio-economic background, and future job ambitions. Our system uses a structured and objective approach to decision-making, ensuring that students make informed choices and align their academic and career aspirations with the most suitable strand. Our web-based application provides an easy-to-use interface for students, making the process of selecting a strand efficient and stress-free. Join us and discover your path today!</p>
+                            <p class="card-text fw-bold fs-5">Welcome to our Decision Support System (DSS) for Senior High School Students! Our DSS is designed to help incoming senior high school students at Leyte National High School in selecting the most suitable strand based on their academic performance, interests, skills, socio-economic background, and future job ambitions. Our system uses a structured and objective approach to decision-making, ensuring that students make informed choices and align their academic and career aspirations with the most suitable strand. Our web-based application provides an easy-to-use interface for students, making the process of selecting a strand efficient and stress-free. Join us and discover your path today!</p>
                         </div>
                     </div>
                 </div>

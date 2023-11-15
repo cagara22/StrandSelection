@@ -76,7 +76,7 @@ if (!isset($_SESSION["admin"])) {
                         <li class="nav-item">
                             <a href="./schoolyrs.php" class="nav-link active" aria-current="page">
                                 <img src="./images/schoolyr.png" alt="" width="16" height="16" class="bi pe-none me-2">
-                                SCHLYRS
+                                S.Y.
                             </a>
                         </li>
                         <li>
@@ -128,7 +128,7 @@ if (!isset($_SESSION["admin"])) {
                     <div class="col-8">
                         <form class="row g-3" method="GET" action="">
                             <div class="col-10">
-                                <input type="text" class="form-control" id="searchname" name="searchname" placeholder="Search...">
+                                <input type="text" class="form-control" id="searchname" name="searchname" oninput="validateSearch(this)" placeholder="Search...">
                             </div>
                             <div class="col-2">
                                 <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
@@ -156,7 +156,7 @@ if (!isset($_SESSION["admin"])) {
                                 $offset = ($page_no - 1) * $total_records_per_page;
 
                                 if (isset($_GET['searchname'])) {//if search is clicked
-                                    $search = $_GET['searchname'];
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $sql = "SELECT * FROM schoolyr WHERE schoolyrName LIKE '%$search%' LIMIT $offset, $total_records_per_page";
                                 } else {//retrieve all school year records
                                     $sql = "SELECT * FROM schoolyr LIMIT $offset, $total_records_per_page";
@@ -200,7 +200,7 @@ if (!isset($_SESSION["admin"])) {
                                 }
 
                                 if (isset($_GET['searchname'])) {//if the search button is clicked
-                                    $search = $_GET['searchname'];
+                                    $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $sql = "SELECT COUNT(*) AS total_records FROM schoolyr WHERE schoolyrName LIKE '%$search%'";
                                 } else {//retrieve all section record
                                     $sql = "SELECT COUNT(*) AS total_records FROM schoolyr";
@@ -218,7 +218,7 @@ if (!isset($_SESSION["admin"])) {
                             <ul class="pagination">
                                 <?php
                                     if(isset($_GET['searchname'])){
-                                        $search = $_GET['searchname'];
+                                        $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                         $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
                                         $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
                                     }else{
@@ -238,7 +238,7 @@ if (!isset($_SESSION["admin"])) {
 
                                     for ($counter = $start; $counter <= $end; $counter++) {
                                         if(isset($_GET['searchname'])){
-                                            $search = $_GET['searchname'];
+                                            $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                             $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
                                         }else{
                                             $numberlink = "?page_no=". $counter;
@@ -270,7 +270,9 @@ if (!isset($_SESSION["admin"])) {
                                 if (isset($_POST['addBtn'])) {
                                     
                                     //retrive the schoolyr info from the form
-                                    $schoolyrName = mysqli_real_escape_string($conn, $_POST['schoolyrName']);
+                                    $startYear = mysqli_real_escape_string($conn, $_POST['startYear']);
+                                    $endYear = mysqli_real_escape_string($conn, $_POST['endYear']);
+                                    $schoolyrName = $startYear . '-' . $endYear;
 
                                     //check if the schoolyr is already in the database
                                     $query = "SELECT schoolyrID FROM schoolyr WHERE schoolyrName = '$schoolyrName'";
@@ -321,7 +323,9 @@ if (!isset($_SESSION["admin"])) {
                                 //check if the update button is clicked
                                 if(isset($_POST['updateBtn'])){
                                     //retreive the data from the form
-                                    $schoolyrName = mysqli_real_escape_string($conn, $_POST['schoolyrName']);
+                                    $startYear = mysqli_real_escape_string($conn, $_POST['startYear']);
+                                    $endYear = mysqli_real_escape_string($conn, $_POST['endYear']);
+                                    $schoolyrName = $startYear . '-' . $endYear;
                                     $schoolyrID = $_POST['schoolyrID'];
 
                                     //check if the schoolyr already exists
@@ -371,10 +375,29 @@ if (!isset($_SESSION["admin"])) {
                                 <form class="row" action="" method="post">
                                     <p>NOTE: If you add a new school year, it will be the current school year...</p>
                                     <input type="hidden" name="schoolyrID" id="schoolyrID" value="<?php if(isset($_GET['id'])){echo $id;} ?>">
-                                    <div class="col-12 mb-1">
+                                    <?php
+                                        if(isset($_GET['id'])){
+                                            $year = $schoolyrName;
+                                            // Split the string into an array using the hyphen as a delimiter
+                                            $years = explode('-', $year);
+
+                                            // Access the first element of the array
+                                            $firstYear = $years[0];
+                                            $secondYear = $years[1];
+                                        } 
+                                    ?>
+                                    <div class="col-6 mb-1">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="schoolyrName" name="schoolyrName" oninput="" placeholder="School Year" pattern="\d{4}-\d{4}" title="Please enter a valid school year (e.g. 2023-2024)" value="<?php if(isset($_GET['id'])){echo $schoolyrName;} ?>" required>
-                                            <label for="schoolyrName">School Year</label>
+                                            <!-- Input field for the starting year -->
+                                            <input type="text" class="form-control" id="startYear" name="startYear" placeholder="Start Year" pattern="\d{4}" title="Please enter a valid 4-digit year (e.g., 2023)" value="<?php if(isset($_GET['id'])){echo $firstYear;} ?>" required>
+                                            <label for="startYear">Start Year</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-1" id="schlyrform">
+                                        <div class="form-floating mb-3">
+                                            <!-- Input field for the ending year -->
+                                            <input type="text" class="form-control" id="endYear" name="endYear" placeholder="End Year" pattern="\d{4}" title="Please enter a valid 4-digit year (e.g., 2024)" value="<?php if(isset($_GET['id'])){echo $secondYear;} ?>" required>
+                                            <label for="endYear">End Year</label>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -417,6 +440,53 @@ if (!isset($_SESSION["admin"])) {
                 }
             });
         }
+
+        // JavaScript for custom validation
+        document.getElementById('startYear').addEventListener('input', validateYear);
+        document.getElementById('endYear').addEventListener('input', validateYear);
+
+        // Add event listeners to form submission
+        document.getElementById('schlyrform').addEventListener('submit', function(event) {
+            // Trigger the validation before form submission
+            validateYear({ target: document.getElementById('startYear') });
+            validateYear({ target: document.getElementById('endYear') });
+
+            // Prevent form submission if there are validation errors
+            if (!this.checkValidity()) {
+                event.preventDefault();
+            }
+        });
+
+        function validateYear(event) {
+            var yearInput = event.target;
+            var year = parseInt(yearInput.value);
+
+            // Additional validation logic if needed
+            if (isNaN(year) || year < 2020 || year > 9999) {
+                yearInput.setCustomValidity('Invalid year. Please enter a year between 2020 and 9999');
+            } else {
+                yearInput.setCustomValidity('');
+
+                // Check if it's the endYear and if it's 1 year greater than the startYear
+                if (yearInput.id === 'endYear') {
+                    var startYear = parseInt(document.getElementById('startYear').value);
+                    if (year <= startYear || year - startYear > 1) {
+                        yearInput.setCustomValidity('End Year must be 1 year greater than Start Year.');
+                    } else {
+                        yearInput.setCustomValidity('');
+                    }
+                }
+            }
+        }
+
+        function validateSearch(input) {
+            var regex = /^[0-9\s-]*$/; // Regular expression to allow only alphanumeric characters and spaces
+
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^0-9\s-]/g, ''); // Remove any special characters
+            }
+        }
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
