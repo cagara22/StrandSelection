@@ -1,14 +1,9 @@
 <?php
+//Start the session and check if the admin is logged in or not
 session_start();
 
-if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -128,11 +123,47 @@ if (!isset($_SESSION["admin"])) {
                         <div class="row w-100">
                             <div class="col-5">
                                 <?php
-                                $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";
-                                $schoolyr_result = $conn->query($schoolyr_sql);
-                                $schoolyr_row = $schoolyr_result->fetch_assoc();
-                                $current_schoolyr_ID = $schoolyr_row['schoolyrID'];
-                                $current_schoolyr_Name = $schoolyr_row['schoolyrName'];
+                                $sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC";
+
+                                $result = $conn->query($sql);
+                                ?>
+                                <form class="row g-3" method="GET" action="">
+                                    <div class="col-12 col-md-9">
+                                        <div class="form-floating mb-2">
+                                            <select class="form-select form-select-sm" id="schoolyr" name="schoolyr" value="">
+                                                <?php
+                                                if(isset($_GET['show'])){
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        if ($_GET['schoolyr'] == $row['schoolyrID']) {
+                                                            echo '<option value="' . $row['schoolyrID'] . '" selected>' . $row['schoolyrName'] . '</option>';
+                                                        } else {
+                                                            echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+                                                        }
+                                                    }
+                                                }else{
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            <label for="schoolyr">School Year</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 d-flex justify-content-between align-items-center">
+                                        <button type="submit" class="btn btn-view w-100 fw-bold" name="show">SHOW</button>
+                                    </div>
+                                </form>
+                                <?php
+                                if(isset($_GET['show'])){
+                                    $current_schoolyr_ID = $_GET['schoolyr'];
+                                }else{
+                                    $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";
+                                    $schoolyr_result = $conn->query($schoolyr_sql);
+                                    $schoolyr_row = $schoolyr_result->fetch_assoc();
+                                    $current_schoolyr_ID = $schoolyr_row['schoolyrID'];
+                                    $current_schoolyr_Name = $schoolyr_row['schoolyrName'];
+                                }
                     
                                 $countStrand_sql = "SELECT 
                                         schoolyrID, 
@@ -232,16 +263,18 @@ if (!isset($_SESSION["admin"])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-7">
-                                <canvas id="graph1"></canvas>
-                                <p>LEGENDS:
-                                    <small class="fw-bold" style="color: rgba(112,214,255,1.0);">STEM</small> -
-                                    <small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
-                                    <small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
-                                    <small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
-                                    <small class="fw-bold" style="color: rgba(91,95,151,1.0);">TVL-ICT</small> -
-                                    <small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
-                                </p>
+                            <div class="col-7 d-flex justify-content-between align-items-center">
+                                <div class="row">
+                                    <div class="col-12"><canvas id="graph1"></canvas></div>
+                                    <p>LEGENDS:
+                                        <small class="fw-bold" style="color: rgba(112,214,255,1.0);">STEM</small> -
+                                        <small class="fw-bold" style="color: rgba(255,112,166,1.0);">HUMSS</small> -
+                                        <small class="fw-bold" style="color: rgba(255,151,112,1.0);">ABM</small> -
+                                        <small class="fw-bold" style="color: rgba(255,214,112,1.0);">GAS</small> -
+                                        <small class="fw-bold" style="color: rgba(91,95,151,1.0);">TVL-ICT</small> -
+                                        <small class="fw-bold" style="color: rgba(104,122,0,1.0);">TVL-HE</small>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

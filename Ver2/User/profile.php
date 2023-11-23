@@ -3,16 +3,8 @@
 session_start();
 
 if (!isset($_SESSION["student"])) {
-
-?>
-
-	<script type="text/javascript">
-		window.location = "index.php";
-	</script>
-<?php
-
+    header("Location: index.php");
 }
-
 ?>
 
 <!doctype html>
@@ -32,6 +24,17 @@ if (!isset($_SESSION["student"])) {
 </head>
 
 <body>
+	<?php
+		if($_SESSION['changePass']){
+			echo "<script>Swal.fire({
+				title: 'Change Password!',
+				text: 'Please change your password immediately!',
+				icon: 'warning',
+				showConfirmButton: false,
+				timer: 5000
+				});</script>";
+		}
+	?>
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
@@ -118,6 +121,12 @@ if (!isset($_SESSION["student"])) {
 											}else{//if everything is good, define the sql statement to update the student account details with password
 												$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
 												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
+
+												if($password === md5($id)){
+													$_SESSION['changePass'] = true;
+												}else{
+													$_SESSION['changePass'] = false;
+												}
 											}
 										} else {//confirm password is empty
 											echo "<script>Swal.fire({
@@ -2020,7 +2029,7 @@ if (!isset($_SESSION["student"])) {
 									</div>
 
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
-										<button type="submit" class="btn btn-primary form-button-text" id="submitButton" name="submit2"><span class="fw-bold">SUBMIT</span></button>
+										<button type="submit" class="btn btn-primary form-button-text" id="submitButton" name="submit2"><span class="fw-bold">UPDATE</span></button>
 									</div>
 								</form>
 							</div>
@@ -2039,7 +2048,7 @@ if (!isset($_SESSION["student"])) {
 						<p class="text-muted">If Profile is already done, click Generate...</p>
 						<form action="" method="post">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>">
+								<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>" readonly>
 								<label for="result">RESULT</label>
 							</div>
 							<div class="d-grid gap-2 d-md-flex justify-content-end">

@@ -2,14 +2,8 @@
 //Start the session and check if the admin is logged in or not
 session_start();
 
-if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -396,7 +390,7 @@ if (!isset($_SESSION["admin"])) {
                                     <div class="col-6 mb-1" id="schlyrform">
                                         <div class="form-floating mb-3">
                                             <!-- Input field for the ending year -->
-                                            <input type="text" class="form-control" id="endYear" name="endYear" placeholder="End Year" pattern="\d{4}" title="Please enter a valid 4-digit year (e.g., 2024)" value="<?php if(isset($_GET['id'])){echo $secondYear;} ?>" required>
+                                            <input type="text" class="form-control" id="endYear" name="endYear" placeholder="End Year" pattern="\d{4}" title="Please enter a valid 4-digit year (e.g., 2024)" value="<?php if(isset($_GET['id'])){echo $secondYear;} ?>" required readonly>
                                             <label for="endYear">End Year</label>
                                         </div>
                                     </div>
@@ -442,7 +436,21 @@ if (!isset($_SESSION["admin"])) {
         }
 
         // JavaScript for custom validation
-        document.getElementById('startYear').addEventListener('input', validateYear);
+        document.getElementById('startYear').addEventListener('input', function(event) {
+            validateYear(event);
+
+            // Automatically set endYear to one year ahead or clear if startYear is empty
+            var startYear = event.target.value.trim(); // Trim to handle whitespace
+            var endYearInput = document.getElementById('endYear');
+
+            if (!startYear) {
+                endYearInput.value = ""; // Clear endYear if startYear is empty
+            } else {
+                startYear = parseInt(startYear);
+                endYearInput.value = (startYear + 1).toString();  // Convert to string
+                validateYear({ target: endYearInput });
+            } 
+        });
         document.getElementById('endYear').addEventListener('input', validateYear);
 
         // Add event listeners to form submission
@@ -460,10 +468,11 @@ if (!isset($_SESSION["admin"])) {
         function validateYear(event) {
             var yearInput = event.target;
             var year = parseInt(yearInput.value);
+            var currentYear = new Date().getFullYear();
 
             // Additional validation logic if needed
-            if (isNaN(year) || year < 2020 || year > 9999) {
-                yearInput.setCustomValidity('Invalid year. Please enter a year between 2020 and 9999');
+            if (isNaN(year) || year < currentYear || year > 9999) {
+                yearInput.setCustomValidity('Invalid year. Please enter a year from the current year onwards.');
             } else {
                 yearInput.setCustomValidity('');
 

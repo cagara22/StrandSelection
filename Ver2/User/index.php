@@ -72,6 +72,12 @@ session_start();
 									}else{
 										$_SESSION['showGenerate'] = false;
 									}
+
+									if($upass === md5($username)){
+										$_SESSION['changePass'] = true;
+									}else{
+										$_SESSION['changePass'] = false;
+									}
 									
 									header("Location: home.php"); //redirect to the home page
 

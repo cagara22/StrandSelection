@@ -3,13 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -120,15 +114,86 @@ if (!isset($_SESSION["admin"])) {
         </div>
         <div class="col-10">
             <section class="section-100 d-flex flex-column py-2">
+                <?php include "connection.php"; //include the connection file ?>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">PROFILES</h1>
                 </div>
                 <form class="row g-3" method="GET" action="">
-                    <div class="col-10">
+                    <div class="col-10 mb-3">
                         <input type="text" class="form-control" id="searchname" name="searchname" oninput="validateSearch(this)" placeholder="Search...">
                     </div>
                     <div class="col-2">
                         <button type="submit" class="btn btn-search w-100 fw-bold" name="search">SEARCH</button>
+                    </div>
+                </form>
+                <form class="row g-3" method="GET" action="">
+                <?php
+                    if($_SESSION['role'] === 'ADMIN'){
+                        $adminid = $_SESSION['adminID'];
+                        $sql = "SELECT * FROM section WHERE adminID = $adminid";
+                    }else{
+                        $sql = "SELECT * FROM section";
+                    }
+
+                    $result = $conn->query($sql);
+                    ?>
+                    <div class="col-12 col-md-5">
+                        <div class="form-floating mb-2">
+                            <select class="form-select form-select-sm" id="section" name="section" value="">
+                                <?php
+                                if(isset($_GET['filter'])){
+                                    if($_SESSION['role'] != 'ADMIN'){
+                                        echo '<option value="0">ALL</option>';
+                                    }
+                                    while ($row = $result->fetch_assoc()) {
+                                        if ($_GET['section'] == $row['sectionID']) {
+                                            echo '<option value="' . $row['sectionID'] . '" selected>' . $row['sectionName'] . '</option>';
+                                        } else {
+                                            echo '<option value="' . $row['sectionID'] . '">' . $row['sectionName'] . '</option>';
+                                        }
+                                    }
+                                }else{
+                                    if($_SESSION['role'] != 'ADMIN'){
+                                        echo '<option value="0">ALL</option>';
+                                    }
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row['sectionID'] . '">' . $row['sectionName'] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                            <label for="section">Section</label>
+                        </div>
+                    </div>
+                    <?php
+                    $sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC";
+
+                    $result = $conn->query($sql);
+                    ?>
+                    <div class="col-12 col-md-5">
+                        <div class="form-floating mb-2">
+                            <select class="form-select form-select-sm" id="schoolyr" name="schoolyr" value="">
+                                <?php
+                                if(isset($_GET['filter'])){
+                                    while ($row = $result->fetch_assoc()) {
+                                        if ($_GET['schoolyr'] == $row['schoolyrID']) {
+                                            echo '<option value="' . $row['schoolyrID'] . '" selected>' . $row['schoolyrName'] . '</option>';
+                                        } else {
+                                            echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+                                        }
+                                    }
+                                }else{
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row['schoolyrID'] . '">' . $row['schoolyrName'] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                            <label for="schoolyr">School Year</label>
+                        </div>
+                    </div>
+                    <div class="col-2 d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-view w-100 fw-bold" name="filter">FILTER</button>
                     </div>
                 </form>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end py-3">
@@ -145,13 +210,13 @@ if (!isset($_SESSION["admin"])) {
                             <th scope="col">Age</th>
                             <th scope="col">Sex</th>
                             <th scope="col">Section</th>
+                            <th scope="col">School Year</th>
                             <th scope="col">Qualified Strand</th>
                             <th scope="col" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <?php
-                        include "connection.php"; //include the connection file
 
                         //for pagination
                         if (isset($_GET['page_no'])) {
@@ -163,28 +228,50 @@ if (!isset($_SESSION["admin"])) {
                         $total_records_per_page = 30;
                         $offset = ($page_no - 1) * $total_records_per_page;
 
+                        if(isset($_GET['filter'])){
+                            if($_GET['section'] == 0){
+                                $sectionIDFilter = "section.sectionID";
+                            }else{
+                                $sectionIDFilter = $_GET['section'];
+                            }
+                            
+                            $schoolyrIDFilter = $_GET['schoolyr'];
+                        }else{
+                            $sectionIDFilter = "section.sectionID";
+
+                            $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";
+                            $schoolyr_result = $conn->query($schoolyr_sql);
+                            $schoolyr_row = $schoolyr_result->fetch_assoc();
+                            $current_schoolyr_ID = $schoolyr_row['schoolyrID'];
+                            $schoolyrIDFilter = $current_schoolyr_ID;
+                        }
+
                         if($_SESSION['role'] === "ADMIN"){//admin role
                             $adminID = $_SESSION['adminID'];
                             if (isset($_GET['searchname'])) {// if search is clicked
                                 $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE (CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%') AND section.adminID = $adminID LIMIT $offset, $total_records_per_page";
                             } else {//retrive all student profiles
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
-                                JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID LIMIT $offset, $total_records_per_page";
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID AND schoolyr.schoolyrID = $schoolyrIDFilter AND section.sectionID = $sectionIDFilter LIMIT $offset, $total_records_per_page";
                             }
                         }else{//super admin role
                             if (isset($_GET['searchname'])) {// if search is clicked
                                 $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%' LIMIT $offset, $total_records_per_page";
                             } else {//retrive all student profiles
                                 $sql = "SELECT * FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
-                                JOIN result ON studentprofile.lrn = result.lrn ORDER BY studentprofile.sectionID LIMIT $offset, $total_records_per_page";
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE schoolyr.schoolyrID = $schoolyrIDFilter AND section.sectionID = $sectionIDFilter ORDER BY studentprofile.sectionID LIMIT $offset, $total_records_per_page";
                             }
                         }
 
@@ -205,6 +292,7 @@ if (!isset($_SESSION["admin"])) {
                                 echo "<td class='text-center'>" . $row['age'] . "</td>";
                                 echo "<td class='text-center'>" . $row['sex'] . "</td>";
                                 echo "<td class='text-center'>" . $row['sectionName'] . "</td>";
+                                echo "<td class='text-center'>" . $row['schoolyrName'] . "</td>";
                                 echo "<td class='text-center'>" . $row['MostSuitableStrand'] . "</td>";
                                 $fullName = $row['Fname'] . " " . $row['Lname'];
                                 echo "<td class='text-center'>
@@ -227,20 +315,26 @@ if (!isset($_SESSION["admin"])) {
                                 $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE (CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%') AND section.adminID = $adminID";
                             }else{
                                 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile 
                                 JOIN section ON studentprofile.sectionID = section.sectionID
-                                JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID";
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE section.adminID = $adminID AND schoolyr.schoolyrID = $schoolyrIDFilter AND section.sectionID = $sectionIDFilter";
                             }
                         }else{
                             if(isset($_GET['searchname'])){
                                 $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $sql = "SELECT COUNT(*) AS total_records FROM studentprofile
                                 JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
                                 JOIN result ON studentprofile.lrn = result.lrn WHERE CONCAT(Fname, ' ', Lname) LIKE '%$search%' OR studentprofile.lrn LIKE '%$search%'";
                             }else{
-                                $sql = "SELECT COUNT(*) AS total_records FROM studentprofile";
+                                $sql = "SELECT COUNT(*) AS total_records FROM studentprofile
+                                JOIN section ON studentprofile.sectionID = section.sectionID
+                                JOIN schoolyr ON studentprofile.schoolyrID = schoolyr.schoolyrID
+                                JOIN result ON studentprofile.lrn = result.lrn WHERE schoolyr.schoolyrID = $schoolyrIDFilter AND section.sectionID = $sectionIDFilter";
                             }
                         }
                         $result = $conn->query($sql);
@@ -258,6 +352,11 @@ if (!isset($_SESSION["admin"])) {
                                 $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                 $previouslink = "?searchname=" . $search . "&search=&page_no=" . $previous_page;
                                 $nextlink = "?searchname=" . $search . "&search=&page_no=" . $next_page;
+                            }else if(isset($_GET['filter'])){
+                                $sectionIDFilter = $_GET['section'];
+                                $schoolyrIDFilter = $_GET['schoolyr'];
+                                $previouslink = "?section=" . $sectionIDFilter . "&schoolyr=" . $schoolyrIDFilter . "&filter=&page_no=" . $previous_page;
+                                $nextlink = "?section=" . $sectionIDFilter . "&schoolyr=" . $schoolyrIDFilter . "&filter=&page_no=" . $next_page;
                             }else{
                                 $previouslink = "?page_no=". $previous_page;
                                 $nextlink = "?page_no=" . $next_page;
@@ -277,6 +376,10 @@ if (!isset($_SESSION["admin"])) {
                                 if(isset($_GET['searchname'])){
                                     $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $numberlink = "?searchname=" . $search . "&search=&page_no=" . $counter;
+                                }else if(isset($_GET['filter'])){
+                                    $sectionIDFilter = $_GET['section'];
+                                    $schoolyrIDFilter = $_GET['schoolyr'];
+                                    $numberlink = "?section=" . $sectionIDFilter . "&schoolyr=" . $schoolyrIDFilter . "&filter=&page_no=" . $counter;
                                 }else{
                                     $numberlink = "?page_no=". $counter;
                                 }

@@ -3,13 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -160,14 +154,30 @@ if (!isset($_SESSION["admin"])) {
                     <div class="col-4 d-flex justify-content-center align-items-center py-1">
                         <div class="card w-100 text-bg-red">
                             <div class="card-body">
-                                <h5 class="card-title">No. of Logs:</h5>
+                                <?php
+                                    $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";
+                                    $schoolyr_result = $conn->query($schoolyr_sql);
+                                    $schoolyr_row = $schoolyr_result->fetch_assoc();
+                                    $current_schoolyr_ID = $schoolyr_row['schoolyrID'];
+                                    $current_schoolyr_Name = $schoolyr_row['schoolyrName'];
+                                ?>
+                                <h5 class="card-title">No. of Profiles in S.Y. <?php echo "$current_schoolyr_Name"; ?></h5>
                                 <div class="text-center">
                                 <?php
-                                //get the count of all the logs
-								$query = "SELECT id FROM logs ORDER BY `timestamp`";
-								$query_run = mysqli_query($conn, $query);
-								$row = mysqli_num_rows($query_run);
-								echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                if($_SESSION['role'] === "ADMIN"){
+                                    //get the count of all the profiles in SY
+                                    $adminID = $_SESSION['adminID'];
+                                    $query = "SELECT lrn FROM studentprofile JOIN section ON studentprofile.sectionID = section.sectionID WHERE schoolyrID = '$current_schoolyr_ID' AND section.adminID = '$adminID' ORDER BY lname";
+                                    $query_run = mysqli_query($conn, $query);
+                                    $row = mysqli_num_rows($query_run);
+                                    echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                }else{
+                                    //get the count of all the profiles in SY
+                                    $query = "SELECT lrn FROM studentprofile WHERE schoolyrID = '$current_schoolyr_ID' ORDER BY lname";
+                                    $query_run = mysqli_query($conn, $query);
+                                    $row = mysqli_num_rows($query_run);
+                                    echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                }
 								?>
                                 </div>
                             </div>

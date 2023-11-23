@@ -3,13 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["admin"])) {
-
-?>
-	<script type="text/javascript">
-		window.location = "index.php";
-	</script>
-<?php
-
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -152,44 +146,13 @@ if (!isset($_SESSION["admin"])) {
 									$email = mysqli_real_escape_string($conn, $_POST['email']);
 									$section = mysqli_real_escape_string($conn, $_POST['section']);
 									$schoolyr = mysqli_real_escape_string($conn, $_POST['schoolyr']);
-									$password = md5($_POST['password']);
-									$cpassword = md5($_POST['cpassword']);
 
 									//check if the lrn has been changed
 									if($curid == $newid){//lrn not changed
-										//check if the password is empty or not
-										if (!empty($_POST['password'])) {//password is not empty
-											if (!empty($_POST['cpassword'])) {//confirm password is not empty
-												if ($password !== $cpassword) {//password and confirm password does not match
-													echo "<script>Swal.fire({
-														title: 'PASSWORDS DO NOT MATCH!',
-														text: 'Password and Confirm Password do not match!',
-														icon: 'error',
-														showConfirmButton: false,
-                                                		timer: 5000
-														});</script>";
-													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-													//exit; // Exit the script if passwords do not match
-												}else{//password and confirm password does match
-													//define the SQL statement for updating user data with password
-													$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-													address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-												}
-											} else {//confirm password is empty
-												echo "<script>Swal.fire({
-													title: 'CONFIRM PASSWORD',
-													text: 'Please confirm the password.',
-													icon: 'info',
-													showConfirmButton: false,
-                                                	timer: 5000
-													});</script>";
-												//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-											}
-										} else {//password is empty
-											// Define the SQL statement for updating user data
-											$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-										}
+										
+										// Define the SQL statement for updating user data
+										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
 
 										if(!empty($sql)){ //check if sql statement is not empty
 											//execute the update query
@@ -243,39 +206,11 @@ if (!isset($_SESSION["admin"])) {
 												});</script>";
 											//echo "<script>document location ='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
 										}else{//it does not exist
-											//check if the password is empty or not
-											if (!empty($_POST['password'])) {//password is not empty
-												if (!empty($_POST['cpassword'])) {//confirm passsword not empty
-													if ($password !== $cpassword) {//password and confirm password does not match
-														echo "<script>Swal.fire({
-															title: 'PASSWORDS DO NOT MATCH!',
-															text: 'Password and Confirm Password do not match!',
-															icon: 'error',
-															showConfirmButton: false,
-                                                			timer: 5000
-															});</script>";
-														// echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-														// exit; // Exit the script if passwords do not match
-													}else{//password and confirm password match
-														//define the SQL statement for updating user data
-														$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-														address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-													}
-												} else {//confirm password is empty
-													echo "<script>Swal.fire({
-														title: 'CONFIRM PASSWORD',
-														text: 'Please confirm the password.',
-														icon: 'info',
-														showConfirmButton: false,
-                                                		timer: 5000
-														});</script>";
-													//echo "<script>window.location.href='viewprofile.php?lrn=". $curid ."&name=". $curName ."';</script>";
-												}
-											} else {//password is empty
-												// Define the SQL statement for updating user data
-												$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
-											}
+										
+											// Define the SQL statement for updating user data
+											$sql = "UPDATE studentprofile SET lrn='$newid', Fname='$Fname', Mname='$Mname', Lname='$Lname', 
+											address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', sectionID=$section, schoolyrID=$schoolyr WHERE lrn='$curid'";
+											
 
 											if(!empty($sql)){//check if the sql is empty
 												//prep the update statement for the child table
@@ -364,6 +299,50 @@ if (!isset($_SESSION["admin"])) {
 												}
 											}
 										}
+									}
+								}
+
+								if (isset($_POST['resetpass'])){
+									$curid = $_GET['lrn'];
+									$name = $_GET['name'];
+									$password = md5($curid);
+
+									$sql = "UPDATE studentprofile SET password='$password' WHERE lrn='$curid'";
+
+									if (mysqli_query($conn, $sql)) {
+										$affected_rows = mysqli_affected_rows($conn);
+
+										if ($affected_rows > 0) {//check if a row in the database was updated successfully
+											//log the update
+											$admin_username = $_SESSION['fullname'];
+											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $curid got its account details updated', '$admin_username')";
+											$conn->query($log);
+
+											echo "<script>Swal.fire({
+												title: 'Successfully Reset of Password',
+												text: 'Student Account Password Reset',
+												icon: 'success',
+												buttons: {
+												confirm: true,
+												},
+											}).then((value) => {
+												if (value) {
+												document.location='viewprofile.php?lrn=". $curid ."&name=". $name ."';
+												} else {
+												document.location='viewprofile.php?lrn=". $curid ."&name=". $name ."';
+												}
+											});</script>";
+										} else {//no changes were made to the record
+											echo "<script>Swal.fire({
+												title: 'NO CHANGES',
+												text: 'No changes were made',
+												icon: 'info',
+												showConfirmButton: false,
+												timer: 5000
+												});</script>";
+										}
+									} else {//error in updating the account
+										echo "Error updating record: " . mysqli_error($conn);
 									}
 								}
 
@@ -561,7 +540,7 @@ if (!isset($_SESSION["admin"])) {
 										</div>
 									</div>
 									<?php
-									$sql3 = "SELECT * FROM schoolyr";
+									$sql3 = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC";
 
 									$result = $conn->query($sql3);
 									?>
@@ -587,22 +566,8 @@ if (!isset($_SESSION["admin"])) {
 											<label for="email">Email</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating">
-											<input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
-											<label for="pass1">PASSWORD</label>
-										</div>
-										<div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
-
-										</div>
-									</div>
-									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating">
-											<input type="password" class="form-control" id="pass2" name="cpassword" placeholder="Confirm Password">
-											<label for="pass2">CONFIRM PASSWORD</label>
-										</div>
-									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
+										<button type="submit" class="btn btn-view form-button-text" name="resetpass"><span class="fw-bold">RESET PASSWORD</span></button>
 										<button type="submit" class="btn btn-update form-button-text" name="update1"><span class="fw-bold">UPDATE</span></button>
 									</div>
 								</form>
@@ -2191,7 +2156,7 @@ if (!isset($_SESSION["admin"])) {
 								<p class="text-muted">If Profile is already done, click Generate...</p>
 								<form action="" method="post">
 									<div class="form-floating mb-3">
-										<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>">
+										<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>" readonly>
 										<label for="result">RESULT</label>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -2830,26 +2795,7 @@ if (!isset($_SESSION["admin"])) {
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="./js/password-score.js"></script>
-	<script type="text/javascript" src="./js/password-score-options.js"></script>
-	<script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
 	<script>
-		//for pasword strength measurement
-		$(document).ready(function() {
-			$('#pass1').strengthMeter('text', {
-				container: $('#passstrength'),
-				hierarchy: {
-					'0': ['text-danger', ' '],
-					'1': ['text-danger', 'Very Weak'],
-					'25': ['text-danger', 'Weak'],
-					'50': ['text-warning', 'Moderate'],
-					'75': ['text-warning', 'Good'],
-					'100': ['text-success', 'Strong'],
-					'125': ['text-success', 'Very Strong']
-				}
-			});
-		});
-
 		function validateLRN(input) {
             var regex = /^[0-9]*$/; // Regular expression to allow only numbers
 

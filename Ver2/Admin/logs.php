@@ -2,14 +2,8 @@
 //Start the session and check if the admin is logged in or not
 session_start();
 
-if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -148,7 +142,7 @@ if (!isset($_SESSION["admin"])) {
                             <th scope="col">Timestamp</th>
                             <th scope="col">Action</th>
                             <th scope="col">Details</th>
-                            <th scope="col">Doer</th>
+                            <th scope="col">User</th>
                             <th scope="col" colspan="2">Action</th>
                         </tr>
                     </thead>

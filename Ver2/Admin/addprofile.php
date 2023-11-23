@@ -3,13 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["admin"])) {
-
-?>
-    <script type="text/javascript">
-        window.location = "index.php";
-    </script>
-<?php
-
+    header("Location: index.php");
 }
 ?>
 <!doctype html>
@@ -292,7 +286,7 @@ if (!isset($_SESSION["admin"])) {
 										</div>
 									</div>
                                     <?php
-									$sql = "SELECT * FROM schoolyr";
+									$sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC";
 
 									$result = $conn->query($sql);
 									?>
