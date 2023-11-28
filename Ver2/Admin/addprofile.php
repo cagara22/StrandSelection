@@ -475,7 +475,7 @@ if (!isset($_SESSION["admin"])) {
                                                 timer: 5000
                                                 });</script>";
                                         }
-                                        //echo count($data);
+                                        echo count($data);
                                         //echo $sucessCount;
                                         //echo $invalidLRNCount;
                                         //echo $emptyNameCount;
@@ -526,7 +526,7 @@ if (!isset($_SESSION["admin"])) {
                                 </div>
                             </div>
                             <?php
-                            $sql = "SELECT * FROM schoolyr";
+                            $sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC";
 
                             $result = $conn->query($sql);
                             ?>

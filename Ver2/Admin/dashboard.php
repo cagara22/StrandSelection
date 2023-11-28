@@ -125,11 +125,20 @@ if (!isset($_SESSION["admin"])) {
                                 <h5 class="card-title">No. of Profiles:</h5>
                                 <div class="text-center">
                                 <?php
-                                //get the count of all profiles
-								$query = "SELECT lrn FROM studentprofile ORDER BY lname";
-								$query_run = mysqli_query($conn, $query);
-								$row = mysqli_num_rows($query_run);
-								echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                if($_SESSION['role'] === "ADMIN"){
+                                    //get the count of all profiles
+                                    $adminID = $_SESSION['adminID'];
+                                    $query = "SELECT lrn FROM studentprofile JOIN section ON studentprofile.sectionID = section.sectionID WHERE section.adminID = '$adminID' ORDER BY lname";
+                                    $query_run = mysqli_query($conn, $query);
+                                    $row = mysqli_num_rows($query_run);
+                                    echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                }else{
+                                    //get the count of all profiles
+                                    $query = "SELECT lrn FROM studentprofile ORDER BY lname";
+                                    $query_run = mysqli_query($conn, $query);
+                                    $row = mysqli_num_rows($query_run);
+                                    echo "<p class='card-text fs-1 fw-bold'>$row</p>";
+                                }
 								?>
                                 </div>
                             </div>

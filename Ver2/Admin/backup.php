@@ -196,7 +196,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                             </div>
                             <div class="card-body">
                                 <img src="./images/restore.png" class="cust-img-50 rounded-start" alt="...">
-                                <form class="row g-3" method="post" action="" enctype="multipart/form-data" onsubmit="return confirmRestore()">
+                                <form class="row g-3" method="post" action="" enctype="multipart/form-data">
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <div class="mb-3">
                                             <label for="backupFile" class="form-label">Input Backup .sql file</label>
@@ -204,7 +204,8 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                        <button type="submit" class="btn btn-search w-25 fw-bold" name="restore">RESTORE</button>
+                                        <button type="button" class="btn btn-search w-25 fw-bold" name="hidrestore" onclick="confirmRestore(event)">RESTORE</button>
+                                        <button type="submit" class="d-none btn btn-search w-25 fw-bold" name="restore">RESTORE</button>
                                     </div>
                                 </form>
                             </div>
@@ -220,25 +221,52 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script>
-        function confirmRestore() {
-            return new Promise((resolve, reject) => {
+        function confirmRestore(event) {
+            event.preventDefault();
+
+            const fileInput = document.getElementById('backupFile');
+        
+            if (!fileInput.files.length) {
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "Restoring the database will delete all current data. Click OK if you know the consequences of the action and you want to proceed?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, proceed!'
-                })
-                .then((willDelete) => {
-                    if (willDelete.isConfirmed) {
-                        resolve(true);
-                    } else {
-                        reject(false);
-                    }
-                });
-            });
+                    title: 'INPUT FILED EMPTY!',
+                    text: 'Please select a .sql file!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 5000
+                    });
+            }else{
+                const allowedExtensions = ['sql'];
+                const fileName = fileInput.files[0].name;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                
+                if (!allowedExtensions.includes(fileExtension)) {
+                    Swal.fire({
+                        title: 'INVALID FILE TYPE!',
+                        text: 'Please select a .sql file only!',
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 5000
+                        });
+                }else{
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Restoring the database will delete all current data. Click OK if you know the consequences of the action and you want to proceed?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, proceed!'
+                    })
+                    .then((willDelete) => {
+                        if (willDelete.isConfirmed) {
+                            const restoreButton = document.querySelector('[name="restore"]');
+                            restoreButton.click();
+                        } else {
+
+                        }
+                    });
+                }
+            }    
         }
 
         /* function confirmRestore() {

@@ -327,7 +327,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
 
                                     $result = mysqli_query($conn, $query);
                                     if (mysqli_num_rows($result) > 0) { //already exists
-                                        echo "<script>swal({
+                                        echo "<script>Swal.fire({
                                             title: 'INVALID SCHOOL YEAR!',
                                             text: 'SCHOOL YEAR already exists in the database!',
                                             icon: 'error',
