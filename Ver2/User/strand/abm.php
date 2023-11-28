@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION["student"])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
 }
 ?>
 
@@ -54,7 +54,7 @@ if (!isset($_SESSION["student"])) {
 							<?php $_SESSION['fname']; //The name off the Student?>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="logout.php">LOGOUT</a></li>
+							<li><a class="dropdown-item" href="../logout.php">LOGOUT</a></li>
 						</ul>
 					</li>
 				</ul>
