@@ -282,7 +282,6 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr class="text-center">
-                                    <th scope="col">ID</th>
                                     <th scope="col">School Year</th>
                                     <th scope="col">No. of STEM</th>
                                     <th scope="col">No. of HUMSS</th>
@@ -335,7 +334,6 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     // output data of each row
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>";
-                                        echo "<td class='text-center'>". $row['schoolyrID'] ."</td>";
                                         echo "<td class='text-center'>". $row['schoolyrName'] ."</td>";
                                         echo "<td class='text-center'>". $row['STEM_count'] ."</td>";
                                         echo "<td class='text-center'>". $row['HUMSS_count'] ."</td>";
@@ -387,7 +385,12 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script>
         <?php
-        $schoolyr_sql = "SELECT * FROM schoolyr";
+        $schoolyr_sql = "SELECT * FROM (
+            SELECT * FROM schoolyr
+            ORDER BY schoolyrID DESC
+            LIMIT 5
+        ) AS latest_school_years
+        ORDER BY schoolyrID ASC";
         $schoolyr_result = $conn->query($schoolyr_sql);
         $schlyr = array("0");
         $stemcount = array(0);
@@ -401,20 +404,22 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                 array_push($schlyr, $schoolyr_row['schoolyrName']);
             }
 
-            $countStrand_sql = "SELECT 
-                    schoolyrID, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'STEM' THEN 1 ELSE 0 END) AS STEM_count, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'HUMSS' THEN 1 ELSE 0 END) AS HUMSS_count, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'ABM' THEN 1 ELSE 0 END) AS ABM_count, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'GAS' THEN 1 ELSE 0 END) AS GAS_count, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'TVL-ICT' THEN 1 ELSE 0 END) AS TVLICT_count, 
-                    SUM(CASE WHEN result.MostSuitableStrand = 'TVL-HE' THEN 1 ELSE 0 END) AS TVLHE_count 
-                FROM 
-                    studentprofile
-                JOIN
-                    result ON studentprofile.lrn = result.lrn
-                GROUP BY 
-                    schoolyrID";
+            $countStrand_sql = "SELECT * FROM (SELECT 
+                schoolyrID, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'STEM' THEN 1 ELSE 0 END) AS STEM_count, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'HUMSS' THEN 1 ELSE 0 END) AS HUMSS_count, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'ABM' THEN 1 ELSE 0 END) AS ABM_count, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'GAS' THEN 1 ELSE 0 END) AS GAS_count, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'TVL-ICT' THEN 1 ELSE 0 END) AS TVLICT_count, 
+                SUM(CASE WHEN result.MostSuitableStrand = 'TVL-HE' THEN 1 ELSE 0 END) AS TVLHE_count 
+            FROM 
+                studentprofile
+            JOIN
+                result ON studentprofile.lrn = result.lrn
+            GROUP BY 
+                schoolyrID
+            ORDER BY schoolyrID DESC
+            LIMIT 5) AS strand_count ORDER BY schoolyrID ASC";
             
             $countStrand_result = $conn->query($countStrand_sql);
             if($countStrand_result->num_rows > 0){

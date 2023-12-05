@@ -108,8 +108,17 @@ session_start();
 								<input type="password" class="form-control" id="password" name ="password" placeholder="password" required>
 								<label for="password">PASSWORD</label>
 							</div>
-							<div class="d-grid gap-2 my-2">
-								<button type="submit" class="btn btn-warning form-button-text"><span class="fw-bold">LOGIN</span></button>
+							<div class="row mt-2">
+								<div class="col-6">
+									<div class="d-grid gap-2 my-2">
+										<button type="submit" class="btn btn-warning"><span class="fw-bold">LOGIN</span></button>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="d-grid gap-2 my-2">
+										<a class="btn btn-info fw-bold" href="../index.html" role="button">RETURN</a>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>

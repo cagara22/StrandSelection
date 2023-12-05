@@ -312,7 +312,7 @@ if (!isset($_SESSION["admin"])) {
                     <div class="col-5">
                         <h3>Batch Adding</h3>
                         <p>Use this when adding multiple profiles at once. Follow this simple steps:</p>
-                        <p>STEP 1: Download the template file where you will input the deatils of the student <a class="fw-bold" href="./template/Batch_Adding_Template.xlsx" download role="button">here.</a></p>
+                        <p>STEP 1: Download the template file where you will input the details of the student <a class="fw-bold" href="./template/Batch_Adding_Template.xlsx" download role="button">here.</a></p>
                         <p>STEP 2: Put the required info in the file and save it as .xls or .xlsx file.</p>
                         <p>STEP 3: Select the Section and School Year of the batch in the form below.</p>
                         <p>STEP 4: Upload the file and click ADD BATCH</p>
@@ -444,27 +444,49 @@ if (!isset($_SESSION["admin"])) {
                                                     timer: 5000
                                                     });</script>";
                                             }else{
-                                                $role = $_SESSION['role'];
-                                                $username = $_SESSION['admin'];
-                                                $admin_username = $_SESSION['fullname'];
-                                                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username sucessfully added $sucessCount profiles using Batch Adding', '$admin_username')";
-                                                $conn->query($log);
+                                                if($sucessCount > 0){
+                                                    $role = $_SESSION['role'];
+                                                    $username = $_SESSION['admin'];
+                                                    $admin_username = $_SESSION['fullname'];
+                                                    $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username sucessfully added $sucessCount profiles using Batch Adding', '$admin_username')";
+                                                    $conn->query($log);
 
-                                                echo "<script>Swal.fire({
-                                                    title: 'Successfully Added',
-                                                    text: 'Multiple profiles added successfully!',
-                                                    icon: 'success',
-                                                    footer: 'Success: ". $sucessCount ."<br>Invalid LRN: ". $invalidLRNCount ."<br>Duplicate LRN: ". $duplicateLRNCount ."<br>Invalid Name: ". $invalidNameCount ."<br>Errors: ". $errorCount ."',
-                                                    buttons: {
-                                                      confirm: true,
-                                                    },
-                                                  }).then((value) => {
-                                                    if (value) {
-                                                        document.location = 'addprofile.php';
-                                                    } else {
-                                                        document.location = 'addprofile.php';
-                                                    }
-                                                  });</script>";
+                                                    echo "<script>Swal.fire({
+                                                        title: '". $sucessCount ." profiles added successfully!',
+                                                        html: 'Success: ". $sucessCount ."<br>Invalid LRN: ". $invalidLRNCount ."<br>Duplicate LRN: ". $duplicateLRNCount ."<br>Invalid Name: ". $invalidNameCount ."<br>Errors: ". $errorCount ."',
+                                                        icon: 'success',
+                                                        buttons: {
+                                                        confirm: true,
+                                                        },
+                                                    }).then((value) => {
+                                                        if (value) {
+                                                            document.location = 'addprofile.php';
+                                                        } else {
+                                                            document.location = 'addprofile.php';
+                                                        }
+                                                    });</script>";
+                                                }else{
+                                                    $role = $_SESSION['role'];
+                                                    $username = $_SESSION['admin'];
+                                                    $admin_username = $_SESSION['fullname'];
+                                                    $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Added', '$role with Username $username was not able to add new profiles using Batch Adding', '$admin_username')";
+                                                    $conn->query($log);
+
+                                                    echo "<script>Swal.fire({
+                                                        title: 'No profiles were added',
+                                                        html: 'Success: ". $sucessCount ."<br>Invalid LRN: ". $invalidLRNCount ."<br>Duplicate LRN: ". $duplicateLRNCount ."<br>Invalid Name: ". $invalidNameCount ."<br>Errors: ". $errorCount ."',
+                                                        icon: 'warning',
+                                                        buttons: {
+                                                        confirm: true,
+                                                        },
+                                                    }).then((value) => {
+                                                        if (value) {
+                                                            document.location = 'addprofile.php';
+                                                        } else {
+                                                            document.location = 'addprofile.php';
+                                                        }
+                                                    });</script>";
+                                                }
                                             }
                                         }else{
                                             echo "<script>Swal.fire({

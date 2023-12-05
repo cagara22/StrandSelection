@@ -131,7 +131,6 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr class="text-center">
-                                    <th scope="col">ID</th>
                                     <th scope="col">School Year</th>
                                     <th scope="col" colspan="2">Action</th>
                                 </tr>
@@ -176,7 +175,6 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     // output data of each row
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>";
-                                        echo "<td class='text-center'>" . $row['schoolyrID'] . "</td>";
                                         echo "<td class='text-center'>" . $row['schoolyrName'] . "</td>";
 
                                         echo "<td class='text-center'>

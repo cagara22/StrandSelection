@@ -199,7 +199,7 @@ if (!isset($_SESSION["admin"])) {
 										if (mysqli_num_rows($result) > 0) {//it already exists
 											echo "<script>Swal.fire({
 												title: 'INVALID LRN!',
-												text: 'LRN already exists in the database!',
+												text: 'LRN is already in use!',
 												icon: 'error',
 												showConfirmButton: false,
                                                 timer: 5000
@@ -796,7 +796,7 @@ if (!isset($_SESSION["admin"])) {
 										<p class="text-center fs-5 fw-bold mx-3 mb-0">Skills, Interest, and Socio-economic Background</p>
 									</div>
 									<div class="col-12">
-										<p id="" class="d-block form-label">Based on yuor self-assesment, select the skills that are applicable to you...</p>
+										<p id="" class="d-block form-label">Based on your self-assesment, select the skills that are applicable to you...</p>
 										<div class="row">
 											<div class="col-12 col-sm-6 col-md-4">
 												<p id="" class="fst-italic d-block form-label">Universal Skills</p>
@@ -2153,11 +2153,27 @@ if (!isset($_SESSION["admin"])) {
 							</div>
 							<div class="card-body">
 								<h4>Profile: <span id="profileStatus" style="color: red">NOT DONE</span></h4>
-								<p class="text-muted">If Profile is already done, click Generate...</p>
+								<p class="text-muted" id="profileStatusText">Profile not done... Please Update your profile!</p>
 								<form action="" method="post">
-									<div class="form-floating mb-3">
-										<input type="text" class="form-control" id="result" placeholder="Result" value="<?php echo !empty($strandResult) ? $strandResult : ''; ?>" readonly>
-										<label for="result">RESULT</label>
+									<div class="mb-3">
+										<?php
+											if(!empty($strandResult)){
+												$terms_to_highlight = array('STEM', 'ABM', 'HUMSS', 'GAS', 'TVL-ICT', 'TVL-HE');
+												$replacement_terms = array(
+													'<span style="color: rgba(112,214,255,1.0); font-weight: bold;">STEM</span>',
+													'<span style="color: rgba(255,151,112,1.0); font-weight: bold;">ABM</span>',
+													'<span style="color: rgba(255,112,166,1.0); font-weight: bold;">HUMSS</span>',
+													'<span style="color: rgba(255,214,112,1.0); font-weight: bold;">GAS</span>',
+													'<span style="color: rgba(91,95,151,1.0); font-weight: bold;">TVL-ICT</span>',
+													'<span style="color: rgba(104,122,0,1.0); font-weight: bold;">TVL-HE</span>'
+												);
+
+												$strandResult = str_replace($terms_to_highlight, $replacement_terms, $strandResult);
+											}else{
+												$strandResult = '<span style="color: red; font-weight: bold;">_____</span>';
+											}
+										?>
+										<h3>RESULT: <?php echo $strandResult; ?></h3>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
 										<button type="submit" id="generateBtn" name="generateBtn" class="btn btn-add form-button-text"><span class="fw-bold">GENERATE</span></button>
@@ -2761,13 +2777,13 @@ if (!isset($_SESSION["admin"])) {
 					<div class="col-12 d-flex justify-content-center align-items-center mb-3">
 						<div class="card custcard border-light text-center" style="width: 100%;">
 							<div class="card-header">
-								<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
+								<h4 class="fw-bold card-text-header">RECOMMENDATION</h4>
 							</div>
 							<div class="card-body text-start">
 								<?php
 								if (empty($recommendation)) {
 									//if the recommendation is empty
-									echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
+									echo "<p class='fw-bold text-center'>NO RESULTS HAVE BEEN FOUND!</p>";
 								} else {
 									//display the recomendation
 									$terms_to_highlight = array('STEM', 'ABM', 'HUMSS', 'GAS', 'TVL-ICT', 'TVL-HE');
@@ -2958,6 +2974,7 @@ if (!isset($_SESSION["admin"])) {
 			const acadHERelatedSub = document.getElementById('acadHERelatedSub');
 			const submitButton = document.getElementById('submitButton');
 			const profileStatus = document.getElementById("profileStatus");
+			const profileStatusText = document.getElementById("profileStatusText");
 			const generateButton = document.getElementById("generateBtn");
 
 			let interestHasZero = false;
@@ -3002,7 +3019,7 @@ if (!isset($_SESSION["admin"])) {
 			if (interestHasZero || thmiIsSelect || acadIsSelect) {
 				// Update the text to "DONE"
 				profileStatus.textContent = "NOT DONE";
-
+				profileStatusText.textContent = "Profile not done... Please Update your profile!"
 				// Change the text color to green
 				profileStatus.style.color = "red";
 
@@ -3011,7 +3028,7 @@ if (!isset($_SESSION["admin"])) {
 			} else {
 				// Update the text to "DONE"
 				profileStatus.textContent = "DONE";
-
+				profileStatusText.textContent = "Profile is done... Ready for Strand Recommendation!"
 				// Change the text color to green
 				profileStatus.style.color = "green";
 

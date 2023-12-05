@@ -261,6 +261,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                         if (willDelete.isConfirmed) {
                             const restoreButton = document.querySelector('[name="restore"]');
                             restoreButton.click();
+                            showLoading();
                         } else {
 
                         }
@@ -268,6 +269,17 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                 }
             }    
         }
+
+        function showLoading() {
+			Swal.fire({
+				title: 'Restoring Database...',
+				text: 'Please wait...',
+				allowOutsideClick: false,
+				didOpen: () => {
+				  Swal.showLoading();
+				}
+			});
+		}
 
         /* function confirmRestore() {
             if (confirm('Restoring the database will delete all current data. Cick OK if you know the consequences of the action and you want to proceed?')) {

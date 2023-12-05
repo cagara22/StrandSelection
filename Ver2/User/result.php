@@ -239,13 +239,13 @@ if (!isset($_SESSION["student"])) {
 			<div class="col-12 col-lg-4 d-flex justify-content-center align-items-start mb-3">
 				<div class="card custcard border-light text-center" style="width: 100%;">
 					<div class="card-header">
-						<h4 class="fw-bold card-text-header">RECOMENDATION</h4>
+						<h4 class="fw-bold card-text-header">RECOMMENDATION</h4>
 					</div>
 					<div class="card-body text-start">
 						<?php
 						if (empty($recommendation)) {
 							//if the recommendation is empty
-							echo "<p class='fw-bold'>NO RESULTS HAVE BEEN FOUND!</p>";
+							echo "<p class='fw-bold text-center'>NO RESULTS HAVE BEEN FOUND!</p>";
 						} else {
 							//display the recomendation
 							$terms_to_highlight = array('STEM', 'ABM', 'HUMSS', 'GAS', 'TVL-ICT', 'TVL-HE');

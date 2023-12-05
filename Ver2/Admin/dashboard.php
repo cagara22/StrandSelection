@@ -161,7 +161,7 @@ if (!isset($_SESSION["admin"])) {
                         </div>
                     </div>
                     <div class="col-4 d-flex justify-content-center align-items-center py-1">
-                        <div class="card w-100 text-bg-red">
+                        <div class="card w-100 text-bg-pink">
                             <div class="card-body">
                                 <?php
                                     $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";
@@ -216,7 +216,12 @@ if (!isset($_SESSION["admin"])) {
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script>
         <?php
-        $schoolyr_sql = "SELECT * FROM schoolyr";
+        $schoolyr_sql = "SELECT * FROM (
+            SELECT * FROM schoolyr
+            ORDER BY schoolyrID DESC
+            LIMIT 5
+        ) AS latest_school_years
+        ORDER BY schoolyrID ASC";
         $schoolyr_result = $conn->query($schoolyr_sql);
         $schlyr = array("0");
         $stemcount = array(0);
@@ -230,7 +235,7 @@ if (!isset($_SESSION["admin"])) {
                 array_push($schlyr, $schoolyr_row['schoolyrName']);
             }
 
-            $countStrand_sql = "SELECT 
+            $countStrand_sql = "SELECT * FROM (SELECT 
                     schoolyrID, 
                     SUM(CASE WHEN result.MostSuitableStrand = 'STEM' THEN 1 ELSE 0 END) AS STEM_count, 
                     SUM(CASE WHEN result.MostSuitableStrand = 'HUMSS' THEN 1 ELSE 0 END) AS HUMSS_count, 
@@ -243,7 +248,9 @@ if (!isset($_SESSION["admin"])) {
                 JOIN
                     result ON studentprofile.lrn = result.lrn
                 GROUP BY 
-                    schoolyrID";
+                    schoolyrID
+                ORDER BY schoolyrID DESC
+                LIMIT 5) AS strand_count ORDER BY schoolyrID ASC";
             
             $countStrand_result = $conn->query($countStrand_sql);
             if($countStrand_result->num_rows > 0){

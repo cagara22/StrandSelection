@@ -143,8 +143,6 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                             $sex = $_POST['sex'];
                             $role = $_POST['role'];
                             $email = mysqli_real_escape_string($conn, $_POST['email']);
-                            $password = md5($_POST['pass1']);
-						    $cpassword = md5($_POST['pass2']);
 
                             //check is the username is already in use
                             $query = "SELECT adminID FROM adminprofile WHERE username = '$username' AND adminID <> '$adminID'";
@@ -158,40 +156,10 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     showConfirmButton: false,
                                     timer: 5000
                                     });</script>";
-                                //echo "<script>document location ='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
                             } else {//not in use
-                                if (!empty($_POST['pass1'])) { //password not empty
-                                    if (!empty($_POST['pass2'])) { //confirm password not empty
-                                        if ($password !== $cpassword) {//password and confirm password does not match
-                                            echo "<script>Swal.fire({
-                                                title: 'PASSWORDS DO NOT MATCH!',
-                                                text: 'Password and Confirm Password do not match!',
-                                                icon: 'error',
-                                                showConfirmButton: false,
-                                                timer: 5000
-                                                });</script>";
-                                            //echo "<script>window.location.href='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
-                                            //exit; // Exit the script if passwords do not match
-                                        }else{
-                                            //prepare the update sql statement with password
-                                            $update_sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                            address='$address', age='$age', sex='$sex', role='$role', suffix='$suffix', email='$email', password='$password' WHERE adminID='$adminID'";
-                                        }
-                                    } else {//confirm password empty
-                                        echo "<script>Swal.fire({
-                                            title: 'CONFIRM PASSWORD',
-                                            text: 'Please confirm the password.',
-                                            icon: 'info',
-                                            showConfirmButton: false,
-                                            timer: 5000
-                                            });</script>";
-                                        //echo "<script>window.location.href='viewadmin.php?id=". $adminID ."&name=". $curName ."';</script>";
-                                    }
-                                } else {//password empty
-                                    //prepare the update sql statement without password
-                                    $update_sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                    address='$address', age='$age', sex='$sex', role='$role', suffix='$suffix', email='$email' WHERE adminID='$adminID'";
-                                }
+                               
+                                $update_sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
+                                address='$address', age='$age', sex='$sex', role='$role', suffix='$suffix', email='$email' WHERE adminID='$adminID'";
 
                                 if(!empty($update_sql)){ //if everything is set, update
                                     if (mysqli_query($conn, $update_sql)) {
@@ -232,6 +200,54 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                         echo "Error updating record: " . mysqli_error($conn);
                                     }
                                 }
+                            }
+                        }
+
+                        if (isset($_POST['resetpass'])){
+                            $adminID = $_GET['id'];
+                            $curName = $_GET['name'];
+                            $username = mysqli_real_escape_string($conn, $_POST['username']);
+
+                            $password = md5($username);
+
+                            $sql = "UPDATE adminprofile SET password='$password' WHERE adminID='$adminID'";
+
+                            if (mysqli_query($conn, $sql)) {
+                                $affected_rows = mysqli_affected_rows($conn);
+
+                                if ($affected_rows > 0) {
+                                    //log the update
+                                    $admin_username = $_SESSION['fullname'];
+                                    $cur_admin = $_SESSION['admin'];
+                                    $cur_admin_role = $_SESSION['role'];
+                                    $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$cur_admin_role with Username $cur_admin has updated $username account', '$admin_username')";
+                                    $conn->query($log);
+
+                                    echo "<script>Swal.fire({
+                                        title: 'Successfully Reset of Password',
+                                        text: 'Admin Account Password Reset',
+                                        icon: 'success',
+                                        buttons: {
+                                          confirm: true,
+                                        },
+                                      }).then((value) => {
+                                        if (value) {
+                                          document.location='viewadmin.php?id=". $adminID ."&name=". $curName ."';
+                                        } else {
+                                          document.location='viewadmin.php?id=". $adminID ."&name=". $curName ."';
+                                        }
+                                      });</script>";
+                                }else {//no changes were made to the record
+                                    echo "<script>Swal.fire({
+                                        title: 'NO CHANGES',
+                                        text: 'No changes were made',
+                                        icon: 'info',
+                                        showConfirmButton: false,
+                                        timer: 5000
+                                        });</script>";
+                                }
+                            }else {//error in updating the account
+                                echo "Error updating record: " . mysqli_error($conn);
                             }
                         }
                         
@@ -299,7 +315,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     <label for="address">Address</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
+                            <div class="col-12 col-md-4 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
                                         <option value="M" <?php if ($sex1 == "M") {
@@ -312,13 +328,13 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     <label for="sex">Sex</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
+                            <div class="col-12 col-md-4 mb-1">
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control" id="age" name="age" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" value="<?php echo $age1; ?>">
                                     <label for="age">Age</label>
                                 </div>
                             </div>
-                            <div class="col-12 mb-1">
+                            <div class="col-12 col-md-4 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="role" name="role" value="<?php echo $role1; ?>">
                                         <option value="ADMIN" <?php if ($role1 == "ADMIN"){
@@ -337,22 +353,8 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     <label for="email">Email</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password">
-                                    <label for="pass1">PASSWORD</label>
-                                </div>
-                                <div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
-
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 mb-1">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Password">
-                                    <label for="pass2">CONFIRM PASSWORD</label>
-                                </div>
-                            </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
+                                <button type="submit" class="btn btn-view form-button-text" name="resetpass"><span class="fw-bold">RESET PASSWORD</span></button>
                                 <button type="submit" name="update" class="btn btn-update form-button-text"><span class="fw-bold">UPDATE</span></button>
                             </div>
                         </form>
@@ -365,25 +367,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/password-score.js"></script>
-    <script type="text/javascript" src="./js/password-score-options.js"></script>
-    <script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#pass1').strengthMeter('text', {
-                container: $('#passstrength'),
-                hierarchy: {
-                    '0': ['text-danger', ' '],
-                    '1': ['text-danger', 'Very Weak'],
-                    '25': ['text-danger', 'Weak'],
-                    '50': ['text-warning', 'Moderate'],
-                    '75': ['text-warning', 'Good'],
-                    '100': ['text-success', 'Strong'],
-                    '125': ['text-success', 'Very Strong']
-                }
-            });
-        });
-
         function validateAddress(input) {
             var regex = /^[a-zA-Z0-9\s.,]*$/; // Regular expression to allow alphanumeric characters, spaces, periods, and commas
 
