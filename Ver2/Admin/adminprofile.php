@@ -162,8 +162,8 @@ if (!isset($_SESSION["admin"])) {
                                     timer: 5000
                                     });</script>";
                             }else{ //username not taken
-                                if (!empty($_POST['pass1'])) { //password not empty
-                                    if (!empty($_POST['pass2'])) { //confirm password not empty
+                                if (!empty($_POST['password'])) { //password not empty
+                                    if (!empty($_POST['cpassword'])) { //confirm password not empty
                                         if ($password !== $cpassword) { //password and confirm password do not match
                                             echo "<script>Swal.fire({
                                                 title: 'PASSWORDS DO NOT MATCH!',
@@ -194,41 +194,53 @@ if (!isset($_SESSION["admin"])) {
 
                                 if(!empty($sql)){ //if everything is set, update
                                     if (mysqli_query($conn, $sql)) {
-                                        //log the update
-                                        $_SESSION['admin'] = $username;
-									    $_SESSION['role'] = $role;
+                                        $affected_rows = mysqli_affected_rows($conn);
 
-                                        //concatenate fname, mname, and lname to create the full name
-                                        $fullname = $fname; // Initialize with the first name
+                                        if ($affected_rows > 0) {
+                                            //log the update
+                                            $_SESSION['admin'] = $username;
+                                            $_SESSION['role'] = $role;
 
-                                        if (!empty($mname)) {
-                                            $fullname .= ' ' . $mname; // Add the middle name if it exists
-                                        }
+                                            //concatenate fname, mname, and lname to create the full name
+                                            $fullname = $fname; // Initialize with the first name
 
-                                        if (!empty($lname)) {
-                                            $fullname .= ' ' . $lname; // Add the last name if it exists
-                                        }
-
-                                        $_SESSION['fullname'] = $fullname;
-
-                                        $admin_username = $_SESSION['fullname'];
-                                        $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username has updated his account', '$admin_username')";
-                                        $conn->query($log);
-
-                                        echo "<script>Swal.fire({
-                                            title: 'Successfully Updated',
-                                            text: 'Admin profile updated successfully!',
-                                            icon: 'success',
-                                            buttons: {
-                                              confirm: true,
-                                            },
-                                          }).then((value) => {
-                                            if (value) {
-                                              document.location='adminprofile.php';
-                                            } else {
-                                              document.location='adminprofile.php';
+                                            if (!empty($mname)) {
+                                                $fullname .= ' ' . $mname; // Add the middle name if it exists
                                             }
-                                          });</script>";
+
+                                            if (!empty($lname)) {
+                                                $fullname .= ' ' . $lname; // Add the last name if it exists
+                                            }
+
+                                            $_SESSION['fullname'] = $fullname;
+
+                                            $admin_username = $_SESSION['fullname'];
+                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username has updated his account', '$admin_username')";
+                                            $conn->query($log);
+
+                                            echo "<script>Swal.fire({
+                                                title: 'Successfully Updated',
+                                                text: 'Admin profile updated successfully!',
+                                                icon: 'success',
+                                                buttons: {
+                                                confirm: true,
+                                                },
+                                            }).then((value) => {
+                                                if (value) {
+                                                document.location='adminprofile.php';
+                                                } else {
+                                                document.location='adminprofile.php';
+                                                }
+                                            });</script>";
+                                        }else{
+                                            echo "<script>Swal.fire({
+                                                title: 'NO CHANGES',
+                                                text: 'No changes were made',
+                                                icon: 'info',
+                                                showConfirmButton: false,
+                                                timer: 5000
+                                                });</script>";
+                                        }
                                     } else {
                                         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                                     }
@@ -339,8 +351,8 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
-                                    <label for="pass1">PASSWORD</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                    <label for="password">PASSWORD</label>
                                 </div>
                                 <div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
 
@@ -348,8 +360,8 @@ if (!isset($_SESSION["admin"])) {
                             </div>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="pass2" name="cpassword" placeholder="Confirm Password">
-                                    <label for="pass2">CONFIRM PASSWORD</label>
+                                    <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
+                                    <label for="cpassword">CONFIRM PASSWORD</label>
                                 </div>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -370,7 +382,7 @@ if (!isset($_SESSION["admin"])) {
     <script type="text/javascript" src="./js/bootstrap-strength-meter.js"></script>
     <script>
         $(document).ready(function() {
-            $('#pass1').strengthMeter('text', {
+            $('#password').strengthMeter('text', {
                 container: $('#passstrength'),
                 hierarchy: {
                     '0': ['text-danger', ' '],

@@ -113,6 +113,40 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
             </div>
         </div>
         <div class="col-10">
+            <?php
+                if(isset($_SESSION['mesType'])){
+                    $mesType = $_SESSION['mesType'];
+                    $mesText = $_SESSION['mesText'];
+
+                    if($mesType == 'success'){
+                        echo "<script>Swal.fire({
+                            icon: '". $mesType ."',
+                            title: '". $mesText ."',
+                            toast: true,
+                            position: 'top-end',
+                            iconColor: 'white',
+                            customClass: {
+                                popup: 'colored-toast',
+                              },
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            });</script>";
+                    }else{
+                        echo "<script>Swal.fire({
+                            title: 'UNABLE TO DELETE!',
+                            text: '". $mesText ."',
+                            icon: '". $mesType ."',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });</script>";
+                    }
+                    
+                    
+                    unset($_SESSION['mesType']);
+                    unset($_SESSION['mesText']);
+                }
+            ?>
             <section class="section-100 d-flex flex-column py-2">
                 <?php include "connection.php"; //include the conneciton file ?>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -152,7 +186,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     $search = mysqli_real_escape_string($conn, $_GET['searchname']);
                                     $sql = "SELECT * FROM schoolyr WHERE schoolyrName LIKE '%$search%' LIMIT $offset, $total_records_per_page";
                                 } else {//retrieve all school year records
-                                    $sql = "SELECT * FROM schoolyr LIMIT $offset, $total_records_per_page";
+                                    $sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT $offset, $total_records_per_page";
                                 }
 
                                 if(isset($_GET['id'])){

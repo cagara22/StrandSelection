@@ -764,27 +764,39 @@ if (!isset($_SESSION["admin"])) {
 										WHERE
 											studentprofile.lrn = '$id'";
 
-										if ($conn->query($sql4) === TRUE) {
-											//log the update
-											$admin_username = $_SESSION['fullname'];
-											$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
-											$conn->query($log);
-											
-											echo "<script>Swal.fire({
-												title: 'Successfully Updated',
-												text: 'Student Profile updated successfully!',
-												icon: 'success',
-												buttons: {
-												confirm: true,
-												},
-											}).then((value) => {
-												if (value) {
-												document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
-												} else {
-												document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
-												}
-											});</script>";
-										} else {
+										if (mysqli_query($conn, $sql4)) {
+											$affected_rows = mysqli_affected_rows($conn);
+
+											if ($affected_rows > 0) {
+												//log the update
+												$admin_username = $_SESSION['fullname'];
+												$log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', 'Student with LRN $id got its profile updated', '$admin_username')";
+												$conn->query($log);
+												
+												echo "<script>Swal.fire({
+													title: 'Successfully Updated',
+													text: 'Student Profile updated successfully!',
+													icon: 'success',
+													buttons: {
+													confirm: true,
+													},
+												}).then((value) => {
+													if (value) {
+													document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
+													} else {
+													document.location='viewprofile.php?lrn=". $id ."&name=". $_GET['name'] ."';
+													}
+												});</script>";
+											}else{
+												echo "<script>Swal.fire({
+													title: 'NO CHANGES',
+													text: 'No changes were made',
+													icon: 'info',
+													showConfirmButton: false,
+													timer: 5000
+													});</script>";
+											}
+										}else{
 											echo "Error updating record: " . $conn->error;
 										}
 									}

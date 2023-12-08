@@ -48,10 +48,11 @@ if (isset($_GET['lrn'])) {
             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Student with LRN $user_id was deleted', '$admin_username')";
             $conn->query($log);
 
+            $_SESSION['mesType'] = "success";
+            $_SESSION['mesText'] = "Student Successfully Deleted!";
+
             //redirect back to profiles page
-            echo "<script type ='text/javascript'>
-            window.location='profiles.php'
-            </script>";
+            header("Location: profiles.php");
         } else {
             echo "Error:" . $sql . "<br>" . $conn->error;
         }
@@ -84,10 +85,11 @@ if (isset($_GET['logid'])) {
     $result = $conn->query($sql);
 
     if ($result === TRUE) {
+        $_SESSION['mesType'] = "success";
+        $_SESSION['mesText'] = "Log Successfully Deleted!";
+
         //redirect to logs page
-        echo "<script type ='text/javascript'>
-        window.location='logs.php'
-        </script>";
+        header("Location: logs.php");
     } else {
         echo "Error:" . $sql . "<br>" . $conn->error;
     }
@@ -116,9 +118,11 @@ if (isset($_GET['logid'])) {
         $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'ALL logs was deleted', '$admin_username')";
         $conn->query($log);
         
-        echo "<script type ='text/javascript'>
-        window.location='logs.php'
-        </script>";
+        $_SESSION['mesType'] = "success";
+        $_SESSION['mesText'] = "All Logs Successfully Deleted!";
+
+        //redirect to logs page
+        header("Location: logs.php");
     } else {
         echo "Error emptying table: " . $conn->error;
     }
@@ -158,10 +162,12 @@ if(isset($_GET['adminid']) && isset($_GET['adminname'])){
         $admin_username = $_SESSION['fullname'];
         $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Admin profile with username $admin_name was deleted', '$admin_username')";
         $conn->query($log);
+
+        $_SESSION['mesType'] = "success";
+        $_SESSION['mesText'] = "Admin Successfully Deleted!";
+
         //redirect to admins page
-        echo "<script type ='text/javascript'>
-        window.location='admins.php'
-        </script>";
+        header("Location: admins.php");
     } else {
         $conn->query("SET foreign_key_checks = 1");
         
@@ -180,8 +186,10 @@ if(isset($_GET['sectionid']) && isset($_GET['sectionname'])){
     $result = mysqli_query($conn, $search_sql);
     if(mysqli_num_rows($result) > 0){//being referenced
         //can't be deleted
-        echo "<script>alert('Can not delete section! Section not empty!');</script>";
-        echo "<script>window.location.href='sections.php';</script>";
+        $_SESSION['mesType'] = "warning";
+        $_SESSION['mesText'] = "Profiles are registered on this Section! Please delete said profiles...";
+
+        header("Location: sections.php");
     }else{//not being referenced
         //prepare delete sql statement
         $delete_sql = "DELETE FROM section WHERE sectionID = '$sectionID'";
@@ -192,10 +200,12 @@ if(isset($_GET['sectionid']) && isset($_GET['sectionname'])){
             $admin_username = $_SESSION['fullname'];
             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'Section $sectionName was deleted', '$admin_username')";
             $conn->query($log);
+
+            $_SESSION['mesType'] = "success";
+            $_SESSION['mesText'] = "Section Successfully Deleted!";
+
             //redirect to sections page
-            echo "<script type ='text/javascript'>
-            window.location='sections.php'
-            </script>";
+            header("Location: sections.php");
         }else{
             echo "Error:" . $sql . "<br>" . $conn->error;
         }
@@ -212,8 +222,10 @@ if(isset($_GET['schoolyrid']) && isset($_GET['schoolyrname'])){
     $result = mysqli_query($conn, $search_sql);
     if(mysqli_num_rows($result) > 0){//being referenced
         //can't be deleted
-        echo "<script>alert('Can not delete school year! School year not empty!');</script>";
-        echo "<script>window.location.href='schoolyrs.php';</script>";
+        $_SESSION['mesType'] = "warning";
+        $_SESSION['mesText'] = "Profiles are registered on this School Year! Please delete said profiles...";
+
+        header("Location: schoolyrs.php");
     }else{//not being referenced
         //prepare deletion sql statement
         $delete_sql = "DELETE FROM schoolyr WHERE schoolyrID = '$schoolyrID'";
@@ -224,10 +236,12 @@ if(isset($_GET['schoolyrid']) && isset($_GET['schoolyrname'])){
             $admin_username = $_SESSION['fullname'];
             $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Deleted', 'School Year $schoolyrName was deleted', '$admin_username')";
             $conn->query($log);
+
+            $_SESSION['mesType'] = "success";
+            $_SESSION['mesText'] = "School Year Successfully Deleted!";
+
             //redirect to schoolyr page
-            echo "<script type ='text/javascript'>
-            window.location='schoolyrs.php'
-            </script>";
+            header("Location: schoolyrs.php");
         }else{
             echo "Error:" . $sql . "<br>" . $conn->error;
         }

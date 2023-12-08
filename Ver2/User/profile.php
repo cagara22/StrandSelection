@@ -651,26 +651,36 @@ if (!isset($_SESSION["student"])) {
 									WHERE
 										studentprofile.lrn = '$id'";
 
+											if (mysqli_query($conn, $sql4)) {
+												$affected_rows = mysqli_affected_rows($conn);
 
-											//execute the update query
-											if ($conn->query($sql4) === TRUE) {//if the update is successful
-												$_SESSION['showGenerate'] = true;
+												if ($affected_rows > 0) {
+													$_SESSION['showGenerate'] = true;
 
-												echo "<script>Swal.fire({
-													title: 'Successfully Updated',
-													text: 'Student Profile updated successfully!',
-													icon: 'success',
-													buttons: {
-													confirm: true,
-													},
-												}).then((value) => {
-													if (value) {
-													document.location='profile.php';
-													} else {
-													document.location='profile.php';
-													}
-												});</script>";
-											} else {
+													echo "<script>Swal.fire({
+														title: 'Successfully Updated',
+														text: 'Student Profile updated successfully!',
+														icon: 'success',
+														buttons: {
+														confirm: true,
+														},
+													}).then((value) => {
+														if (value) {
+														document.location='profile.php';
+														} else {
+														document.location='profile.php';
+														}
+													});</script>";
+												}else{
+													echo "<script>Swal.fire({
+														title: 'NO CHANGES',
+														text: 'No changes were made',
+														icon: 'info',
+														showConfirmButton: false,
+														timer: 5000
+														});</script>";
+												}
+											}else{
 												echo "Error updating record: " . $conn->error;
 											}
 										}

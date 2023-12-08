@@ -145,7 +145,7 @@ if (!isset($_SESSION["admin"])) {
                         </div>
                     </div>
                     <div class="col-4 d-flex justify-content-center align-items-center py-1">
-                        <div class="card w-100 text-bg-blue">
+                        <div class="card w-100 text-bg-orange">
                             <div class="card-body">
                                 <h5 class="card-title">No. of Admins:</h5>
                                 <div class="text-center">
@@ -161,7 +161,7 @@ if (!isset($_SESSION["admin"])) {
                         </div>
                     </div>
                     <div class="col-4 d-flex justify-content-center align-items-center py-1">
-                        <div class="card w-100 text-bg-pink">
+                        <div class="card w-100 text-bg-green">
                             <div class="card-body">
                                 <?php
                                     $schoolyr_sql = "SELECT * FROM schoolyr ORDER BY schoolyrID DESC LIMIT 1";

@@ -115,6 +115,29 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
             </div>
         </div>
         <div class="col-10">
+            <?php
+                if(isset($_SESSION['mesType'])){
+                    $mesType = $_SESSION['mesType'];
+                    $mesText = $_SESSION['mesText'];
+
+                    echo "<script>Swal.fire({
+                        icon: '". $mesType ."',
+                        title: '". $mesText ."',
+                        toast: true,
+                        position: 'top-end',
+                        iconColor: 'white',
+                        customClass: {
+                            popup: 'colored-toast',
+                          },
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        });</script>";
+                    
+                    unset($_SESSION['mesType']);
+                    unset($_SESSION['mesText']);
+                }
+            ?>
             <section class="section-100 d-flex flex-column py-2">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="fw-bold sub-title">LOGS</h1>
