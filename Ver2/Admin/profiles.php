@@ -162,7 +162,7 @@ if (!isset($_SESSION["admin"])) {
                     ?>
                     <div class="col-12 col-md-5">
                         <div class="form-floating mb-2">
-                            <select class="form-select form-select-sm" id="section" name="section" value="">
+                            <select class="form-select form-select-sm" id="section" name="section" value="" required>
                                 <?php
                                 if(isset($_GET['filter'])){
                                     if($_SESSION['role'] != 'ADMIN'){

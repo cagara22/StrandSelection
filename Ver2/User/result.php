@@ -265,6 +265,14 @@ if (!isset($_SESSION["student"])) {
 					</div>
 				</div>
 			</div>
+			<?php
+				if (!empty($recommendation)) {
+					$lrn=$_SESSION['student'];
+					echo "<div class='col-12 col-lg-8 d-flex justify-content-center align-items-center mb-3'>
+							<a href='printpdf.php?lrn=$lrn'  target='_blank' class='btn btn-warning fw-bold w-100' role='button'>PRINT RESULTS</a>
+						</div>";
+				}
+			?>
 		</div>
 	</section>
 

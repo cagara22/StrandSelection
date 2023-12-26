@@ -275,7 +275,7 @@ if (!isset($_SESSION["admin"])) {
 									?>
 									<div class="col-12 col-md-6 mb-1">
 										<div class="form-floating mb-3">
-											<select class="form-select" id="section" name="section" value="">
+											<select class="form-select" id="section" name="section" value="" required>
 												<?php
 												while ($row = $result->fetch_assoc()) {
 													echo '<option value="' . $row['sectionID'] . '">' . $row['sectionName'] . '</option>';
@@ -537,7 +537,7 @@ if (!isset($_SESSION["admin"])) {
                             ?>
                             <div class="col-12 col-md-6 mb-1">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="section" name="section" value="">
+                                    <select class="form-select" id="section" name="section" value="" required>
                                         <?php
                                         while ($row = $result->fetch_assoc()) {
                                             echo '<option value="' . $row['sectionID'] . '">' . $row['sectionName'] . '</option>';

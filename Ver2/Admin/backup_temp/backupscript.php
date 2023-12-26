@@ -32,7 +32,7 @@ foreach ($tables as $table) {
                 if (isset($row[$j])) {
                     $sqlScript .= '"' . $row[$j] . '"';
                 } else {
-                    $sqlScript .= '""';
+                    $sqlScript .= 'NULL';
                 }
                 if ($j < ($columnCount - 1)) {
                     $sqlScript .= ',';

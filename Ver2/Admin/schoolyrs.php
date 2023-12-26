@@ -355,7 +355,7 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                     $schoolyrID = $_POST['schoolyrID'];
 
                                     //check if the schoolyr already exists
-                                    $query = "SELECT schoolyrID FROM schoolyr WHERE schoolyrName = '$schoolyrName'";
+                                    $query = "SELECT schoolyrID FROM schoolyr WHERE schoolyrName = '$schoolyrName' AND schoolyrID <> '$schoolyrID'";
 
                                     $result = mysqli_query($conn, $query);
                                     if (mysqli_num_rows($result) > 0) { //already exists
@@ -371,27 +371,40 @@ if (!isset($_SESSION["admin"]) || $_SESSION['role'] === "ADMIN") {
                                         $sql_schlyr = "UPDATE schoolyr SET schoolyrName='$schoolyrName' WHERE schoolyrID = '$schoolyrID'";
 
                                         if(mysqli_query($conn, $sql_schlyr)){
-                                            //log the update
-                                            $role = $_SESSION['role'];
-                                            $username = $_SESSION['admin'];
-                                            $admin_username = $_SESSION['fullname'];
-                                            $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $schoolyrName School Year', '$admin_username')";
-                                            $conn->query($log);
+                                            $affected_rows = mysqli_affected_rows($conn);
 
-                                            echo "<script>Swal.fire({
-                                                title: 'Successfully Updated',
-                                                text: 'School year updated successfully!',
-                                                icon: 'success',
-                                                buttons: {
-                                                  confirm: true,
-                                                },
-                                              }).then((value) => {
-                                                if (value) {
-                                                  document.location='schoolyrs.php';
-                                                } else {
-                                                  document.location='schoolyrs.php';
-                                                }
-                                              });</script>";
+                                            if ($affected_rows > 0) {
+                                                //log the update
+                                                $role = $_SESSION['role'];
+                                                $username = $_SESSION['admin'];
+                                                $admin_username = $_SESSION['fullname'];
+                                                $log = "INSERT INTO logs (Action, Details, Doer) VALUES ('Updated', '$role with Username $username updated $schoolyrName School Year', '$admin_username')";
+                                                $conn->query($log);
+
+                                                echo "<script>Swal.fire({
+                                                    title: 'Successfully Updated',
+                                                    text: 'School year updated successfully!',
+                                                    icon: 'success',
+                                                    buttons: {
+                                                    confirm: true,
+                                                    },
+                                                }).then((value) => {
+                                                    if (value) {
+                                                    document.location='schoolyrs.php';
+                                                    } else {
+                                                    document.location='schoolyrs.php';
+                                                    }
+                                                });</script>";
+                                            }else{
+                                                echo "<script>Swal.fire({
+                                                    title: 'NO CHANGES',
+                                                    text: 'No changes were made',
+                                                    icon: 'info',
+                                                    showConfirmButton: false,
+                                                    timer: 5000
+                                                    });</script>";
+                                            }
+                                            
                                         }else{
                                             echo "Error inserting record: " . mysqli_error($conn);
                                         }  

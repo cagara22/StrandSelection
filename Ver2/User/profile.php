@@ -97,7 +97,16 @@ if (!isset($_SESSION["student"])) {
 									$Mname = strtoupper(mysqli_real_escape_string($conn, $_POST['Mname']));
 									$Lname = strtoupper(mysqli_real_escape_string($conn, $_POST['Lname']));
 									$address = strtoupper(mysqli_real_escape_string($conn, $_POST['address']));
-									$age = !empty($_POST['age']) ? $_POST['age'] : 0;
+									if(!empty($_POST['bday'])){
+										$bday = $_POST['bday'];
+										$birthdate = new DateTime($bday);
+										$currentDate = new DateTime();
+										$age = $currentDate->diff($birthdate)->y;
+									}else{
+										$bday = '';
+										$age = 0;
+									}
+									//$age = !empty($_POST['age']) ? $_POST['age'] : 0;
 									$sex = mysqli_real_escape_string($conn, $_POST['sex']);
 									$suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
 									$email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -120,7 +129,7 @@ if (!isset($_SESSION["student"])) {
 												//exit; //exit the script if passwords do not match
 											}else{//if everything is good, define the sql statement to update the student account details with password
 												$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-												address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
+												address='$address', bday='$bday', age='$age', sex='$sex', suffix='$suffix', email='$email', password='$password' WHERE lrn='$id'";
 
 												if($password === md5($id)){
 													$_SESSION['changePass'] = true;
@@ -141,7 +150,7 @@ if (!isset($_SESSION["student"])) {
 									} else {
 										//if everything is good, define the sql statement to update the student account details without password
 										$sql = "UPDATE studentprofile SET Fname='$Fname', Mname='$Mname', Lname='$Lname', 
-										address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
+										address='$address', bday='$bday', age='$age', sex='$sex', suffix='$suffix', email='$email' WHERE lrn='$id'";
 									}
 
 									if(!empty($sql)){ //check if sql statement is not empty
@@ -208,6 +217,7 @@ if (!isset($_SESSION["student"])) {
 											$Mname1 = $row['Mname'];
 											$Lname1 = $row['Lname'];
 											$address1 = $row['address'];
+											$bday1 = $row['bday'];
 											$age1 = $row['age'];
 											$suffix1 = $row['suffix'];
 											$sex1 = $row['sex'];
@@ -337,7 +347,7 @@ if (!isset($_SESSION["student"])) {
 											<label for="address">Address</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-3 mb-1">
+									<div class="col-12 col-md-2 mb-1">
 										<div class="form-floating mb-3">
 											<select class="form-select" id="sex" name="sex" value="<?php echo $sex1; ?>">
 												<option value="M" <?php if ($sex1 == "M") {
@@ -350,9 +360,15 @@ if (!isset($_SESSION["student"])) {
 											<label for="sex">Sex</label>
 										</div>
 									</div>
-									<div class="col-12 col-md-3 mb-1">
+									<div class="col-12 col-md-2 mb-1">
 										<div class="form-floating mb-3">
-											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+											<input type="date" class="form-control" id="bday" name="bday" value="<?php echo $bday1; ?>" max="<?php echo date('Y-m-d'); ?>" min="1800-01-01" oninput="" placeholder="Birthday" required>
+											<label for="bday">Birthday</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-2 mb-1">
+										<div class="form-floating mb-3">
+											<input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="" maxlength="3" placeholder="Age" required readonly>
 											<label for="age">Age</label>
 										</div>
 									</div>
@@ -2055,7 +2071,8 @@ if (!isset($_SESSION["student"])) {
 					</div>
 					<div class="card-body">
 						<h4>Profile: <span id="profileStatus" style="color: red">NOT DONE</span></h4>
-						<p class="text-muted" id="profileStatusText">Profile not done... Please Update your profile!</p>
+						<p class="text-muted" id="profileStatusText" style="display: <?php echo (!empty($strandResult)) ? 'none' : 'block'; ?>;">Profile not done... Please Update your profile!</p>
+						<p class="text-muted" id="profileStatusText" style="display: <?php echo (!empty($strandResult)) ? 'block' : 'none'; ?>;">Based on your Profile, here is your recommended strand!</p>
 						<form action="" method="post">
 							<div class="mb-3">
 								<?php
@@ -2509,6 +2526,35 @@ if (!isset($_SESSION["student"])) {
 				input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any special characters
 			}
 		}
+
+		function calculateAge() {
+			// Get the input elements
+			var bdayInput = document.getElementById('bday');
+			var ageInput = document.getElementById('age');
+
+			// Get the selected date value from the birthday input
+			var selectedDate = new Date(bdayInput.value);
+
+			// Get the current date
+			var currentDate = new Date();
+
+			// Calculate the difference in years between the selected date and the current date
+			var age = currentDate.getFullYear() - selectedDate.getFullYear();
+
+			// Check if the birthday for this year has already occurred
+			if (
+				currentDate.getMonth() < selectedDate.getMonth() ||
+				(currentDate.getMonth() === selectedDate.getMonth() && currentDate.getDate() < selectedDate.getDate())
+			) {
+				age--;
+			}
+
+			// Update the age input field
+			ageInput.value = age;
+		}
+
+		// Attach the calculateAge function to the oninput event of the birthday input
+		document.getElementById('bday').addEventListener('input', calculateAge);
 
 		//for displaying the value for the sliders
 		const rangeInputs = document.querySelectorAll('.form-range');

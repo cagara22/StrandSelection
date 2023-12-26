@@ -136,7 +136,16 @@ if (!isset($_SESSION["admin"])) {
                             $mname = strtoupper(mysqli_real_escape_string($conn, $_POST['mname']));
                             $lname = strtoupper(mysqli_real_escape_string($conn, $_POST['lname']));
                             $suffix = strtoupper(mysqli_real_escape_string($conn, $_POST['suffix']));
-                            $age = !empty($_POST['age']) ? $_POST['age'] : 0;
+                            if(!empty($_POST['bday'])){
+                                $bday = $_POST['bday'];
+                                $birthdate = new DateTime($bday);
+                                $currentDate = new DateTime();
+                                $age = $currentDate->diff($birthdate)->y;
+                            }else{
+                                $bday = '';
+                                $age = 0;
+                            }
+                            //$age = !empty($_POST['age']) ? $_POST['age'] : 0;
                             $role = '';
                             if($_SESSION['role'] === 'ADMIN'){
                                 $role = 'ADMIN';
@@ -175,7 +184,7 @@ if (!isset($_SESSION["admin"])) {
                                         }else{ //passwrod and confirm password matches
                                             //prepare the update sql statement with password
                                             $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                            address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role', password='$password' WHERE adminID='$id'";
+                                            address='$address', bday='$bday', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role', password='$password' WHERE adminID='$id'";
                                         }
                                     }else{ //confirm password empty
                                         echo "<script>Swal.fire({
@@ -189,7 +198,7 @@ if (!isset($_SESSION["admin"])) {
                                 }else{ //password empty
                                     //prepare update sql statement without password
                                     $sql = "UPDATE adminprofile SET username='$username', fname='$fname', mname='$mname', lname='$lname', 
-                                    address='$address', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role'  WHERE adminID='$id'";
+                                    address='$address', bday='$bday', age='$age', sex='$sex', suffix='$suffix', email='$email', role='$role'  WHERE adminID='$id'";
                                 }
 
                                 if(!empty($sql)){ //if everything is set, update
@@ -263,6 +272,7 @@ if (!isset($_SESSION["admin"])) {
                                     $mname1 = $row['mname'];
                                     $lname1 = $row['lname'];
                                     $suffix1 = $row['suffix'];
+                                    $bday1 = $row['bday'];
                                     $age1 = $row['age'];
                                     $role1 = $row['role'];
                                     $sex1 = $row['sex'];
@@ -311,7 +321,7 @@ if (!isset($_SESSION["admin"])) {
                                     <label for="address">Address</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
+                            <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="sex" name="sex">
                                         <option value="M" <?php if ($sex1 == "M") {
@@ -324,13 +334,19 @@ if (!isset($_SESSION["admin"])) {
                                     <label for="sex">Sex</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 mb-1">
+                            <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" placeholder="Age" required>
+                                    <input type="date" class="form-control" id="bday" name="bday" value="<?php echo $bday1; ?>" max="<?php echo date('Y-m-d'); ?>" min="1800-01-01" oninput="" placeholder="Birthday" required>
+                                    <label for="bday">Birthday</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3 mb-1">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="age" name="age" value="<?php echo $age1; ?>" oninput="" maxlength="3" placeholder="Age" required readonly>
                                     <label for="age">Age</label>
                                 </div>
                             </div>
-                            <div class="col-12 mb-1">
+                            <div class="col-12 col-md-3 mb-1">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="role" name="role" value="" <?php if($role1 == "ADMIN"){echo "disabled";} ?>>
                                         <option value="ADMIN" <?php if ($role1 == "ADMIN") {
@@ -419,6 +435,35 @@ if (!isset($_SESSION["admin"])) {
                 input.value = input.value.replace(/[^a-zA-Z\sñÑ-]/g, ''); // Remove any special characters
             }
         }
+
+        function calculateAge() {
+			// Get the input elements
+			var bdayInput = document.getElementById('bday');
+			var ageInput = document.getElementById('age');
+
+			// Get the selected date value from the birthday input
+			var selectedDate = new Date(bdayInput.value);
+
+			// Get the current date
+			var currentDate = new Date();
+
+			// Calculate the difference in years between the selected date and the current date
+			var age = currentDate.getFullYear() - selectedDate.getFullYear();
+
+			// Check if the birthday for this year has already occurred
+			if (
+				currentDate.getMonth() < selectedDate.getMonth() ||
+				(currentDate.getMonth() === selectedDate.getMonth() && currentDate.getDate() < selectedDate.getDate())
+			) {
+				age--;
+			}
+
+			// Update the age input field
+			ageInput.value = age;
+		}
+
+		// Attach the calculateAge function to the oninput event of the birthday input
+		document.getElementById('bday').addEventListener('input', calculateAge);
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
