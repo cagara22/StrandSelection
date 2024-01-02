@@ -17,6 +17,7 @@ if (!isset($_SESSION["student"])) {
 	<link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Custom CSS -->
@@ -421,18 +422,34 @@ if (!isset($_SESSION["student"])) {
 										</div>
 									</div>
 									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating">
-											<input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
-											<label for="pass1">PASSWORD</label>
+										<div class="input-group mb-1">
+											<div class="form-floating">
+												<input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
+												<label for="pass1">PASSWORD</label>
+											</div>
+											<div class="input-group-append">
+												<span class="input-group-text" style="height: 58px;" onclick="password_show_hide();">
+													<i class="fas fa-eye" id="show_eye1"></i>
+													<i class="fas fa-eye-slash d-none" id="hide_eye1"></i>
+												</span>
+											</div>
 										</div>
 										<div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
 
 										</div>
 									</div>
 									<div class="col-12 col-md-6 mb-1">
-										<div class="form-floating">
-											<input type="password" class="form-control" id="pass2" name="cpassword" placeholder="Confirm Password">
-											<label for="pass2">CONFIRM PASSWORD</label>
+										<div class="input-group mb-1">
+											<div class="form-floating">
+												<input type="password" class="form-control" id="pass2" name="cpassword" placeholder="Confirm Password">
+												<label for="pass2">CONFIRM PASSWORD</label>
+											</div>
+											<div class="input-group-append">
+												<span class="input-group-text" style="height: 58px;" onclick="cpassword_show_hide();">
+													<i class="fas fa-eye" id="show_eye2"></i>
+													<i class="fas fa-eye-slash d-none" id="hide_eye2"></i>
+												</span>
+											</div>
 										</div>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -712,7 +729,6 @@ if (!isset($_SESSION["student"])) {
 										<p id="" class="d-block form-label">Based on your self-assesment, select the skills that are applicable to you...</p>
 										<div class="row">
 											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">Universal Skills</p>
 												<div class="text-start">
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiCommunicationSkills" name="skiCommunicationSkills" value="1" <?php if (strpos($skiCommunicationSkills1, "1") !== false) {
@@ -722,72 +738,50 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to convey thoughts, ideas, or information effectively to others through various means, such as speaking, writing, or listening.">
 													</div>
 													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiCriticalThinking" name="skiCriticalThinking" value="1" <?php if (strpos($skiCriticalThinking1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiCriticalThinking">Critical Thinking</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to analyze, evaluate, and reason about information and situations in a logical and thoughtful manner to make informed decisions.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiReadingComprehension" name="skiReadingComprehension" value="1" <?php if (strpos($skiReadingComprehension1, "1") !== false) {
-																																													echo " checked";
-																																												} ?>>
-														<label class="form-check-label" for="skiReadingComprehension">Reading Comprehension</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of understanding and interpreting written text, including identifying key ideas and details.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiProblemSolving" name="skiProblemSolving" value="1" <?php if (strpos($skiProblemSolving1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiProblemSolving">Problem Solving</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capability to identify challenges, analyze them, and develop effective solutions or strategies to overcome them.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiResearchSkills" name="skiResearchSkills" value="1" <?php if (strpos($skiResearchSkills1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiResearchSkills">Research Skills</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The aptitude to gather, assess, and synthesize information from various sources to acquire knowledge and address questions or issues.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiDigitalLiteracy" name="skiDigitalLiteracy" value="1" <?php if (strpos($skiDigitalLiteracy1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiDigitalLiteracy">Digital Literacy</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in using digital devices and technology to access, understand, and communicate information effectively in the digital age.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiInnovative" name="skiInnovative" value="1" <?php if (strpos($skiInnovative1, "1") !== false) {
-																																								echo " checked";
-																																							} ?>>
-														<label class="form-check-label" for="skiInnovative">Innovative</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiTimeManagement" name="skiTimeManagement" value="1" <?php if (strpos($skiTimeManagement1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiTimeManagement">Time Management</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of efficiently organizing and prioritizing tasks and activities to make the most of available time.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiAdaptability" name="skiAdaptability" value="1" <?php if (strpos($skiAdaptability1, "1") !== false) {
-																																									echo " checked";
-																																								} ?>>
-														<label class="form-check-label" for="skiAdaptability">Adaptability</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to adjust and thrive in changing circumstances, embracing new situations and challenges with flexibility.">
-													</div>
-												</div>
-											</div>
-											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">STEM Skills</p>
-												<div class="text-start">
-													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiScientificInquiry" name="skiScientificInquiry" value="1" <?php if (strpos($skiScientificInquiry1, "1") !== false) {
 																																											echo " checked";
 																																										} ?>>
 														<label class="form-check-label" for="skiScientificInquiry">Scientific Inquiry</label>
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of asking questions, conducting investigations, and drawing conclusions based on evidence to understand the natural world.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiResearchWriting" name="skiResearchWriting" value="1" <?php if (strpos($skiResearchWriting1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiResearchWriting">Research and Writing</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to gather information systematically and communicate ideas effectively through written means.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiFinancialLiteracy" name="skiFinancialLiteracy" value="1" <?php if (strpos($skiFinancialLiteracy1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiFinancialLiteracy">Financial Literacy</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The understanding of financial concepts and practices, enabling informed financial decision-making.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiComputerHardwareSoftware" name="skiComputerHardwareSoftware" value="1" <?php if (strpos($skiComputerHardwareSoftware1, "1") !== false) {
+																																															echo " checked";
+																																														} ?>>
+														<label class="form-check-label" for="skiComputerHardwareSoftware">Computer Hardware and Software</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge of computer components and software programs, including installation and maintenance.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiCulinarySkills" name="skiCulinarySkills" value="1" <?php if (strpos($skiCulinarySkills1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiCulinarySkills">Culinary Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in food preparation, cooking techniques, and culinary arts.">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiCriticalThinking" name="skiCriticalThinking" value="1" <?php if (strpos($skiCriticalThinking1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiCriticalThinking">Critical Thinking</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to analyze, evaluate, and reason about information and situations in a logical and thoughtful manner to make informed decisions.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiMathematicalSkills" name="skiMathematicalSkills" value="1" <?php if (strpos($skiMathematicalSkills1, "1") !== false) {
@@ -797,91 +791,11 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to use mathematical concepts, operations, and methods to solve problems and make sense of numerical information.">
 													</div>
 													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiLogicalReasoning" name="skiLogicalReasoning" value="1" <?php if (strpos($skiLogicalReasoning1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiLogicalReasoning">Logical Reasoning</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to think rationally and systematically, making well-structured, coherent arguments and decisions.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiLabExperimentalSkills" name="skiLabExperimentalSkills" value="1" <?php if (strpos($skiLabExperimentalSkills1, "1") !== false) {
-																																													echo " checked";
-																																												} ?>>
-														<label class="form-check-label" for="skiLabExperimentalSkills">Lab and Experimental Skills</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in conducting experiments, including using equipment, collecting data, and following scientific procedures accurately.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiAnalyticalSkills" name="skiAnalyticalSkills" value="1" <?php if (strpos($skiAnalyticalSkills1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiAnalyticalSkills">Analytical Skills</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and interpreting complex data or information to identify patterns, trends, or insights.">
-													</div>
-												</div>
-											</div>
-											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">HUMSS Skills</p>
-												<div class="text-start">
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiResearchWriting" name="skiResearchWriting" value="1" <?php if (strpos($skiResearchWriting1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiResearchWriting">Research and Writing</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to gather information systematically and communicate ideas effectively through written means.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiSociologicalAnalysis" name="skiSociologicalAnalysis" value="1" <?php if (strpos($skiSociologicalAnalysis1, "1") !== false) {
-																																													echo " checked";
-																																												} ?>>
-														<label class="form-check-label" for="skiSociologicalAnalysis">Sociological Analysis</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and understanding social phenomena, behavior, and institutions, often through a critical and systematic approach.">
-													</div>
-													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiCulturalCompetence" name="skiCulturalCompetence" value="1" <?php if (strpos($skiCulturalCompetence1, "1") !== false) {
 																																												echo " checked";
 																																											} ?>>
 														<label class="form-check-label" for="skiCulturalCompetence">Cultural Competence</label>
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to interact and work effectively with people from diverse cultural backgrounds while respecting and valuing their beliefs and practices.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiEthicalReasoning" name="skiEthicalReasoning" value="1" <?php if (strpos($skiEthicalReasoning1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiEthicalReasoning">Ethical Reasoning</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of evaluating moral dilemmas and making decisions that align with ethical principles and values.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiHistoryPoliticalScience" name="skiHistoryPoliticalScience" value="1" <?php if (strpos($skiHistoryPoliticalScience1, "1") !== false) {
-																																														echo " checked";
-																																													} ?>>
-														<label class="form-check-label" for="skiHistoryPoliticalScience">History and Political Science</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in studying and interpreting historical events and political systems to gain insights into the past and present.">
-													</div>
-												</div>
-											</div>
-											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">ABM Skills</p>
-												<div class="text-start">
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiFinancialLiteracy" name="skiFinancialLiteracy" value="1" <?php if (strpos($skiFinancialLiteracy1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiFinancialLiteracy">Financial Literacy</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The understanding of financial concepts and practices, enabling informed financial decision-making.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiBusinessPlanning" name="skiBusinessPlanning" value="1" <?php if (strpos($skiBusinessPlanning1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiBusinessPlanning">Business Planning</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of developing a detailed strategy for achieving business goals, including financial, operational, and marketing plans.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiMarketing" name="skiMarketing" value="1" <?php if (strpos($skiMarketing1, "1") !== false) {
-																																							echo " checked";
-																																						} ?>>
-														<label class="form-check-label" for="skiMarketing">Marketing</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of promoting and selling products or services by understanding customer needs and creating strategies to meet them.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiAccounting" name="skiAccounting" value="1" <?php if (strpos($skiAccounting1, "1") !== false) {
@@ -891,51 +805,50 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The systematic recording, reporting, and analysis of financial transactions to track a business's financial health.">
 													</div>
 													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiEntrepreneurship" name="skiEntrepreneurship" value="1" <?php if (strpos($skiEntrepreneurship1, "1") !== false) {
-																																											echo " checked";
-																																										} ?>>
-														<label class="form-check-label" for="skiEntrepreneurship">Entrepreneurship</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify business opportunities, take calculated risks, and create and manage successful ventures.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiEconomics" name="skiEconomics" value="1" <?php if (strpos($skiEconomics1, "1") !== false) {
-																																							echo " checked";
-																																						} ?>>
-														<label class="form-check-label" for="skiEconomics">Economics</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of how societies allocate resources and make decisions about production, distribution, and consumption.">
-													</div>
-												</div>
-											</div>
-											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">TVL-ICT Skills</p>
-												<div class="text-start">
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiComputerHardwareSoftware" name="skiComputerHardwareSoftware" value="1" <?php if (strpos($skiComputerHardwareSoftware1, "1") !== false) {
-																																															echo " checked";
-																																														} ?>>
-														<label class="form-check-label" for="skiComputerHardwareSoftware">Computer Hardware and Software</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge of computer components and software programs, including installation and maintenance.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiComputerNetworking" name="skiComputerNetworking" value="1" <?php if (strpos($skiComputerNetworking1, "1") !== false) {
-																																												echo " checked";
-																																											} ?>>
-														<label class="form-check-label" for="skiComputerNetworking">Computer Networking</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to set up, configure, and manage computer networks for data communication.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiWebDevelopment" name="skiWebDevelopment" value="1" <?php if (strpos($skiWebDevelopment1, "1") !== false) {
-																																										echo " checked";
-																																									} ?>>
-														<label class="form-check-label" for="skiWebDevelopment">Web Development</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of creating websites and web applications, involving coding, design, and functionality.">
-													</div>
-													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiProgramming" name="skiProgramming" value="1" <?php if (strpos($skiProgramming1, "1") !== false) {
 																																								echo " checked";
 																																							} ?>>
 														<label class="form-check-label" for="skiProgramming">Programming</label>
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Writing, testing, and maintaining the source code of computer programs to achieve specific tasks or functions.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiChildcareFamilyServices" name="skiChildcareFamilyServices" value="1" <?php if (strpos($skiChildcareFamilyServices1, "1") !== false) {
+																																														echo " checked";
+																																													} ?>>
+														<label class="form-check-label" for="skiChildcareFamilyServices">Childcare and Family Services</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Providing care, support, and services for children and families, often including early childhood education and child development.">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiReadingComprehension" name="skiReadingComprehension" value="1" <?php if (strpos($skiReadingComprehension1, "1") !== false) {
+																																													echo " checked";
+																																												} ?>>
+														<label class="form-check-label" for="skiReadingComprehension">Reading Comprehension</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of understanding and interpreting written text, including identifying key ideas and details.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiLogicalReasoning" name="skiLogicalReasoning" value="1" <?php if (strpos($skiLogicalReasoning1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiLogicalReasoning">Logical Reasoning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to think rationally and systematically, making well-structured, coherent arguments and decisions.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiEthicalReasoning" name="skiEthicalReasoning" value="1" <?php if (strpos($skiEthicalReasoning1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiEthicalReasoning">Ethical Reasoning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of evaluating moral dilemmas and making decisions that align with ethical principles and values.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiEntrepreneurship" name="skiEntrepreneurship" value="1" <?php if (strpos($skiEntrepreneurship1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiEntrepreneurship">Entrepreneurship</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify business opportunities, take calculated risks, and create and manage successful ventures.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiTroubleshooting" name="skiTroubleshooting" value="1" <?php if (strpos($skiTroubleshooting1, "1") !== false) {
@@ -945,23 +858,89 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to identify and resolve technical issues or problems in hardware, software, or systems.">
 													</div>
 													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiNutritionFoodSafety" name="skiNutritionFoodSafety" value="1" <?php if (strpos($skiNutritionFoodSafety1, "1") !== false) {
+																																												echo " checked";
+																																											} ?>>
+														<label class="form-check-label" for="skiNutritionFoodSafety">Nutrition and Food Safety</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge and practices related to proper nutrition, dietary planning, and ensuring the safety of food consumption.">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiProblemSolving" name="skiProblemSolving" value="1" <?php if (strpos($skiProblemSolving1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiProblemSolving">Problem Solving</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capability to identify challenges, analyze them, and develop effective solutions or strategies to overcome them.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiLabExperimentalSkills" name="skiLabExperimentalSkills" value="1" <?php if (strpos($skiLabExperimentalSkills1, "1") !== false) {
+																																													echo " checked";
+																																												} ?>>
+														<label class="form-check-label" for="skiLabExperimentalSkills">Lab and Experimental Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in conducting experiments, including using equipment, collecting data, and following scientific procedures accurately.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiHistoryPoliticalScience" name="skiHistoryPoliticalScience" value="1" <?php if (strpos($skiHistoryPoliticalScience1, "1") !== false) {
+																																														echo " checked";
+																																													} ?>>
+														<label class="form-check-label" for="skiHistoryPoliticalScience">History and Political Science</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in studying and interpreting historical events and political systems to gain insights into the past and present.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiEconomics" name="skiEconomics" value="1" <?php if (strpos($skiEconomics1, "1") !== false) {
+																																							echo " checked";
+																																						} ?>>
+														<label class="form-check-label" for="skiEconomics">Economics</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of how societies allocate resources and make decisions about production, distribution, and consumption.">
+													</div>
+													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiGraphicsDesign" name="skiGraphicsDesign" value="1" <?php if (strpos($skiGraphicsDesign1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
 														<label class="form-check-label" for="skiGraphicsDesign">Graphics Design</label>
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating visual content and layouts for digital or print media, including images, illustrations, and multimedia elements.">
 													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiInnovative" name="skiInnovative" value="1" <?php if (strpos($skiInnovative1, "1") !== false) {
+																																								echo " checked";
+																																							} ?>>
+														<label class="form-check-label" for="skiInnovative">Innovative</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">
+													</div>
 												</div>
 											</div>
 											<div class="col-12 col-sm-6 col-md-4">
-												<p id="" class="fst-italic d-block form-label">TVL-HE Skills</p>
 												<div class="text-start">
 													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiCulinarySkills" name="skiCulinarySkills" value="1" <?php if (strpos($skiCulinarySkills1, "1") !== false) {
+														<input class="form-check-input" type="checkbox" id="skiResearchSkills" name="skiResearchSkills" value="1" <?php if (strpos($skiResearchSkills1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
-														<label class="form-check-label" for="skiCulinarySkills">Culinary Skills</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in food preparation, cooking techniques, and culinary arts.">
+														<label class="form-check-label" for="skiResearchSkills">Research Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The aptitude to gather, assess, and synthesize information from various sources to acquire knowledge and address questions or issues.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiAnalyticalSkills" name="skiAnalyticalSkills" value="1" <?php if (strpos($skiAnalyticalSkills1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiAnalyticalSkills">Analytical Skills</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and interpreting complex data or information to identify patterns, trends, or insights.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiBusinessPlanning" name="skiBusinessPlanning" value="1" <?php if (strpos($skiBusinessPlanning1, "1") !== false) {
+																																											echo " checked";
+																																										} ?>>
+														<label class="form-check-label" for="skiBusinessPlanning">Business Planning</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The process of developing a detailed strategy for achieving business goals, including financial, operational, and marketing plans.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiComputerNetworking" name="skiComputerNetworking" value="1" <?php if (strpos($skiComputerNetworking1, "1") !== false) {
+																																												echo " checked";
+																																											} ?>>
+														<label class="form-check-label" for="skiComputerNetworking">Computer Networking</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to set up, configure, and manage computer networks for data communication.">
 													</div>
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiSewingFashionDesign" name="skiSewingFashionDesign" value="1" <?php if (strpos($skiSewingFashionDesign1, "1") !== false) {
@@ -971,6 +950,45 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to create and tailor clothing, including sewing, pattern-making, and fashion design.">
 													</div>
 													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiTimeManagement" name="skiTimeManagement" value="1" <?php if (strpos($skiTimeManagement1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiTimeManagement">Time Management</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of efficiently organizing and prioritizing tasks and activities to make the most of available time.">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-sm-6 col-md-4">
+												<div class="text-start">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiDigitalLiteracy" name="skiDigitalLiteracy" value="1" <?php if (strpos($skiDigitalLiteracy1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiDigitalLiteracy">Digital Literacy</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Proficiency in using digital devices and technology to access, understand, and communicate information effectively in the digital age.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiSociologicalAnalysis" name="skiSociologicalAnalysis" value="1" <?php if (strpos($skiSociologicalAnalysis1, "1") !== false) {
+																																													echo " checked";
+																																												} ?>>
+														<label class="form-check-label" for="skiSociologicalAnalysis">Sociological Analysis</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of examining and understanding social phenomena, behavior, and institutions, often through a critical and systematic approach.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiMarketing" name="skiMarketing" value="1" <?php if (strpos($skiMarketing1, "1") !== false) {
+																																							echo " checked";
+																																						} ?>>
+														<label class="form-check-label" for="skiMarketing">Marketing</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of promoting and selling products or services by understanding customer needs and creating strategies to meet them.">
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" id="skiWebDevelopment" name="skiWebDevelopment" value="1" <?php if (strpos($skiWebDevelopment1, "1") !== false) {
+																																										echo " checked";
+																																									} ?>>
+														<label class="form-check-label" for="skiWebDevelopment">Web Development</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The skill of creating websites and web applications, involving coding, design, and functionality.">
+													</div>
+													<div class="form-check">
 														<input class="form-check-input" type="checkbox" id="skiInteriorDesign" name="skiInteriorDesign" value="1" <?php if (strpos($skiInteriorDesign1, "1") !== false) {
 																																										echo " checked";
 																																									} ?>>
@@ -978,18 +996,11 @@ if (!isset($_SESSION["student"])) {
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Planning and decorating interior spaces to create functional and aesthetically pleasing environments.">
 													</div>
 													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiChildcareFamilyServices" name="skiChildcareFamilyServices" value="1" <?php if (strpos($skiChildcareFamilyServices1, "1") !== false) {
-																																														echo " checked";
-																																													} ?>>
-														<label class="form-check-label" for="skiChildcareFamilyServices">Childcare and Family Services</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Providing care, support, and services for children and families, often including early childhood education and child development.">
-													</div>
-													<div class="form-check">
-														<input class="form-check-input" type="checkbox" id="skiNutritionFoodSafety" name="skiNutritionFoodSafety" value="1" <?php if (strpos($skiNutritionFoodSafety1, "1") !== false) {
-																																												echo " checked";
-																																											} ?>>
-														<label class="form-check-label" for="skiNutritionFoodSafety">Nutrition and Food Safety</label>
-														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Knowledge and practices related to proper nutrition, dietary planning, and ensuring the safety of food consumption.">
+														<input class="form-check-input" type="checkbox" id="skiAdaptability" name="skiAdaptability" value="1" <?php if (strpos($skiAdaptability1, "1") !== false) {
+																																									echo " checked";
+																																								} ?>>
+														<label class="form-check-label" for="skiAdaptability">Adaptability</label>
+														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The capacity to adjust and thrive in changing circumstances, embracing new situations and challenges with flexibility.">
 													</div>
 												</div>
 											</div>
@@ -2271,15 +2282,15 @@ if (!isset($_SESSION["student"])) {
 
 							// require '../vendor/autoload.php';
 							//prepare the prompt for thr gpt api
-                            $prompt = "You are a Decision Support System for upcoming senior high school students. Here is a result of a student based on the assessment of his skills, interest, academic performance, and carrer aspiration:
-                                STEM: Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ." Overall Score in Percentage=". $percentageScore1 ."
-                                HUMSS: Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ." Overall Score in Percentage=". $percentageScore2 ."
-                                ABM: Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ." Overall Score in Percentage=". $percentageScore3 ."
-                                GAS: Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ." Overall Score in Percentage=". $percentageScore4 ."
-                                TVL-ICT: Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ." Overall Score in Percentage=". $percentageScore5 ."
-                                TVL-HE: Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ." Overall Score in Percentage=". $percentageScore6 ."
+                            $prompt = "You function as a Decision Support System for upcoming senior high school students. Based on the assesement, the most suitable strand for the student is ". $mostSuitableStrand .". Here is a comprehensive evaluation of a student, taking into account an assessment of their skills, interests, academic performance, and career aspirations:
+                                STEM: Overall Score in Percentage=". $percentageScore1 ." Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ."
+                                HUMSS: Overall Score in Percentage=". $percentageScore2 ." Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ."
+                                ABM: Overall Score in Percentage=". $percentageScore3 ." Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ."
+                                GAS: Overall Score in Percentage=". $percentageScore4 ." Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ."
+                                TVL-ICT: Overall Score in Percentage=". $percentageScore5 ." Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ."
+                                TVL-HE: Overall Score in Percentage=". $percentageScore6 ." Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ."
                                 Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
-                                Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the top 3 strand he is suitable with based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
+                                Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the strand he is most suitable with and the next top two strand based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
 
 							//place yout api key here
 							$client = OpenAI::client($apiKey);
@@ -2555,6 +2566,38 @@ if (!isset($_SESSION["student"])) {
 
 		// Attach the calculateAge function to the oninput event of the birthday input
 		document.getElementById('bday').addEventListener('input', calculateAge);
+
+		function password_show_hide() {
+			var x = document.getElementById("pass1");
+			var show_eye = document.getElementById("show_eye1");
+			var hide_eye = document.getElementById("hide_eye1");
+			hide_eye.classList.remove("d-none");
+			if (x.type === "password") {
+				x.type = "text";
+				show_eye.style.display = "none";
+				hide_eye.style.display = "block";
+			} else {
+				x.type = "password";
+				show_eye.style.display = "block";
+				hide_eye.style.display = "none";
+			}
+		}
+
+		function cpassword_show_hide() {
+			var x = document.getElementById("pass2");
+			var show_eye = document.getElementById("show_eye2");
+			var hide_eye = document.getElementById("hide_eye2");
+			hide_eye.classList.remove("d-none");
+			if (x.type === "password") {
+				x.type = "text";
+				show_eye.style.display = "none";
+				hide_eye.style.display = "block";
+			} else {
+				x.type = "password";
+				show_eye.style.display = "block";
+				hide_eye.style.display = "none";
+			}
+		}
 
 		//for displaying the value for the sliders
 		const rangeInputs = document.querySelectorAll('.form-range');

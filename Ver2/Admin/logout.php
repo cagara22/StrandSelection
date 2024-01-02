@@ -12,6 +12,12 @@ if (isset($_SESSION['fullname'])) {
     echo "Admin username not found in the session.";
 }
 
+if($_SESSION['role'] === "ADMIN"){
+    $userType = 1;
+}else{
+    $userType = 2;
+}
+
 // Unset the specific session variable holding login information
 unset($_SESSION['admin']);
 unset($_SESSION['role']);
@@ -19,5 +25,11 @@ unset($_SESSION['fullname']);
 unset($_SESSION['adminID']);
 
 // Redirect the user to the appropriate page
-header("Location: index.php");
+if($userType == 1){
+    header("Location: index.php?role=1");
+}else if($userType == 2){
+    header("Location: index.php?role=2");
+}else{
+    header("Location: index.php");
+}
 ?>

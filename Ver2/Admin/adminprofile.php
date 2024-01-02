@@ -16,6 +16,7 @@ if (!isset($_SESSION["admin"])) {
     <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom CSS -->
@@ -366,18 +367,34 @@ if (!isset($_SESSION["admin"])) {
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 mb-1">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                    <label for="password">PASSWORD</label>
+                                <div class="input-group mb-1">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                        <label for="password">PASSWORD</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" style="height: 58px;" onclick="password_show_hide();">
+                                            <i class="fas fa-eye" id="show_eye1"></i>
+                                            <i class="fas fa-eye-slash d-none" id="hide_eye1"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6" id="passstrength" style="font-weight:bold;padding:6px 12px;">
 
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 mb-1">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
-                                    <label for="cpassword">CONFIRM PASSWORD</label>
+                                <div class="input-group mb-1">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
+                                        <label for="cpassword">CONFIRM PASSWORD</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" style="height: 58px;" onclick="cpassword_show_hide();">
+                                            <i class="fas fa-eye" id="show_eye2"></i>
+                                            <i class="fas fa-eye-slash d-none" id="hide_eye2"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -464,6 +481,38 @@ if (!isset($_SESSION["admin"])) {
 
 		// Attach the calculateAge function to the oninput event of the birthday input
 		document.getElementById('bday').addEventListener('input', calculateAge);
+
+        function password_show_hide() {
+			var x = document.getElementById("password");
+			var show_eye = document.getElementById("show_eye1");
+			var hide_eye = document.getElementById("hide_eye1");
+			hide_eye.classList.remove("d-none");
+			if (x.type === "password") {
+				x.type = "text";
+				show_eye.style.display = "none";
+				hide_eye.style.display = "block";
+			} else {
+				x.type = "password";
+				show_eye.style.display = "block";
+				hide_eye.style.display = "none";
+			}
+		}
+
+		function cpassword_show_hide() {
+			var x = document.getElementById("cpassword");
+			var show_eye = document.getElementById("show_eye2");
+			var hide_eye = document.getElementById("hide_eye2");
+			hide_eye.classList.remove("d-none");
+			if (x.type === "password") {
+				x.type = "text";
+				show_eye.style.display = "none";
+				hide_eye.style.display = "block";
+			} else {
+				x.type = "password";
+				show_eye.style.display = "block";
+				hide_eye.style.display = "none";
+			}
+		}
 
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

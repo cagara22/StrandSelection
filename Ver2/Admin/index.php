@@ -11,6 +11,7 @@ session_start(); //Start the session
     <link rel="icon" type="images/x-icon" href="images/GUIDE_Logo_2.png" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Chakra Petch' rel='stylesheet'>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Custom CSS -->
@@ -23,7 +24,7 @@ session_start(); //Start the session
 			<div class="col-12 d-flex justify-content-center align-items-end">
 				<div class="row">
 					<div class="col-12 d-flex justify-content-center">
-						<img src="./images/LNHSlogo.png" style="width: 80px; height: 80px;" alt="Sample image">
+						<img src="./images/LNHSlogo.png" style="width: 120px; height: 120px;" alt="Sample image">
 					</div>
 					<div class="col-12 d-flex justify-content-center pb-4">
 						<img src="./images/GUIDE_Logo_3.png" style="width: 200px; height: 70px;" alt="Sample image">
@@ -49,7 +50,20 @@ session_start(); //Start the session
 							$password = $_POST['password'];
 
 							//check if the username exists in the database
-							$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username'";
+							$sql = "";
+							if(isset($_GET['role'])){
+								$userType = $_GET['role'];
+								if($userType == 1){
+									$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username' AND role = 'ADMIN'";
+								}else if($userType == 2){
+									$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username' AND role = 'SUPER ADMIN'";
+								}else{
+									$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username'";
+								}
+							}else{
+								$sql = "SELECT * FROM adminprofile WHERE BINARY username = '$username'";
+							}
+							
 							$q = mysqli_query($conn, $sql);
 							$num = mysqli_num_rows($q);
 
@@ -112,9 +126,17 @@ session_start(); //Start the session
 								<input type="text" class="form-control" id="username" name="username" placeholder="111111111111" required>
 								<label for="username">USERNAME</label>
 							</div>
-							<div class="form-floating">
-								<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
-								<label for="password">PASSWORD</label>
+							<div class="input-group mb-3">
+								<div class="form-floating">
+									<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+									<label for="password">PASSWORD</label>
+								</div>
+								<div class="input-group-append">
+									<span class="input-group-text" style="height: 58px;" onclick="password_show_hide();">
+										<i class="fas fa-eye" id="show_eye"></i>
+										<i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+									</span>
+								</div>
 							</div>
 							<div class="row mt-2">
 								<div class="col-6">
@@ -137,6 +159,23 @@ session_start(); //Start the session
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function password_show_hide() {
+			var x = document.getElementById("password");
+			var show_eye = document.getElementById("show_eye");
+			var hide_eye = document.getElementById("hide_eye");
+			hide_eye.classList.remove("d-none");
+			if (x.type === "password") {
+				x.type = "text";
+				show_eye.style.display = "none";
+				hide_eye.style.display = "block";
+			} else {
+				x.type = "password";
+				show_eye.style.display = "block";
+				hide_eye.style.display = "none";
+			}
+		}
+	</script>
 </body>
 
 </html>

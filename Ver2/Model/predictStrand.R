@@ -213,8 +213,8 @@ predict_strand <- function(skiCommunicationSkills, skiCriticalThinking, skiReadi
   
   weight_skills <- 0.172
   weight_academic <- 0.325
-  weight_interest <- 0.275
-  weight_career <- 0.225
+  weight_interest <- 0.225
+  weight_career <- 0.275
   
   student_scores <- data.frame(
     Strand = c('STEM', 'HUMSS', 'ABM', 'GAS', 'TVL-ICT', 'TVL-HE'),  # Strands 1 to 6
