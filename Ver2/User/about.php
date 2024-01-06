@@ -65,7 +65,7 @@ if (!isset($_SESSION["student"])) {
     <div class="hero d-flex flex-column justify-content-center align-items-center text-center" id="aboutHeader">
         <div class="bgblur d-flex flex-column justify-content-center align-items-center text-center">
             <div class="about-pic1">
-                <img src="./images/LNHSlogo.png" class="img-fluid" alt="...">
+                <img src="./images/LNHSlogo.png" style="width: 130px; height: 130px;" alt="...">
             </div>
             <div class="about-pic2">
                 <img src="./images/GUIDE_Logo_3.png" class="img-fluid" alt="...">

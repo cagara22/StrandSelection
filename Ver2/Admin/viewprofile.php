@@ -2377,9 +2377,19 @@ if (!isset($_SESSION["admin"])) {
 
 												//parse the JSON output from R
 												$resultscores = json_decode($output, true);
+												//print_r($resultscores);
+
+												$studentScores = $resultscores['StudentScores'];
+												usort($studentScores, function($a, $b) {
+													return $b['Percentage_Score'] <=> $a['Percentage_Score'];
+												});
+												$topThree = array_slice($studentScores, 0, 3);
+												//print_r($topThree);
 
 												//access the result scores
 												$mostSuitableStrand = $resultscores["MostSuitableStrand"][0];
+												$secondSuitableStrand = $topThree[1]['Strand'];
+												$thirdSuitableStrand = $topThree[2]['Strand'];
 
 												// Access the first element of StudentScores
 												$stemStudentScore = $resultscores["StudentScores"][0];
@@ -2440,15 +2450,12 @@ if (!isset($_SESSION["admin"])) {
 
 												// require '../vendor/autoload.php';
 												//prepare the prompt for thr gpt api
-												$prompt = "You function as a Decision Support System for upcoming senior high school students. Based on the assesement, the most suitable strand for the student is ". $mostSuitableStrand .". Here is a comprehensive evaluation of a student, taking into account an assessment of their skills, interests, academic performance, and career aspirations:
-													STEM: Overall Score in Percentage=". $percentageScore1 ." Skills=". $skillsProbability1 ." Interest=". $interestProbability1 ." Academic Performance=". $academicProbability1 ." Carrer Aspiration=". $careerProbability1 ."
-													HUMSS: Overall Score in Percentage=". $percentageScore2 ." Skills=". $skillsProbability2 ." Interest=". $interestProbability2 ." Academic Performance=". $academicProbability2 ." Carrer Aspiration=". $careerProbability2 ."
-													ABM: Overall Score in Percentage=". $percentageScore3 ." Skills=". $skillsProbability3 ." Interest=". $interestProbability3 ." Academic Performance=". $academicProbability3 ." Carrer Aspiration=". $careerProbability3 ."
-													GAS: Overall Score in Percentage=". $percentageScore4 ." Skills=". $skillsProbability4 ." Interest=". $interestProbability4 ." Academic Performance=". $academicProbability4 ." Carrer Aspiration=". $careerProbability4 ."
-													TVL-ICT: Overall Score in Percentage=". $percentageScore5 ." Skills=". $skillsProbability5 ." Interest=". $interestProbability5 ." Academic Performance=". $academicProbability5 ." Carrer Aspiration=". $careerProbability5 ."
-													TVL-HE: Overall Score in Percentage=". $percentageScore6 ." Skills=". $skillsProbability6 ." Interest=". $interestProbability6 ." Academic Performance=". $academicProbability6 ." Carrer Aspiration=". $careerProbability6 ."
+												$prompt = "You function as a Decision Support System for upcoming senior high school students. Based on the assesement that takes into account the student's skills, interests, academic performance, and career aspirations, Here are the Top 3 Strand the student is most suitable with:
+													TOP 1: ". $mostSuitableStrand ."; Overall Score in Percentage=". $topThree[0]['Percentage_Score'] ." Skills=". $topThree[0]['Skills_Probability'] ." Interest=". $topThree[0]['Interest_Probability'] ." Academic Performance=". $topThree[0]['Academic_Probability'] ." Carrer Aspiration=". $topThree[0]['Career_Probability'] ."
+													TOP 2: ". $secondSuitableStrand ."; Overall Score in Percentage=". $topThree[1]['Percentage_Score'] ." Skills=". $topThree[1]['Skills_Probability'] ." Interest=". $topThree[1]['Interest_Probability'] ." Academic Performance=". $topThree[1]['Academic_Probability'] ." Carrer Aspiration=". $topThree[1]['Career_Probability'] ."
+													TOP 3: ". $thirdSuitableStrand ."; Overall Score in Percentage=". $topThree[2]['Percentage_Score'] ." Skills=". $topThree[2]['Skills_Probability'] ." Interest=". $topThree[2]['Interest_Probability'] ." Academic Performance=". $topThree[2]['Academic_Probability'] ." Carrer Aspiration=". $topThree[2]['Career_Probability'] ."
 													Here is also his socioeconomic backgrond, their Total Household Monthly Income in Philippine Peso: ". $TotalHouseholdMonthlyIncome1 ."
-													Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. State the strand he is most suitable with and the next top two strand based on his skills, interest, academic performance, carrer aspiration and overall score. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
+													Based on the provided information, create a recomendation or advice for the student on what senior high school best fit him. Always State the strand he is most suitable with which is ". $mostSuitableStrand ." and the next top two strand are ". $secondSuitableStrand ." and ". $thirdSuitableStrand ." respectively. Also provide an advice based on his socioeconomic background on how it will affect his journey in the senior high. Start your statement with 'Based on your result...' and state at the end that the choice is always up to them, consult with their parents, teachers, and guidance councelors.";
 
 												//place yout api key here
 												$client = OpenAI::client($apiKey);
