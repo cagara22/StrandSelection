@@ -259,7 +259,16 @@ if (!isset($_SESSION["student"])) {
 							);
 
 							$recommendation = str_replace($terms_to_highlight, $replacement_terms, $recommendation);
-							echo "<p>". $recommendation . "</p>";
+
+							$sentences = explode('. ', $recommendation);
+
+							$midpoint = ceil(count($sentences) / 2);
+
+							$paragraph1 = implode('. ', array_slice($sentences, 0, $midpoint)) . ".";
+							$paragraph2 = implode('. ', array_slice($sentences, $midpoint));
+
+							echo "<p style='text-align: justify; text-indent: 20px;'>" . $paragraph1 . "</p> <p style='text-align: justify; text-indent: 20px;'>" . $paragraph2 . "</p>";
+							//echo "<p>". $recommendation . "</p>";
 						}
 						?>
 					</div>
