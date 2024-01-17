@@ -1086,7 +1086,7 @@ if (!isset($_SESSION["admin"])) {
 														<input class="form-check-input" type="checkbox" id="skiInnovative" name="skiInnovative" value="1" <?php if (strpos($skiInnovative1, "1") !== false) {
 																																								echo " checked";
 																																							} ?>>
-														<label class="form-check-label" for="skiInnovative">Innovative</label>
+														<label class="form-check-label" for="skiInnovative">Innovative Thinking</label>
 														<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The ability to generate new ideas, concepts, or approaches to solve problems, create opportunities, or enhance existing processes.">
 													</div>
 												</div>
@@ -1194,9 +1194,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intAnimationIllustration" class="form-label">Animation / Illustration</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Creating animations and illustrations using digital tools.">
-													<input type="range" class="form-range" min="0" max="5" id="intAnimationIllustration" name="intAnimationIllustration" value="<?php echo $intAnimationIllustration1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intAnimationIllustration" name="intAnimationIllustration" value="<?php echo $intAnimationIllustration1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1204,9 +1204,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intAppliedEconomics" class="form-label">Applied Economics</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Applying economic principles to real-world situations.">
-													<input type="range" class="form-range" min="0" max="5" id="intAppliedEconomics" name="intAppliedEconomics" value="<?php echo $intAppliedEconomics1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intAppliedEconomics" name="intAppliedEconomics" value="<?php echo $intAppliedEconomics1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1214,9 +1214,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intBiology" class="form-label">Biology</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The exploration of living organisms and their processes.">
-													<input type="range" class="form-range" min="0" max="5" id="intBiology" name="intBiology" value="<?php echo $intBiology1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intBiology" name="intBiology" value="<?php echo $intBiology1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1224,9 +1224,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intBreadPastryProduction" class="form-label">Bread and Pastry Production</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Baking bread and pastries.">
-													<input type="range" class="form-range" min="0" max="5" id="intBreadPastryProduction" name="intBreadPastryProduction" value="<?php echo $intBreadPastryProduction1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intBreadPastryProduction" name="intBreadPastryProduction" value="<?php echo $intBreadPastryProduction1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1234,9 +1234,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intBusinessEthicsSocialResponsibility" class="form-label">Business Ethics and Social Responsibility</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring ethical issues in business and corporate social responsibility.">
-													<input type="range" class="form-range" min="0" max="5" id="intBusinessEthicsSocialResponsibility" name="intBusinessEthicsSocialResponsibility" value="<?php echo $intBusinessEthicsSocialResponsibility1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intBusinessEthicsSocialResponsibility" name="intBusinessEthicsSocialResponsibility" value="<?php echo $intBusinessEthicsSocialResponsibility1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1244,9 +1244,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intBusinessFinance" class="form-label">Business Finance</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding financial management and investment.">
-													<input type="range" class="form-range" min="0" max="5" id="intBusinessFinance" name="intBusinessFinance" value="<?php echo $intBusinessFinance1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intBusinessFinance" name="intBusinessFinance" value="<?php echo $intBusinessFinance1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1254,9 +1254,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intBusinessMath" class="form-label">Business Math</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Mathematical concepts used in business and finance.">
-													<input type="range" class="form-range" min="0" max="5" id="intBusinessMath" name="intBusinessMath" value="<?php echo $intBusinessMath1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intBusinessMath" name="intBusinessMath" value="<?php echo $intBusinessMath1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1264,9 +1264,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intCalculus" class="form-label">Calculus</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of continuous change and mathematical analysis.">
-													<input type="range" class="form-range" min="0" max="5" id="intCalculus" name="intCalculus" value="<?php echo $intCalculus1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intCalculus" name="intCalculus" value="<?php echo $intCalculus1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1274,9 +1274,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intCISCOComputerNetworking" class="form-label">CISCO Computer Networking</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Understanding network systems and Cisco technology.">
-													<input type="range" class="form-range" min="0" max="5" id="intCISCOComputerNetworking" name="intCISCOComputerNetworking" value="<?php echo $intCISCOComputerNetworking1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intCISCOComputerNetworking" name="intCISCOComputerNetworking" value="<?php echo $intCISCOComputerNetworking1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1284,9 +1284,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intChemistry" class="form-label">Chemistry</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The study of substances, their properties, and chemical reactions.">
-													<input type="range" class="form-range" min="0" max="5" id="intChemistry" name="intChemistry" value="<?php echo $intChemistry1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intChemistry" name="intChemistry" value="<?php echo $intChemistry1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1294,9 +1294,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intComputerProgramming" class="form-label">Computer Programming</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Learning to write and develop computer programs.">
-													<input type="range" class="form-range" min="0" max="5" id="intComputerProgramming" name="intComputerProgramming" value="<?php echo $intComputerProgramming1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intComputerProgramming" name="intComputerProgramming" value="<?php echo $intComputerProgramming1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1304,9 +1304,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intComputerSystemServicing" class="form-label">Computer System Servicing</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Maintaining and repairing computer systems.">
-													<input type="range" class="form-range" min="0" max="5" id="intComputerSystemServicing" name="intComputerSystemServicing" value="<?php echo $intComputerSystemServicing1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intComputerSystemServicing" name="intComputerSystemServicing" value="<?php echo $intComputerSystemServicing1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1314,9 +1314,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intContactCenterServices" class="form-label">Contact Center Services</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Skills for customer service and communication.">
-													<input type="range" class="form-range" min="0" max="5" id="intContactCenterServices" name="intContactCenterServices" value="<?php echo $intContactCenterServices1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intContactCenterServices" name="intContactCenterServices" value="<?php echo $intContactCenterServices1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1324,9 +1324,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intCookery" class="form-label">Cookery</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Culinary skills and cooking techniques.">
-													<input type="range" class="form-range" min="0" max="5" id="intCookery" name="intCookery" value="<?php echo $intCookery1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intCookery" name="intCookery" value="<?php echo $intCookery1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1334,9 +1334,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intCreativeNonfiction" class="form-label">Creative Nonfiction</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Crafting factual narratives in engaging and artistic ways.">
-													<input type="range" class="form-range" min="0" max="5" id="intCreativeNonfiction" name="intCreativeNonfiction" value="<?php echo $intCreativeNonfiction1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intCreativeNonfiction" name="intCreativeNonfiction" value="<?php echo $intCreativeNonfiction1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1344,9 +1344,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intCreativeWriting" class="form-label">Creative Writing</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The practice of expressing thoughts and ideas through imaginative written works.">
-													<input type="range" class="form-range" min="0" max="5" id="intCreativeWriting" name="intCreativeWriting" value="<?php echo $intCreativeWriting1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intCreativeWriting" name="intCreativeWriting" value="<?php echo $intCreativeWriting1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1354,9 +1354,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intDisciplinesIdeasSocialSciences" class="form-label">Disciplines and Ideas in the Social Sciences</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="An overview of various social science fields.">
-													<input type="range" class="form-range" min="0" max="5" id="intDisciplinesIdeasSocialSciences" name="intDisciplinesIdeasSocialSciences" value="<?php echo $intDisciplinesIdeasSocialSciences1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intDisciplinesIdeasSocialSciences" name="intDisciplinesIdeasSocialSciences" value="<?php echo $intDisciplinesIdeasSocialSciences1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1364,9 +1364,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intFashionDesign" class="form-label">Fashion Design</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Designing clothing and fashion items.">
-													<input type="range" class="form-range" min="0" max="5" id="intFashionDesign" name="intFashionDesign" value="<?php echo $intBreadPastryProduction1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intFashionDesign" name="intFashionDesign" value="<?php echo $intBreadPastryProduction1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1374,9 +1374,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intFoodBeverages" class="form-label">Food and Beverages</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Managing food and beverage services.">
-													<input type="range" class="form-range" min="0" max="5" id="intFoodBeverages" name="intFoodBeverages" value="<?php echo $intFoodBeverages1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intFoodBeverages" name="intFoodBeverages" value="<?php echo $intFoodBeverages1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1384,9 +1384,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intFundamentalsABM" class="form-label">Fundamentals of ABM</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Introduction to Accounting, Business, and Management principles.">
-													<input type="range" class="form-range" min="0" max="5" id="intFundamentalsABM" name="intFundamentalsABM" value="<?php echo $intFundamentalsABM1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intFundamentalsABM" name="intFundamentalsABM" value="<?php echo $intFundamentalsABM1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1394,9 +1394,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intIntroWorldReligionsBeliefSystems" class="form-label">Introduction to World Religions and Belief Systems</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Exploring diverse religious beliefs and their impact on societies.">
-													<input type="range" class="form-range" min="0" max="5" id="intIntroWorldReligionsBeliefSystems" name="intIntroWorldReligionsBeliefSystems" value="<?php echo $intIntroWorldReligionsBeliefSystems1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intIntroWorldReligionsBeliefSystems" name="intIntroWorldReligionsBeliefSystems" value="<?php echo $intIntroWorldReligionsBeliefSystems1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1404,9 +1404,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intOrganizationManagement" class="form-label">Organization and Management</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Principles of organizational structure and management.">
-													<input type="range" class="form-range" min="0" max="5" id="intOrganizationManagement" name="intOrganizationManagement" value="<?php echo $intOrganizationManagement1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intOrganizationManagement" name="intOrganizationManagement" value="<?php echo $intOrganizationManagement1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1414,9 +1414,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intPhilippinePoliticsGovernance" class="form-label">Philippine Politics and Governance</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Examining political systems and governance in the Philippines.">
-													<input type="range" class="form-range" min="0" max="5" id="intPhilippinePoliticsGovernance" name="intPhilippinePoliticsGovernance" value="<?php echo $intPhilippinePoliticsGovernance1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intPhilippinePoliticsGovernance" name="intPhilippinePoliticsGovernance" value="<?php echo $intPhilippinePoliticsGovernance1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1424,9 +1424,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intPhysics" class="form-label">Physics</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The investigation of matter, energy, and the fundamental forces of the universe.">
-													<input type="range" class="form-range" min="0" max="5" id="intPhysics" name="intPhysics" value="<?php echo $intPhysics1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intPhysics" name="intPhysics" value="<?php echo $intPhysics1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1434,9 +1434,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intPrinciplesMarketing" class="form-label">Principles in Marketing</label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Basics of marketing strategies and consumer behavior.">
-													<input type="range" class="form-range" min="0" max="5" id="intPrinciplesMarketing" name="intPrinciplesMarketing" value="<?php echo $intPrinciplesMarketing1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intPrinciplesMarketing" name="intPrinciplesMarketing" value="<?php echo $intPrinciplesMarketing1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
@@ -1444,9 +1444,9 @@ if (!isset($_SESSION["admin"])) {
 												<div>
 													<label for="intTailoring" class="form-label">Tailoring </label>
 													<img src='./images/info.png' alt='' width='18' height='18' class='' data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Sewing and creating tailored clothing.">
-													<input type="range" class="form-range" min="0" max="5" id="intTailoring" name="intTailoring" value="<?php echo $intTailoring1 ?>">
+													<input type="range" class="form-range" min="1" max="5" id="intTailoring" name="intTailoring" value="<?php echo $intTailoring1 ?>">
 													<div class=" text-center">
-														<span class="rangeValue">0</span>
+														<span class="rangeValue">1</span>
 													</div>
 												</div>
 											</div>
