@@ -2571,9 +2571,9 @@ if (!isset($_SESSION["admin"])) {
 														},
 													  }).then((value) => {
 														if (value) {
-														  document.location='viewprofile.php';
+														  document.location='viewprofile.php?lrn=". $_GET['lrn'] ."&name=". $_GET['name'] ."';
 														} else {
-														  document.location='viewprofile.php';
+														  document.location='viewprofile.php?lrn=". $_GET['lrn'] ."&name=". $_GET['name'] ."';
 														}
 													  });</script>";
 												} else {//prepare the update statement for student's results

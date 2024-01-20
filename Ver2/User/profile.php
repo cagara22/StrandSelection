@@ -727,7 +727,7 @@ if (!isset($_SESSION["student"])) {
 									</div>
 									<div class="col-12">
 										<p id="" class="d-block form-label">Based on your self-assesment, select the skills that are applicable to you...</p>
-										<div class="row">
+										<div class="row skilist">
 											<div class="col-12 col-sm-6 col-md-4">
 												<div class="text-start">
 													<div class="form-check">
@@ -1010,7 +1010,7 @@ if (!isset($_SESSION["student"])) {
 										<br>
 										<p id="" class="d-block form-label">Rate your level of interest in learning the following subject from 1 to 5 where:</p>
 										<p id="" class="d-block form-label">1 - Not at all interested, 2 - Slightly interested, 3 - Moderately interested, 4 - Very interested, 5 - Extremely interested</p>
-										<div class="row text-start">
+										<div class="row text-start intlist">
 											<div class="col-12 col-md-6">
 												<div>
 													<label for="intAnimationIllustration" class="form-label">Animation / Illustration</label>
