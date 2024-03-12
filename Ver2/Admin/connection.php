@@ -15,5 +15,5 @@
     $jsonfile_path = '"C:\xampp\htdocs\StrandSelection\Ver2\Model\\';
 
     //GPT API Key
-    $apiKey = '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';
+    $apiKey = 'xxxxx';
 ?>
